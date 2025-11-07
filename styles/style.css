@@ -1,0 +1,160 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  overflow-x: hidden;
+}
+
+:root[data-theme="default"] {
+  --borderRadius: 4px;
+  --borderBottom: #bbc2fa;
+  --bodyColor: #fafafa;
+  --bannerBgColor: #fafafa;
+  --bgColor: #e8eeed;
+  --textColor: #161616;
+  --font: "Mulish";
+  --oppositeBgColor: #3f3d56;
+  --oppositeTextColor: #ffffff;
+
+  --common-black: #121212;
+  --common-white: #fafafa;
+  --primary-main: #f59e0b;
+  --primary-contrastText: #fafafa;
+  --secondary-main: #fafafa;
+  --secondary-contrastText: #f59e0b;
+
+  --button-primary-main: #f59e0b;
+  --button-primary-contrastText: #fafafa;
+  --button-secondary-main: #fafafa;
+  --button-secondary-contrastText: #f59e0b;
+
+  --light: #fae4b9;
+  --highLight: #ab5601;
+  --calendarHighLight: #7a373a;
+  --text: #1d1f28;
+  --white: #e8eeed;
+  --bgColorTransparent: rgba(232, 238, 237, 0.6);
+  --dark: #429084;
+  --darkTransparent: rgba(66, 144, 132, 0.5);
+  --darker: #377b78;
+  --darkest: #074c49;
+  --boxShadow: rgba(0, 0, 0, 0.5);
+  --lightShadow: rgba(0, 0, 0, 0.2);
+
+  --walletPrimary: #0070f3;
+  --walletBg: #b1d6d0;
+}
+
+:root[data-theme="dark-theme"] {
+  --bgColor: #1d1f28;
+  --text: #dee7e5;
+  --bgColorTransparent: rgba(29, 31, 40, 0.9);
+  --dark: #326b62;
+  --darkTransparent: rgba(50, 107, 98, 0.5);
+  --darker: #4d8d83;
+  --darkest: #69ada3;
+  --walletPrimary: #0070f3;
+  --walletBg: #074c49;
+  --calendarHighLight: #d67e0a;
+}
+
+.react-datepicker-wrapper,
+.react-datepicker__input-container {
+  width: auto !important;
+}
+
+.react-datepicker__month-container {
+  /*background: #6b7280;*/
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+  height: 10px;
+  border-radius: 5px;
+}
+
+/* Track (background) of the scrollbar */
+::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+/* Handle (thumb) of the scrollbar */
+::-webkit-scrollbar-thumb {
+  background-color: #d9d9d9;
+  border-radius: 4px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background-color: #d9d9d98f;
+}
+
+.overflow-hidden {
+  overflow: hidden;
+}
+
+.main-style {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.main-content-wrapper {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.lk-control-bar {
+  margin-top: -66px;
+  margin-left: 60px;
+}
+
+@media (max-width: 640px) {
+  .ergo-pay-wallet-modal {
+    width: 100% !important;
+    max-width: 100% !important;
+    top: 53% !important;
+    transform: translateY(-50%);
+  }
+
+  .browser-wallet-modal {
+    width: 100% !important;
+    max-width: 360px !important;
+    top: 50% !important;
+    transform: translateY(-50%);
+  }
+
+  .site-button-ghost-wrapper .ant-space-item {
+    width: 100%;
+  }
+
+  .ant-modal-wrap {
+    overflow: hidden !important;
+  }
+}
+
+.cf-turnstile {
+  width: 90% !important;
+  max-width: 300px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+}
+

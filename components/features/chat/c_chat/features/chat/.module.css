@@ -1,0 +1,15 @@
+.chat {
+  /* width: 100%; */
+  /* width: 50%; */
+  /* border: 1px solid var(--dark); */
+  /* position: absolute; */
+  z-index: 100;
+  /* bottom: 20vh; */
+  /* right: 0; */
+  text-align: center;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 100%;
+}

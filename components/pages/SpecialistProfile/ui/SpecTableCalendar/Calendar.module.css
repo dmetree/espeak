@@ -1,0 +1,49 @@
+.scheduledCalls {
+  margin-top: 0;
+}
+.controls {
+  margin-bottom: 10px;
+}
+
+.wrapper {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  align-content: center;
+  justify-content: center;
+  /* border: 1px solid var(--dark); */
+  border-radius: 7px;
+}
+
+.yearMonth {
+  font-size: 16px;
+  font-weight: 400;
+
+  grid-column: span 3 / span 3;
+  pointer-events: none;
+  border: 0;
+}
+
+.dayOfWeek {
+  pointer-events: none;
+  color: var(--textColor);
+  border: 0 !important;
+}
+
+.prev_next {
+  grid-column: span 2 / span 2;
+  color: var(--textColor);
+}
+
+.today {
+  /* border-left: 7px solid var(--darker);
+  border-right: 7px solid var(--darker); */
+  font-weight: 800;
+}
+
+.toolTipBox {
+  padding-left: 95%;
+}
+
+.prevMonthDisabled {
+  opacity: 0.5;
+}

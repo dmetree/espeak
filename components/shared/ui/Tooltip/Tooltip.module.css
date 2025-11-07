@@ -1,0 +1,31 @@
+.tooltipWrapper {
+  position: relative;
+  width: 12px;
+  height: 12px;
+}
+
+.tooltipToggle {
+  width: 12px;
+  height: 12px;
+  margin: -5px;
+  background-image: url("../../assets/psy_icons_svg/tooltip.svg");
+  background-repeat: no-repeat;
+  background-position: 0 0;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.tooltip {
+  position: absolute;
+  min-width: 160px;
+  padding: 5px 10px;
+  left: 50%;
+  bottom: calc(150%);
+  transform: translate(-50%, 0);
+  border-radius: 10px;
+  background-color: var(--darker);
+  color: #ececec;
+  /* color: var(--bgColor); */
+  font-size: 12px;
+  z-index: 1000;
+}

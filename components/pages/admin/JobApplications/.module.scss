@@ -1,0 +1,34 @@
+.applicationsBox {
+  display: flex;
+  flex-direction: column;
+}
+
+.applicationItem {
+  margin: 5px 0;
+  padding: 10px 0;
+  border: 1px solid var(--dark);
+  border-radius: 10px;
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+  &.accepted {
+    background-color: #e5ffe5; // Light green
+  }
+
+  &.declined {
+    background-color: #eac9c9; // Light red
+  }
+}
+
+.articleBtn {
+  padding: 3px 5px;
+}
+
+.uid {
+  font-size: 12px;
+  position: absolute;
+  top: 0px;
+  width: 100%;
+  display: flex;
+  justify-content: space-evenly;
+}

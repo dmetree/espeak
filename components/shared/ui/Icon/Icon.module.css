@@ -1,0 +1,25 @@
+.Icon {
+  color: var(--icon-redesigned);
+  fill: var(--dark);
+  stroke: var(--dark);
+}
+
+.Icon:hover {
+  color: var(--dark);
+  fill: var(--darker);
+  stroke: var(--dark);
+}
+
+.button {
+  margin: 0;
+  padding: 0;
+  border: none;
+  outline: none;
+  background: none;
+  cursor: pointer;
+}
+
+.button:hover .Icon {
+  color: var(--dark);
+  fill: var(--dark);
+}

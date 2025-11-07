@@ -1,0 +1,70 @@
+/* OUR VISION */
+
+.s1 {
+  margin: 10vh auto;
+  border-radius: 40px;
+  background-color: var(--dark);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 2px 2px 10px var(--boxShadow);
+}
+
+.s_h {
+  align-self: left;
+  font-size: 2em;
+  color: var(--bgColor);
+}
+
+.vision_text {
+  font-size: 1.1em;
+  line-height: 1.5;
+  text-align: end;
+  font-style: italic;
+  color: var(--bgColor);
+}
+
+.vision_wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: space-evenly;
+  padding: 5vw;
+}
+
+.vision_img {
+  height: 50vh;
+  width: 50vh;
+  border-radius: 40px;
+}
+
+@media (max-width: 960px) {
+  .s1 {
+    flex-direction: column-reverse;
+    height: fit-content;
+    align-items: flex-end;
+  }
+
+  .vision_wrap {
+    padding: 0vw 10vw 5vh 10vw;
+    align-items: flex-start;
+  }
+
+  .vision_text {
+    text-align: start;
+  }
+}
+
+@media (max-width: 660px) {
+  .vision_img {
+    border-radius: 40px;
+  }
+}
+
+@media (max-width: 480px) {
+  .vision_img {
+    width: 70vw;
+    height: 70vw;
+  }
+}

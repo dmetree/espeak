@@ -1,0 +1,111 @@
+.sidebar_item {
+  height: 20px;
+  text-align: left;
+  padding: 5px 20px;
+  cursor: pointer;
+  border: 1px solid rgba(143, 189, 143, 0);
+  border-radius: 5px;
+  transition-duration: 0.3s;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  position: relative;
+}
+
+.sidebar_item:hover .tooltipText {
+  visibility: visible;
+  opacity: 1;
+}
+
+.sidebar_icon {
+  width: 17px;
+  height: 17px;
+  fill: var(--dark);
+  cursor: pointer;
+}
+
+.sidebar_only_icon {
+  text-align: center;
+}
+
+.narrowItem {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.item_text {
+  padding-left: 10px;
+  color: var(--textColor);
+}
+
+.item_text:hover {
+  padding-left: 10px;
+}
+
+.narrowText {
+  display: none;
+  transition: all 1s 1s;
+}
+
+.active {
+  color: var(--bgColor);
+  background-color: var(--darker);
+  /* Optional borders — uncomment if needed:
+  border-right: 10px solid var(--dark);
+  border-left: 5px solid var(--dark);
+  border: 1px solid var(--darkest); */
+}
+
+.tooltip {
+  position: relative;
+  display: inline-block;
+  color: var(--textColor);
+  cursor: pointer;
+}
+
+/* Tooltip text */
+.tooltipText {
+  visibility: hidden;
+  opacity: 0;
+  position: absolute;
+  bottom: 0%;
+  left: 100%;
+  background-color: var(--dark);
+  color: var(--bgColor);
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 0.875rem;
+  white-space: nowrap;
+  z-index: 10;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  margin-left: 10px;
+}
+
+.bellIcon {
+  display: none; /* hidden by default */
+  position: absolute;
+  top: 0px;
+  right: -5px;
+  font-size: 14px;
+  line-height: 1;
+  color: red;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.showBell {
+  display: block; /* show only when this class is added */
+  animation: bellShake 1.2s infinite;
+}
+
+
+@keyframes bellShake {
+  0% { transform: rotate(0deg); }
+  25% { transform: rotate(-15deg); }
+  50% { transform: rotate(15deg); }
+  75% { transform: rotate(-10deg); }
+  100% { transform: rotate(0deg); }
+}
+
+

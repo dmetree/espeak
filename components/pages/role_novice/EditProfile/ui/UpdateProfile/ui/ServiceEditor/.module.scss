@@ -1,0 +1,254 @@
+.formLabel {
+  color: var(--darker);
+  padding: 10px 0;
+  width: 100%;
+
+  .formLabelTitle {
+    color: var(--textColor);
+  }
+}
+
+.langTabs {
+  display: flex;
+  gap: 10px;
+  margin: 10px 0;
+}
+
+.langTab {
+  padding: 6px 12px;
+  color: var(--textColor);
+  border: 1px solid var(--dark);
+  border-radius: 5px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &.active {
+    background-color: var(--dark);
+    color: white;
+    font-weight: bold;
+  }
+
+  &:hover {
+    background-color: var(--darkTransparent);
+    color: white;
+  }
+}
+
+.servicesList {
+  width: 100%;
+  margin: 10px 0;
+}
+
+.serviceWrap {
+  width: 100%;
+  padding: 0 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  border-radius: 20px;
+  flex-wrap: wrap;
+  gap: 10px;
+
+  .deleteServiceBtn {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: flex-start;
+    overflow: hidden;
+    border: none;
+    background-color: var(--dark);
+    color: white;
+    cursor: pointer;
+    z-index: 1;
+    padding: 8px 12px;
+    height: 36px;
+    font-size: 14px;
+    border-radius: 6px;
+    gap: 6px;
+    width: auto;
+    transition: background-color 0.4s ease, width 0.4s ease;
+
+    .btnIcon {
+      font-weight: bold;
+      font-size: 16px;
+      font-family: 'Segoe UI Symbol', 'Noto Sans Symbols', sans-serif;
+      transition: transform 0.3s ease;
+    }
+
+    .btnText {
+      white-space: nowrap;
+      transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+
+    &::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 0%;
+      height: 100%;
+      background-color: var(--accent, #9d2727);
+      z-index: -1;
+      transition: width 0.4s ease;
+    }
+
+    &:hover {
+      background-color: var(--accent, #9d2727);
+      width: 100%;
+
+      &::before {
+        width: 100%;
+      }
+
+      .btnIcon {
+        transform: scale(1.05);
+      }
+
+      .btnText {
+        transform: translateX(4px);
+      }
+    }
+
+    @media (max-width: 510px) {
+      width: 100% !important;
+      height: 32px;
+      font-size: 0.8rem;
+    }
+  }
+}
+
+.serviceItem {
+  width: 100%;
+  padding: 10px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin: 4px 0;
+  border-radius: 20px;
+
+  @media (max-width: 600px) {
+    flex-direction: column;
+    padding: 10px 5px;
+    gap: 10px;
+  }
+}
+
+.serviceUp {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+  justify-content: space-between;
+
+  div:first-child {
+    width: inherit;
+  }
+
+  @media (max-width: 600px) {
+    flex-direction: column;
+    gap: 6px;
+  }
+}
+
+.serviceDown {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+
+  div {
+    width: 100%;
+  }
+
+  .formInput {
+    flex: 1 1 auto;
+    min-width: 300px;
+
+    @media (max-width: 600px) {
+      min-width: 100%;
+    }
+  }
+
+  .deleteServiceBtn {
+    flex-shrink: 0;
+    align-self: flex-start;
+
+    @media (max-width: 600px) {
+      align-self: center;
+    }
+  }
+}
+
+.serviceParam {
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+
+  @media (max-width: 600px) {
+    flex: 1 1 100%;
+    justify-content: flex-start;
+  }
+}
+
+.inputContainer {
+  position: relative;
+  display: inline-block;
+
+  .inputPrefix {
+    position: absolute;
+    left: 10%;
+    top: 45%;
+    transform: translateY(-50%);
+    font-size: 14px;
+    pointer-events: none;
+  }
+
+  .inputPostfix {
+    position: absolute;
+    right: 5%;
+    top: 45%;
+    transform: translateY(-50%);
+    font-size: 14px;
+    pointer-events: none;
+  }
+}
+
+.serviceParamInput {
+  width: 70px;
+  padding: 8px;
+  font-size: 1.2rem;
+  border: 1px solid var(--dark);
+  background-color: var(--bgColor);
+  border-radius: 10px;
+  text-align: center;
+  color: var(--textColor);
+
+  @media (max-width: 700px) {
+    width: 60px;
+  }
+
+  @media (max-width: 510px) {
+    font-size: 0.8rem;
+  }
+}
+
+.addServiceBtn {
+  padding: 5px 8px;
+}
+
+.labelWithTooltip {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 600;
+  margin-bottom: 4px;
+  position: relative;
+}
+
+.errorText {
+  color: red;
+}

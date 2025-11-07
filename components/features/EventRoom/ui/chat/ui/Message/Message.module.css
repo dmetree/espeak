@@ -1,0 +1,64 @@
+.message {
+  display: block;
+}
+
+.myMsg {
+  width: fit-content;
+  align-self: flex-end;
+  margin: 0 0 0 auto;
+  flex-direction: row-reverse;
+}
+
+.guestMsg {
+  width: fit-content;
+  text-align: right;
+  align-self: flex-start;
+}
+
+.msg {
+  display: flex;
+  align-items: center;
+}
+
+.myText {
+  padding: 2px 8px;
+  margin: 1px 2px;
+  background-color: var(--darker);
+  color: var(--bgColor);
+  border: 10px;
+  border-radius: 10px 10px 0 10px;
+  text-align: end;
+}
+
+.guestText {
+  padding: 2px 8px;
+  margin: 1px 2px;
+  background-color: var(--dark);
+  color: var(--bgColor);
+  border: 10px;
+  border-radius: 10px 10px 10px 0;
+}
+
+.avatar {
+  display: flex;
+  justify-content: center;
+}
+
+.avatarImg {
+  width: 30px;
+  height: 30px;
+  margin: 2px;
+  background-color: var(--dark);
+  border-radius: 50px;
+}
+
+.text {
+  position: relative;
+}
+
+.timeStamp {
+  width: 10vw;
+  font-size: 10px;
+  text-align: end;
+  color: var(--bgColor);
+}

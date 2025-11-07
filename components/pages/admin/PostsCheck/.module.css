@@ -1,0 +1,30 @@
+.articles {
+  display: flex;
+  flex-direction: column;
+}
+
+.articleItem {
+  margin: 5px 0;
+  padding: 20px 5px 5px;
+  border: 1px solid var(--dark);
+  border-radius: 10px;
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+}
+
+.btnBlock {
+  display: flex;
+}
+
+.articleBtn {
+  padding: 3px 5px;
+  margin-left: 10px;
+}
+
+.creatorId {
+  font-size: 12px;
+  position: absolute;
+  top: 0px;
+  left: 5px;
+}

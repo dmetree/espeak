@@ -1,0 +1,177 @@
+.videos {
+  width: 80vw;
+  border-radius: 8px;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.videoFooter {
+  position: absolute;
+  width: 80vw;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.chatBlock {
+  width: 80vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.allowCameraPopup {
+  min-height: 19vh;
+  padding: 20px;
+  margin-top: 20px;
+  background-color: var(--bgColor);
+  border-radius: 10px 10px 10px 10px;
+
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  box-shadow: 2px 2px 10px var(--boxShadow);
+}
+
+.local {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  /* border: 1px solid green; */
+  height: 19vh;
+  /* border: 2px solid var(--dark); */
+  border-radius: 10px 10px 10px 10px;
+}
+
+.remote {
+  /* border: 1px solid green; */
+  height: 80vh;
+  border-radius: 40px;
+}
+
+/* callNavContainer */
+
+.callNavContainer {
+  position: fixed;
+  bottom: 100px;
+  z-index: 100;
+  padding: 10px;
+  border: 1px solid var(--dark);
+  border-radius: 10px;
+  display: flex;
+}
+
+.navContainer {
+  min-height: 19vh;
+  padding: 20px;
+  margin-top: 20px;
+  background-color: var(--bgColor);
+  /* border: 2px solid var(--dark); */
+  border-radius: 10px 10px 10px 10px;
+
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 2px 2px 10px var(--boxShadow);
+}
+
+.calling {
+  font-size: 36px;
+  animation: fadeInOut 3s infinite;
+  cursor: wait;
+}
+
+@keyframes fadeInOut {
+  0%,
+  100% {
+    opacity: 0.2;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+.controls {
+  display: flex;
+  justify-content: space-between;
+  justify-content: center;
+}
+
+.videoButton {
+  position: relative;
+  padding: 5px 10px;
+}
+
+.micIcon,
+.cameraIcon,
+.endCallIcon {
+  width: 30px;
+  height: 30px;
+}
+
+.off::before {
+  content: '';
+  position: absolute;
+  width: 80%;
+  height: 2px;
+  border-bottom: 2px solid var(--dark);
+  top: 18px;
+  left: 5px;
+  background-color: var(--bgColor);
+  transform: rotate(45deg);
+  z-index: 10;
+}
+
+.videoButton {
+  margin: 5px;
+}
+
+.videoButton .endCallIcon {
+  fill: rgb(201, 97, 97);
+  stroke: rgb(201, 97, 97);
+}
+
+.videoButton:hover .endCallWrap .endCallIcon {
+  fill: rgb(225, 65, 65);
+  stroke: rgb(225, 65, 65);
+}
+
+.endCallIcon {
+  transform: rotate(135deg);
+}
+
+.visuallyHidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  border: 0;
+  padding: 0;
+  white-space: nowrap;
+  clip-path: inset(100%);
+  clip: rect(0 0 0 0);
+  overflow: hidden;
+}
+
+.nav {
+  margin: 10px;
+}
+
+.navMsg {
+  text-align: center;
+  line-height: 1.5;
+}
+
+.hidden {
+  display: none;
+}

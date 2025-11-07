@@ -1,0 +1,137 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.priceExpGr {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.exp {
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.expWrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.expLabel {
+  display: flex;
+  gap: 5px;
+  color: var(--textColor);
+}
+
+.priceWrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: var(--textColor);
+}
+
+.expRank {
+  display: flex;
+  align-items: flex-end;
+  gap: 5px;
+  font-size: xx-large;
+  font-weight: 700;
+  color: var(--dark);
+  border: 1px solid var(--bgColor);
+}
+
+.belt {
+  width: 30px;
+  height: 30px;
+}
+
+.priceRank {
+  font-size: xx-large;
+  font-weight: 700;
+  color: var(--dark);
+}
+
+.expBtn {
+  width: 70px;
+  height: 70px;
+  border-radius: 60px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.expBtn:hover {
+  background-color: var(--dark);
+}
+
+.expBtn:active {
+  background-color: var(--darkest);
+}
+
+.gender {
+  display: flex;
+  flex-direction: row;
+}
+
+.psyGenderOn {
+  background-color: aquamarine;
+}
+
+.psyGenderOff {
+  background-color: lightgray;
+}
+
+.excludePsyTrue {
+  background-color: var(--darker);
+  border: 1px solid var(--dark);
+  color: var(--bgColor);
+  border-radius: 10px;
+  padding: 10px 10px;
+  width: -webkit-fill-available;
+  text-align: center;
+  cursor: pointer;
+}
+
+.excludePsyFalse {
+  background-color: var(--bgColor);
+  border: 1px solid var(--dark);
+  border-radius: 10px;
+  padding: 10px 10px;
+  width: -webkit-fill-available;
+  text-align: center;
+  cursor: pointer;
+}
+
+.excludePsyFalse:hover {
+  color: var(--bgColor);
+  background-color: var(--dark);
+}
+
+.input {
+  border: 1px solid grey;
+  border-radius: 10px;
+}
+
+.byNick {
+  display: flex;
+  flex-direction: column;
+}
+
+@media (max-width: 660px) {
+}
+
+@media (max-width: 480px) {
+}

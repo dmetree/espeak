@@ -1,0 +1,300 @@
+/* ===========================
+   VARIABLES FOR REUSE
+=========================== */
+$borderColor: var(--dark);
+$textColor: var(--textColor);
+$highlightColor: var(--darker);
+
+/* ===========================
+   GENERAL LAYOUT & SECTIONS
+=========================== */
+
+.psyInfoBoard {
+  margin-bottom: 2vh;
+  padding-bottom: 2vh;
+}
+
+.initBlock,
+.nameAndActions,
+.rankBlock,
+.generalInfo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.rankBlock {
+  justify-content: flex-start;
+}
+
+.gridAreaInfo {
+  flex: auto;
+  padding-left: 10px;
+}
+
+/* ===========================
+   AVATAR & PROFILE IMAGE
+=========================== */
+
+.profileImg {
+  width: 12rem;
+  height: 14rem;
+  border-radius: 5px;
+  object-fit: cover;
+  background-color: $borderColor;
+
+  @media (max-width: 600px) {
+    width: 8rem;
+    height: 9rem;
+  }
+}
+
+/* ===========================
+   NAME & RANK
+=========================== */
+
+.psyName {
+  margin-right: 0.5vw;
+  font-weight: 900;
+  color: $textColor;
+}
+
+.belt {
+  padding: 5px;
+  border: 1px solid $borderColor;
+  border-radius: 25px;
+}
+
+.rankLabel {
+  margin-right: 0.5vw;
+  color: $textColor;
+}
+
+/* ===========================
+   ACTION BUTTONS
+=========================== */
+
+.profileBtn {
+  padding: 3px 7px;
+  margin-bottom: 5px;
+  font-size: 14px;
+
+  svg {
+    transition: fill 0.3s ease;
+
+    &.block {
+      fill: #9d2727;
+
+      &:hover,
+      &:active {
+        fill: #fff;
+      }
+    }
+
+    &.edit {
+      fill: #429084;
+
+      &:hover,
+      &:active {
+        fill: #fff;
+      }
+    }
+  }
+}
+
+.shareWrapper {
+  position: relative;
+}
+
+.shareProfile {
+  cursor: pointer;
+}
+
+.tooltipBox {
+  position: absolute;
+  top: -5px;
+  right: -15px;
+}
+
+/* ===========================
+   PRICE & METRICS BLOCK
+=========================== */
+
+.priceBlock {
+  margin: 0.5rem 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.paramsBlock {
+  margin: 2vh 0;
+  width: 100%;
+  display: grid;
+  grid-template-columns: auto auto;
+  row-gap: 20px;
+}
+
+.paramItem {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  .paramItemTitle,
+  .unitsOfMeasure {
+    font-size: 12px;
+    color: $textColor;
+
+    @media (max-width: 500px) {
+      font-size: 10px;
+    }
+  }
+
+  .paramNumber {
+    font-size: 20px;
+    color: $textColor;
+  }
+}
+
+/* ===========================
+   LABEL-LIST REUSABLE BLOCKS
+=========================== */
+
+.labelListBlock {
+  margin: 1.5vh 0;
+  display: flex;
+  flex-direction: column;
+
+  &Label {
+    font-size: 12px;
+    color: $textColor;
+  }
+
+  &List {
+    display: flex;
+    flex-wrap: wrap;
+
+    > * {
+      font-size: 12px;
+      padding: 2px;
+      margin: 2px;
+      border-radius: 5px;
+      border: 1px solid $borderColor;
+      color: $textColor;
+    }
+  }
+}
+
+// Aliases
+.psyMethods {
+  @extend .labelListBlock;
+}
+.teachers {
+  @extend .labelListBlock;
+}
+.languages {
+  @extend .labelListBlock;
+}
+
+.psyMethodsLabel {
+  @extend .labelListBlockLabel;
+}
+.teachersLabel {
+  @extend .labelListBlockLabel;
+}
+.languagesLabel {
+  @extend .labelListBlockLabel;
+}
+
+.psyMethodList {
+  @extend .labelListBlockList;
+}
+.teachersList {
+  @extend .labelListBlockList;
+}
+.languagesList {
+  @extend .labelListBlockList;
+}
+
+/* ===========================
+   SERVICES SECTION
+=========================== */
+
+.servicesBlock {
+  padding: 10px 0;
+  margin-top: 10px;
+  border-top: 1px solid var(--lightShadow);
+  border-bottom: 1px solid var(--lightShadow);
+  color: $textColor;
+}
+
+.servicesLabel {
+  font-size: 18px;
+  margin-bottom: 10px;
+  color: $textColor;
+}
+
+.serviceList {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.serviceItem {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.serviceTitle,
+.servicePrice {
+  font-size: 16px;
+  font-weight: bold;
+  color: $highlightColor;
+}
+
+/* ===========================
+   INFO SECTION
+=========================== */
+
+.description {
+  font-size: 14px;
+  color: $textColor;
+}
+
+.infoAbout {
+  overflow: hidden;
+  transition: max-height 0.5s ease, padding 0.5s ease;
+  color: $textColor;
+
+  p {
+    font-size: 14px;
+  }
+
+  &.collapsed {
+    max-height: 200px;
+    padding: 10px 0;
+  }
+
+  &.expanded {
+    max-height: 1000px;
+    padding: 10px 0;
+  }
+}
+
+/* ===========================
+   VIDEO SECTION
+=========================== */
+.about_video {
+  margin-bottom: 20px;
+
+  a {
+    color: var(--darker);
+    font-weight: 700;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}

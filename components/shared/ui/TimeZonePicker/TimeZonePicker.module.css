@@ -1,0 +1,84 @@
+.wrapper {
+  margin: 10px 0 20px 0;
+  position: relative;
+}
+
+.time_zone {
+  font-size: 14px;
+  /* font-weight: bold; */
+  color: grey;
+  margin-bottom: 8px;
+  cursor: pointer;
+}
+
+.time_zone:hover {
+  color: var(--darker);
+}
+
+.select {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  outline: none;
+}
+
+.notSelected {
+  color: #777; /* Light gray color for "Not selected" option */
+}
+
+.select {
+  display: none; /* Initially hide the select element */
+}
+
+.select.show {
+  display: block; /* Show the select element when the "show" class is applied */
+}
+
+.options {
+  position: absolute;
+  display: none;
+  min-width: 320px;
+  padding: 2px 7px 0;
+  top: 50px;
+  left: 0;
+  background-color: white;
+  border: 1px solid var(--dark);
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+  max-height: 220px; /* Set a maximum height for the options container */
+  overflow-y: auto; /* Use auto to only show the scrollbar when needed */
+}
+
+.options.active {
+  display: block; /* Show the options when the "active" class is applied */
+}
+
+.zoneItem {
+  padding: 8px;
+  cursor: pointer;
+}
+
+.zoneItem:hover {
+  color: var(--bgColor);
+  background-color: var(--dark);
+}
+
+.searchInput {
+  min-width: 320px;
+  height: 40px;
+  position: absolute;
+  display: none;
+  top: 0px;
+  left: 0;
+  background-color: white;
+  border: 1px solid var(--dark);
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+}
+
+.searchInput.active {
+  display: block;
+}

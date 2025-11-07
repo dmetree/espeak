@@ -1,0 +1,45 @@
+.app {
+  height: 100vh;
+  overflow-y: scroll;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  @media (max-width: 1200px) {
+    overflow-y: hidden;
+  }
+}
+
+.bg {
+  background-image: url("./../shared/assets/img/main_bg_07.webp");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: fixed;
+  z-index: -1;
+  inset: 0;
+  pointer-events: none;
+
+  @media (max-width: 1200px) {
+    background-image: url("./../shared/assets/img/main_bg_07-mid.webp");
+  }
+  @media (max-width: 620px) {
+    background-image: url("./../shared/assets/img/main_bg_07-min.webp");
+  }
+}
+
+.bg[data-theme="dark"] {
+  filter: brightness(0.6);
+}
+
+.visuallyHidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  border: 0;
+  padding: 0;
+  white-space: nowrap;
+  clip-path: inset(100%);
+  clip: rect(0 0 0 0);
+  overflow: hidden;
+}

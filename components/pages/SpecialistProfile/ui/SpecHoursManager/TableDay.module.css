@@ -1,0 +1,30 @@
+.tableDay {
+  position: relative;
+  padding: 20px 0;
+}
+
+.selectedDay {
+  font-weight: 700;
+  color: var(--textColor);
+  text-align: center;
+}
+
+.saveBtn {
+  position: absolute;
+  top: 45%;
+  right: -95px;
+  width: 90px;
+  height: 90px;
+  border-radius: 60px;
+  z-index: 10;
+}
+.disabled {
+  /* Your styles for the disabled state */
+  z-index: -1;
+  cursor: default;
+  /* Additional styles to visually indicate that the button is disabled */
+}
+.disabled:hover {
+  color: var(--dark);
+  background-color: var(--bgColor);
+}

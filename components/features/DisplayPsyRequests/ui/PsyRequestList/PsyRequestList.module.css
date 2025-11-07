@@ -1,0 +1,24 @@
+.reqList {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.noPlans {
+  text-align: center;
+  width: 100%;
+  min-height: 30vh;
+  color: var(--bgColor);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.checkoutClients {
+  cursor: pointer;
+}
+
+.link:visited {
+  color: var(--darkest);
+}

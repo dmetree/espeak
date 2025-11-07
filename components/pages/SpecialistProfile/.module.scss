@@ -1,0 +1,71 @@
+.viewSwitch {
+  position: absolute;
+  top: 100px;
+}
+
+.switcherItem {
+  padding: 2px 0px;
+  cursor: pointer;
+  /* border-radius: 5px; */
+  margin-right: 5px;
+}
+
+.switcherItem:hover {
+  /* color: var(--bgColor);
+  background-color: var(--dark); */
+}
+
+.switcherItem:active {
+  /* color: var(--bgColor);
+  background-color: var(--darkest); */
+}
+
+.timeTable {
+  position: relative;
+  min-height: 55vh;
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap; // in case screen is too narrow
+}
+
+.leftColumn,
+.rightColumn {
+  flex: 0 0 48%;
+  max-width: 50%;
+  display: flex;
+  flex-direction: column;
+}
+
+@media (max-width: 1130px) {
+  .userboard {
+    width: 70vw;
+  }
+}
+
+@media (max-width: 830px) {
+  .userboard {
+    width: 75vw;
+    padding: 25px;
+  }
+  .viewSwitch {
+    top: 82px;
+  }
+  .timeTable {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+@media (max-width: 750px) {
+}
+
+@media (max-width: 700px) {
+  .userboardPage {
+    align-items: flex-end;
+  }
+
+  .userboard {
+    padding: 20px;
+  }
+}

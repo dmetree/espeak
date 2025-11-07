@@ -1,0 +1,52 @@
+.msgInput {
+  display: flex;
+
+  /* justify-content: space-between; */
+  justify-content: center;
+  align-items: flex-end;
+}
+
+.inputForm {
+  width: 70%;
+  margin-bottom: 5px;
+  border: 2px solid var(--dark);
+  border-radius: 40px;
+  padding: 5px 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.input {
+  width: 100%;
+  /* padding: 0 2%; */
+  color: var(--textColor);
+  font-size: 16px;
+  /* border: 2px solid var(--dark);
+  border-radius: 40px; */
+  background-color: var(--bgColorTransparent);
+  text-align: center;
+  // text-align: left;
+  padding: 5px 10px;
+  border: none;
+
+  display: flex;
+}
+
+.input:focus {
+  outline: none;
+}
+
+.sendButton {
+  /* width: 10%; */
+  width: fit-content;
+  padding: 5px 20px;
+  border-radius: 40px;
+  margin-left: 10px;
+}
+
+@media (max-width: 700px) {
+  .inputForm {
+    width: 90%;
+  }
+}

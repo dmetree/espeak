@@ -1,0 +1,32 @@
+.wrapper {
+  width: 100vw;
+  position: absolute;
+  bottom: 0px;
+  right: 0;
+  background: var(--bgColorTransparent);
+  color: var(--textColor);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.footerItems {
+  height: 30px;
+  margin: 0 auto;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.vertialLine {
+  margin: 0 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.f_element {
+  font-size: 12px;
+  cursor: pointer;
+}

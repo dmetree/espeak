@@ -1,0 +1,25 @@
+.header {
+  text-align: center;
+  color: var(--textColor);
+}
+
+.substrate {
+  margin: 60px 0;
+}
+
+.button {
+  margin: 20px 0;
+}
+
+.done {
+  color: var(--dark);
+}
+
+.pending {
+  color: var(--highLight);
+}
+
+.text,
+.item {
+  color: var(--textColor);
+}

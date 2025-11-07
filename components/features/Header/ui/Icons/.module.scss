@@ -1,0 +1,139 @@
+.sidebar {
+  width: 60px;
+  height: 100vh;
+  /* top: 70px; */
+  border-right: 4px solid var(--dark);
+  border-radius: 0 40px 40px 0;
+  position: fixed;
+  z-index: 10;
+  background: var(--bgColorTransparent);
+  backdrop-filter: blur(4px);
+  transition: all 0.1s ease;
+}
+
+.sidenav {
+  height: 85%;
+  margin: 80px 0 0 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.guest {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+}
+
+.sidebarItemWrap {
+  width: 80%;
+  border-radius: 5px;
+  /* position: relative; */
+}
+
+.sidebarItemWrap:hover {
+  color: var(--bgColor);
+  background-color: var(--dark);
+  border-radius: 5px;
+}
+
+.sidebarItemWrap:hover .sidebarIcon {
+  fill: var(--bgColor);
+}
+
+.sidebarItemWrap_active .sidebarIcon {
+  fill: var(--bgColor);
+}
+
+.sidebarIcon {
+  width: 18px;
+  height: 18px;
+  fill: var(--dark);
+}
+
+.support {
+  width: 22px;
+  height: 21px;
+}
+
+.arrowIcon {
+  transform: rotate(180deg);
+}
+
+.arrowIcon,
+.reverseArrowIcon {
+  fill: var(--dark);
+  z-index: 10;
+}
+
+.arrowIcon:hover,
+.reverseArrowIcon:hover {
+  fill: #ffffff;
+}
+
+.auth {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.controls {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.socialmedia {
+  margin: 15px 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.vertical {
+  flex-direction: column;
+  gap: 2px;
+}
+
+.toggle {
+  width: 50px;
+  height: 50px;
+  background-color: var(--bgColor);
+  border: 4px solid var(--dark);
+  border-radius: 40px;
+  position: absolute;
+  right: -50px;
+  bottom: 90px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: 0.3s ease;
+  z-index: 100;
+}
+
+.toggle:hover {
+  background-color: var(--darker);
+  border: 4px solid var(--darker);
+}
+
+.toggle:hover .arrowIcon,
+.toggle:hover .reverseArrowIcon {
+  fill: var(--bgColor);
+}
+
+@media (max-width: 640px) {
+  .toggle {
+    width: 50px;
+    height: 50px;
+    background-color: var(--bgColor);
+    border: 2px solid var(--dark);
+  }
+}

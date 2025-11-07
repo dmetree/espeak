@@ -1,0 +1,47 @@
+.gender {
+  width: 100%;
+  /* border: 1px solid var(--dark); */
+  border-radius: 4px;
+  display: flex;
+  justify-content: space-between;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.genderOption {
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.genderOn {
+  margin-right: 5px;
+  padding: 5px 10px;
+  border-radius: 10px;
+  background-color: var(--darker);
+  color: var(--bgColor);
+  cursor: pointer;
+}
+
+.genderOff {
+  margin-right: 5px;
+  padding: 5px 10px;
+  border-radius: 10px;
+  background-color: var(--bgColor);
+  color: var(--dark);
+  border: 1px solid var(--dark);
+  cursor: pointer;
+}
+
+.genderOn:hover {
+  color: var(--bgColor);
+  background-color: var(--darker);
+}
+
+.genderOff:hover {
+  color: var(--bgColor);
+  background-color: var(--dark);
+}

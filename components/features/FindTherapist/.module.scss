@@ -1,0 +1,35 @@
+.searchContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  align-items: stretch;
+  min-width: 250px;
+
+  & span {
+    color: var(--textColor);
+  }
+}
+
+.specialistList {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: stretch;
+}
+
+.searchBox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-width: 250px;
+}
+
+.searchBtn {
+  width: 25%;
+  padding: 7px;
+}
+
+.searchInput {
+  margin: 0;
+}

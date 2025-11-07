@@ -1,0 +1,60 @@
+.themeSwither {
+  width: 40px;
+  height: 32px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.themeButton {
+  background-repeat: no-repeat;
+  height: 30px;
+}
+
+.themeButton:hover .themeIcon {
+  fill: var(--bgColor);
+}
+
+.themeIcon {
+  fill: var(--dark);
+}
+
+.button {
+  background-color: var(--bgColor); // Светлый фон по умолчанию
+  color: var(--dark); // Зеленая иконка по умолчанию
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  border-radius: 5px;
+  border: 1px solid var(--bgColor);
+
+  svg {
+    fill: currentColor; // Иконка принимает текущий цвет текста
+    transition: fill 0.3s ease, background-color 0.3s ease; // Плавный переход при смене цвета
+  }
+
+  &:hover {
+    background-color: var(--dark); // Зеленый фон при наведении
+  }
+
+  &.light-theme {
+    background-color: var(--bgColor); // Светлый фон по умолчанию
+    color: var(--dark); // Зеленая иконка
+
+    &:hover {
+      color: var(--bgColor); // Светлая иконка при наведении
+      background-color: var(--dark); // Зеленый фон при наведении
+    }
+  }
+
+  &.dark-theme {
+    background-color: var(--bgColor); // Светлый фон по умолчанию
+    color: var(--dark); // Зеленая иконка
+
+    &:hover {
+      color: var(--light); // Темная иконка при наведении
+      background-color: var(--dark); // Зеленый фон при наведении
+    }
+  }
+}

@@ -1,0 +1,44 @@
+.layout {
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+}
+
+.therapistContainer {
+  margin: 5px 0;
+  padding: 5px;
+  border: 1px solid darkgrey;
+}
+
+.diplomaHours {
+  margin-left: 3px;
+}
+
+.therapistBox {
+  display: flex;
+  align-items: center;
+}
+
+.therapistIndex {
+  margin-right: 5px;
+  font-weight: 700;
+}
+
+.fromTo {
+  display: flex;
+}
+
+.articleBtn {
+  padding: 3px 5px;
+}
+
+.uid {
+  font-size: 12px;
+  color: var(--textColor);
+}
+
+.actionBtns {
+  width: 50%;
+  margin-left: 50%;
+  display: flex;
+}

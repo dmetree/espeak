@@ -1,0 +1,133 @@
+.headerContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  height: 100%;
+  margin: auto;
+}
+
+.leftContainer {
+  display: none;
+  align-items: center;
+  gap: 2rem;
+  height: 100%;
+
+  @media (min-width: 1200px) {
+    display: flex;
+  }
+}
+
+.connectButton {
+  margin: 2vh;
+  font-weight: bold;
+  font-size: 0.875rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  color: var(--darker);;
+}
+
+.connectedContainer {
+  display: flex;
+  align-items: center;
+  height: 2.5rem;
+}
+
+.walletButton {
+  background-color: var(--walletPrimary);
+  color: var(--white);
+  padding: 0 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.5rem 0 0 0.5rem;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #005bb5;
+  }
+}
+
+.walletDetails {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.walletText {
+  display: flex;
+  flex-direction: column;
+  font-weight: bold;
+}
+
+.address {
+  font-size: 0.75rem;
+}
+
+.profileText {
+  font-size: 0.625rem;
+}
+
+.disconnectButton {
+  background-color: var(--walletPrimary);
+  color: var(--darker);
+  padding: 0.5rem 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-left: 1px solid #005bb5;
+  border-radius: 0 0.5rem 0.5rem 0;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #005bb5;
+  }
+}
+
+.iconDisconnect {
+  font-size: 1.25rem;
+}
+
+.tooltip {
+  position: relative;
+}
+
+.menuIcon {
+  display: inline-block;
+  font-size: 2rem;
+  cursor: pointer;
+
+  @media (min-width: 1200px) {
+    display: none;
+  }
+}
+
+.mobileMenu {
+  position: fixed;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: white;
+  transition: all 0.3s;
+}
+
+.showMenu {
+  left: 0;
+}
+
+.hideMenu {
+  left: 100%;
+}
+
+.menuHeader {
+  display: flex;
+  padding: 1.5rem;
+  justify-content: flex-end;
+}
+
+.closeMenuIcon {
+  font-size: 2rem;
+  cursor: pointer;
+}

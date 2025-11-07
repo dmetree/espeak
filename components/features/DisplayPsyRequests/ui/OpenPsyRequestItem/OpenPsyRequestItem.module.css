@@ -1,0 +1,252 @@
+.wrapper {
+  margin-bottom: 5px;
+  border-radius: 10px;
+  background-color: var(--bgColor);
+  border: 1px solid var(--dark);
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: 15px 1fr;
+  grid-template-areas:
+    "full full full full"
+    "col1 col2 col3 col4";
+  gap: 5px;
+  position: relative;
+  align-items: center;
+}
+
+/* You will assign these classes to the children inside .wrapper */
+.fullWidth {
+  grid-area: full;
+}
+.col1 {
+  grid-area: col1;
+}
+.col2 {
+  grid-area: col2;
+}
+.col3 {
+  grid-area: col3;
+}
+.col4 {
+  grid-area: col4;
+  width: 96%;
+}
+
+.wrapperHeader {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+}
+
+.req_status {
+  display: none;
+  font-size: 10px;
+  padding: 1px 3px 3px 3px;
+  border-radius: 7px 0 3px 0px;
+  color: var(--bgColor);
+  background-color: var(--dark);
+}
+
+.onchain_y {
+  font-size: 10px;
+  color: green;
+}
+
+.onchain_n {
+  font-size: 10px;
+  color: rgb(157, 111, 25);
+}
+
+.req_status_0 {
+  font-size: 12px;
+}
+
+.req_id {
+  left: 80px;
+  font-size: 10px;
+  padding: 1px 3px 3px 3px;
+  border-radius: 0 0 3px 3px;
+  color: var(--bgColor);
+
+  background-color: var(--dark);
+}
+
+.reqComplaint {
+  position: absolute;
+  bottom: 0;
+  left: 90px;
+  font-size: 10px;
+  padding: 1px 3px 3px 3px;
+  border-radius: 3px 3px 0 0;
+  color: var(--bgColor);
+  background-color: rgb(201, 97, 97);
+}
+
+.myReq {
+  display: block;
+  color: var(--bgColor);
+  background-color: var(--dark);
+}
+
+.myWork {
+  display: block;
+  color: var(--bgColor);
+  background-color: var(--highLight);
+}
+
+.reqDisplay {
+  display: block;
+}
+
+.reqField {
+  margin: 4px;
+  color: var(--textColor);
+  text-align: center;
+}
+
+.reqSubject {
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.dateTime {
+  font-size: 13px;
+}
+
+.expPrice {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.price {
+  color: var(--textColor);
+  font-size: xx-large;
+}
+
+.dateTime {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.date {
+  text-align: center;
+}
+
+.actionBtns {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.actionBtn {
+  padding: 5px;
+  font-size: 12px;
+}
+
+.etc {
+  width: 30px;
+  height: 30px;
+  font-size: 30px;
+  border: 1px solid transparent;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 5px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+.etc:hover {
+  background-color: var(--dark);
+  border: 1px solid var(--dark);
+  color: var(--bgColor);
+}
+
+.dropdown {
+  position: absolute;
+  top: 13px;
+  right: 37px;
+  margin: 15px 5px;
+  background-color: var(--bgColor);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  z-index: 100;
+}
+
+.reqActions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.callButton {
+  margin-top: 5px;
+  flex-direction: column;
+  min-width: 46px;
+}
+
+.cancelButton {
+  flex-direction: column;
+  min-width: 90px;
+}
+
+.cancelButton {
+  color: rgb(201, 97, 97);
+}
+
+.cancelButton .cancelIcon {
+  fill: rgb(201, 97, 97);
+}
+
+.callButton:hover .callIcon,
+.cancelButton:hover .cancelIcon {
+  fill: var(--bgColor);
+  stroke: var(--bgColor);
+}
+
+@media (max-width: 730px) {
+  .wrapper {
+    height: 10vh;
+  }
+  .price {
+    color: var(--textColor);
+    font-size: large;
+  }
+  .reqStatusField {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 510px) {
+  .reqSubject {
+    font-size: 12px;
+  }
+  .reqStatusField {
+    font-size: 12px;
+  }
+  .dateTime {
+    font-size: 10px;
+  }
+  .expPrice {
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 450px) {
+  .actionBtns {
+    flex-direction: column;
+  }
+  .actionBtn,
+  .callButton,
+  .cancelButton {
+    height: 30px;
+    min-width: 30px;
+    border-radius: 5px;
+    margin: 1px;
+  }
+}

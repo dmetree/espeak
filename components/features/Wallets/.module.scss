@@ -1,0 +1,97 @@
+.headerContainer {
+  display: flex;
+  align-items: center;
+}
+
+.connectButton {
+  margin: 1vh;
+  font-weight: bold;
+  font-size: 0.875rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  color: var(--darker);
+}
+
+.blockchainIcon {
+  width: 35px;
+  height: 35px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--white);
+  border-radius: 50px;
+}
+
+.blockchainWalletBox {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  & span {
+    color: var(--darker);
+  }
+}
+
+.disconnectButton {
+  width: 40px;
+  height: 40px;
+  margin-left: 10px;
+  border: 1px solid var(--darker);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--darker);
+}
+
+.walletIcon {
+  display: flex;
+  align-items: center;
+  border-radius: 50%;
+  padding: 0.5rem;
+}
+
+.hWalletIcon {
+  font-size: 20px;
+  color: var(--dark);
+}
+
+.connectWalletText {
+  display: flex;
+}
+
+@media (max-width: 550px) {
+  .connectWalletText {
+    display: none;
+  }
+}
+
+.tooltipWrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.tooltip {
+  visibility: hidden;
+  opacity: 0;
+  position: absolute;
+  bottom: -60%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: var(--dark);
+  color: var(--bgColor);
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 0.875rem;
+  white-space: nowrap;
+  z-index: 10;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+/* Show tooltip on hover */
+.tooltipWrapper:hover .tooltip {
+  visibility: visible;
+  opacity: 1;
+}
+

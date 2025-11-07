@@ -1,0 +1,57 @@
+.searchBox_wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.searchBox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-width: 250px;
+}
+
+.searchBtn {
+  font-size: 13px !important;
+  padding: 8px 10px;
+  width: 20%;
+  cursor: pointer;
+  background-color: var(--bgColor);
+  border: 1px solid var(--dark);
+  color: var(--dark);
+  border-radius: 10px;
+  transition-duration: 0.3s;
+}
+
+.searchBtn:hover {
+  color: var(--bgColor);
+  background: var(--darker);
+  border: 1px solid var(--darker);
+}
+
+.searchInput {
+  margin: 0;
+}
+
+.specialistList {
+  margin: 10px 0;
+  // display: flex;
+  // flex-direction: column;
+  gap: 10px;
+  align-items: stretch;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+}
+
+@media (max-width: 1250px) {
+  .specialistList {
+    margin: 10px 0;
+    // display: flex;
+    // flex-direction: column;
+    gap: 10px;
+    align-items: stretch;
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+  }
+}

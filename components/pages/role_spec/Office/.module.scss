@@ -1,0 +1,72 @@
+.timeTable {
+  position: relative;
+  min-height: 55vh;
+  display: flex;
+  justify-content: space-between;
+  /* display: grid; */
+  /* grid-template-columns: repeat(2, 1fr); */
+  /* grid-template-columns: 1fr .75fr; */
+  gap: 20px;
+}
+
+.rightColumn {
+  min-width: 50%;
+  display: flex;
+  flex-direction: column;
+}
+
+.rightRightColumn {
+  width: 100%;
+  position: relative;
+}
+
+.welcomeText {
+  display: flex;
+  flex-direction: column;
+}
+
+.saveBtn {
+  color: var(--bgColor);
+  background-color: var(--dark);
+  position: absolute;
+  top: 565px;
+  right: -140px;
+  width: 240px;
+  height: 30px;
+  border: none;
+  border-radius: 60px;
+  z-index: 10;
+  rotate: -90deg;
+  cursor: pointer;
+  &:hover {
+    background-color: var(--darker);
+  }
+}
+
+.disabled {
+  /* Your styles for the disabled state */
+  z-index: -1;
+  cursor: default;
+  /* Additional styles to visually indicate that the button is disabled */
+}
+
+.disabled:hover {
+  color: var(--dark);
+  background-color: var(--bgColor);
+}
+
+@media (max-width: 830px) {
+  .timeTable {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .saveBtn {
+    width: 50vh;
+    height: 5vh;
+    top: 70vh;
+    right: -23vh;
+    border: 3px solid var(--dark);
+    font-size: 12px;
+  }
+}

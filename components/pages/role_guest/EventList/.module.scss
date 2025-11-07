@@ -1,0 +1,30 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  // gap: 2rem;
+}
+
+.eventGrid {
+  margin-bottom: 2rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+.eventBtns {
+  margin: 0.5rem 0;
+  display: flex;
+  gap: 1.5rem;
+  justify-content: space-between;
+}
+
+.navBtnSpan {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.header {
+  color: var(--textColor);
+  margin: 0;
+  padding-right: 0.5rem;
+}

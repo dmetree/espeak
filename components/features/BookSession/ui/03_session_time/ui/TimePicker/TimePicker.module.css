@@ -1,0 +1,57 @@
+.hourCell {
+  padding: 0.8vw;
+  border: 1px solid var(--dark);
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  cursor: pointer;
+  color: var(--textColor);
+}
+
+.hourCell:hover {
+  color: var(--textColor);
+  background-color: var(--dark);
+}
+
+.hourCell:active {
+  color: var(--textColor);
+  background-color: var(--darkest);
+}
+
+.selected {
+  color: var(--bgColor);
+  background-color: var(--darker);
+  border: 1px solid var(--darker);
+}
+
+.dayView {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  align-content: center;
+  justify-content: center;
+}
+
+.wrapper {
+  margin: 10px 0;
+}
+
+.disabled {
+  pointer-events: none; /* Disable pointer events for the cell */
+  opacity: 0.5; /* Apply an opacity to indicate that it's disabled */
+}
+
+.booked {
+  pointer-events: none; /* Disable pointer events for the cell */
+  opacity: 0.5; /* Apply an opacity to indicate that it's disabled */
+  background-color: var(--dark);
+  color: var(--bgColor);
+}
+
+.session_time {
+  margin: 15px 0;
+  color: grey;
+  text-align: right;
+  color: var(--textColor);
+}

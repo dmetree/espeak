@@ -1,0 +1,52 @@
+.cell {
+  /* width: 35px; */
+  /* min-height: 36px; */
+  padding: 0.7vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* border: 1px solid var(--dark); */
+  border-radius: 5px;
+  cursor: pointer;
+  position: relative;
+  color: var(--textColor);
+}
+
+.hasAppointment {
+  position: absolute;
+  width: 50%;
+  height: 3px;
+  background-color: var(--darkest);
+  border-radius: 20px;
+  bottom: 4px;
+}
+
+.specHasFreeTimeslot {
+  background-color: lightblue;
+}
+
+.cell:hover {
+  color: var(--bgColor);
+  background-color: var(--dark);
+}
+
+.cell:active {
+  background-color: var(--darkest);
+}
+
+.selected {
+  color: var(--bgColor);
+  background-color: var(--darker);
+}
+
+.disabled {
+  pointer-events: none; /* Disable pointer events for the cell */
+  opacity: 0.5; /* Apply an opacity to indicate that it's disabled */
+  color: grey;
+}
+
+@media (max-width: 500px) {
+  .cell {
+    min-height: 30px;
+  }
+}

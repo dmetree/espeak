@@ -1,0 +1,101 @@
+.wrapper {
+}
+
+.comment {
+  border: 1px solid var(--dark);
+  border-radius: 15px 15px 15px 0;
+  position: relative;
+  display: flex;
+}
+
+.actionsLabel {
+  width: 5px;
+  height: 26px;
+  border: 4px dotted var(--dark);
+  margin: 3px 10px;
+  cursor: pointer;
+}
+
+.actionsList {
+  position: absolute;
+  top: -1px;
+  right: 27px;
+
+  border: 1px solid var(--dark);
+  border-radius: 10px;
+  background-color: var(--bgColor);
+
+  display: flex;
+  flex-direction: column;
+}
+
+.actionItem {
+  padding: 8px;
+  border-radius: 10px;
+
+  &:hover {
+    color: var(--bgColor);
+    background-color: var(--dark);
+  }
+}
+
+.authorName {
+  font-size: 18px;
+  font-weight: 300;
+}
+
+.commentText {
+  margin: 10px;
+}
+
+.myComment {
+  border-radius: 15px 15px 0 15px;
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+.userInfo {
+  display: flex;
+  gap: 0.5rem;
+
+  .ifReply {
+    font-weight: 300;
+    border: 1px solid var(--dark);
+    border-radius: 20px;
+    padding: 2px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .userNameImg {
+    display: flex;
+    align-items: center;
+  }
+
+  img {
+    width: 2rem;
+    height: 2rem;
+    object-fit: cover;
+    border-radius: 50%;
+  }
+
+  h3 {
+    text-transform: capitalize;
+    font-size: 0.875rem;
+  }
+}
+
+.nameDateBox {
+  display: flex;
+  flex-direction: column;
+}
+
+.imUser {
+  flex-direction: row-reverse;
+  justify-content: space-between;
+}
+
+.dateTime {
+  font-size: 11px;
+}

@@ -1,0 +1,30 @@
+.cell {
+  padding: 0.7vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid var(--dark);
+  border-radius: 5px;
+  color: var(--textColor);
+  cursor: pointer;
+}
+
+.cell:hover {
+  color: var(--bgColor);
+  background-color: var(--dark);
+}
+
+.cell:active {
+  background-color: var(--darkest);
+}
+
+.selected {
+  color: var(--bgColor);
+  background-color: var(--darker);
+  border: 1px solid var(--darker);
+}
+
+.disabled {
+  pointer-events: none; /* Disable pointer events for the cell */
+  opacity: 0.5; /* Apply an opacity to indicate that it's disabled */
+}

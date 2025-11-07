@@ -1,0 +1,129 @@
+.specialistCard {
+  background-color: var(--dark);
+  border-radius: 10px;
+  padding: 10px 15px;
+  gap: 20px;
+  display: grid;
+  grid-template-columns: fit-content(100px) 1fr fit-content(200px);
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+    justify-items: flex-start;
+  }
+}
+
+.avatarNav {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--white);
+}
+
+.specialistInfoLeft,
+.specialistInfoRight {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.specialistInfoLeft {
+  align-items: center;
+  min-width: 6rem;
+
+  @media (max-width: 768px) {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.langAndRank {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.specialistInfoRight {
+  gap: 5px;
+}
+
+.nickname {
+  color: var(--white);
+  font-weight: 600;
+  font-size: 18px;
+  margin: 0;
+  padding: 0;
+  word-break: break-word;
+  white-space: normal;
+
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-break: break-word;
+}
+
+.rank,
+.timeZone,
+.professionSince {
+  color: var(--white);
+  font-size: 14px;
+  margin: 0;
+  padding: 0;
+  font-weight: 500;
+}
+
+.rank,
+.professionSince {
+  text-align: left;
+}
+
+.infoRow {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 14px;
+  // line-height: 1.4;
+  color: var(--white);
+}
+
+.infoRow strong {
+  // min-width: 130px;
+  font-weight: 700;
+}
+
+.infoRow span {
+  flex: 1;
+  text-align: left;
+  word-break: break-word;
+}
+
+.timeZone {
+  text-align: end;
+}
+
+.buttonContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  align-items: flex-end;
+}
+
+.goToProfileBtn {
+  font-size: 13px !important;
+  padding: 5px 10px;
+  cursor: pointer;
+  background-color: var(--bgColor);
+  border: 1px solid var(--dark);
+  color: var(--dark);
+  border-radius: 10px;
+  transition-duration: 0.3s;
+}
+
+.goToProfileBtn:hover {
+  color: var(--bgColor);
+  background: var(--darker);
+  border: 1px solid var(--darker);
+}

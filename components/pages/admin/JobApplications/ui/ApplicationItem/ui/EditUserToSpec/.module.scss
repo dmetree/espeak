@@ -1,0 +1,147 @@
+/* Form styling */
+.formContainer {
+  /* background-color: var(--bgColor); */
+  margin: 20px 0;
+  /* padding: 10px; */
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.avatarContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.avatarPreview {
+  width: 12rem;
+  height: 14rem;
+  border-radius: 5px;
+  background-color: var(--dark);
+  object-fit: cover; /* Ensures the image covers the element without distortion */
+  margin: 1rem 0; /* Adds some space below the image */
+}
+
+.formInput {
+  color: var(--text);
+}
+
+.formLabel {
+  width: 100%;
+  padding: 10px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.formButton {
+  background-color: var(--dark);
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.labelWrapper {
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.servicesList {
+  width: 100%;
+  margin: 10px 0;
+}
+
+.serviceItem {
+  width: 100%;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 4px 0;
+  border-radius: 20px;
+}
+
+.serviceTitle {
+  /* width: 120px; */
+}
+
+.serviceParam {
+  display: flex;
+  align-items: center;
+}
+
+.paramLabel {
+  font-size: 0.8rem;
+}
+
+.serviceParamInput {
+  width: 70px;
+  padding: 8px;
+  font-size: 1.2rem;
+  border: 1px solid var(--dark);
+  background-color: var(--bgColor);
+  border-radius: 10px;
+  text-align: center;
+}
+
+.deleteServiceBtn {
+  width: 60px;
+  padding: 8px;
+  margin: 0 5px;
+}
+
+.addServiceBtn {
+  padding: 5px 8px;
+}
+
+.articleBtn {
+  padding: 3px 5px;
+}
+
+.actionBtns {
+  width: 100%;
+  margin: 10px 0;
+  display: flex;
+}
+
+.formButton:hover {
+  background-color: var(--darkTransparent);
+}
+
+.inputContainer {
+  position: relative;
+  display: inline-block;
+
+  .inputPrefix {
+    position: absolute;
+    left: 20%; // Adjust as needed
+    top: 45%;
+    transform: translateY(-50%);
+    font-size: 20px; // Adjust to match input text size
+    pointer-events: none; // Prevent interaction with the symbol
+  }
+
+  .inputPostfix {
+    position: absolute;
+    right: 5%; // Adjust as needed
+    top: 45%;
+    transform: translateY(-50%);
+    font-size: 16px; // Adjust to match input text size
+    pointer-events: none; // Prevent interaction with the symbol
+  }
+
+  .serviceParamMINInput {
+    padding-right: 25px; // Add padding to make space for the $ symbol
+  }
+
+  .serviceParamUSDInput {
+    padding-left: 25px; // Add padding to make space for the $ symbol
+  }
+}

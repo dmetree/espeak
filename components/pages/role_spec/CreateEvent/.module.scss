@@ -1,0 +1,118 @@
+/* CreateEvents.module.scss */
+.form {
+  display: flex;
+  flex-direction: column;
+}
+
+.input {
+  width: 100%;
+  min-height: 30px;
+  padding: 7px 15px;
+  font-size: large;
+  border: 1px solid var(--darker);
+  border-radius: 8px;
+  box-sizing: border-box;
+  outline: none;
+  background-color: transparent;
+  color: var(--textColor);
+
+  /* Inner shadow */
+  // box-shadow: inset 0px 0px 4px var(--dark);
+}
+
+.input::placeholder {
+  font-size: 16px;
+  color: #c2c2c2;
+}
+
+.textarea {
+}
+
+.imageBox {
+  border: 1px solid var(--darker);
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.imageContainer {
+  width: 100%; // or 100% if responsive
+  min-height: 300px; // must set a height!
+  border-radius: 10px;
+  background-size: cover;
+  background-position: center;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #666;
+  font-size: 14px;
+}
+
+.dateRow {
+  margin: 5px 0;
+  display: flex;
+  align-items: center;
+}
+
+.field {
+  margin: 15px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.label {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--text-color, #333);
+}
+
+.eventMeetings {
+  margin: 15px 0;
+}
+
+.itemNumber {
+  margin-right: 5px;
+}
+
+.addEventMeetingBtn {
+  align-self: flex-end;
+  max-width: 40%;
+  margin: 10px 0;
+  padding: 5px 8px;
+}
+
+.createBtn {
+  margin-top: 20px;
+}
+
+.eventTypeSelector {
+  display: flex;
+  gap: 12px;
+  margin: 10px 0;
+}
+
+.eventTypeOption {
+  padding: 10px 20px;
+  border: 1px solid var(--darker);
+  border-radius: 8px;
+  cursor: pointer;
+  user-select: none;
+  transition: all 0.2s ease;
+  // background-color: var(--dark);
+  color: var(--textColor);
+
+  &:hover {
+    background-color: var(--dark);
+    color: #fff;
+  }
+}
+
+.active {
+  background-color: var(--darker);
+  color: #fff;
+  border-color: var(--darkerst);
+}

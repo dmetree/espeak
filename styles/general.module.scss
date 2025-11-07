@@ -1,0 +1,155 @@
+/* Main wrapper to handle layout */
+.mainWrapper {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+}
+
+/* Main content layout */
+.main {
+    flex: 1 1;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+}
+
+/* Error page specific styles */
+.customError {
+  padding: 40px 0;
+  background: #fff;
+}
+
+/* Container settings */
+.container {
+  width: 100%;
+  margin: 0 auto;
+  height: 100vh;
+}
+
+/* Row layout (centered content) */
+.row {
+  display: flex;
+  justify-content: center;
+}
+
+/* Column settings for different screen sizes */
+.small {
+  width: 100%;
+}
+
+.md {
+  width: 83.333333%;
+}
+
+.offset {
+  margin-left: 8.333333%;
+}
+
+/* Text alignment */
+.textCenter {
+  text-align: center;
+}
+
+/* 404 background */
+.four_zero_four_bg {
+  background-image: url('https://cdn.dribbble.com/users/285475/screenshots/2083086/dribbble_1.gif');
+  height: 400px;
+  background-position: center;
+}
+
+/* Font size for 404 page */
+.four_zero_four_bg h1 {
+  font-size: 80px;
+}
+
+/* Heading size */
+.h2 {
+  font-size: 30px;
+}
+
+/* Textbox for content */
+.textBox {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Link button styles */
+.link_404 {
+  color: #fff;
+  padding: 20px;
+  background: var(--dark);
+  margin: 20px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-width: 300px;
+  width: 100%;
+  border-radius: 10px;
+  text-decoration: none;
+
+  &:hover,
+  &:active {
+    background: var(--darker);
+  }
+}
+
+
+@media (max-width: 768px) {
+
+  .four_zero_four_bg {
+    height: 300px;
+  }
+
+  .four_zero_four_bg h1 {
+    font-size: 60px;
+  }
+
+  .h2 {
+    font-size: 24px;
+  }
+
+  .link_404 {
+    padding: 15px;
+    font-size: 14px;
+  }
+
+  .container {
+    height: auto;
+    padding: 20px;
+  }
+
+  .md {
+    width: 100%;
+  }
+
+  .offset {
+    margin-left: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .four_zero_four_bg {
+    height: 250px;
+  }
+
+  .four_zero_four_bg h1 {
+    font-size: 50px;
+  }
+
+  .h2 {
+    font-size: 20px;
+  }
+
+  .link_404 {
+    font-size: 12px;
+    padding: 10px;
+  }
+
+  .container {
+    height: auto;
+    padding: 10px;
+  }
+}
