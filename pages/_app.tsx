@@ -177,7 +177,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
   return (
     <Provider store={store}>
       <AppProvider>
-        <Background />
+        {/* <Background /> */}
         <Layout>
           <Component {...pageProps} />
         </Layout>

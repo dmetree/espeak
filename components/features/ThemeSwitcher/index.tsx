@@ -1,9 +1,6 @@
 import { useEffect } from 'react';
 import { useLocalStorage } from 'usehooks-ts';
 
-import { applyTheme } from '@/components/shared/utils/applyTheme';
-import Button from '@/components/shared/ui/Button';
-
 import s from './.module.scss';
 
 const iconMap = {
@@ -32,24 +29,23 @@ const iconMap = {
 };
 
 const ThemeSwitcher = () => {
-  const [theme, setTheme] = useLocalStorage('theme', 'default');
+  const [theme, setTheme] = useLocalStorage('theme', 'theme-default');
 
   useEffect(() => {
-    applyTheme(theme);
+    if (typeof document !== 'undefined') {
+      document.body.classList.remove('theme-default', 'theme-dark');
+      document.body.classList.add(theme);
+    }
   }, [theme]);
 
   const handleThemeToggle = () => {
-    const newTheme = theme === 'default' ? 'dark-theme' : 'default';
-    applyTheme(newTheme);
-    setTheme(newTheme);
+    const next = theme === 'theme-default' ? 'theme-dark' : 'theme-default';
+    setTheme(next);
   };
 
   return (
-    <div
-      className={`${s.themeSwither} ${theme === 'default' ? 'light-theme' : 'dark-theme'}`}
-      onClick={handleThemeToggle}
-    >
-      {theme === 'default' ? iconMap.lightIcon : iconMap.darkIcon}
+    <div className={s.themeSwither} onClick={handleThemeToggle}>
+      {theme === 'theme-default' ? iconMap.darkIcon : iconMap.lightIcon}
     </div>
   );
 };

@@ -186,6 +186,7 @@ export enum EModalKind {
   PsyworkerApplication = "psyworker-application",
   CreatePost = "create-post",
   LangModal = "lang-modal",
+  AuthModal = "auth-modal"
 }
 
 export namespace TimetableRequests {

@@ -1,7 +1,5 @@
 import en from "./messages/en.json";
-// import es from "./messages/es.json";
 import ru from "./messages/ru.json";
-import pt from "./messages/pt.json";
 
 import translate from "./messages/en.json"; // Adjust the path as needed
 
@@ -11,7 +9,7 @@ const specialityList = translate["psy-speciality"];
 const methodsList = translate["psy-methods"];
 const servicesList = translate["psy-services"];
 
-export const translations = { en, ru, pt };
+export const translations = { en, ru };
 
 // Load messages for a given locale
 export const loadMessages = (locale) =>

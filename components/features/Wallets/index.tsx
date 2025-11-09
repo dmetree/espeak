@@ -132,8 +132,8 @@ const HeaderCardano = () => {
 
             <div>
                 <div className={s.headerContainer}>
-                    {/* {selectedBlockchain === "ergo" && <span className={s.blockchainIcon}> <ErgoIcon /> </span>}
-                    {selectedBlockchain === "cardano" && <span className={s.blockchainIcon}> </span>} */}
+                    {selectedBlockchain === "ergo" && <span className={s.blockchainIcon}> <ErgoIcon /> </span>}
+                    {selectedBlockchain === "cardano" && <span className={s.blockchainIcon}> </span>}
                     <div className={s.leftContainer}>
                         {!wallet && !localStorageWallet && !ergoWalletConnected &&
                             <div className={s.tooltipWrapper}>

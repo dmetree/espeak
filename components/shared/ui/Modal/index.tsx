@@ -9,8 +9,7 @@ const MODAL_STYLES: CSSProperties = {
     left: '50%',
     transform: 'translate(-50%, -50%)',
     backgroundColor: 'var(--bgColor)',
-    borderRadius: '40px',
-    padding: '50px',
+    padding: '40px',
     zIndex: 1000,
 };
 
