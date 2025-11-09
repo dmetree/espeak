@@ -11,6 +11,7 @@ import CommentItem from "./../CommentItem";
 import Button from '@/components/shared/ui/Button';
 import { LiaTimesSolid } from "react-icons/lia";
 import { toast } from "react-toastify";
+import Image from "next/image";
 
 import s from "./.module.scss";
 

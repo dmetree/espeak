@@ -100,11 +100,11 @@ const WalletDrawer = (props) => {
 
   return (
     <div className={`${s.walletDrawer} ${props.show ? s.show : s.hidden}`}>
-      {/* <div className={s.header}>
+      <div className={s.header}>
         <FaWallet className={s.walletIcon} />
         <span>CARDANO wallet</span>
       </div>
-      <div className={s.walletList}>{walletsList}</div> */}
+      <div className={s.walletList}>{walletsList}</div>
       <div className={s.header}>
         <div className={s.titleWrapper}>
           <FaWallet className={s.walletIcon} />
@@ -118,7 +118,13 @@ const WalletDrawer = (props) => {
         <div className={s.nautilusBtn}>
           <div className={s.ergoButton} onClick={() => connectNautilus()}>
             <span className={s.ergoIcon}>
-              <Image alt="img" height="30" width="30" src={NautilusLogo} loading="lazy"/>
+              <Image
+                alt="img"
+                height="30"
+                width="30"
+                src={NautilusLogo}
+                loading="lazy"
+              />
             </span>
             <span className={s.walletName}>Nautilus</span>
           </div>

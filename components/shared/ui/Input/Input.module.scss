@@ -1,0 +1,140 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  // width: 100%;
+}
+
+.label {
+  color: #000;
+  font-family: Helvetica, sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 150%;
+}
+
+.input,
+.inputInner,
+.inputPhone,
+.inputVerification {
+  // width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 16px;
+  border: 1px solid #bcd0f2;
+  color: #000;
+  font-family: Helvetica, sans-serif;
+  transition: all 0.2s ease;
+  background-color: #fff;
+
+  &::placeholder {
+    color: #a5a5a5;
+  }
+
+  &:focus {
+    outline: none;
+    border-color: #5666ed;
+  }
+}
+
+.inputInner {
+  width: 400px;
+}
+
+/* STATES */
+.defaultBorder {
+  border-color: #bcd0f2;
+}
+
+.success {
+  border-color: #5666ed;
+}
+
+.error {
+  border-color: #ff4d4f;
+}
+
+/* === PASSWORD === */
+.inputWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 8px;
+  position: relative;
+  background-color: #fff;
+
+  &:focus-within {
+    border-color: #5666ed;
+  }
+}
+
+.iconButton {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  position: absolute;
+  right: 0;
+  padding: 0 10px;
+  top: 10px;
+}
+
+/* === PHONE === */
+.phoneWrapper {
+  display: flex;
+  gap: 8px;
+}
+
+.countryBox {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 12px;
+  min-width: 90px;
+  border: 1px solid #bcd0f2;
+  border-radius: 8px;
+  background: #fff;
+  cursor: pointer;
+}
+
+/* === VERIFICATION === */
+.verificationWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 8px;
+  border: 1px solid #bcd0f2;
+  padding: 0 12px;
+  background: #fff;
+
+  &:focus-within {
+    border-color: #5666ed;
+  }
+}
+
+.sendButton {
+  background: none;
+  border: none;
+  color: #000;
+  font-family: Helvetica, sans-serif;
+  font-size: 16px;
+  cursor: pointer;
+  transition: color 0.2s ease;
+
+  &:hover:not(.disabled) {
+    color: #5666ed;
+  }
+}
+
+.disabled {
+  color: #a5a5a5;
+  cursor: not-allowed;
+}
+
+/* === ERROR TEXT === */
+.errorText {
+  color: #ff4d4f;
+  font-family: Helvetica, sans-serif;
+  font-size: 12px;
+  margin-top: 2px;
+}

@@ -11,9 +11,8 @@
   align-items: center;
   background: var(--bgColor);
 
-  border-bottom: 4px solid var(--dark);
-  border-radius: 0 0 40px 40px;
-  height: 60px;
+  border-bottom: none;
+  height: 64px;
   justify-content: space-between;
   left: 0;
   position: -webkit-sticky;
@@ -22,13 +21,13 @@
   top: 0;
   z-index: 50;
 }
-
 .wrapper {
-  padding: 4px 1vw;
+  padding: 8px 24px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   position: relative;
+  gap: 24px;
 }
 
 .logoBlock {
@@ -36,36 +35,29 @@
   justify-content: center;
   align-items: center;
   cursor: pointer;
+  text-decoration: none;
 }
 
 .logoPng {
-  width: 50px;
-  height: 50px;
+  width: 32px;
+  height: 32px;
 }
 
 .logoTitle {
-  margin-left: 5px;
-  font-size: 2em;
-  font-family: "Kamalla Demo Med";
-  color: #377b78;
+  margin-left: 8px;
+  font-size: 22px;
+  font-weight: 700;
+  color: #111;
+  display: flex;
+  align-items: baseline;
+  gap: 2px;
 }
 
-.noToken {
-  position: absolute;
-  top: 39px;
-  background-color: #9fc6bf;
-  padding: 5px 15px;
-  border-radius: 3px;
-  text-align: center;
-  color: var(--darkest);
-  display: flex;
-  justify-content: space-evenly;
-  align-items: center;
-  width: -webkit-fill-available;
-
-  &_cursor {
-    cursor: pointer;
-  }
+.brandBlue {
+  color: #3f5cff;
+}
+.brandCoral {
+  color: #ff8b80;
 }
 
 .networkPicker {
@@ -92,6 +84,93 @@
 .menuGeneral {
   display: flex;
   align-items: center;
+}
+
+/* New: primary navigation and right side */
+.navDesktop {
+  display: flex;
+  gap: 28px;
+  align-items: center;
+}
+
+.navLink {
+  color: #1f2937;
+  text-decoration: none;
+  font-size: 14px;
+}
+.navLink:hover {
+  color: #111827;
+}
+
+.rightDesktop {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.walletArea {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.walletLabel {
+  font-size: 14px;
+  color: #111;
+  opacity: 0.8;
+}
+.walletWidget {
+  display: inline-flex;
+  align-items: center;
+}
+
+.authButtons {
+  display: inline-flex;
+  gap: 12px;
+  align-items: center;
+}
+.switchers { display: inline-flex; gap: 8px; align-items: center; }
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 16px;
+  border-radius: 9999px;
+  font-size: 14px;
+  text-decoration: none;
+}
+
+.btnPrimary {
+  background: #5468ff;
+  color: #fff;
+  border: 1px solid #5468ff;
+}
+.btnPrimary:hover {
+  filter: brightness(0.95);
+}
+.btnOutline {
+  background: transparent;
+  color: #111;
+  border: 1px solid #5468ff;
+}
+
+.burger {
+  display: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  border: none;
+  background: transparent;
+  padding: 0;
+}
+.burger span {
+  display: block;
+  width: 24px;
+  height: 3px;
+  background: #111;
+  margin: 5px auto;
+  border-radius: 2px;
 }
 
 .menuItem {
@@ -155,6 +234,77 @@
 
   &:hover {
     color: var(--darkest);
+  }
+}
+
+/* Mobile full-screen menu */
+.mobileOverlay {
+  position: fixed;
+  inset: 0;
+  background: #f7f7f7;
+  z-index: 60;
+  display: flex;
+  flex-direction: column;
+}
+.mobileTopBar {
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 16px;
+}
+.mobileIcons {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+.close {
+  font-size: 28px;
+  line-height: 1;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+.mobileNavList {
+  list-style: none;
+  padding: 24px 16px;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 36px;
+  align-items: center;
+}
+.mobileNavList a {
+  color: #111;
+  text-decoration: none;
+  font-size: 20px;
+}
+.mobileButtons {
+  margin-top: auto;
+  padding: 24px 16px 40px;
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+}
+
+@media (max-width: 1024px) {
+  .navDesktop {
+    display: none;
+  }
+  .burger {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+  }
+  .authButtons {
+    display: none;
+  }
+  .walletArea {
+    display: none;
+  }
+  .authOptions {
+    display: none;
   }
 }
 

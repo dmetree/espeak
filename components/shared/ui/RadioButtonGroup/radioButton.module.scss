@@ -1,0 +1,40 @@
+.base {
+  border-radius: 1rem; // rounded-2xl
+  border: 1px solid var(--option-border-color);
+  padding: 1.5rem 1rem; // py-6 px-4
+  transition: all 0.2s ease-in-out;
+  font-family: var(--font-sans, sans-serif);
+  font-weight: 400;
+  width: 100%;
+  text-align: left;
+  box-shadow: var(--option-shadow);
+  cursor: pointer;
+}
+
+.normal {
+  background-color: var(--option-primary-bg-color);
+  transform: scale(1);
+
+  &:hover {
+    transform: scale(1.01);
+  }
+
+  &:active {
+    transform: scale(0.99);
+  }
+}
+
+.selected {
+  background-color: var(--option-accent-bg-color);
+  cursor: default;
+}
+
+.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+
+  &:hover,
+  &:active {
+    transform: scale(1);
+  }
+}
