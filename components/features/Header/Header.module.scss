@@ -129,7 +129,11 @@
   gap: 12px;
   align-items: center;
 }
-.switchers { display: inline-flex; gap: 8px; align-items: center; }
+.switchers {
+  display: inline-flex;
+  gap: 8px;
+  align-items: center;
+}
 
 .btn {
   display: inline-flex;
@@ -285,6 +289,24 @@
   display: flex;
   justify-content: center;
   gap: 16px;
+}
+
+.settingsBurger {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  border: none;
+  background: transparent;
+  padding: 0;
+}
+
+.settingsBurger span {
+  display: block;
+  width: 24px;
+  height: 3px;
+  background: #111;
+  margin: 5px auto;
+  border-radius: 2px;
 }
 
 @media (max-width: 1024px) {

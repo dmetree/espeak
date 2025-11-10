@@ -5,14 +5,14 @@ export default function Document() {
   return (
     <Html lang="en">
       <Head>
-        <title>MindHealer</title>
+        <title>EasySpeak</title>
         <meta charSet="UTF-8" />
         <meta httpEquiv="Content-Security-Policy" content="upgrade-insecure-requests" />
 
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta name="description" content="" />
-        <meta name="keywords" content="mind healer, psycology, mental health" />
-        <meta name="author" content="This web app has been developed by Dmitrii Bondarenko & Anastasiia Polozova" />
+        <meta name="keywords" content="languages, learn" />
+        <meta name="author" content="This web app has been developed by Dmitrii B & Anastasiia Polozova" />
         <link rel="icon" href="favicon.ico" sizes="any" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
@@ -93,8 +93,8 @@ export default function Document() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="theme-color" content="#000000" />
         <meta
-          name="MindHealer"
-          content="Practice Mental Health Online For Clients & Psychotherapists"
+          name="Easy Speak"
+          content="Learn to Speak a New Language"
         />
         <link rel="manifest" href="/manifest.json" />
       </Head>

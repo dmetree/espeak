@@ -1,0 +1,104 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(2px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+}
+
+.modal {
+  background: #fff;
+  border-radius: 12px;
+  width: 320px;
+  padding: 20px 24px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  animation: fadeIn 0.2s ease-in-out;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+
+  h3 {
+    font-size: 1.1rem;
+    font-weight: 600;
+  }
+}
+
+.closeIcon {
+  cursor: pointer;
+  transition: opacity 0.2s;
+  &:hover {
+    opacity: 0.6;
+  }
+}
+
+.section {
+  margin-bottom: 18px;
+
+  h4 {
+    // font-size: 0.9rem;
+    // font-weight: 500;
+    // margin-bottom: 8px;
+  }
+}
+
+.toggleGroup {
+  display: flex;
+  gap: 8px;
+}
+
+.toggle {
+  flex: 1;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  background: #f7f7f7;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+
+  &:hover {
+    background: #f0f0f0;
+  }
+
+  &.active {
+    background: #e3e3e3;
+    border-color: #bbb;
+  }
+}
+
+.select {
+  width: 100%;
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  font-size: 0.9rem;
+  background: #f9f9f9;
+  cursor: pointer;
+  outline: none;
+
+  &:hover {
+    background: #f1f1f1;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}

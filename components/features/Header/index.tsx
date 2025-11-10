@@ -44,7 +44,9 @@ import { actionUpdateProfile, } from '@/store/actions/profile/user';
 import LangModal from "../LocaleSwitcher/LangModal";
 import * as blockChainActions from "@/store/actions/networkCardano";
 import { toast, ToastContainer } from 'react-toastify';
-import AuthModal from "@/components/features/AuthModal";
+import Login from "@/components/features/Login";
+import SignUp from "@/components/features/SignUp";
+import SettingsModal from "@/components/features/Header/SettingsPopup";
 
 
 interface IProps {
@@ -64,6 +66,9 @@ const Header = (props: IProps) => {
   const userRole = useSelector(({ user }) => user?.userData?.userRole);
   const userAvatar = useSelector(({ user }) => user?.userData?.avatar);
   const userEmail = useSelector(({ user }) => user?.email);
+
+  // settings popup
+  const [open, setOpen] = useState(false);
 
   const [showNav, setShowNav] = useState(false);
   const menuRef = useRef(null);
@@ -98,14 +103,15 @@ const Header = (props: IProps) => {
   const openMobile = () => setMobileOpen(true);
   const closeMobile = () => setMobileOpen(false);
 
-  const openAuthModal = (mode: "login" | "signup") => {
-    setAuthMode(mode);
-    dispatch(showModal(EModalKind.AuthModal));
+  const openSignUp = () => {
+    dispatch(showModal(EModalKind.SignUp));
+  }
+
+  const openLogin = () => {
+    dispatch(showModal(EModalKind.Login));
   };
 
-  const closeAuthModal = () => {
-    setAuthMode(null);
-  };
+
 
   const handleGoToAffiliate = () => {
     router.push('/become_partner');
@@ -304,6 +310,10 @@ const Header = (props: IProps) => {
     }
   ];
 
+  const openSettings = () => {
+    console.log("Open settings")
+  }
+
   useEffect(() => {
     // Check if localStorage is empty
     const uid = localStorage.getItem("userUid");
@@ -349,26 +359,27 @@ const Header = (props: IProps) => {
             {!userUid ? (
               <div className={s.authButtons}>
                 <button
-                  onClick={() => openAuthModal("signup")}
+                  onClick={() => openSignUp()}
                   className={`${s.btn} ${s.btnPrimary}`}
                 >
                   Sign up
                 </button>
                 <button
-                  onClick={() => openAuthModal("login")}
+                  onClick={() => openLogin()}
                   className={`${s.btn} ${s.btnOutline}`}
                 >
                   Log in
                 </button>
 
-                <div className={s.switchers}>
-                  <LocaleSwitcher />
-                  <ThemeSwitcher />
-                </div>
+
+
               </div>
             ) : (
               <button className={`${s.btn} ${s.btnOutline}`} onClick={handleLogout}>{t.exit}</button>
             )}
+
+            <div onClick={() => setOpen(true)}>Settings &#9881;</div>
+            {open && <SettingsModal onClose={() => setOpen(false)} />}
 
             {userUid && (
               <div className={s.authOptions}>
@@ -431,18 +442,6 @@ const Header = (props: IProps) => {
             </span>
           )}
 
-          {/* {(!specProfilePage && userUid) && (
-            <div className={s.connectWallet}>
-              <Button
-                className={s.bookSessionCircle}
-                onClick={handleBookSession}
-                size="s"
-                // circle
-              >
-                {t.book_session}
-              </Button>
-            </div>
-          )} */}
           <ToastContainer />
         </div>
 
@@ -474,13 +473,13 @@ const Header = (props: IProps) => {
                   {/* <Link href="/sign_in" className={`${s.btn} ${s.btnPrimary}`}>Sign up</Link>
                   <Link href="/login" className={`${s.btn} ${s.btnOutline}`}>Log in</Link> */}
                   <button
-                    onClick={() => openAuthModal("signup")}
+                    onClick={() => openSignUp()}
                     className={`${s.btn} ${s.btnPrimary}`}
                   >
                     Sign up
                   </button>
                   <button
-                    onClick={() => openAuthModal("login")}
+                    onClick={() => openLogin()}
                     className={`${s.btn} ${s.btnOutline}`}
                   >
                     Log in
@@ -493,8 +492,13 @@ const Header = (props: IProps) => {
           </div>
         )}
       </header>
-      <Modal modalKey={EModalKind.AuthModal}>
-        <AuthModal mode={authMode} onClose={closeAuthModal}/>
+
+      <Modal modalKey={EModalKind.SignUp}>
+        <SignUp />
+      </Modal>
+
+      <Modal modalKey={EModalKind.Login}>
+        <Login />
       </Modal>
 
       <Modal
