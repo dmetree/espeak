@@ -46,7 +46,8 @@ import * as blockChainActions from "@/store/actions/networkCardano";
 import { toast, ToastContainer } from 'react-toastify';
 import Login from "@/components/features/Login";
 import SignUp from "@/components/features/SignUp";
-import SettingsModal from "@/components/features/Header/SettingsPopup";
+import SettingsModal from "@/components/features/Sett";
+// import SettingsModal from "@/components/features/Header/SettingsPopup";
 
 
 interface IProps {
@@ -76,6 +77,8 @@ const Header = (props: IProps) => {
   // New: mobile navigation overlay state
   const [mobileOpen, setMobileOpen] = useState(false);
   const [authMode, setAuthMode] = useState<"login" | "signup" | null>(null);
+
+  const [isReturningUser, setIsReturningUser] = useState(true);
 
   const [showNotifications, setShowNotifications] = useState(false);
   const [displayNotifications, setDisplayNotifications] = useState<any[] | null>(null);
@@ -339,13 +342,15 @@ const Header = (props: IProps) => {
             </div>
           </span>
 
-          {/* Desktop navigation */}
-          <nav className={s.navDesktop} aria-label="Primary">
-            <Link href="#features" className={s.navLink}>Features</Link>
-            <Link href="#how-it-works" className={s.navLink}>How it works</Link>
-            <Link href="#contact" className={s.navLink}>Contact us</Link>
-            <Link href="#faqs" className={s.navLink}>FAQs</Link>
-          </nav>
+          {!isReturningUser &&
+            <nav className={s.navDesktop} aria-label="Primary">
+              <Link href="#features" className={s.navLink}>Features</Link>
+              <Link href="#how-it-works" className={s.navLink}>How it works</Link>
+              <Link href="#contact" className={s.navLink}>Contact us</Link>
+              <Link href="#faqs" className={s.navLink}>FAQs</Link>
+            </nav>
+          }
+
 
           <div className={s.rightDesktop}>
             {!userUid && (

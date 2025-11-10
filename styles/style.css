@@ -132,6 +132,19 @@ body.theme-default {
   --second-accent-light-rotate: 150deg;
   --second-accent-light-blur: 50px;
   --second-accent-light-color: rgba(254, 246, 235, 1);
+}
+
+body.theme-dark {
+  --bgColor: #2f2e41;
+  --text: #dee7e5;
+  --bgColorTransparent: rgba(29, 31, 40, 0.9);
+  --dark: #326b62;
+  --darkTransparent: rgba(50, 107, 98, 0.5);
+  --darker: #4d8d83;
+  --darkest: #69ada3;
+  --walletPrimary: #0070f3;
+  --walletBg: #074c49;
+  --calendarHighLight: #d67e0a;
 
   --background: rgba(47, 46, 65, 1);
   --foreground: oklch(90% 0.02 260);
@@ -217,19 +230,6 @@ body.theme-default {
   --second-accent-light-rotate: 90deg;
   --second-accent-light-blur: 75px;
   --second-accent-light-color: rgba(254, 246, 235, 1);
-}
-
-body.theme-dark {
-  --bgColor: #2f2e41;
-  --text: #dee7e5;
-  --bgColorTransparent: rgba(29, 31, 40, 0.9);
-  --dark: #326b62;
-  --darkTransparent: rgba(50, 107, 98, 0.5);
-  --darker: #4d8d83;
-  --darkest: #69ada3;
-  --walletPrimary: #0070f3;
-  --walletBg: #074c49;
-  --calendarHighLight: #d67e0a;
 }
 
 .react-datepicker-wrapper,
