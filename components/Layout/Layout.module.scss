@@ -10,6 +10,11 @@
   flex: 1 0 auto;
   display: flex;
   flex-direction: column;
+  max-width: 1400px;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+  margin: 0 auto;
 }
 
 .visuallyHidden {
