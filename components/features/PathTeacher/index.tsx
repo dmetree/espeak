@@ -65,6 +65,7 @@ const BecomeTeacherPath = () => {
                     title="What is your native language?"
                     onNext={handleNext}
                     nextDisabled={!nativeLang}
+                    currentStep={0}
                 >
                     <LanguageSelector
                         options={LANG_OPTIONS}

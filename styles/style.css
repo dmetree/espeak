@@ -20,18 +20,6 @@ body.theme-default {
   --oppositeBgColor: #3f3d56;
   --oppositeTextColor: #ffffff;
 
-  --common-black: #121212;
-  --common-white: #fafafa;
-  --primary-main: #f59e0b;
-  --primary-contrastText: #fafafa;
-  --secondary-main: #fafafa;
-  --secondary-contrastText: #f59e0b;
-
-  --button-primary-main: #f59e0b;
-  --button-primary-contrastText: #fafafa;
-  --button-secondary-main: #fafafa;
-  --button-secondary-contrastText: #f59e0b;
-
   --light: #fae4b9;
   --highLight: #ab5601;
   --calendarHighLight: #7a373a;
@@ -147,12 +135,12 @@ body.theme-dark {
   --calendarHighLight: #d67e0a;
 
   --background: rgba(47, 46, 65, 1);
-  --foreground: oklch(90% 0.02 260);
-  --card: oklch(20% 0.05 260);
-  --card-foreground: oklch(90% 0.02 260);
-  --popover: oklch(20% 0.05 260);
+  --foreground: #d6dfec;
+  --card: #08152c;
+  --card-foreground: #d6dfec;
+  --popover: #08152c;
   --popover-foreground: oklch(90% 0.02 260);
-  --primary: oklch(100% 0.00011 271.152);
+  --primary: #ffffff;
   --primary-foreground: oklch(90% 0.02 260);
   --secondary: oklch(40% 0.06 260);
   --secondary-foreground: oklch(90% 0.02 260);

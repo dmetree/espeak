@@ -1,11 +1,14 @@
 .container {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 8px;
+
+  height: 300px;
+  overflow-y: scroll;
 }
 
 .card {
-  background: linear-gradient(180deg, #ffffff, #f8f9ff);
+  background: var(--option-primary-bg-color);
   border-radius: 16px;
   padding: 16px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
@@ -18,12 +21,14 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  border-bottom: 1px solid #e0e3ff;
 }
 
 .title {
   font-size: 1rem;
   font-weight: 600;
   color: #222;
+  margin: 10px 0;
 }
 
 .teacher {
@@ -32,7 +37,38 @@
 }
 
 .details {
+  display: grid;
+  grid-template-columns: 1fr auto; // две колонки: левая = контент, правая = футер
+  align-items: center; // выравниваем join_class по вертикали с первой строкой
   margin-top: 8px;
+  column-gap: 16px;
+}
+
+.left {
+  display: flex;
+  flex-direction: column; // дата и время в столбик
+  gap: 2px;
+}
+
+.date,
+.time {
+  margin: 0;
+  line-height: 1.4;
+}
+
+.footer {
+  display: flex;
+  align-items: center;
+}
+
+.link {
+  color: var(--color-accent, #e0e3ff);
+  text-decoration: none;
+  font-weight: 500;
+
+  &:hover {
+    text-decoration: underline;
+  }
 }
 
 .date {
