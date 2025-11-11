@@ -8,11 +8,10 @@ import { loadMessages } from '@/components/shared/i18n/translationLoader';
 
 import OnboardingLayout from './steps/01_OnboardingLayout';
 import LanguageSelector from './steps/02_LanguageSelector';
-import TeacherTypeSelector from './steps/03_TeacherTypeSelector';
-import VerificationStep from './steps/04_VerificationStep';
-import TeacherInfoForm from './steps/05_TeacherInfoForm';
+import LevelSelector from './steps/03_LevelSelector';
+import PurposeSelector from './steps/04_PurpuseSelector';
 
-const BecomeTeacherPath = () => {
+const BecomeStudentPath = () => {
     const dispatch: AppDispatch = useDispatch();
     const userUid = useSelector(({ user }) => user.uid);
     const userData = useSelector(({ user }) => user.userData);
@@ -22,9 +21,8 @@ const BecomeTeacherPath = () => {
     const [step, setStep] = useState(1);
     const [nativeLang, setNativeLang] = useState('');
     const [targetLang, setTargetLang] = useState('');
-    const [teacherType, setTeacherType] = useState('');
-    const [verificationFile, setVerificationFile] = useState<File | null>(null);
-    const [teacherInfo, setTeacherInfo] = useState({});
+    const [level, setLevel] = useState('');
+    const [purpose, setPurpose] = useState('');
 
     // Mock language list
     const LANG_OPTIONS = [
@@ -36,15 +34,14 @@ const BecomeTeacherPath = () => {
     ];
 
     const handleNext = () => {
-        if (step === 6) {
+        if (step === 4) {
             const updatedData = {
                 ...userData,
-                role: 'teacher',
+                role: 'student',
                 nativeLang,
                 targetLang,
-                teacherType,
-                verified: !!verificationFile,
-                teacherInfo,
+                level,
+                purpose,
                 firstVisit: false,
                 updatedAt: new Date().toISOString(),
             };
@@ -54,15 +51,14 @@ const BecomeTeacherPath = () => {
         }
     };
 
-    const handleBack = () => {
-        if (step > 1) setStep(prev => prev - 1);
-    };
+    const handleBack = () => setStep(prev => Math.max(1, prev - 1));
 
     return (
         <>
             {step === 1 && (
                 <OnboardingLayout
                     title="What is your native language?"
+                    subtitle="Please, choose your native language from the list below."
                     onNext={handleNext}
                     nextDisabled={!nativeLang}
                 >
@@ -77,7 +73,8 @@ const BecomeTeacherPath = () => {
 
             {step === 2 && (
                 <OnboardingLayout
-                    title="What language do you want to teach?"
+                    title="What language do you want to learn?"
+                    subtitle="Select the language you want to start learning."
                     onNext={handleNext}
                     onBack={handleBack}
                     nextDisabled={!targetLang}
@@ -93,63 +90,29 @@ const BecomeTeacherPath = () => {
 
             {step === 3 && (
                 <OnboardingLayout
-                    title="What type of teacher are you?"
+                    title="What is your current level of knowledge?"
+                    subtitle={`Choose the option that best describes your ${targetLang || 'target'} level.`}
                     onNext={handleNext}
                     onBack={handleBack}
-                    nextDisabled={!teacherType}
+                    nextDisabled={!level}
                 >
-                    <TeacherTypeSelector
-                        selected={teacherType}
-                        onSelect={setTeacherType}
-                    />
+                    <LevelSelector selected={level} onSelect={setLevel} />
                 </OnboardingLayout>
             )}
 
             {step === 4 && (
                 <OnboardingLayout
-                    title="Verify your credentials"
-                    subtitle="Upload your certificate or proof of qualification"
+                    title="What is your purpose for learning?"
+                    subtitle="Choose your main motivation for studying this language."
                     onNext={handleNext}
                     onBack={handleBack}
-                    nextDisabled={!verificationFile}
+                    nextDisabled={!purpose}
                 >
-                    <VerificationStep
-                        onUpload={e => {
-                            const file = e.target.files?.[0];
-                            if (file) setVerificationFile(file);
-                        }}
-                        uploadedFile={verificationFile}
-                    />
-                </OnboardingLayout>
-            )}
-
-            {step === 5 && (
-                <OnboardingLayout
-                    title="Tell us about your experience"
-                    subtitle="Add your background, teaching experience, and hourly rate"
-                    onNext={handleNext}
-                    onBack={handleBack}
-                >
-                    <TeacherInfoForm onSubmit={(data) => {
-                        setTeacherInfo(data);
-                        setStep(6);
-                    }} />
-                </OnboardingLayout>
-            )}
-
-            {step === 6 && (
-                <OnboardingLayout
-                    title="All set!"
-                    subtitle="You’re ready to start teaching!"
-                    onNext={handleNext}
-                    onBack={handleBack}
-                >
-                    <p>Click -Finish- to save your profile and start connecting with students.</p>
-                    <button>FINISH</button>
+                    <PurposeSelector selected={purpose} onSelect={setPurpose} />
                 </OnboardingLayout>
             )}
         </>
     );
 };
 
-export default BecomeTeacherPath;
+export default BecomeStudentPath;
