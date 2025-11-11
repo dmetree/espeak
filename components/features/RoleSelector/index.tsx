@@ -11,7 +11,6 @@ import { actionUpdateProfile } from "@/store/actions/profile/user";
 const RoleSelector = () => {
   const dispatch: AppDispatch = useDispatch<AppDispatch>();
   const userUid = useSelector(({ user }) => user.uid);
-  const firstVisit = useSelector(({ user }) => user?.userData?.firstVisit);
   const userData = useSelector(({ user }) => user?.userData);
   const currentLocale = useSelector(({ locale }) => locale.currentLocale);
   const t = loadMessages(currentLocale);
