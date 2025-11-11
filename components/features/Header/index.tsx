@@ -49,6 +49,8 @@ import SignUp from "@/components/features/SignUp";
 import SettingsModal from "@/components/features/Sett";
 // import SettingsModal from "@/components/features/Header/SettingsPopup";
 
+import settingsIcon from "@/components/shared/assets/psy_icons_svg/settings.svg"
+
 
 interface IProps {
   currentHref?: string;
@@ -246,65 +248,18 @@ const Header = (props: IProps) => {
 
 
   const menuItems = [
-
-
-    // {
-    //   title: t.book_session,
-    //   clickEvent: handleBookSession,
-    //   userRole: 'none',
-    //   icon: ''
-    // },
-
-    // {
-    //   title: t.create_post,
-    //   clickEvent: writeNewPost,
-    //   userRole: EUserRole.Specialist,
-    //   icon: ''
-    // },
-
-    // {
-    //   title: t.news_feed,
-    //   clickEvent: goToNewsfeed,
-    //   userRole: 'none',
-    //   icon: ''
-    // },
-
     {
       title: t.dashboard,
       clickEvent: goToDashboard,
       userRole: 'none',
       icon: ''
     },
-    // {
-    //   title: t.psy_requests,
-    //   clickEvent: goToRequests,
-    //   userRole: EUserRole.Specialist,
-    //   icon: ''
-    // },
     {
       title: t.profile,
       clickEvent: goToProfile,
       userRole: 'none',
       icon: ''
     },
-    // {
-    //    title: t.study_psychology,
-    //    clickEvent: studyPsychology,
-    //    userRole: EUserRole.Novice,
-    //    icon: ''
-    // },
-    // {
-    //   title: t.become_therapist,
-    //   clickEvent: goToBecomeThrapist,
-    //   userRole: EUserRole.Novice,
-    //   icon: ''
-    // },
-    // {
-    //   title: t.become_partner,
-    //   clickEvent: goToBecomePartner,
-    //   userRole: 'none',
-    //   icon: ''
-    // },
     {
       title: t.exit,
       clickEvent: handleLogout,
@@ -361,7 +316,7 @@ const Header = (props: IProps) => {
               </div>
             )}
 
-            {!userUid ? (
+            {!userUid && (
               <div className={s.authButtons}>
                 <button
                   onClick={() => openSignUp()}
@@ -379,16 +334,11 @@ const Header = (props: IProps) => {
 
 
               </div>
-            ) : (
-              <button className={`${s.btn} ${s.btnOutline}`} onClick={handleLogout}>{t.exit}</button>
             )}
-
-            <div onClick={() => setOpen(true)}>Settings &#9881;</div>
-            {open && <SettingsModal onClose={() => setOpen(false)} />}
 
             {userUid && (
               <div className={s.authOptions}>
-                <div
+                {/* <div
                   className={s.menuItem}
                   onClick={() => displayNotificatonsTab()}>
                   <MenuItem
@@ -399,7 +349,7 @@ const Header = (props: IProps) => {
                   {(userData?.notifications?.length > 0) && (
                     <span className={s.unreadBadge}></span>
                   )}
-                </div>
+                </div> */}
                 <div className={s.menuItem}>
                   <WalletsWidget />
                 </div>
@@ -418,6 +368,22 @@ const Header = (props: IProps) => {
                   )}
                 </div> */}
               </div>
+            )}
+
+            <div onClick={() => setOpen(true)} className={s.settings}>
+              <Image
+                alt="settings"
+                src={settingsIcon}
+                width="40"
+                height="40"
+              />
+              {t.settings}
+
+            </div>
+            {open && <SettingsModal onClose={() => setOpen(false)} />}
+
+            {userUid && (
+               <button className={`${s.btn} ${s.btnOutline}`} onClick={handleLogout}>{t.exit}</button>
             )}
 
             {/* Mobile burger */}

@@ -9,6 +9,9 @@ import Sidebar from '@/components/pages/Dashboard/Sidebar';
 import Image from "next/image";
 
 import girlSittedIcon from '@/components/shared/assets/image_icons/sitted-girl.svg';
+import calendarIcon from '@/components/shared/assets/image_icons/calendar.svg';
+
+import UpcomingLessons from '@/components/pages/Dashboard/UpcomingLessons';
 
 export default function Dashboard() {
   const currentLocale = useSelector(({ locale }) => locale.currentLocale);
@@ -16,8 +19,6 @@ export default function Dashboard() {
 
 
   const [isReturningUser, setIsReturningUser] = useState(true);
-
-
 
   return (
     <motion.div
@@ -28,33 +29,6 @@ export default function Dashboard() {
     >
       {isReturningUser ? (
         // ---------- SECOND WELCOME (returning user)
-//         <>
-//           <div className={styles.imageContainer}>
-//             <div className={styles.secondAccentLight} />
-//             <div className={styles.secondPrimaryLight} />
-//             {/* <Image
-//               src="/images/learning-everywhere.svg"
-//               alt={t.welcome.second.imageAlt}
-//               width={631}
-//               height={470}
-//               className={styles.image}
-//               priority={false}
-//               loading="lazy"
-//             /> */}
-//           </div>
-// {/*
-//           <div className={styles.textSection}>
-//             <div className={styles.secondTextWrapper}>
-//               <h1>{t.welcome.second.title}</h1>
-//               <p className={styles.mobileText}>{t.welcome.second.mobileDescription}</p>
-//               <p className={styles.desktopText}>{t.welcome.second.desktopDescription}</p>
-//             </div>
-
-//             <Button onClick={handleGetStarted}>
-//               {t.welcome.second.getStarted}
-//             </Button>
-//           </div> */}
-//         </>
 
         <div className={styles.page}>
             <div className={styles.mobileHeader}>
@@ -98,18 +72,18 @@ export default function Dashboard() {
 
                 <div className={styles.leftSection}>
 
+                    <UpcomingLessons />
 
-                    <div className={styles.upcomingLessons}>
-                    <h2>Upcoming lessons</h2>
-                    <p>
-                        Take the next step in your language adventure — book a lesson and
-                        continue your path to fluency!
-                    </p>
-                    </div>
                 </div>
 
                 <div className={styles.rightSection}>
-                    {/* <Calendar /> */}
+                    <h2>My calendar</h2>
+                    <Image
+                        src={calendarIcon}
+                        alt={'calendar'}
+                        width={410}
+                        height={300}
+                    />
                 </div>
                 </div>
             </div>
