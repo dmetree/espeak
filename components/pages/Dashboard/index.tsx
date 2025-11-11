@@ -13,110 +13,107 @@ import girlSittedIcon from '@/components/shared/assets/image_icons/sitted-girl.s
 export default function Dashboard() {
   const currentLocale = useSelector(({ locale }) => locale.currentLocale);
   const t = loadMessages(currentLocale);
-
-
-  const [isReturningUser, setIsReturningUser] = useState(true);
-
+  const firstVisit = useSelector(({ user }) => user?.userData?.firstVisit);
 
 
   return (
     <motion.div
-      className={`${styles.container} ${isReturningUser ? styles.second : styles.first}`}
+      className={`${styles.container} ${firstVisit ? styles.first : styles.second}`}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
     >
-      {isReturningUser ? (
+      {!firstVisit ? (
         // ---------- SECOND WELCOME (returning user)
-//         <>
-//           <div className={styles.imageContainer}>
-//             <div className={styles.secondAccentLight} />
-//             <div className={styles.secondPrimaryLight} />
-//             {/* <Image
-//               src="/images/learning-everywhere.svg"
-//               alt={t.welcome.second.imageAlt}
-//               width={631}
-//               height={470}
-//               className={styles.image}
-//               priority={false}
-//               loading="lazy"
-//             /> */}
-//           </div>
-// {/*
-//           <div className={styles.textSection}>
-//             <div className={styles.secondTextWrapper}>
-//               <h1>{t.welcome.second.title}</h1>
-//               <p className={styles.mobileText}>{t.welcome.second.mobileDescription}</p>
-//               <p className={styles.desktopText}>{t.welcome.second.desktopDescription}</p>
-//             </div>
+        //         <>
+        //           <div className={styles.imageContainer}>
+        //             <div className={styles.secondAccentLight} />
+        //             <div className={styles.secondPrimaryLight} />
+        //             {/* <Image
+        //               src="/images/learning-everywhere.svg"
+        //               alt={t.welcome.second.imageAlt}
+        //               width={631}
+        //               height={470}
+        //               className={styles.image}
+        //               priority={false}
+        //               loading="lazy"
+        //             /> */}
+        //           </div>
+        // {/*
+        //           <div className={styles.textSection}>
+        //             <div className={styles.secondTextWrapper}>
+        //               <h1>{t.welcome.second.title}</h1>
+        //               <p className={styles.mobileText}>{t.welcome.second.mobileDescription}</p>
+        //               <p className={styles.desktopText}>{t.welcome.second.desktopDescription}</p>
+        //             </div>
 
-//             <Button onClick={handleGetStarted}>
-//               {t.welcome.second.getStarted}
-//             </Button>
-//           </div> */}
-//         </>
+        //             <Button onClick={handleGetStarted}>
+        //               {t.welcome.second.getStarted}
+        //             </Button>
+        //           </div> */}
+        //         </>
 
         <div className={styles.page}>
-            <div className={styles.mobileHeader}>
+          <div className={styles.mobileHeader}>
             <h1>
-                <span className={styles.blue}>E</span>
-                <span className={styles.black}>asy </span>
-                <span className={styles.lightPink}>S</span>
-                <span className={styles.black}>peak</span>
+              <span className={styles.blue}>E</span>
+              <span className={styles.black}>asy </span>
+              <span className={styles.lightPink}>S</span>
+              <span className={styles.black}>peak</span>
             </h1>
-            </div>
+          </div>
 
-            <div className={styles.sidebar}>
+          <div className={styles.sidebar}>
             <Sidebar />
-            </div>
+          </div>
 
-            <main className={styles.main}>
+          <main className={styles.main}>
             {/* SVG kept unchanged */}
             <div className={styles.mainContent}>
-                <div className={styles.topBar}>
+              <div className={styles.topBar}>
                 {/* <TopBar /> */}
-                </div>
-                <div className={styles.welcomeCard}>
-                    <div className={styles.content}>
-                        <div className={styles.textBlock}>
-                        <h2>Hello!</h2>
-                        <p>Today is a good day to learn something new.</p>
-                        </div>
+              </div>
+              <div className={styles.welcomeCard}>
+                <div className={styles.content}>
+                  <div className={styles.textBlock}>
+                    <h2>Hello!</h2>
+                    <p>Today is a good day to learn something new.</p>
+                  </div>
 
-                        <div className={styles.buttonBlock}>
-                        <button>Find a teacher</button>
-                        </div>
-                    </div>
-                    <Image
-                        src={girlSittedIcon}
-                        alt={'mobile'}
-                        width={213}
-                        height={250}
-                    />
+                  <div className={styles.buttonBlock}>
+                    <button>Find a teacher</button>
+                  </div>
                 </div>
-                <div className={styles.contentLayout}>
+                <Image
+                  src={girlSittedIcon}
+                  alt={'mobile'}
+                  width={213}
+                  height={250}
+                />
+              </div>
+              <div className={styles.contentLayout}>
 
                 <div className={styles.leftSection}>
 
 
-                    <div className={styles.upcomingLessons}>
+                  <div className={styles.upcomingLessons}>
                     <h2>Upcoming lessons</h2>
                     <p>
-                        Take the next step in your language adventure — book a lesson and
-                        continue your path to fluency!
+                      Take the next step in your language adventure — book a lesson and
+                      continue your path to fluency!
                     </p>
-                    </div>
+                  </div>
                 </div>
 
                 <div className={styles.rightSection}>
-                    {/* <Calendar /> */}
+                  {/* <Calendar /> */}
                 </div>
-                </div>
+              </div>
             </div>
-            </main>
+          </main>
         </div>
       ) : (
-        <RoleSelector setIsReturningUser={setIsReturningUser} />
+        <RoleSelector />
       )}
     </motion.div>
   );
