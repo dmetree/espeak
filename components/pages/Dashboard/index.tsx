@@ -11,7 +11,8 @@ import Image from "next/image";
 import girlSittedIcon from '@/components/shared/assets/image_icons/sitted-girl.svg';
 import calendarIcon from '@/components/shared/assets/image_icons/calendar.svg';
 
-import UpcomingLessons from '@/components/pages/Dashboard/UpcomingLessons';
+import UpcomingLessons from '@/components/features/UpcomingLessons';
+import H4TitleBold from '@/components/shared/ui/Titles/h4-bold';
 
 export default function Dashboard() {
   const currentLocale = useSelector(({ locale }) => locale.currentLocale);
@@ -38,9 +39,7 @@ export default function Dashboard() {
             </h1>
           </div>
 
-          <div className={styles.sidebar}>
-            <Sidebar />
-          </div>
+        <Sidebar />
 
           <main className={styles.main}>
             {/* SVG kept unchanged */}
@@ -73,7 +72,7 @@ export default function Dashboard() {
                 </div>
 
                 <div className={styles.rightSection}>
-                  <h2>My calendar</h2>
+                  <H4TitleBold>My calendar</H4TitleBold>
                   <Image
                     src={calendarIcon}
                     alt={'calendar'}

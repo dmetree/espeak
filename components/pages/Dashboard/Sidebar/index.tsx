@@ -17,7 +17,7 @@ export default function Sidebar() {
       <div className={styles.sidebarInner}>
 
         <nav className={styles.nav}>
-          <Link href="/" className={styles.navItem}>
+          <Link href="#" className={styles.navItem}>
             <svg
               width="40"
               height="40"
@@ -43,7 +43,33 @@ export default function Sidebar() {
             <span className={styles.navText} onClick={handleBecomeTeacher}>Become a teacher</span>
           </Link>
 
-          <Link href="/" className={styles.navItem}>
+          <Link href="#" className={styles.navItem}>
+            <svg
+              width="40"
+              height="40"
+              viewBox="0 0 40 40"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M8.75 18.75V28.75L20 35M20 35L31.25 28.75V18.75M20 35V25M37.5 28.75V15"
+                stroke="#161616"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+              <path
+                d="M2.5 15L20 5L37.5 15L20 25L2.5 15Z"
+                stroke="#161616"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+            <span className={styles.navText} onClick={handleBecomeTeacher}>My profile</span>
+          </Link>
+
+          <Link href="#" className={styles.navItem}>
             <svg
               width="40"
               height="40"
@@ -66,7 +92,7 @@ export default function Sidebar() {
             <span className={styles.navText}>Support</span>
           </Link>
 
-          <Link href="/" className={styles.navItem}>
+          <Link href="#" className={styles.navItem}>
             <svg
               width="40"
               height="40"
