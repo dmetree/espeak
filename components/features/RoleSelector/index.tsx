@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Button from "@/components/shared/ui/Button";
 import { actionUpdateProfile } from "@/store/actions/profile/user";
 import { showModal } from "@/store/actions/modal";
-import { EModalKind } from "@/components/shared/types";
+import { EModalKind, EUserRole } from "@/components/shared/types";
 
 const RoleSelector = () => {
   const dispatch: AppDispatch = useDispatch<AppDispatch>();
@@ -28,10 +28,16 @@ const RoleSelector = () => {
         role: selectedRole,            // set the chosen role
         firstVisit: false,             // mark onboarding as completed
       };
-      dispatch(actionUpdateProfile(updatedData, userUid));
-      dispatch(showModal(EModalKind.PathTeacher));
-    }
 
+      if (selectedRole === EUserRole.Novice) {
+        dispatch(showModal(EModalKind.PathStudent));
+      }
+      if (selectedRole === EUserRole.Specialist) {
+        dispatch(showModal(EModalKind.PathTeacher));
+      }
+      dispatch(actionUpdateProfile(updatedData, userUid));
+
+    }
   };
 
   const handleGetStarted = () => {
@@ -51,14 +57,14 @@ const RoleSelector = () => {
           onValueChange={setSelectedRole}
           className={styles.radioGroup}
         >
-          <RadioButton value="wantToLearn">
+          <RadioButton value={EUserRole.Novice}>
             <div className={styles.radioItem}>
               <span className={styles.bold}>{t.welcome.first.learnOption.title}</span>
               <span>{t.welcome.first.learnOption.description}</span>
             </div>
           </RadioButton>
 
-          <RadioButton value="wantToTeach">
+          <RadioButton value={EUserRole.Specialist}>
             <div className={styles.radioItem}>
               <span className={styles.bold}>{t.welcome.first.teachOption.title}</span>
               <span>{t.welcome.first.teachOption.description}</span>
