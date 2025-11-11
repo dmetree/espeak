@@ -1,0 +1,71 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.card {
+  background: linear-gradient(180deg, #ffffff, #f8f9ff);
+  border-radius: 16px;
+  padding: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #222;
+}
+
+.teacher {
+  font-size: 0.875rem;
+  color: #666;
+}
+
+.details {
+  margin-top: 8px;
+}
+
+.date {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #333;
+}
+
+.time {
+  font-size: 0.875rem;
+  color: #777;
+}
+
+.footer {
+  margin-top: 12px;
+  text-align: right;
+}
+
+.link {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #3b5cff;
+  text-decoration: none;
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: #001aff;
+  }
+}
+
+.empty {
+  text-align: center;
+  color: #555;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
