@@ -354,6 +354,7 @@
 }
 
 .page {
+  width: 100vw;
   min-height: 100vh;
   background-color: #fff;
   display: flex;
@@ -405,7 +406,8 @@
 .main {
   position: relative;
   flex: 1;
-  overflow: hidden;
+  // overflow: hidden;
+  padding-top: 24px;
 
   // @media (min-width: 768px) {
   //   margin-left: 296px;
@@ -427,16 +429,16 @@
 .mainContent {
   position: relative;
   z-index: 10;
-  padding: 1.5rem;
-  max-width: 1200px;
+  // padding: 1.5rem;
+  // max-width: 1200px;
 
-  @media (min-width: 768px) {
-    padding: 2.5rem 3rem;
-  }
+  // @media (min-width: 768px) {
+  //   padding: 2.5rem 3rem;
+  // }
 
-  @media (min-width: 1024px) {
-    padding: 2.5rem 4rem;
-  }
+  // @media (min-width: 1024px) {
+  //   padding: 2.5rem 4rem;
+  // }
 }
 
 .topBar {

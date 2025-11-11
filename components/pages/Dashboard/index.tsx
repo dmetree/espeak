@@ -9,6 +9,9 @@ import Sidebar from '@/components/pages/Dashboard/Sidebar';
 import Image from "next/image";
 
 import girlSittedIcon from '@/components/shared/assets/image_icons/sitted-girl.svg';
+import calendarIcon from '@/components/shared/assets/image_icons/calendar.svg';
+
+import UpcomingLessons from '@/components/pages/Dashboard/UpcomingLessons';
 
 export default function Dashboard() {
   const currentLocale = useSelector(({ locale }) => locale.currentLocale);
@@ -95,6 +98,7 @@ export default function Dashboard() {
 
                 <div className={styles.leftSection}>
 
+                    <UpcomingLessons />
 
                   <div className={styles.upcomingLessons}>
                     <h2>Upcoming lessons</h2>
