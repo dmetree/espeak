@@ -320,18 +320,18 @@ const Header = (props: IProps) => {
 
             {!userUid && (
               <div className={s.authButtons}>
-                <button
+                <Button
                   onClick={() => openSignUp()}
                   className={`${s.btn} ${s.btnPrimary}`}
                 >
                   Sign up
-                </button>
-                <button
+                </Button>
+                <Button
                   onClick={() => openLogin()}
                   className={`${s.btn} ${s.btnOutline}`}
                 >
                   Log in
-                </button>
+                </Button>
 
 
 
@@ -385,7 +385,7 @@ const Header = (props: IProps) => {
             {open && <SettingsModal onClose={() => setOpen(false)} />}
 
             {userUid && (
-              <button className={`${s.btn} ${s.btnOutline}`} onClick={handleLogout}>{t.exit}</button>
+              <Button className={`${s.btn} ${s.btnOutline}`} onClick={handleLogout}>{t.exit}</Button>
             )}
 
             {/* Mobile burger */}
@@ -445,21 +445,21 @@ const Header = (props: IProps) => {
                 <>
                   {/* <Link href="/sign_in" className={`${s.btn} ${s.btnPrimary}`}>Sign up</Link>
                   <Link href="/login" className={`${s.btn} ${s.btnOutline}`}>Log in</Link> */}
-                  <button
+                  <Button
                     onClick={() => openSignUp()}
                     className={`${s.btn} ${s.btnPrimary}`}
                   >
                     Sign up
-                  </button>
-                  <button
+                  </Button>
+                  <Button
                     onClick={() => openLogin()}
                     className={`${s.btn} ${s.btnOutline}`}
                   >
                     Log in
-                  </button>
+                  </Button>
                 </>
               ) : (
-                <button className={`${s.btn} ${s.btnOutline}`} onClick={handleLogout}>{t.exit}</button>
+                <Button className={`${s.btn} ${s.btnOutline}`} onClick={handleLogout}>{t.exit}</Button>
               )}
             </div>
           </div>

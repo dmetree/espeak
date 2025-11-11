@@ -167,34 +167,12 @@
 .main {
   position: relative;
   flex: 1;
-  // background: url("./../../shared/assets/img/bg.png");
-  // background-repeat: no-repeat;
-  // background-size: cover;
-  // background-position: center;
   padding: 24px 20px 0px;
 }
 
 .mainContent {
   position: relative;
   z-index: 10;
-  // padding: 1.5rem;
-  // max-width: 1200px;
-
-  // @media (min-width: 768px) {
-  //   padding: 2.5rem 3rem;
-  // }
-
-  // @media (min-width: 1024px) {
-  //   padding: 2.5rem 4rem;
-  // }
-}
-
-.topBar {
-  display: none;
-
-  @media (min-width: 1024px) {
-    display: block;
-  }
 }
 
 .contentLayout {
@@ -282,8 +260,8 @@
     width: 213px;
     height: auto;
     position: absolute;
-    top: -34px;
-    right: 107px;
+    top: -50px;
+    right: 200px;
     pointer-events: none;
     display: none;
 

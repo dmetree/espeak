@@ -44,9 +44,6 @@ export default function Dashboard() {
           <main className={styles.main}>
             {/* SVG kept unchanged */}
             <div className={styles.mainContent}>
-              <div className={styles.topBar}>
-                {/* <TopBar /> */}
-              </div>
               <div className={styles.welcomeCard}>
                 <div className={styles.content}>
                   <div className={styles.textBlock}>
@@ -55,7 +52,7 @@ export default function Dashboard() {
                   </div>
 
                   <div className={styles.buttonBlock}>
-                    <button>Find a teacher</button>
+                    <Button>Find a teacher</Button>
                   </div>
                 </div>
                 <Image
