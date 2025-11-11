@@ -28,7 +28,7 @@
     "Components/FlatpickerMin.js",
     "components/shared/utils/helper.js",
     "components/features/Wallets/cardanoWallet/Wallet/index.js",
-    "components/features/PathTeacher/steps/01_OnboardingLayout"
+    "components/features/PathStudent/steps/01_OnboardingLayout"
   ],
   "exclude": ["node_modules", "**/*.wasm"]
 }

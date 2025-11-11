@@ -51,6 +51,7 @@ import SettingsModal from "@/components/features/Sett";
 
 import settingsIcon from "@/components/shared/assets/psy_icons_svg/settings.svg"
 import BecomeTeacherPath from "@/components/features/PathTeacher";
+import BecomeStudentPath from "@/components/features/PathStudent";
 
 
 interface IProps {
@@ -473,9 +474,9 @@ const Header = (props: IProps) => {
         <BecomeTeacherPath />
       </Modal>
 
-      {/* <Modal modalKey={EModalKind.PathStudent}>
+      <Modal modalKey={EModalKind.PathStudent}>
         <BecomeStudentPath />
-      </Modal> */}
+      </Modal>
 
       <Modal modalKey={EModalKind.Login}>
         <Login />
