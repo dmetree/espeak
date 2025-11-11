@@ -1,7 +1,17 @@
 import Link from "next/link";
+
+import { AppDispatch } from "@/store";
+import { useDispatch, useSelector } from 'react-redux';
 import styles from './styles.module.scss';
+import { showModal } from "@/store/actions/modal";
+import { EModalKind } from "@/components/shared/types";
 
 export default function Sidebar() {
+  const dispatch: AppDispatch = useDispatch<AppDispatch>();
+  const handleBecomeTeacher = () => {
+    dispatch(showModal(EModalKind.PathTeacher));
+  }
+
   return (
     <aside className={styles.sidebar}>
       <div className={styles.sidebarInner}>
@@ -30,7 +40,7 @@ export default function Sidebar() {
                 strokeLinejoin="round"
               />
             </svg>
-            <span className={styles.navText}>Become a teacher</span>
+            <span className={styles.navText} onClick={handleBecomeTeacher}>Become a teacher</span>
           </Link>
 
           <Link href="/" className={styles.navItem}>

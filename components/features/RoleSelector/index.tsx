@@ -7,6 +7,8 @@ import { AppDispatch } from "@/store";
 import { useDispatch, useSelector } from 'react-redux';
 import Button from "@/components/shared/ui/Button";
 import { actionUpdateProfile } from "@/store/actions/profile/user";
+import { showModal } from "@/store/actions/modal";
+import { EModalKind } from "@/components/shared/types";
 
 const RoleSelector = () => {
   const dispatch: AppDispatch = useDispatch<AppDispatch>();
@@ -19,7 +21,7 @@ const RoleSelector = () => {
 
 
   const handleChooseRole = () => {
-    console.log('Role selected:', selectedRole);
+    // console.log('Role selected:', selectedRole);
     if (selectedRole) {
       const updatedData = {
         ...userData,                   // keep existing profile data
@@ -27,6 +29,7 @@ const RoleSelector = () => {
         firstVisit: false,             // mark onboarding as completed
       };
       dispatch(actionUpdateProfile(updatedData, userUid));
+      dispatch(showModal(EModalKind.PathTeacher));
     }
 
   };

@@ -50,6 +50,7 @@ import SettingsModal from "@/components/features/Sett";
 // import SettingsModal from "@/components/features/Header/SettingsPopup";
 
 import settingsIcon from "@/components/shared/assets/psy_icons_svg/settings.svg"
+import BecomeTeacherPath from "@/components/features/PathTeacher";
 
 
 interface IProps {
@@ -383,7 +384,7 @@ const Header = (props: IProps) => {
             {open && <SettingsModal onClose={() => setOpen(false)} />}
 
             {userUid && (
-               <button className={`${s.btn} ${s.btnOutline}`} onClick={handleLogout}>{t.exit}</button>
+              <button className={`${s.btn} ${s.btnOutline}`} onClick={handleLogout}>{t.exit}</button>
             )}
 
             {/* Mobile burger */}
@@ -467,6 +468,14 @@ const Header = (props: IProps) => {
       <Modal modalKey={EModalKind.SignUp}>
         <SignUp />
       </Modal>
+
+      <Modal modalKey={EModalKind.PathTeacher}>
+        <BecomeTeacherPath />
+      </Modal>
+
+      {/* <Modal modalKey={EModalKind.PathStudent}>
+        <BecomeStudentPath />
+      </Modal> */}
 
       <Modal modalKey={EModalKind.Login}>
         <Login />
