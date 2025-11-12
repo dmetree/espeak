@@ -6,13 +6,17 @@ import { AppDispatch } from '@/store';
 import { actionUpdateProfile } from '@/store/actions/profile/user';
 import { loadMessages } from '@/components/shared/i18n/translationLoader';
 
-import OnboardingLayout from './steps/01_OnboardingLayout';
+import OnboardingLayout from '@/components/shared/ui/OnboardingLayout';
 import LanguageSelector from './steps/02_LanguageSelector';
 import LevelSelector from './steps/03_LevelSelector';
 import PurposeSelector from './steps/04_PurpuseSelector';
 import { EModalKind, EUserRole } from '@/components/shared/types';
 import { toast } from 'react-toastify';
 import { hideModal } from '@/store/actions/modal';
+import { NameInput } from '@/components/shared/ui/InitForm/NicknameField';
+import { NativeLanguage } from '@/components/shared/ui/InitForm/NativeLanguage';
+import { LanguageToLaernAndTeach } from '@/components/shared/ui/InitForm/LanguageToLearn';
+
 
 const BecomeStudentPath = () => {
     const dispatch: AppDispatch = useDispatch();
@@ -74,12 +78,13 @@ const BecomeStudentPath = () => {
                     onNext={handleNext}
                     nextDisabled={!nativeLang}
                 >
-                    <LanguageSelector
+                    {/* <LanguageSelector
                         options={LANG_OPTIONS}
                         selected={nativeLang}
                         onChange={setNativeLang}
                         showFlags={false}
-                    />
+                    /> */}
+                    <NameInput />
                 </OnboardingLayout>
             )}
 
@@ -91,16 +96,35 @@ const BecomeStudentPath = () => {
                     onBack={handleBack}
                     nextDisabled={!targetLang}
                 >
-                    <LanguageSelector
+                    {/* <LanguageSelector
                         options={LANG_OPTIONS.filter(l => l.code !== nativeLang)}
                         selected={targetLang}
                         onChange={setTargetLang}
                         showFlags={true}
-                    />
+                    /> */}
+                    <NativeLanguage />
                 </OnboardingLayout>
             )}
 
             {step === 3 && (
+                <OnboardingLayout
+                    title="What language do you want to learn?"
+                    subtitle="Select the language you want to start learning."
+                    onNext={handleNext}
+                    onBack={handleBack}
+                    nextDisabled={!targetLang}
+                >
+                    <LanguageToLaernAndTeach
+                        nativeLang={nativeLang}
+                        setNativeLang={setNativeLang}
+                        targetLang={targetLang}
+                        setTargetLang={setTargetLang}
+                        role='student'
+                    />
+                </OnboardingLayout>
+            )}
+
+            {step === 4 && (
                 <OnboardingLayout
                     title="What is your current level of knowledge?"
                     subtitle={`Choose the option that best describes your ${targetLang || 'target'} level.`}
@@ -112,7 +136,7 @@ const BecomeStudentPath = () => {
                 </OnboardingLayout>
             )}
 
-            {step === 4 && (
+            {step === 5 && (
                 <OnboardingLayout
                     title="What is your purpose for learning?"
                     subtitle="Choose your main motivation for studying this language."
