@@ -11,6 +11,9 @@ import LanguageSelector from './steps/02_LanguageSelector';
 import TeacherTypeSelector from './steps/03_TeacherTypeSelector';
 import VerificationStep from './steps/04_VerificationStep';
 import TeacherInfoForm from './steps/05_TeacherInfoForm';
+import { hideModal } from '@/store/actions/modal';
+import { EModalKind, EUserRole } from '@/components/shared/types';
+import { toast } from 'react-toastify';
 
 const BecomeTeacherPath = () => {
     const dispatch: AppDispatch = useDispatch();
@@ -23,7 +26,7 @@ const BecomeTeacherPath = () => {
     const [nativeLang, setNativeLang] = useState('');
     const [targetLang, setTargetLang] = useState('');
     const [teacherType, setTeacherType] = useState('');
-    const [verificationFile, setVerificationFile] = useState<File | null>(null);
+    const [diplomaFile, setDiplomaFile] = useState<File | null>(null);
     const [teacherInfo, setTeacherInfo] = useState({});
 
     // Mock language list
@@ -37,18 +40,7 @@ const BecomeTeacherPath = () => {
 
     const handleNext = () => {
         if (step === 6) {
-            const updatedData = {
-                ...userData,
-                role: 'teacher',
-                nativeLang,
-                targetLang,
-                teacherType,
-                verified: !!verificationFile,
-                teacherInfo,
-                firstVisit: false,
-                updatedAt: new Date().toISOString(),
-            };
-            dispatch(actionUpdateProfile(updatedData, userUid));
+            submitTeacherApplicaition();
         } else {
             setStep(prev => prev + 1);
         }
@@ -58,12 +50,38 @@ const BecomeTeacherPath = () => {
         if (step > 1) setStep(prev => prev - 1);
     };
 
+    const handleQuit = () => {
+        dispatch(hideModal(EModalKind.PathTeacher));
+    }
+
+
+    const submitTeacherApplicaition = () => {
+        const updatedData = {
+            ...userData,
+            role: EUserRole.Specialist,
+            teacherApplication: {
+                nativeLang,
+                targetLang,
+                teacherType,
+                diploma: !!diplomaFile,
+                teacherInfo,
+                firstVisit: false,
+                updatedAt: new Date().toISOString()
+            }
+        };
+        dispatch(actionUpdateProfile(updatedData, userUid));
+        dispatch(hideModal(EModalKind.PathTeacher));
+        toast.success("Application to Become a Teacher Submitted");
+    }
+
+
     return (
         <>
             {step === 1 && (
                 <OnboardingLayout
                     title="What is your native language?"
                     onNext={handleNext}
+                    onBack={handleQuit}
                     nextDisabled={!nativeLang}
                     currentStep={0}
                 >
@@ -112,14 +130,14 @@ const BecomeTeacherPath = () => {
                     subtitle="Upload your certificate or proof of qualification"
                     onNext={handleNext}
                     onBack={handleBack}
-                    nextDisabled={!verificationFile}
+                    nextDisabled={!diplomaFile}
                 >
                     <VerificationStep
                         onUpload={e => {
                             const file = e.target.files?.[0];
-                            if (file) setVerificationFile(file);
+                            if (file) setDiplomaFile(file);
                         }}
-                        uploadedFile={verificationFile}
+                        uploadedFile={diplomaFile}
                     />
                 </OnboardingLayout>
             )}
@@ -146,7 +164,7 @@ const BecomeTeacherPath = () => {
                     onBack={handleBack}
                 >
                     <p>Click -Finish- to save your profile and start connecting with students.</p>
-                    <button>FINISH</button>
+                    <button onClick={submitTeacherApplicaition}>FINISH</button>
                 </OnboardingLayout>
             )}
         </>

@@ -21,28 +21,18 @@ const RoleSelector = () => {
 
 
   const handleChooseRole = () => {
-    // console.log('Role selected:', selectedRole);
-    if (selectedRole) {
-      const updatedData = {
-        ...userData,                   // keep existing profile data
-        role: selectedRole,            // set the chosen role
-        firstVisit: false,             // mark onboarding as completed
-      };
 
+    if (selectedRole) {
       if (selectedRole === EUserRole.Novice) {
         dispatch(showModal(EModalKind.PathStudent));
       }
       if (selectedRole === EUserRole.Specialist) {
         dispatch(showModal(EModalKind.PathTeacher));
       }
-      dispatch(actionUpdateProfile(updatedData, userUid));
-
     }
   };
 
-  const handleGetStarted = () => {
-    console.log('GetStarted clicked');
-  };
+
   return (
     <>
       <div className={styles.firstAccentLight} />

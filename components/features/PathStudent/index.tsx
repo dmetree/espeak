@@ -10,6 +10,9 @@ import OnboardingLayout from './steps/01_OnboardingLayout';
 import LanguageSelector from './steps/02_LanguageSelector';
 import LevelSelector from './steps/03_LevelSelector';
 import PurposeSelector from './steps/04_PurpuseSelector';
+import { EModalKind, EUserRole } from '@/components/shared/types';
+import { toast } from 'react-toastify';
+import { hideModal } from '@/store/actions/modal';
 
 const BecomeStudentPath = () => {
     const dispatch: AppDispatch = useDispatch();
@@ -35,23 +38,32 @@ const BecomeStudentPath = () => {
 
     const handleNext = () => {
         if (step === 4) {
-            const updatedData = {
-                ...userData,
-                role: 'student',
-                nativeLang,
-                targetLang,
-                level,
-                purpose,
-                firstVisit: false,
-                updatedAt: new Date().toISOString(),
-            };
-            dispatch(actionUpdateProfile(updatedData, userUid));
+            submitStudentInfo();
         } else {
             setStep(prev => prev + 1);
         }
     };
 
     const handleBack = () => setStep(prev => Math.max(1, prev - 1));
+
+    const submitStudentInfo = () => {
+        const updatedData = {
+            ...userData,
+            role: EUserRole.Novice,
+            studentInfo: {
+
+                nativeLang,
+                targetLang,
+                level,
+                purpose,
+                firstVisit: false,
+                updatedAt: new Date().toISOString(),
+            }
+        };
+        dispatch(actionUpdateProfile(updatedData, userUid));
+        dispatch(hideModal(EModalKind.PathStudent));
+        toast.success("Thanks for sharing!")
+    }
 
     return (
         <>
