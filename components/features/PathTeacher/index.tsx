@@ -59,13 +59,13 @@ const BecomeTeacherPath = () => {
         const updatedData = {
             ...userData,
             role: EUserRole.Specialist,
+            firstVisit: false,
             teacherApplication: {
                 nativeLang,
                 targetLang,
                 teacherType,
                 diploma: !!diplomaFile,
                 teacherInfo,
-                firstVisit: false,
                 updatedAt: new Date().toISOString()
             }
         };

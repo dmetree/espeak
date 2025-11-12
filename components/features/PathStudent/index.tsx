@@ -50,13 +50,13 @@ const BecomeStudentPath = () => {
         const updatedData = {
             ...userData,
             role: EUserRole.Novice,
+            firstVisit: false,
             studentInfo: {
-
                 nativeLang,
                 targetLang,
                 level,
                 purpose,
-                firstVisit: false,
+
                 updatedAt: new Date().toISOString(),
             }
         };
