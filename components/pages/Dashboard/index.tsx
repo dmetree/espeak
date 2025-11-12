@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styles from './styles.module.scss';
 import Button from '@/components/shared/ui/Button';
 import { useSelector } from 'react-redux';
@@ -19,15 +19,22 @@ export default function Dashboard() {
   const t = loadMessages(currentLocale);
   const firstVisit = useSelector(({ user }) => user?.userData?.firstVisit);
 
+  const [firstTime, setFirstTime] = useState()
+
+  useEffect(() => {
+    setFirstTime(firstVisit)
+  }, [firstVisit])
+
+
 
   return (
     <motion.div
-      className={`${styles.container} ${firstVisit ? styles.first : styles.second}`}
+      className={`${styles.container} ${firstTime ? styles.first : styles.second}`}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
     >
-      {!firstVisit ? (
+      {!firstTime ? (
 
         <div className={styles.page}>
           <div className={styles.mobileHeader}>
@@ -39,7 +46,7 @@ export default function Dashboard() {
             </h1>
           </div>
 
-        <Sidebar />
+          <Sidebar />
 
           <main className={styles.main}>
             {/* SVG kept unchanged */}
