@@ -4,16 +4,18 @@ import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch } from '@/store';
 import { actionUpdateProfile } from '@/store/actions/profile/user';
-import { loadMessages } from '@/components/shared/i18n/translationLoader';
+import {  loadMessages } from '@/components/shared/i18n/translationLoader';
 
-import OnboardingLayout from './steps/01_OnboardingLayout';
-import LanguageSelector from './steps/02_LanguageSelector';
-import TeacherTypeSelector from './steps/03_TeacherTypeSelector';
-import VerificationStep from './steps/04_VerificationStep';
-import TeacherInfoForm from './steps/05_TeacherInfoForm';
+import OnboardingLayout from '../../shared/ui/OnboardingLayout';
+import TeacherTypeSelector from './steps/TeacherTypeSelector';
 import { hideModal } from '@/store/actions/modal';
 import { EModalKind, EUserRole } from '@/components/shared/types';
 import { toast } from 'react-toastify';
+import { NameInput } from '@/components/shared/ui/InitForm/NicknameField';
+import { NativeLanguage } from '@/components/shared/ui/InitForm/NativeLanguage';
+import { LanguageToLaernAndTeach } from '@/components/shared/ui/InitForm/LanguageToLearn';
+import VerificationStep from '@/components/features/PathTeacher/steps/VerificationStep';
+import TeacherInfoForm from '@/components/features/PathTeacher/steps/TeacherInfoForm';
 
 const BecomeTeacherPath = () => {
     const dispatch: AppDispatch = useDispatch();
@@ -29,14 +31,6 @@ const BecomeTeacherPath = () => {
     const [diplomaFile, setDiplomaFile] = useState<File | null>(null);
     const [teacherInfo, setTeacherInfo] = useState({});
 
-    // Mock language list
-    const LANG_OPTIONS = [
-        { code: 'en', name: 'English', flag: '🇬🇧' },
-        { code: 'es', name: 'Spanish', flag: '🇪🇸' },
-        { code: 'fr', name: 'French', flag: '🇫🇷' },
-        { code: 'de', name: 'German', flag: '🇩🇪' },
-        { code: 'pt', name: 'Portuguese', flag: '🇵🇹' },
-    ];
 
     const handleNext = () => {
         if (step === 6) {
@@ -85,12 +79,7 @@ const BecomeTeacherPath = () => {
                     nextDisabled={!nativeLang}
                     currentStep={0}
                 >
-                    <LanguageSelector
-                        options={LANG_OPTIONS}
-                        selected={nativeLang}
-                        onChange={setNativeLang}
-                        showFlags={false}
-                    />
+                    <NameInput />
                 </OnboardingLayout>
             )}
 
@@ -101,16 +90,29 @@ const BecomeTeacherPath = () => {
                     onBack={handleBack}
                     nextDisabled={!targetLang}
                 >
-                    <LanguageSelector
-                        options={LANG_OPTIONS.filter(l => l.code !== nativeLang)}
-                        selected={targetLang}
-                        onChange={setTargetLang}
-                        showFlags={true}
+                    <NativeLanguage />
+                </OnboardingLayout>
+            )}
+
+
+            {step === 3 && (
+                <OnboardingLayout
+                    title="What language do you want to teach?"
+                    onNext={handleNext}
+                    onBack={handleBack}
+                    nextDisabled={!targetLang}
+                >
+                    <LanguageToLaernAndTeach
+                        nativeLang={nativeLang}
+                        setNativeLang={setNativeLang}
+                        targetLang={targetLang}
+                        setTargetLang={setTargetLang}
+                        role='teacher'
                     />
                 </OnboardingLayout>
             )}
 
-            {step === 3 && (
+            {step === 4 && (
                 <OnboardingLayout
                     title="What type of teacher are you?"
                     onNext={handleNext}
@@ -124,7 +126,7 @@ const BecomeTeacherPath = () => {
                 </OnboardingLayout>
             )}
 
-            {step === 4 && (
+            {step === 5 && (
                 <OnboardingLayout
                     title="Verify your credentials"
                     subtitle="Upload your certificate or proof of qualification"
@@ -142,21 +144,23 @@ const BecomeTeacherPath = () => {
                 </OnboardingLayout>
             )}
 
-            {step === 5 && (
+            {step === 7 && (
                 <OnboardingLayout
                     title="Tell us about your experience"
                     subtitle="Add your background, teaching experience, and hourly rate"
                     onNext={handleNext}
                     onBack={handleBack}
                 >
-                    <TeacherInfoForm onSubmit={(data) => {
-                        setTeacherInfo(data);
-                        setStep(6);
-                    }} />
+                    <TeacherInfoForm
+                    // onSubmit={(data) => {
+                    //     setTeacherInfo(data);
+                    //     setStep(7);
+                    // }}
+                    />
                 </OnboardingLayout>
             )}
 
-            {step === 6 && (
+            {step === 8 && (
                 <OnboardingLayout
                     title="All set!"
                     subtitle="You’re ready to start teaching!"

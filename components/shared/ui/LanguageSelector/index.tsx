@@ -16,22 +16,24 @@ type Props = {
   t: any;
   isMulti?: boolean;
   labelKey?: string;
+  placeholder?: string;
 };
 
-const LanguageSelector: React.FC<Props> = ({ value, options, onChange, t, isMulti = false, labelKey }) => {
+const LanguageSelector: React.FC<Props> = ({ value, options, onChange, t, isMulti = false, labelKey, placeholder }) => {
   const translatedOptions = translateSelectOptions(options, t, 'user-languages');
   const translatedSelectedValue = translateSelectedValues(value, t, 'user-languages');
 
   return (
     <div className={s.formLabel}>
-      <label className={`${s.formLabelTitle} ${s.labelWithTooltip}`}>
+      {/* <label className={`${s.formLabelTitle} ${s.labelWithTooltip}`}>
         {t[labelKey || 'speak_language']}
-      </label>
+      </label> */}
       <Select<Option, boolean>
         isMulti={isMulti}
         name="langs"
         value={translatedSelectedValue as SingleValue<Option> | MultiValue<Option>}
         options={translatedOptions}
+        placeholder={placeholder}
         onChange={(selected) => {
           if (Array.isArray(selected)) {
             // cast readonly Option[] -> Option[]
