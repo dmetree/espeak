@@ -5,7 +5,7 @@ import Button from '@/components/shared/ui/Button';
 import { useSelector } from 'react-redux';
 import { loadMessages } from '@/components/shared/i18n/translationLoader';
 import RoleSelector from '@/components/features/RoleSelector';
-import Sidebar from '@/components/pages/Dashboard/Sidebar';
+
 import Image from "next/image";
 
 import girlSittedIcon from '@/components/shared/assets/image_icons/sitted-girl.svg';
@@ -14,6 +14,8 @@ import calendarIcon from '@/components/shared/assets/image_icons/calendar.svg';
 import UpcomingLessons from '@/components/features/UpcomingLessons';
 import H4TitleBold from '@/components/shared/ui/Titles/h4-bold';
 import TableCalendar from '@/components/pages/role_spec/Office/ui/TableCalendar';
+import router from 'next/router';
+import Sidebar from '@/components/features/SidebarES';
 
 export default function Dashboard() {
   const currentLocale = useSelector(({ locale }) => locale.currentLocale);
@@ -31,6 +33,11 @@ export default function Dashboard() {
 
   const [freeTimestamps, setFreeTimestamps] = useState<number[]>([]);
   const [selectedDate, setSelectedDate] = useState(new Date());
+
+  const handleFindTeacher = () => {
+    router.push('/view_experts');
+  }
+
 
 
   const myRequests = useMemo(() => {
@@ -65,14 +72,14 @@ export default function Dashboard() {
       {!firstTime ? (
 
         <div className={styles.page}>
-          <div className={styles.mobileHeader}>
+          {/* <div className={styles.mobileHeader}>
             <h1>
               <span className={styles.blue}>E</span>
               <span className={styles.black}>asy </span>
               <span className={styles.lightPink}>S</span>
               <span className={styles.black}>peak</span>
             </h1>
-          </div>
+          </div> */}
 
           <Sidebar />
 
@@ -87,7 +94,7 @@ export default function Dashboard() {
                   </div>
 
                   <div className={styles.buttonBlock}>
-                    <Button>Find a teacher</Button>
+                    <Button onClick={handleFindTeacher}>Find a teacher</Button>
                   </div>
                 </div>
                 <Image

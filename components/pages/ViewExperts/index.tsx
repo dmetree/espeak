@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef, ChangeEvent, KeyboardEvent } from "react";
 import { useRouter } from "next/router";
+import { motion } from 'framer-motion';
 
 import { EModalKind, IJobRequestStatus } from '@/components/shared/types';
 import { useDispatch, useSelector } from "react-redux";
@@ -17,6 +18,8 @@ import { showModal, hideModal, toggleModal } from '@/store/actions/modal'; // As
 import s from './ViewExperts.module.scss';
 import Link from 'next/link';
 import { findRandomSpecialists, findSpecialists } from '@/store/actions/specialists';
+import Sidebar from "@/components/features/SidebarES";
+
 
 const ViewExperts = () => {
     const router = useRouter();
@@ -58,38 +61,44 @@ const ViewExperts = () => {
 
 
     return (
-        <Page>
-            <Substrate color="bg-color">
-                <h2 className={s.header}>{t.view_experts}</h2>
-                <div className={s.searchBox_wrap}>
-                    <span>{t.search_therapist}</span>
-                    <div className={s.searchBox}>
-                        <SingleInput placeholder="" onChange={onSearchChange} value={searchValue} onKeyDown={handleKeyPress} />
-                        <div
-                            onClick={handleTherapistSearch}
-                            className={s.searchBtn}>{t.search}</div>
+        <motion.div
+            className={`${s.container} ${s.second}`}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5 }}
+        >
+
+            <div className={s.page}>
+                <Sidebar />
+                <div className={s.main}>
+                    <h2 className={s.header}>{t.view_experts}</h2>
+                    <div className={s.searchBox_wrap}>
+                        <span>{t.search_therapist}</span>
+                        <div className={s.searchBox}>
+                            <SingleInput placeholder="" onChange={onSearchChange} value={searchValue} onKeyDown={handleKeyPress} />
+                            <div
+                                onClick={handleTherapistSearch}
+                                className={s.searchBtn}>{t.search}</div>
+                        </div>
+                    </div>
+
+
+
+                    <div className={s.specialistList}>
+                        {noTherapistFound ? (
+                            <p className={s.noTherapist}>{t.no_therapist_found || "There is no therapist with that nickname"}</p>
+                        ) : (
+                            specialistList.map(({ uid, ...specialist }) => {
+                                console.log('specialist', specialist)
+                                return (
+                                    <SpecialistCard key={uid} uid={uid as string} {...specialist} />
+                                )
+                            })
+                        )}
                     </div>
                 </div>
-
-
-
-                <div className={s.specialistList}>
-                    {noTherapistFound ? (
-                        <p className={s.noTherapist}>{t.no_therapist_found || "There is no therapist with that nickname"}</p>
-                    ) : (
-                        specialistList.map(({ uid, ...specialist }) => {
-                            console.log('specialist', specialist)
-                            return (
-                                <SpecialistCard key={uid} uid={uid as string} {...specialist} />
-                            )
-                        })
-                    )}
-                </div>
-
-
-
-            </Substrate>
-        </Page>
+            </div>
+        </motion.div>
     )
 }
 
