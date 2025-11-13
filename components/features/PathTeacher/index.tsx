@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch } from '@/store';
 import { actionUpdateProfile } from '@/store/actions/profile/user';
-import {  loadMessages } from '@/components/shared/i18n/translationLoader';
+import { loadMessages } from '@/components/shared/i18n/translationLoader';
 
 import OnboardingLayout from '../../shared/ui/OnboardingLayout';
 import TeacherTypeSelector from './steps/TeacherTypeSelector';
@@ -58,7 +58,7 @@ const BecomeTeacherPath = () => {
                 nativeLang,
                 targetLang,
                 teacherType,
-                diploma: !!diplomaFile,
+                diploma: diplomaFile,
                 teacherInfo,
                 updatedAt: new Date().toISOString()
             }
@@ -132,7 +132,7 @@ const BecomeTeacherPath = () => {
                     subtitle="Upload your certificate or proof of qualification"
                     onNext={handleNext}
                     onBack={handleBack}
-                    nextDisabled={!diplomaFile}
+                // nextDisabled={!diplomaFile}
                 >
                     <VerificationStep
                         onUpload={e => {
@@ -140,6 +140,22 @@ const BecomeTeacherPath = () => {
                             if (file) setDiplomaFile(file);
                         }}
                         uploadedFile={diplomaFile}
+                    />
+                </OnboardingLayout>
+            )}
+
+            {step === 6 && (
+                <OnboardingLayout
+                    title="Tell us about your experience"
+                    subtitle="Add your background, teaching experience, and hourly rate"
+                    onNext={handleNext}
+                    onBack={handleBack}
+                >
+                    <TeacherInfoForm
+                    // onSubmit={(data) => {
+                    //     setTeacherInfo(data);
+                    //     setStep(7);
+                    // }}
                     />
                 </OnboardingLayout>
             )}
