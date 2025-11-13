@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import styles from './styles.module.scss';
 import Button from '@/components/shared/ui/Button';
 import { useSelector } from 'react-redux';
@@ -13,17 +13,45 @@ import calendarIcon from '@/components/shared/assets/image_icons/calendar.svg';
 
 import UpcomingLessons from '@/components/features/UpcomingLessons';
 import H4TitleBold from '@/components/shared/ui/Titles/h4-bold';
+import TableCalendar from '@/components/pages/role_spec/Office/ui/TableCalendar';
 
 export default function Dashboard() {
   const currentLocale = useSelector(({ locale }) => locale.currentLocale);
   const t = loadMessages(currentLocale);
+  const userUid = useSelector(({ user }) => user.uid);
+  const userData = useSelector(({ user }) => user?.userData);
+  const myAppointments = useSelector(({ appointments }) => appointments.myAppointments);
   const firstVisit = useSelector(({ user }) => user?.userData?.firstVisit);
 
-  const [firstTime, setFirstTime] = useState()
+  const [firstTime, setFirstTime] = useState();
 
   useEffect(() => {
     setFirstTime(firstVisit)
-  }, [firstVisit])
+  }, [firstVisit]);
+
+  const [freeTimestamps, setFreeTimestamps] = useState<number[]>([]);
+  const [selectedDate, setSelectedDate] = useState(new Date());
+
+
+  const myRequests = useMemo(() => {
+    if (!myAppointments || !userUid) return [];
+
+    const currentTime = Math.floor(Date.now() / 1000);
+
+    return myAppointments
+      .filter((req) =>
+        (req.clientUid === userUid || req.specUid === userUid) &&
+        req.scheduledUnixtime >= currentTime // Filter out past requests
+      )
+      .sort((a, b) => a.scheduledUnixtime - b.scheduledUnixtime);
+
+  }, [myAppointments, userUid]);
+
+  useEffect(() => {
+    if (userData?.freeTimestamps) {
+      setFreeTimestamps(userData?.freeTimestamps);
+    }
+  }, [userData?.freeTimestamps]);
 
 
 
@@ -77,11 +105,12 @@ export default function Dashboard() {
 
                 <div className={styles.rightSection}>
                   <H4TitleBold>My calendar</H4TitleBold>
-                  <Image
-                    src={calendarIcon}
-                    alt={'calendar'}
-                    width={410}
-                    height={300}
+
+                  <TableCalendar
+                    currentDate={selectedDate}
+                    setCurrentDate={setSelectedDate}
+                    myRequests={myRequests}
+                    freeTimestamps={freeTimestamps}
                   />
                 </div>
               </div>

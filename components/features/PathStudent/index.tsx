@@ -7,7 +7,6 @@ import { actionUpdateProfile } from '@/store/actions/profile/user';
 import { loadMessages } from '@/components/shared/i18n/translationLoader';
 
 import OnboardingLayout from '@/components/shared/ui/OnboardingLayout';
-import LanguageSelector from './steps/02_LanguageSelector';
 import LevelSelector from './steps/03_LevelSelector';
 import PurposeSelector from './steps/04_PurpuseSelector';
 import { EModalKind, EUserRole } from '@/components/shared/types';
@@ -69,6 +68,11 @@ const BecomeStudentPath = () => {
         toast.success("Thanks for sharing!")
     }
 
+
+    const handleQuit = () => {
+        dispatch(hideModal(EModalKind.PathStudent));
+    }
+
     return (
         <>
             {step === 1 && (
@@ -76,6 +80,7 @@ const BecomeStudentPath = () => {
                     title="What is your native language?"
                     subtitle="Please, choose your native language from the list below."
                     onNext={handleNext}
+                    onBack={handleQuit}
                     nextDisabled={!nativeLang}
                 >
                     {/* <LanguageSelector
