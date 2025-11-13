@@ -26,15 +26,15 @@ body.theme-default {
   --text: #1d1f28;
   --white: #e8eeed;
   --bgColorTransparent: rgba(232, 238, 237, 0.6);
-  --dark: #429084;
-  --darkTransparent: rgba(66, 144, 132, 0.5);
-  --darker: #377b78;
-  --darkest: #074c49;
+  --dark: #3b82f6;
+  --darkTransparent: rgba(38, 90, 138, 0.5);
+  --darker: rgba(59, 130, 246, 0.9);
+  --darkest: rgba(23, 73, 153, 0.9);
   --boxShadow: rgba(0, 0, 0, 0.5);
   --lightShadow: rgba(0, 0, 0, 0.2);
 
   --walletPrimary: #0070f3;
-  --walletBg: #b1d6d0;
+  --walletBg: #b1c0d6;
 
   --background: oklch(100% 0 0);
   --foreground: oklch(25% 0.15 260);
@@ -126,12 +126,12 @@ body.theme-dark {
   --bgColor: #2f2e41;
   --text: #dee7e5;
   --bgColorTransparent: rgba(29, 31, 40, 0.9);
-  --dark: #326b62;
-  --darkTransparent: rgba(50, 107, 98, 0.5);
-  --darker: #4d8d83;
-  --darkest: #69ada3;
-  --walletPrimary: #0070f3;
-  --walletBg: #074c49;
+  --dark: #324a6b;
+  --darkTransparent: rgba(50, 87, 107, 0.505);
+  --darker: #4d6d8d;
+  --darkest: #6989ad;
+  --walletPrimary: #0031f3;
+  --walletBg: #072b4c;
   --calendarHighLight: #d67e0a;
 
   --background: rgba(47, 46, 65, 1);

@@ -11,7 +11,6 @@ import { Modal } from "@/components/shared/ui/Modal";
 import VideoCall from '@/components/features/chat/features/VideoCall/VideoCall';
 import EventRoom from "@/components/features/EventRoom";
 import CreatePost from "@/components/features/CreatePost";
-import BookSession from "@/components/features/BookSession";
 import SpecApplication from '@/components/features/SpecApplication';
 import { loadMessages } from '@/components/shared/i18n/translationLoader';
 import * as actions from "@/store/actions/blockchain";
@@ -490,12 +489,6 @@ const Header = (props: IProps) => {
       <Modal
         modalKey={EModalKind.PsyworkerApplication}>
         <SpecApplication />
-      </Modal>
-
-      <Modal
-        // onClose={clearDraftAppointment}
-        modalKey={EModalKind.BookSession}>
-        <BookSession />
       </Modal>
 
       <Modal modalKey={EModalKind.VideoCall}>
