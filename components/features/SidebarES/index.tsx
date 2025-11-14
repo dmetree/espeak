@@ -75,7 +75,7 @@ export default function Sidebar() {
             <span className={styles.navText} onClick={handleBecomeTeacher}>Become a teacher</span>
           </Link>
 
-          <Link href="#" className={styles.navItem}>
+          <Link href="/edit_profile" className={styles.navItem}>
             <svg
               width="40"
               height="40"
@@ -98,11 +98,11 @@ export default function Sidebar() {
                 strokeLinejoin="round"
               />
             </svg>
-            <span className={styles.navText} onClick={handleBecomeTeacher}>My profile</span>
+            <span className={styles.navText}>My profile</span>
           </Link>
 
-          {userData?.role === EUserRole.Specialist &&
-            <Link href="#" className={styles.navItem}>
+          {userData?.userRole === EUserRole.Specialist &&
+            <Link href="/office" className={styles.navItem}>
               <svg
                 width="40"
                 height="40"

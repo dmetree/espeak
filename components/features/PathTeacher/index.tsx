@@ -52,7 +52,7 @@ const BecomeTeacherPath = () => {
     const submitTeacherApplicaition = () => {
         const updatedData = {
             ...userData,
-            role: EUserRole.Specialist,
+            userRole: EUserRole.Specialist,
             firstVisit: false,
             teacherApplication: {
                 nativeLang,

@@ -52,7 +52,7 @@ const BecomeStudentPath = () => {
     const submitStudentInfo = () => {
         const updatedData = {
             ...userData,
-            role: EUserRole.Novice,
+            userRole: EUserRole.Novice,
             firstVisit: false,
             studentInfo: {
                 nativeLang,
