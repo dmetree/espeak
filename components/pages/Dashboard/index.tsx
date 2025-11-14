@@ -100,7 +100,7 @@ export default function Dashboard() {
                 <Image
                   src={girlSittedIcon}
                   alt={'mobile'}
-                  width={213}
+                  width={150}
                   height={250}
                 />
               </div>

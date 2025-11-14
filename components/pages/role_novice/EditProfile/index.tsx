@@ -13,6 +13,10 @@ import { loadMessages } from '@/components/shared/i18n/translationLoader';
 
 // import ChangePassword from '@/components/pages/EditProfile/features/ChangePassword';
 import UpdateProfile from '@/components/pages/role_novice/EditProfile/ui/UpdateProfile';
+import { motion } from 'framer-motion';
+import Sidebar from '@/components/features/SidebarES';
+import s from './.module.scss';
+import UserInfo from '@/components/pages/spec_info/userInfo';
 
 const EditProfile = () => {
 
@@ -20,15 +24,25 @@ const EditProfile = () => {
     const t = loadMessages(currentLocale);
 
     return (
-        <Page>
-            <Substrate color="bg-color">
-                <UpdateProfile />
-                {/* <Button onClick={() => showModal(EModalKind.ChangePassword)}>{t.change_password}</Button>
+        <motion.div
+            className={`${s.container} ${s.second}`}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5 }}
+        >
+
+            <div className={s.page}>
+                <Sidebar />
+                <div className={s.main}>
+
+                    <UpdateProfile />
+                    {/* <Button onClick={() => showModal(EModalKind.ChangePassword)}>{t.change_password}</Button>
                 <Modal modalKey={EModalKind.ChangePassword}>
 
                 </Modal> */}
-            </Substrate>
-        </Page>
+                </div>
+            </div>
+        </motion.div>
     )
 }
 
