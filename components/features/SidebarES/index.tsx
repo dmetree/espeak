@@ -75,7 +75,7 @@ export default function Sidebar() {
             <span className={styles.navText} onClick={handleBecomeTeacher}>Become a teacher</span>
           </Link>
 
-          <Link href="/edit_profile" className={styles.navItem}>
+          <Link href="/user_info" className={styles.navItem}>
             <svg
               width="40"
               height="40"

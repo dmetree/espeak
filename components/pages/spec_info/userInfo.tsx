@@ -46,13 +46,20 @@ const UserInfo = ({ specialistData, t, isPublic, currentLocale }) => {
             <div className={s.nameAndActions}>
               <div>
                 <span className={s.psyName}>{specialistData?.nickname}</span>
-
               </div>
 
-              <div className={s.shareWrapper}>
-                <div className={s.shareProfile} onClick={handleShareClick}>&#128279;</div>
-                <div className={s.tooltipBox}>
-                  <Tooltip title={t.shareLinkTooltip} />
+              <div className={s.actions}>
+                {!isPublic && (
+                  <Link href="/edit_profile" className={s.profileBtn}>
+                    {t.specialist_edit_profile}
+                  </Link>
+                )}
+
+                <div className={s.shareWrapper}>
+                  <div className={s.shareProfile} onClick={handleShareClick}>&#128279;</div>
+                  <div className={s.tooltipBox}>
+                    <Tooltip title={t.shareLinkTooltip} />
+                  </div>
                 </div>
               </div>
 

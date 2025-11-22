@@ -318,13 +318,18 @@ export const createAppointment =
 
     // console.log("One: ", partnerOne, "Two: ", partnerTwo);
 
-    const appointment = {
+    const rawAppointment = {
       ...draftAppointment,
       singletonId,
       txId,
       partnerOne,
       partnerTwo,
     };
+
+    // Remove any undefined fields (e.g. singletonId/txId when blockchain flow is disabled)
+    const appointment = Object.fromEntries(
+      Object.entries(rawAppointment).filter(([, value]) => value !== undefined)
+    );
 
     console.log("appointment", appointment);
 

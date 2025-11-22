@@ -4,7 +4,7 @@ import s from './../.module.scss';
 
 type Props = {
   introVideo: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange: (value: string) => void;
   t: any;
 };
 

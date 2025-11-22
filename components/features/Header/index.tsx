@@ -51,6 +51,7 @@ import SettingsModal from "@/components/features/Sett";
 import settingsIcon from "@/components/shared/assets/psy_icons_svg/settings.svg"
 import BecomeTeacherPath from "@/components/features/PathTeacher";
 import BecomeStudentPath from "@/components/features/PathStudent";
+import BookSession from "@/components/features/BookSession";
 
 
 interface IProps {
@@ -479,6 +480,12 @@ const Header = (props: IProps) => {
 
       <Modal modalKey={EModalKind.Login}>
         <Login />
+      </Modal>
+
+      <Modal
+        // onClose={clearDraftAppointment}
+        modalKey={EModalKind.BookSession}>
+        <BookSession />
       </Modal>
 
       <Modal
