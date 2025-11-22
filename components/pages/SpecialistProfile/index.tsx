@@ -17,8 +17,10 @@ import Page from '@/components/shared/ui/Page/Page';
 import Substrate from '@/components/shared/ui/Substrate/Substrate';
 import * as blockChainActions from '@/store/actions/networkCardano';
 import { toast } from 'react-toastify';
-import s from './.module.scss';
 import { THourSchedule } from '@/components/shared/types/index';
+import { motion } from 'framer-motion';
+import Sidebar from '@/components/features/SidebarES';
+import s from './.module.scss';
 
 const SpecialistProfile = () => {
   const router = useRouter();
@@ -65,11 +67,11 @@ const SpecialistProfile = () => {
   };
 
   const onFreeHourClick = (hourSchedule: THourSchedule) => {
-    if (!ergoWalletConnected) {
-      dispatch(blockChainActions.toggleWalletSelector());
-      toast.warn(t.connect_your_wallet);
-      return;
-    }
+    // if (!ergoWalletConnected) {
+    //   dispatch(blockChainActions.toggleWalletSelector());
+    //   toast.warn(t.connect_your_wallet);
+    //   return;
+    // }
 
     const selectedUnixtime = selectedDate.setHours(hourSchedule.hour, 0, 0, 0) / 1000;
 
@@ -143,32 +145,44 @@ const SpecialistProfile = () => {
   }
 
   return (
-    <Page className={s.userboardPage}>
-      <Substrate className={s.userboard} color="bg-color">
-        <div className={s.timeTable}>
-          <div className={s.rightColumn}>
-            <UserInfo />
-          </div>
-          {selectedSpecialist?.isAlive && (
-            <div className={s.leftColumn}>
-              {/* @ts-ignore */}
-              <SpecTableCalendar
-                currentDate={selectedDate}
-                setCurrentDate={setSelectedDate}
-                freeTimestamps={freeTimestamps}
-                specialistActualFreeTimeslots={specialistActualFreeTimeslots}
-              />
-              {/* @ts-ignore */}
-              <SpecHoursManager
-                onCellClick={onFreeHourClick}
-                currentDate={selectedDate}
-                selectedDaySchedule={freeSchedule}
-              />
-            </div>
-          )}
+    <motion.div
+      className={`${s.container} ${s.second}`}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.5 }}
+    >
+      <div className={s.page}>
+        <Sidebar />
+        <div className={s.main}>
+          <Page className={s.userboardPage}>
+            <Substrate className={s.userboard} color="bg-color">
+              <div className={s.timeTable}>
+                <div className={s.rightColumn}>
+                  <UserInfo />
+                </div>
+                {selectedSpecialist?.isAlive && (
+                  <div className={s.leftColumn}>
+                    {/* @ts-ignore */}
+                    <SpecTableCalendar
+                      currentDate={selectedDate}
+                      setCurrentDate={setSelectedDate}
+                      freeTimestamps={freeTimestamps}
+                      specialistActualFreeTimeslots={specialistActualFreeTimeslots}
+                    />
+                    {/* @ts-ignore */}
+                    <SpecHoursManager
+                      onCellClick={onFreeHourClick}
+                      currentDate={selectedDate}
+                      selectedDaySchedule={freeSchedule}
+                    />
+                  </div>
+                )}
+              </div>
+            </Substrate>
+          </Page>
         </div>
-      </Substrate>
-    </Page>
+      </div>
+    </motion.div>
   );
 };
 

@@ -9,7 +9,7 @@ export default function Loading() {
                 visible={true}
                 height="96"
                 width="96"
-                color="grey"
+                color="#161616"
                 strokeWidth="5"
                 animationDuration="0.75"
                 ariaLabel="rotating-lines-loading"

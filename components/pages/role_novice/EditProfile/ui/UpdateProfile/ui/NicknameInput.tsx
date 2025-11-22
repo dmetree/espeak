@@ -4,7 +4,7 @@ import s from './../.module.scss';
 
 type Props = {
   nickname: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange: (value: string) => void;
   t: any;
 };
 
