@@ -12,7 +12,7 @@ import girlSittedIcon from '@/components/shared/assets/image_icons/sitted-girl.s
 import calendarIcon from '@/components/shared/assets/image_icons/calendar.svg';
 
 import UpcomingLessons from '@/components/features/UpcomingLessons';
-import H4TitleBold from '@/components/shared/ui/Titles/h4-bold';
+import H4TitleBold from '@/components/shared/ui/Typography/h4-bold';
 import TableCalendar from '@/components/pages/role_spec/Office/ui/TableCalendar';
 import router from 'next/router';
 import Sidebar from '@/components/features/SidebarES';

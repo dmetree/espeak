@@ -62,7 +62,7 @@ const OnboardingLayout: React.FC<OnboardingLayoutProps> = ({
           </aside>
 
           <main className={styles.formArea}>
-            {children}
+            <div className={styles.formScroll}>{children}</div>
 
             <div className={styles.buttonGroup}>
                 <Button onClick={onBack} className={styles.returnBtn}>
