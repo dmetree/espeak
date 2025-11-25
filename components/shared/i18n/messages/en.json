@@ -85,7 +85,6 @@
   "teacher": "Teacher",
   "student": "Student",
 
-
   "home": "Home",
   "psy_contract": "Ψsy Contract",
   "psy_rank": "Ψsy Rank",
@@ -605,7 +604,7 @@
   "novice_news_feed": "View More Articles",
   "client_requests": "View Clients' Requests",
   "work_at_mindhealer": "Work as Expert",
-  "collect_rewards": "Collect Payments",
+  "collect_rewards": "Collect Payment",
   "become_partner": "Work as Partner",
   "create_event": "Create Event",
   "edit_event": "Edit Event",

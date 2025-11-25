@@ -100,21 +100,21 @@ const WalletDrawer = (props) => {
 
   return (
     <div className={`${s.walletDrawer} ${props.show ? s.show : s.hidden}`}>
-      <div className={s.header}>
+      {/* <div className={s.header}>
         <FaWallet className={s.walletIcon} />
         <span>CARDANO wallet</span>
-      </div>
+      </div> */}
       <div className={s.walletList}>{walletsList}</div>
-      <div className={s.header}>
+      {/* <div className={s.header}>
         <div className={s.titleWrapper}>
           <FaWallet className={s.walletIcon} />
           <span>ERGO wallet </span>
         </div>
 
         <div>{t.wallet_on_desktop}</div>
-      </div>
+      </div> */}
 
-      {isNautilusInstalled ? (
+      {/* {isNautilusInstalled ? (
         <div className={s.nautilusBtn}>
           <div className={s.ergoButton} onClick={() => connectNautilus()}>
             <span className={s.ergoIcon}>
@@ -157,7 +157,7 @@ const WalletDrawer = (props) => {
           Discord
         </a>
       </div>
-      <div></div>
+      <div></div> */}
 
       <div className={s.closeIcon} onClick={close}>
         <IoClose />
