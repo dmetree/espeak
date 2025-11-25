@@ -606,7 +606,6 @@ export const psychDeleteRequestClaimRewards =
     try {
       await deleteDoc(doc(database, "requests", reqID));
       dispatch(deleteRequestSuccess(reqID));
-      // dispatch(fetchMyAppointments(userUid));
     } catch (error) {
       console.error("Error deleting document: ", error);
       dispatch(deleteRequestFail(error));
