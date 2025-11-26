@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useRouter } from 'next/router';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch } from '@/store';
 import { actionUpdateProfile } from '@/store/actions/profile/user';
@@ -16,8 +17,10 @@ import { NativeLanguage } from '@/components/shared/ui/InitForm/NativeLanguage';
 import { LanguageToLaernAndTeach } from '@/components/shared/ui/InitForm/LanguageToLearn';
 import VerificationStep from '@/components/features/PathTeacher/steps/VerificationStep';
 import TeacherInfoForm from '@/components/features/PathTeacher/steps/TeacherInfoForm';
+import SubmissionSuccess from '@/components/features/PathTeacher/steps/SubmissionSuccess';
 
 const BecomeTeacherPath = () => {
+    const router = useRouter();
     const dispatch: AppDispatch = useDispatch();
     const userUid = useSelector(({ user }) => user.uid);
     const userData = useSelector(({ user }) => user.userData);
@@ -35,9 +38,15 @@ const BecomeTeacherPath = () => {
     const handleNext = () => {
         if (step === 6) {
             submitTeacherApplicaition();
+            setStep(7);
         } else {
             setStep(prev => prev + 1);
         }
+    };
+
+    const handleFinish = () => {
+        dispatch(hideModal(EModalKind.PathTeacher));
+        router.push('/dashboard');
     };
 
     const handleBack = () => {
@@ -64,7 +73,6 @@ const BecomeTeacherPath = () => {
             }
         };
         dispatch(actionUpdateProfile(updatedData, userUid));
-        dispatch(hideModal(EModalKind.PathTeacher));
         toast.success("Application to Become a Teacher Submitted");
     }
 
@@ -151,41 +159,12 @@ const BecomeTeacherPath = () => {
                     onNext={handleNext}
                     onBack={handleBack}
                 >
-                    <TeacherInfoForm
-                    // onSubmit={(data) => {
-                    //     setTeacherInfo(data);
-                    //     setStep(7);
-                    // }}
-                    />
+                    <TeacherInfoForm />
                 </OnboardingLayout>
             )}
 
             {step === 7 && (
-                <OnboardingLayout
-                    title="Tell us about your experience"
-                    subtitle="Add your background, teaching experience, and hourly rate"
-                    onNext={handleNext}
-                    onBack={handleBack}
-                >
-                    <TeacherInfoForm
-                    // onSubmit={(data) => {
-                    //     setTeacherInfo(data);
-                    //     setStep(7);
-                    // }}
-                    />
-                </OnboardingLayout>
-            )}
-
-            {step === 8 && (
-                <OnboardingLayout
-                    title="All set!"
-                    subtitle="You’re ready to start teaching!"
-                    onNext={handleNext}
-                    onBack={handleBack}
-                >
-                    <p>Click -Finish- to save your profile and start connecting with students.</p>
-                    <button onClick={submitTeacherApplicaition}>FINISH</button>
-                </OnboardingLayout>
+                <SubmissionSuccess onNext={handleFinish} />
             )}
         </>
     );

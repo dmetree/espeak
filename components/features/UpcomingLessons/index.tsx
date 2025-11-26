@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { loadMessages } from '@/components/shared/i18n/translationLoader';
 
 import styles from './styles.module.scss'
-import H4TitleBold from '@/components/shared/ui/Titles/h4-bold';
+import H4TitleBold from '@/components/shared/ui/Typography/h4-bold';
 
 import { AppDispatch } from "@/store";
 import { useEffect } from 'react';
