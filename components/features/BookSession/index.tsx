@@ -5,13 +5,13 @@ import { useRouter } from 'next/router';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { Timestamp } from "firebase/firestore";
-
 import {
   createAppointment,
   setIsAppointmentFinished,
   clearDraftAppointment,
   setDraftAppointment,
 } from '@/store/actions/appointments';
+import { submitLessonRequestTx } from '@/store/actions/lessons';
 import { saveSlots, actionUpdateProfile, } from '@/store/actions/profile/user';
 import { loadMessages } from '@/components/shared/i18n/translationLoader';
 import { EModalKind } from '@/components/shared/types';
@@ -49,6 +49,9 @@ import { debounce } from '@/components/shared/utils/throttleDebounce';
 const BookSession = () => {
   const router = useRouter();
   const dispatch: AppDispatch = useDispatch<AppDispatch>();
+
+  // const user = useSelector(({ networkCardano }) => networkCardano.user);
+  const wallet = useSelector(({ networkCardano }) => networkCardano.wallet);
 
   const userUid = useSelector(({ user }) => user.uid);
   const userData = useSelector(({ user }) => user?.userData);
@@ -122,6 +125,12 @@ const BookSession = () => {
       const currentUnixTime = Math.floor(Date.now() / 1000);
       const updatedFreeTimestamps = freeTimestamps.filter(
         (timestamp) => timestamp > currentUnixTime && timestamp !== appointment.scheduledUnixtime
+      );
+
+      // // Cardano transaction
+      
+      const hash = await dispatch(
+        submitLessonRequestTx( wallet, appointment, { ['lovelace']: BigInt(100) } )
       );
 
       // Create appointment in backend (Firestore)

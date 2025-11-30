@@ -11,6 +11,7 @@ import jobApplicationsReducer from "./reducers/jobApplications";
 import postsReducer from "./reducers/posts";
 import eventsReducer from "./reducers/events_reducers";
 import complaintsReducer from "./reducers/complaints_check";
+import lessonsReducer from "./reducers/lessons";
 import { modalReducer } from "./reducers/modal";
 import { localeReducer } from "./reducers/locale";
 
@@ -28,6 +29,7 @@ const rootReducer = combineReducers({
   posts: postsReducer,
   complaints: complaintsReducer,
   events: eventsReducer,
+  lessons: lessonsReducer,
 });
 
 export const store = configureStore({
