@@ -1,22 +1,22 @@
 import { validatorToAddress, Data } from "@lucid-evolution/lucid";
 
 const lessonRequestPlutusScript = {
-    type: "PlutusV3",
-    script: process.env.PLUTUS_LESSON_REQUEST_COMPILED_CODE.trim()
+  type: "PlutusV3",
+  script: process.env.PLUTUS_LESSON_REQUEST_COMPILED_CODE.trim(),
 };
 
 const lessonAcceptedPlutusScript = {
-    type: "PlutusV3",
-    script: process.env.PLUTUS_LESSON_ACCEPTED_COMPILED_CODE.trim()
+  type: "PlutusV3",
+  script: process.env.PLUTUS_LESSON_ACCEPTED_COMPILED_CODE.trim(),
 };
 
 const lessonComplaintPlutusScript = {
-    type: "PlutusV3",
-    script: process.env.PLUTUS_LESSON_COMPLAINT_COMPILED_CODE.trim()
+  type: "PlutusV3",
+  script: process.env.PLUTUS_LESSON_COMPLAINT_COMPILED_CODE.trim(),
 };
 
-const getValidatorAddress = async (plutusScript) => 
-    validatorToAddress(process.env.NEXT_PUBLIC_BLOCKFROST_NETWORK, plutusScript);
+const getValidatorAddress = async (plutusScript) =>
+  validatorToAddress(process.env.NEXT_PUBLIC_BLOCKFROST_NETWORK, plutusScript);
 
 const LessonRequestDatumSchema = Data.Object({
   student: Data.Bytes(),
@@ -65,12 +65,12 @@ const LessonComplaintDatumSchema = Data.Object({
 });
 
 async function buildTransactionDatum(data, schema) {
-    try {
-        return Data.to(data, schema);
-    } catch (error) {
-        console.error("Error building datum:", error);
-        return null;
-    }
+  try {
+    return Data.to(data, schema);
+  } catch (error) {
+    console.error("Error building datum:", error);
+    return null;
+  }
 }
 
 export {
@@ -81,5 +81,5 @@ export {
   LessonRequestDatumSchema,
   AcceptedLessonDatumSchema,
   LessonComplaintDatumSchema,
-  buildTransactionDatum
-}
+  buildTransactionDatum,
+};
