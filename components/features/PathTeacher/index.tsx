@@ -18,6 +18,8 @@ import { LanguageToLaernAndTeach } from '@/components/shared/ui/InitForm/Languag
 import VerificationStep from '@/components/features/PathTeacher/steps/VerificationStep';
 import TeacherInfoForm from '@/components/features/PathTeacher/steps/TeacherInfoForm';
 import SubmissionSuccess from '@/components/features/PathTeacher/steps/SubmissionSuccess';
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { storage } from '@/components/shared/utils/firebase/init';
 
 const BecomeTeacherPath = () => {
     const router = useRouter();
@@ -34,10 +36,15 @@ const BecomeTeacherPath = () => {
     const [diplomaFile, setDiplomaFile] = useState<File | null>(null);
     const [teacherInfo, setTeacherInfo] = useState({});
 
+    const uploadDiploma = async (file: File, userId: string) => {
+        const diplomaRef = ref(storage, `teacherApplications/${userId}/diploma-${file.name}`);
+        await uploadBytes(diplomaRef, file);
+        return getDownloadURL(diplomaRef);
+    };
 
-    const handleNext = () => {
+    const handleNext = async () => {
         if (step === 6) {
-            submitTeacherApplicaition();
+            await submitTeacherApplicaition();
             setStep(7);
         } else {
             setStep(prev => prev + 1);
@@ -55,33 +62,44 @@ const BecomeTeacherPath = () => {
 
     const handleQuit = () => {
         dispatch(hideModal(EModalKind.PathTeacher));
-    }
+    };
 
+    const submitTeacherApplicaition = async () => {
+        try {
+            let diplomaUrl = userData?.teacherApplication?.diploma || null;
 
-    const submitTeacherApplicaition = () => {
-        const updatedData = {
-            ...userData,
-            userRole: EUserRole.Specialist,
-            firstVisit: false,
-            teacherApplication: {
-                nativeLang,
-                targetLang,
-                teacherType,
-                diploma: diplomaFile,
-                teacherInfo,
-                updatedAt: new Date().toISOString()
+            if (diplomaFile) {
+                diplomaUrl = await uploadDiploma(diplomaFile, userUid);
             }
-        };
-        dispatch(actionUpdateProfile(updatedData, userUid));
-        toast.success("Application to Become a Teacher Submitted");
-    }
+
+            const updatedData = {
+                ...userData,
+                userRole: EUserRole.Specialist,
+                firstVisit: false,
+                teacherApplication: {
+                    nativeLang,
+                    targetLang,
+                    teacherType,
+                    diploma: diplomaUrl,
+                    teacherInfo,
+                    updatedAt: new Date().toISOString(),
+                },
+            };
+
+            await dispatch(actionUpdateProfile(updatedData, userUid));
+            toast.success('Application to Become a Teacher Submitted');
+        } catch (error) {
+            console.error('Error submitting teacher application', error);
+            toast.error('Failed to submit application. Please try again.');
+        }
+    };
 
 
     return (
         <>
             {step === 1 && (
                 <OnboardingLayout
-                    title="What is your native language?"
+                    title="What is your name/nickname?"
                     onNext={handleNext}
                     onBack={handleQuit}
                     nextDisabled={!nativeLang}
@@ -93,12 +111,15 @@ const BecomeTeacherPath = () => {
 
             {step === 2 && (
                 <OnboardingLayout
-                    title="What language do you want to teach?"
+                    title="What is your native language?"
                     onNext={handleNext}
                     onBack={handleBack}
-                    nextDisabled={!targetLang}
+                    nextDisabled={!nativeLang}
                 >
-                    <NativeLanguage />
+                    <NativeLanguage
+                        nativeLang={nativeLang}
+                        setNativeLang={setNativeLang}
+                    />
                 </OnboardingLayout>
             )}
 

@@ -509,7 +509,7 @@ const DayRow = ({ hour, handleClick, mark, bgColor, request, isPastHour }) => {
                       dayRowBtn
                       className={s.dayRowBtn}
                       onClick={onSpecialistAccept}
-                      disabled={isAcceptDisabled}
+                      // disabled={isAcceptDisabled}
                       aria-disabled={isAcceptDisabled}
                       title={isAcceptDisabled ? t?.available_in_10_min ?? 'Available after 10 minutes' : ''}
                     >
@@ -548,7 +548,7 @@ const DayRow = ({ hour, handleClick, mark, bgColor, request, isPastHour }) => {
                   onClick={(e) => e.stopPropagation()}
                 >
                   {/* <Button
-                  
+
                     type="button"
                     // className={s.dropdownItem}
                     onClick={async (e) => {

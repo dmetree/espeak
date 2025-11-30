@@ -5,40 +5,26 @@
 }
 
 .flagGrid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-  gap: 12px;
-  width: 100%;
-
-  @media (max-width: 1024px) {
-    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-    gap: 10px;
-  }
-
-  @media (max-width: 768px) {
-    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
-    gap: 8px;
-  }
-
-  @media (max-width: 480px) {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 8px;
-  }
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: center;
 }
 
 .flagButton {
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
+
+  width: 114px;
+  height: 40px;
   gap: 8px;
-  padding: 16px 12px;
   border-radius: 12px;
-  border: 2px solid #bbc2fa;
+  border: 1px solid #bbc2fa;
   background: #fafafa;
   cursor: pointer;
   transition: all 0.2s ease;
-  min-height: 120px;
 
   color: #161616;
   font-family: Helvetica, -apple-system, Roboto, Helvetica, sans-serif;
@@ -89,28 +75,9 @@
 }
 
 .flagEmoji {
-  font-size: 40px;
-  line-height: 1;
-  display: block;
-
-  @media (max-width: 1024px) {
-    font-size: 36px;
-  }
-
-  @media (max-width: 768px) {
-    font-size: 28px;
-  }
-
-  @media (max-width: 480px) {
-    font-size: 24px;
-  }
-}
-
-.flagName {
-  display: block;
-  width: 100%;
-  word-wrap: break-word;
-  overflow-wrap: break-word;
+  width: 24px;
+  height: 24px;
+  line-height: 24px;
 }
 
 .selectInput {

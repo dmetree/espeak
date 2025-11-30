@@ -71,7 +71,7 @@ const ViewExperts = () => {
             <div className={s.page}>
                 <Sidebar />
                 <div className={s.main}>
-                    <h2 className={s.header}>{t.view_experts}</h2>
+                    <h2 className={s.header}>Learn languages with our certified teachers and native speakers</h2>
                     <div className={s.searchBox_wrap}>
                         <span>{t.search_therapist}</span>
                         <div className={s.searchBox}>
