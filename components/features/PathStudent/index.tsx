@@ -31,16 +31,21 @@ const BecomeStudentPath = () => {
     const [purpose, setPurpose] = useState('');
 
     // Mock language list
-    const LANG_OPTIONS = [
-        { code: 'en', name: 'English', flag: '🇬🇧' },
-        { code: 'es', name: 'Spanish', flag: '🇪🇸' },
-        { code: 'fr', name: 'French', flag: '🇫🇷' },
-        { code: 'de', name: 'German', flag: '🇩🇪' },
-        { code: 'pt', name: 'Portuguese', flag: '🇵🇹' },
-    ];
+const LANG_OPTIONS = [
+    { code: 'en', name: 'English', flag: '🇬🇧' },
+    { code: 'es', name: 'Spanish', flag: '🇪🇸' },
+    { code: 'fr', name: 'French', flag: '🇫🇷' },
+    { code: 'de', name: 'German', flag: '🇩🇪' },
+    { code: 'pt', name: 'Portuguese', flag: '🇵🇹' },
+
+    { code: 'zh', name: 'Chinese', flag: '🇨🇳' },
+    { code: 'ja', name: 'Japanese', flag: '🇯🇵' },
+    { code: 'ko', name: 'Korean', flag: '🇰🇷' },
+    { code: 'pl', name: 'Polish', flag: '🇵🇱' },
+];
 
     const handleNext = () => {
-        if (step === 4) {
+        if (step === 5) {
             submitStudentInfo();
         } else {
             setStep(prev => prev + 1);
@@ -77,44 +82,31 @@ const BecomeStudentPath = () => {
         <>
             {step === 1 && (
                 <OnboardingLayout
-                    title="What is your native language?"
+                    title="What is your name/nickname?"
                     subtitle="Please, choose your native language from the list below."
                     onNext={handleNext}
                     onBack={handleQuit}
-                    nextDisabled={!nativeLang}
                 >
-                    {/* <LanguageSelector
-                        options={LANG_OPTIONS}
-                        selected={nativeLang}
-                        onChange={setNativeLang}
-                        showFlags={false}
-                    /> */}
                     <NameInput />
                 </OnboardingLayout>
             )}
 
             {step === 2 && (
                 <OnboardingLayout
-                    title="What language do you want to learn?"
-                    subtitle="Select the language you want to start learning."
+                    title="What is your native language?"
+                    subtitle="Please, choose your native language from the list below."
                     onNext={handleNext}
-                    onBack={handleBack}
-                    nextDisabled={!targetLang}
+                    onBack={handleQuit}
+                    nextDisabled={!nativeLang}
                 >
-                    {/* <LanguageSelector
-                        options={LANG_OPTIONS.filter(l => l.code !== nativeLang)}
-                        selected={targetLang}
-                        onChange={setTargetLang}
-                        showFlags={true}
-                    /> */}
                     <NativeLanguage />
                 </OnboardingLayout>
             )}
 
             {step === 3 && (
                 <OnboardingLayout
-                    title="What language do you want to learn?"
-                    subtitle="Select the language you want to start learning."
+                    title="What language you want to learn?"
+                    subtitle="Please, choose the language(s) you want to learn"
                     onNext={handleNext}
                     onBack={handleBack}
                     nextDisabled={!targetLang}

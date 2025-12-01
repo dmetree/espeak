@@ -5,10 +5,12 @@ import Button from '@/components/shared/ui/Button';
 import { useSelector } from 'react-redux';
 import { loadMessages } from '@/components/shared/i18n/translationLoader';
 import RoleSelector from '@/components/features/RoleSelector';
+import { EUserRole } from '@/components/shared/types';
 
 import Image from "next/image";
 
 import girlSittedIcon from '@/components/shared/assets/image_icons/sitted-girl.svg';
+import teacherMainImage from '@/components/shared/assets/image_icons/main-image-teacher.svg';
 import calendarIcon from '@/components/shared/assets/image_icons/calendar.svg';
 
 import UpcomingLessons from '@/components/features/UpcomingLessons';
@@ -23,6 +25,8 @@ export default function Dashboard() {
   const userUid = useSelector(({ user }) => user.uid);
   const userData = useSelector(({ user }) => user?.userData);
   const myAppointments = useSelector(({ appointments }) => appointments.myAppointments);
+
+  const isTeacher = userData?.userRole === EUserRole.Specialist;
   const firstVisit = useSelector(({ user }) => user?.userData?.firstVisit);
 
   const [firstTime, setFirstTime] = useState();
@@ -37,8 +41,6 @@ export default function Dashboard() {
   const handleFindTeacher = () => {
     router.push('/view_experts');
   }
-
-
 
   const myRequests = useMemo(() => {
     if (!myAppointments || !userUid) return [];
@@ -60,7 +62,7 @@ export default function Dashboard() {
     }
   }, [userData?.freeTimestamps]);
 
-
+  console.log('isTeacher', isTeacher)
 
   return (
     <motion.div
@@ -88,21 +90,29 @@ export default function Dashboard() {
             <div className={styles.mainContent}>
               <div className={styles.welcomeCard}>
                 <div className={styles.content}>
-                  <div className={styles.textBlock}>
-                    <h2>Hello!</h2>
-                    <p>Today is a good day to learn something new.</p>
-                  </div>
-
-                  <div className={styles.buttonBlock}>
-                    <Button onClick={handleFindTeacher}>Find a teacher</Button>
+                  <div className={styles.heroCard}>
+                    <div className={styles.heroContent}>
+                      <h1 className={styles.heroTitle}>Hello!</h1>
+                      <p className={styles.heroSubtitle}>
+                        Today is a good day to learn something new.
+                      </p>
+                    </div>
+                    <div className={styles.heroImageSection}>
+                      <Image
+                          src={isTeacher ? teacherMainImage : girlSittedIcon}
+                          alt={isTeacher ? 'Teacher' : 'Student'}
+                          width={150}
+                          height={250}
+                      />
+                      {!isTeacher && (
+                          <div className={styles.buttonBlock}>
+                              <Button onClick={handleFindTeacher}>Find a teacher</Button>
+                          </div>
+                      )}
+                    </div>
                   </div>
                 </div>
-                <Image
-                  src={girlSittedIcon}
-                  alt={'mobile'}
-                  width={150}
-                  height={250}
-                />
+
               </div>
               <div className={styles.contentLayout}>
 
