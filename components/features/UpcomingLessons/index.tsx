@@ -1,8 +1,7 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { loadMessages } from '@/components/shared/i18n/translationLoader';
 
-import styles from './styles.module.scss'
-import H4TitleBold from '@/components/shared/ui/Titles/h4-bold';
+import styles from './styles.module.scss';
 import DisplayPsyRequests from '@/components/features/DisplayPsyRequests';
 
 import { AppDispatch } from "@/store";
@@ -25,7 +24,7 @@ const UpcomingLessons = () => {
 
     return (
         <div className={styles.upcomingLessons}>
-            <H4TitleBold>Upcoming lessons</H4TitleBold>
+            <h2>Upcoming lessons</h2>
             <div className={styles.container}>
                 <DisplayPsyRequests requests={myAppointments} />
             </div>
