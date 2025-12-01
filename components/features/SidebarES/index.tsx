@@ -100,7 +100,7 @@ export default function Sidebar() {
                 strokeLinejoin="round"
               />
             </svg>
-            <span className={styles.navText}>Teachers' list</span>
+            <span className={styles.navText}>Teachers</span>
           </Link>
 
           <Link href="/user_info" className={styles.navItem}>

@@ -20,6 +20,8 @@ import Link from 'next/link';
 import { findRandomSpecialists, findSpecialists } from '@/store/actions/specialists';
 import Sidebar from "@/components/features/SidebarES";
 import { FiltersBar } from "@/components/pages/ViewExperts/ui/FiltersBar/FiltersBar";
+import { mockTeachers } from "@/components/pages/ViewExperts/mocked_teacher";
+import SpecialistCardNew from "@/components/pages/ViewExperts/ui/SpecialistsCardNew";
 
 
 const ViewExperts = () => {
@@ -60,6 +62,8 @@ const ViewExperts = () => {
         }
     }, [])
 
+    console.log('specialistList', specialistList)
+
 
     return (
         <motion.div
@@ -85,19 +89,16 @@ const ViewExperts = () => {
 
                     <FiltersBar />
 
-
-
                     <div className={s.specialistList}>
-                        {noTherapistFound ? (
-                            <p className={s.noTherapist}>{t.no_therapist_found || "There is no therapist with that nickname"}</p>
-                        ) : (
-                            specialistList.map(({ uid, ...specialist }) => {
-                                console.log('specialist', specialist)
-                                return (
-                                    <SpecialistCard key={uid} uid={uid as string} {...specialist} />
-                                )
-                            })
-                        )}
+                    {noTherapistFound ? (
+                        <p className={s.noTherapist}>
+                        {t.no_therapist_found || "There is no therapist with that nickname"}
+                        </p>
+                    ) : (
+                        specialistList.map(item => (
+                            <SpecialistCardNew specialist={item} key={item?.id} />
+                        ))
+                    )}
                     </div>
                 </div>
             </div>
