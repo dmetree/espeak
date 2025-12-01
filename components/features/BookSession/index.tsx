@@ -45,12 +45,11 @@ import { AppDispatch } from "@/store";
 import { debounce } from '@/components/shared/utils/throttleDebounce';
 
 
-
 const BookSession = () => {
   const router = useRouter();
   const dispatch: AppDispatch = useDispatch<AppDispatch>();
 
-  // const user = useSelector(({ networkCardano }) => networkCardano.user);
+  const user = useSelector(({ networkCardano }) => networkCardano.user);
   const wallet = useSelector(({ networkCardano }) => networkCardano.wallet);
 
   const userUid = useSelector(({ user }) => user.uid);
@@ -128,10 +127,23 @@ const BookSession = () => {
       );
 
       // // Cardano transaction
-      
-      const hash = await dispatch(
-        submitLessonRequestTx( wallet, appointment, { ['lovelace']: BigInt(100) } )
-      );
+      const response = await fetch('/api/lessons/request', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          userAddress: user.address,
+          lessonData: appointment,
+        }),
+      });
+      if (response.status !== 200) {
+        throw new Error('Failed to create lesson request transaction');
+      }
+      const { success, txCbor } = await response.json();
+      if (!success) {
+        throw new Error('Lesson request transaction was not successful');
+      }
 
       // Create appointment in backend (Firestore)
       const docId = await dispatch(createAppointment(userUid, appointment));
