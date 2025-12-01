@@ -14,6 +14,8 @@ import { loadMessages } from "@/components/shared/i18n/translationLoader";
 
 import { auth, signInWithPopup, twitterProvider } from "@/components/shared/utils/firebase/init";
 import { googleSignup, login, fetchUserData } from "@/store/actions/profile/user";
+import { FaXTwitter, FaGoogle } from "react-icons/fa6";
+
 
 const Login = () => {
   const dispatch: AppDispatch = useDispatch<AppDispatch>();
@@ -141,10 +143,10 @@ const Login = () => {
 
       <div className={s.socialRow}>
         <button type="button" onClick={handleGoogleLogin} disabled={loading}>
-          <Image src="/icons/google.svg" alt="Google" width={20} height={20} />
+          <FaGoogle size={24} />
         </button>
         <button type="button" onClick={handleTwitterLogin} disabled={loading}>
-          <Image src="/icons/twitter.svg" alt="Twitter" width={20} height={20} />
+          <FaXTwitter size={24} />
         </button>
       </div>
 
