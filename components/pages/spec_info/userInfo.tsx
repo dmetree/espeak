@@ -1,261 +1,520 @@
-import React, { useMemo } from 'react';
-import Image from 'next/image';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import parse from 'html-react-parser';
 import { getLocalizedContent } from '@/hooks/localize';
 import { Tooltip } from '@/components/shared/ui/Tooltip/Tooltip';
-import { useSelector } from 'react-redux';
-import { toast } from "react-toastify";
+import { useDispatch, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 
 import styles from './.module.scss';
 import Link from 'next/link';
+import { storage } from '@/components/shared/utils/firebase/init';
+import { AppDispatch } from '@/store';
+import { actionUpdateProfile } from '@/store/actions/profile/user';
 
 const UserInfo = ({ specialistData, t, isPublic, currentLocale }) => {
+  const dispatch: AppDispatch = useDispatch<AppDispatch>();
+  const userUid = useSelector(({ user }) => user.uid);
 
+  const [isEditing, setIsEditing] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
+  const [avatarFile, setAvatarFile] = useState<File | null>(null);
+  const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
+
+  const [formState, setFormState] = useState({
+    nickname: '',
+    age: '',
+    nativeLanguage: '',
+    teachLanguage: '',
+    about: '',
+    introVideo: '',
+    topicsInput: '',
+    topics: [] as string[],
+    price: '',
+  });
+
+  const languageOptions = useMemo(() => {
+    const dict = t['user-languages'] || {};
+    return Object.entries(dict).map(([code, label]) => ({
+      code,
+      label: String(label),
+    }));
+  }, [t]);
 
   const handleShareClick = () => {
     const { origin, pathname } = window.location;
 
-    // Decide which URL to share
-    const pageUrl = pathname === "/office/"
-      ? `${origin}/specialist-profile/${specialistData?.nickname}`
-      : `${origin}${pathname}`;
+    const pageUrl =
+      pathname === '/office/'
+        ? `${origin}/specialist-profile/${specialistData?.nickname}`
+        : `${origin}${pathname}`;
 
-    navigator.clipboard.writeText(pageUrl)
+    navigator.clipboard
+      .writeText(pageUrl)
       .then(() => {
-        console.log("URL copied:", pageUrl);
         toast.success(t.specialist_url_copied);
       })
-      .catch(err => {
-        console.error("Failed to copy URL:", err);
+      .catch((err) => {
+        console.error('Failed to copy URL:', err);
         toast.error(t.specialist_url_copied_fail);
       });
   };
 
+  useEffect(() => {
+    if (!specialistData) return;
+
+    const about = specialistData.infoAbout
+      ? getLocalizedContent(specialistData.infoAbout, currentLocale)
+      : '';
+
+    setFormState({
+      nickname: specialistData.nickname || '',
+      age: specialistData.age ? String(specialistData.age) : '',
+      nativeLanguage:
+        specialistData.nativeLanguage || specialistData.languages?.[0] || '',
+      teachLanguage:
+        specialistData.teachLanguage || specialistData.languages?.[0] || '',
+      about: typeof about === 'string' ? about : '',
+      introVideo: specialistData.introVideo || '',
+      topicsInput: '',
+      topics: Array.isArray(specialistData.topics)
+        ? specialistData.topics
+        : [],
+      price: specialistData.price ? String(specialistData.price / 100) : '',
+    });
+
+    setAvatarPreview(specialistData.avatar || null);
+  }, [specialistData, currentLocale]);
+
+  const handleAvatarClick = () => {
+    if (!isEditing) return;
+    fileInputRef.current?.click();
+  };
+
+  const handleAvatarChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    setAvatarFile(file);
+
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setAvatarPreview(reader.result as string);
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const uploadAvatar = async (file: File, userId: string) => {
+    const storageRef = ref(storage, `avatars/${userId}`);
+    await uploadBytes(storageRef, file);
+    return getDownloadURL(storageRef);
+  };
+
+  const handleChange = (
+    field: keyof typeof formState,
+    value: string | string[],
+  ) => {
+    setFormState((prev) => ({
+      ...prev,
+      [field]: value,
+    }));
+  };
+
+  const handleTopicsKeyDown = (
+    event: React.KeyboardEvent<HTMLInputElement>,
+  ) => {
+    if (event.key !== 'Enter' && event.key !== ',') return;
+
+    event.preventDefault();
+    const value = formState.topicsInput.trim();
+    if (!value) return;
+
+    setFormState((prev) => ({
+      ...prev,
+      topics: prev.topics.includes(value)
+        ? prev.topics
+        : [...prev.topics, value],
+      topicsInput: '',
+    }));
+  };
+
+  const handleRemoveTopic = (topic: string) => {
+    setFormState((prev) => ({
+      ...prev,
+      topics: prev.topics.filter((t) => t !== topic),
+    }));
+  };
+
+  const handleEditToggle = () => {
+    if (isPublic) return;
+    setIsEditing((prev) => !prev);
+  };
+
+  const handleCancel = () => {
+    setIsEditing(false);
+    if (specialistData) {
+      const about = specialistData.infoAbout
+        ? getLocalizedContent(specialistData.infoAbout, currentLocale)
+        : '';
+
+      setFormState({
+        nickname: specialistData.nickname || '',
+        age: specialistData.age ? String(specialistData.age) : '',
+        nativeLanguage:
+          specialistData.nativeLanguage || specialistData.languages?.[0] || '',
+        teachLanguage:
+          specialistData.teachLanguage || specialistData.languages?.[0] || '',
+        about: typeof about === 'string' ? about : '',
+        introVideo: specialistData.introVideo || '',
+        topicsInput: '',
+        topics: Array.isArray(specialistData.topics)
+          ? specialistData.topics
+          : [],
+        price: specialistData.price
+          ? String(specialistData.price / 100)
+          : '',
+      });
+
+      setAvatarPreview(specialistData.avatar || null);
+      setAvatarFile(null);
+    }
+  };
+
+  const handleSave = async () => {
+    if (!specialistData || !userUid) return;
+
+    try {
+      setIsSaving(true);
+
+      let avatarUrl = specialistData.avatar || '';
+      if (avatarFile) {
+        avatarUrl = await uploadAvatar(avatarFile, userUid);
+      }
+
+      const numericPrice = formState.price
+        ? Math.max(0, Number(formState.price))
+        : 0;
+
+      const infoAbout = {
+        ...(specialistData.infoAbout || {}),
+        [currentLocale]: formState.about,
+      };
+
+      const languages = Array.from(
+        new Set(
+          [formState.nativeLanguage, formState.teachLanguage].filter(Boolean),
+        ),
+      );
+
+      const updatedData: any = {
+        avatar: avatarUrl,
+        nickname: formState.nickname.trim(),
+        age: formState.age ? Number(formState.age) : null,
+        nativeLanguage: formState.nativeLanguage || null,
+        teachLanguage: formState.teachLanguage || null,
+        introVideo: formState.introVideo.trim(),
+        infoAbout,
+        topics: formState.topics,
+        price: numericPrice ? Math.round(numericPrice * 100) : null,
+      };
+
+      if (languages.length) {
+        updatedData.languages = languages;
+      }
+
+      await dispatch(actionUpdateProfile(updatedData, userUid));
+
+      toast.success(t.specialist_profile_updated || 'Profile updated');
+      setIsEditing(false);
+    } catch (error: any) {
+      console.error('Error updating profile', error);
+      toast.error(
+        t.specialist_profile_update_failed ||
+          error?.message ||
+          'Failed to update profile',
+      );
+    } finally {
+      setIsSaving(false);
+    }
+  };
 
   if (!specialistData) return null;
 
-  console.log('specialistData?.introVideo', specialistData?.introVideo)
+  const isTeacher = specialistData.userRole === 'specialist';
+
+  const displayName = formState.nickname || specialistData.nickname || '';
+
+  const speaksLabel = formState.nativeLanguage ||
+    specialistData.nativeLanguage ||
+    specialistData.languages?.[0] ||
+    '';
+
+  const teachesLabel = formState.teachLanguage ||
+    specialistData.teachLanguage ||
+    specialistData.languages?.[0] ||
+    '';
+
+  const resolveLanguageLabel = (code: string) => {
+    const option = languageOptions.find((opt) => opt.code === code);
+    return option?.label || code;
+  };
+
+  const avatarSrc =
+    avatarPreview ||
+    specialistData.avatar ||
+    'https://api.builder.io/api/v1/image/assets/TEMP/1511ba036a33e82d57c74c1d6bfdba0636f16395?width=280';
 
   return (
-    // <div className={s.psyInfoBoard}>
-    //   <div className={s.nameRank}>
-    //     <div className={s.initBlock}>
-    //       {specialistData?.avatar ? (
-    //         <img className={s.profileImg} src={specialistData.avatar} alt="Avatar" />
-    //       ) : <div className={s.profileImg} />}<div className={s.gridAreaInfo}>
-    //         <div className={s.nameAndActions}>
-    //           <div>
-    //             <span className={s.psyName}>{specialistData?.nickname}</span>
-    //           </div>
-
-    //           <div className={s.actions}>
-    //             {!isPublic && (
-    //               <Link href="/edit_profile" className={s.profileBtn}>
-    //                 {t.specialist_edit_profile}
-    //               </Link>
-    //             )}
-
-    //             <div className={s.shareWrapper}>
-    //               <div className={s.shareProfile} onClick={handleShareClick}>&#128279;</div>
-    //               <div className={s.tooltipBox}>
-    //                 <Tooltip title={t.shareLinkTooltip} />
-    //               </div>
-    //             </div>
-    //           </div>
-
-    //         </div>
-
-    //         <div className={s.paramsBlock}>
-    //           <div className={s.paramItem}>
-    //             <span className={s.paramItemTitle}>{t.specialist_personal_therapy}</span>
-    //             <span className={s.paramNumber}>{specialistData?.hrInPsy}</span>
-    //             <span className={s.unitsOfMeasure}>{t.specialist_personal_therapy_hours}</span>
-    //           </div>
-    //           <div className={s.paramItem}>
-    //             <span className={s.paramItemTitle}>{t.specialist_client_sessions}</span>
-    //             <span className={s.paramNumber}>{specialistData?.hrPsy}</span>
-    //             <span className={s.unitsOfMeasure}>{t.specialist_client_sessions_hours}</span>
-    //           </div>
-    //           <div className={s.paramItem}>
-    //             <span className={s.paramItemTitle}>{t.specialist_psy_education}</span>
-    //             <span className={s.paramNumber}>{specialistData?.hrEducation}</span>
-    //             <span className={s.unitsOfMeasure}>{t.specialist_psy_education_hours}</span>
-    //           </div>
-    //           <div className={s.paramItem}>
-    //             <span className={s.paramItemTitle}>{t.specialist_in_profession}</span>
-    //             <span className={s.paramNumber}>{specialistData?.inProfessionSince}</span>
-    //             <span className={s.unitsOfMeasure}>{t.specialist_in_profession_year}</span>
-    //           </div>
-    //         </div>
-    //       </div>
-    //     </div>
-    //   </div>
-
-    //   {!specialistData?.isAlive && (
-    //     <div className={s.yearsOfLife}>
-    //       {specialistData?.yearOfBirth} - {specialistData?.yearOfDeath}
-    //     </div>
-    //   )}
-
-    //   {specialistData?.psySpecialities?.length > 0 && (
-    //     <div className={s.psyMethods}>
-    //       <span className={s.psyMethodsLabel}>{t.specialist_expert_in}</span>
-    //       <div className={s.psyMethodList}>
-    //         {specialistData?.psySpecialities?.map((speciality) => (
-    //           <span className={s.psyMethod} key={speciality}>
-    //             {t['psy-speciality'][speciality] || speciality}
-    //           </span>
-    //         ))}
-    //       </div>
-    //     </div>
-    //   )}
-
-    //   {specialistData?.psyMethods?.length > 0 && (
-    //     <div className={s.psyMethods}>
-    //       <span className={s.psyMethodsLabel}>{t.specialist_psy_methods}</span>
-    //       <div className={s.psyMethodList}>
-    //         {specialistData.psyMethods.map((method) => (
-    //           <span className={s.psyMethod} key={method}>
-    //             {t['psy-methods'][method] || method}
-    //           </span>
-    //         ))}
-    //       </div>
-    //     </div>
-    //   )}
-
-    //   {specialistData?.myTeachers?.length > 0 && (
-    //     <div className={s.teachers}>
-    //       <span className={s.teachersLabel}>{t.specialist_teachers_supervisiors}</span>
-    //       <div className={s.teachersList}>
-    //         {specialistData.myTeachers.map((teacher) => (
-    //           <span className={s.teacher} key={teacher}>{teacher}</span>
-    //         ))}
-    //       </div>
-    //     </div>
-    //   )}
-
-    //   {specialistData?.isAlive && specialistData?.languages?.length > 0 && (
-    //     <div className={s.languages}>
-    //       <span className={s.languagesLabel}>{t.specialist_languages}</span>
-    //       <div className={s.languagesList}>
-    //         {specialistData.languages.map((language) => (
-    //           <span className={s.language} key={language}>{t['user-languages'][language]}</span>
-    //         ))}
-    //       </div>
-    //     </div>
-    //   )}
-
-    //   {specialistData?.introVideo && (
-    //     <div className={s.about_video}>
-    //       <a
-    //         href={specialistData.introVideo}
-    //         target="_blank"
-    //         rel="noopener noreferrer"
-    //       >
-    //         {t.your_introduction_video}
-    //       </a>
-    //     </div>
-    //   )}
-
-    //   {specialistData?.infoAbout && (
-    //     <div className={s.about_block}>
-    //       <div className={s.servicesLabel}>{t.about}</div>
-    //       <div className={s.infoAbout}>
-    //         {parse(getLocalizedContent(specialistData.infoAbout, currentLocale))}
-    //       </div>
-    //     </div>
-    //   )}
-
-    //   {specialistData?.services?.length > 0 && (
-    //     <div className={s.services}>
-    //       <div className={s.servicesLabel}>{t.specialist_services}</div>
-    //       <div className={s.serviceList}>
-    //         {specialistData.services.map((service, index) => (
-    //           <div key={index} className={s.serviceItem}>
-    //             <div className={s.generalInfo}>
-    //               <div className={s.serviceTitle}>{getLocalizedContent(service.title, currentLocale)}</div>
-    //               <div className={s.servicePrice}>${service.price / 100} / {service.length}min.</div>
-    //             </div>
-    //             <div className={s.description}>{parse(getLocalizedContent(service.description, currentLocale))}</div>
-    //           </div>
-    //         ))}
-    //       </div>
-    //     </div>
-    //   )}
-    // </div>
     <div className={styles.page}>
       <div className={styles.container}>
         <div className={styles.header}>
-          <h1 className={styles.title}>My profile</h1>
-          <button className={styles.editButton}>Edit</button>
+          <h1 className={styles.title}>
+            {isEditing ? 'Edit profile' : 'My profile'}
+          </h1>
+
+          {!isPublic && (
+            <div className={styles.headerActions}>
+              {isEditing && (
+                <button
+                  type="button"
+                  className={styles.cancelButton}
+                  onClick={handleCancel}
+                  disabled={isSaving}
+                >
+                  Cancel
+                </button>
+              )}
+              <button
+                type="button"
+                className={styles.editButton}
+                onClick={isEditing ? handleSave : handleEditToggle}
+                disabled={isSaving}
+              >
+                {isEditing ? 'Save' : 'Edit'}
+              </button>
+            </div>
+          )}
         </div>
 
         <div className={styles.content}>
           <div className={styles.profileSection}>
-            <img
-              src="https://api.builder.io/api/v1/image/assets/TEMP/1511ba036a33e82d57c74c1d6bfdba0636f16395?width=280"
-              alt="Profile"
-              className={styles.profileImage}
+            <button
+              type="button"
+              className={styles.avatarButton}
+              onClick={handleAvatarClick}
+              disabled={!isEditing}
+            >
+              <img
+                src={avatarSrc}
+                alt="Profile"
+                className={styles.profileImage}
+              />
+            </button>
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept="image/*"
+              onChange={handleAvatarChange}
+              style={{ display: 'none' }}
             />
+
             <div className={styles.profileInfo}>
               <div className={styles.profileHeader}>
-                <h2 className={styles.profileName}>Adam Smith</h2>
-                <p className={styles.profileRole}>Teacher</p>
+                {isEditing ? (
+                  <input
+                    type="text"
+                    className={styles.textInput}
+                    value={formState.nickname}
+                    onChange={(e) => handleChange('nickname', e.target.value)}
+                    placeholder="Name / Nickname"
+                  />
+                ) : (
+                  <h2 className={styles.profileName}>{displayName}</h2>
+                )}
+                {isTeacher && (
+                  <p className={styles.profileRole}>Teacher</p>
+                )}
               </div>
-              <p className={styles.profileLanguage}>
-                <span className={styles.label}>Speaks:</span>
-                <span className={styles.value}>English</span>
-              </p>
-              <p className={styles.profileLanguage}>
-                <span className={styles.label}>Teaches:</span>
-                <span className={styles.value}>English</span>
-              </p>
+
+              <div className={styles.inlineFields}>
+                <div className={styles.inlineField}>
+                  <span className={styles.label}>Speaks:</span>
+                  {isEditing ? (
+                    <select
+                      className={styles.select}
+                      value={formState.nativeLanguage}
+                      onChange={(e) =>
+                        handleChange('nativeLanguage', e.target.value)
+                      }
+                    >
+                      <option value="">Select language</option>
+                      {languageOptions.map((opt) => (
+                        <option key={opt.code} value={opt.code}>
+                          {opt.label}
+                        </option>
+                      ))}
+                    </select>
+                  ) : (
+                    <span className={styles.value}>
+                      {speaksLabel ? resolveLanguageLabel(speaksLabel) : '—'}
+                    </span>
+                  )}
+                </div>
+
+                <div className={styles.inlineField}>
+                  <span className={styles.label}>Teaches:</span>
+                  {isEditing ? (
+                    <select
+                      className={styles.select}
+                      value={formState.teachLanguage}
+                      onChange={(e) =>
+                        handleChange('teachLanguage', e.target.value)
+                      }
+                    >
+                      <option value="">Select language</option>
+                      {languageOptions.map((opt) => (
+                        <option key={opt.code} value={opt.code}>
+                          {opt.label}
+                        </option>
+                      ))}
+                    </select>
+                  ) : (
+                    <span className={styles.value}>
+                      {teachesLabel
+                        ? resolveLanguageLabel(teachesLabel)
+                        : '—'}
+                    </span>
+                  )}
+                </div>
+              </div>
             </div>
           </div>
 
           <section className={styles.section}>
             <h3 className={styles.sectionTitle}>About me</h3>
-            <p className={styles.sectionText}>
-              Hi! I am Adam. Experienced English teacher, 20 years of
-              experience. And 1k+ classes on iTalki in 2 years. During my spare
-              time I love reading books, writing articles, and listening to
-              music. Watching and debating movies is also one my favorite
-              passtimes. Having the opportunity to travel around the world, I
-              have been to China, Turkey, France, Russia etc, I managed to grasp
-              the very importance of language and its communicative aspects.
-            </p>
+            {isEditing ? (
+              <textarea
+                className={styles.textarea}
+                value={formState.about}
+                onChange={(e) => handleChange('about', e.target.value)}
+                rows={6}
+              />
+            ) : specialistData.infoAbout ? (
+              <div className={styles.sectionText}>
+                {parse(
+                  getLocalizedContent(
+                    specialistData.infoAbout,
+                    currentLocale,
+                  ) || '',
+                )}
+              </div>
+            ) : (
+              <p className={styles.sectionText}>No description yet.</p>
+            )}
           </section>
 
           <section className={styles.section}>
             <h3 className={styles.sectionTitle}>Interesting topics</h3>
-            <div className={styles.topicsContainer}>
-              <span className={styles.topic}>Traveling</span>
-              <span className={styles.topic}>Films $ TV Series</span>
-            </div>
+            {isEditing ? (
+              <div className={styles.topicsEditor}>
+                <div className={styles.topicsContainer}>
+                  {formState.topics.map((topic) => (
+                    <button
+                      type="button"
+                      key={topic}
+                      className={styles.topicChip}
+                      onClick={() => handleRemoveTopic(topic)}
+                    >
+                      {topic}
+                      <span className={styles.topicRemove}>×</span>
+                    </button>
+                  ))}
+                </div>
+                <input
+                  type="text"
+                  className={styles.textInput}
+                  placeholder="Type topic and press Enter"
+                  value={formState.topicsInput}
+                  onChange={(e) => handleChange('topicsInput', e.target.value)}
+                  onKeyDown={handleTopicsKeyDown}
+                />
+              </div>
+            ) : formState.topics.length > 0 ? (
+              <div className={styles.topicsContainer}>
+                {formState.topics.map((topic) => (
+                  <span key={topic} className={styles.topic}>
+                    {topic}
+                  </span>
+                ))}
+              </div>
+            ) : (
+              <p className={styles.sectionText}>No topics added yet.</p>
+            )}
           </section>
 
-          <section className={styles.section}>
-            <h3 className={styles.sectionTitle}>Timezone</h3>
-            <p className={styles.sectionText}>
-              Living in London, United Kingdom (GMT+01:00)
-            </p>
-          </section>
+          {specialistData.timeZone && (
+            <section className={styles.section}>
+              <h3 className={styles.sectionTitle}>Timezone</h3>
+              <p className={styles.sectionText}>{specialistData.timeZone}</p>
+            </section>
+          )}
 
+          {isTeacher && (
           <section className={styles.videoSection}>
             <div className={styles.videoText}>
               <h3 className={styles.sectionTitle}>My introduction video</h3>
-              <p className={`${styles.sectionText} ${styles.muted}`}>
-                No video at this moment, please upload your introduction video.
-              </p>
+              {specialistData.introVideo ? (
+                <a
+                  href={specialistData.introVideo}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`${styles.sectionText} ${styles.link}`}
+                >
+                  Open current video
+                </a>
+              ) : (
+                <p className={`${styles.sectionText} ${styles.muted}`}>
+                  No video at this moment, please add your introduction video
+                  link.
+                </p>
+              )}
             </div>
-            <button className={styles.uploadButton}>Upload</button>
+            {isEditing && (
+              <input
+                type="text"
+                className={styles.textInput}
+                placeholder="https://www.youtube.com/..."
+                value={formState.introVideo}
+                onChange={(e) => handleChange('introVideo', e.target.value)}
+              />
+            )}
           </section>
+          )}
 
+          {isTeacher && (
           <section className={styles.priceSection}>
             <h3 className={styles.sectionTitle}>Price (per lesson)</h3>
-            <p className={styles.priceValue}>15 $</p>
+            {isEditing ? (
+              <div className={styles.priceInputWrapper}>
+                <input
+                  type="number"
+                  min={0}
+                  className={styles.priceInput}
+                  value={formState.price}
+                  onChange={(e) => handleChange('price', e.target.value)}
+                />
+                <span className={styles.priceSuffix}>$</span>
+              </div>
+            ) : (
+              <p className={styles.priceValue}>
+                {specialistData.price ? specialistData.price / 100 : '—'} $
+              </p>
+            )}
           </section>
+          )}
 
+          {isTeacher && (
           <div className={styles.statsCard}>
             <div className={styles.statItem}>
               <svg
@@ -274,6 +533,7 @@ const UserInfo = ({ specialistData, t, isPublic, currentLocale }) => {
             <p className={styles.statValue}>1 000 lessons</p>
             <p className={styles.statValue}>200 students</p>
           </div>
+          )}
         </div>
       </div>
     </div>
