@@ -1,25 +1,20 @@
-import React, { useEffect, useState, useRef, ChangeEvent, KeyboardEvent } from "react";
+import React, { useEffect, useState, ChangeEvent, KeyboardEvent } from "react";
 import { useRouter } from "next/router";
 import { motion } from 'framer-motion';
 
-import { EModalKind, IJobRequestStatus } from '@/components/shared/types';
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from "@/store";
 import { loadMessages } from '@/components/shared/i18n/translationLoader';
-import Page from "@/components/shared/ui/Page/Page";
-import Substrate from "@/components/shared/ui/Substrate/Substrate";
 import Button from '@/components/shared/ui/Button';
 import { SingleInput } from "@/components/shared/ui/SingleInput/SingleInput";
 import { ISpecProfile } from "@/components/shared/types";
-import SpecialistCard from './TherapistCard';
 
-import { showModal, hideModal, toggleModal } from '@/store/actions/modal'; // Assuming actions are in this file
-
-import s from './ViewExperts.module.scss';
-import Link from 'next/link';
 import { findRandomSpecialists, findSpecialists } from '@/store/actions/specialists';
 import Sidebar from "@/components/features/SidebarES";
-import { FiltersBar } from "@/components/pages/ViewExperts/ui/FiltersBar/FiltersBar";
+import { FiltersBar, FiltersState } from "@/components/pages/ViewExperts/ui/FiltersBar/FiltersBar";
+import SpecialistCardNew from "@/components/pages/ViewExperts/ui/SpecialistsCardNew";
+
+import s from './ViewExperts.module.scss';
 
 
 const ViewExperts = () => {
@@ -32,6 +27,7 @@ const ViewExperts = () => {
 
 
     const [searchValue, setSearchValue] = useState<string>('');
+    const [filters, setFilters] = useState<FiltersState | null>(null);
     const specialistList = useSelector(
         ({ specialists }: { specialists: { specialistList: ISpecProfile[] } }) =>
             specialists.specialistList
@@ -53,13 +49,55 @@ const ViewExperts = () => {
 
     const noTherapistFound = !specialistList?.length || specialistList.every(s => !s.nickname);
 
+    const filteredSpecialists = (specialistList || []).filter((spec) => {
+        if (!filters) return true;
+
+        const langs: string[] = Array.isArray((spec as any).languages)
+            ? (spec as any).languages
+            : [];
+
+        // Filter by language the student wants to learn
+        if (filters.learnLanguage) {
+            const targetLang = (spec as any).teacherApplication?.targetLang;
+            const teachesRequestedLang =
+                targetLang === filters.learnLanguage || langs.includes(filters.learnLanguage);
+            if (!teachesRequestedLang) return false;
+        }
+
+        // Filter by language the teacher speaks
+        if (filters.speaksLanguage) {
+            if (!langs.includes(filters.speaksLanguage)) return false;
+        }
+
+        // Filter by teacher type (very simple heuristic based on teacherApplication.teacherType)
+        if (filters.teacherType && filters.teacherType !== 'Both') {
+            const teacherType = (spec as any).teacherApplication?.teacherType || '';
+            const isPro = teacherType === 'pro';
+
+            if (filters.teacherType === 'Teacher' && !isPro) return false;
+            if (filters.teacherType === 'Tutor' && isPro) return false;
+        }
+
+        // Filter by price range (price stored in cents)
+        const rawPrice = Number((spec as any).price);
+        const priceValue = Number.isFinite(rawPrice) ? rawPrice / 100 : null;
+
+        if (
+            priceValue !== null &&
+            (priceValue < filters.minPrice || priceValue > filters.maxPrice)
+        ) {
+            return false;
+        }
+
+        return true;
+    });
+
 
     useEffect(() => {
         if (specialistList.length === 0) {
             dispatch(findRandomSpecialists(userUid));
         }
     }, [])
-
 
     return (
         <motion.div
@@ -73,31 +111,31 @@ const ViewExperts = () => {
                 <Sidebar />
                 <div className={s.main}>
                     <h2 className={s.header}>Learn languages with our certified teachers and native speakers</h2>
-                    {/* <div className={s.searchBox_wrap}>
-                        <span>{t.search_therapist}</span>
+                    <div className={s.searchBox_wrap}>
+                        <span>Find teacher with particular nickname</span>
                         <div className={s.searchBox}>
                             <SingleInput placeholder="" onChange={onSearchChange} value={searchValue} onKeyDown={handleKeyPress} />
-                            <div
+                            <Button
                                 onClick={handleTherapistSearch}
-                                className={s.searchBtn}>{t.search}</div>
+                                className={s.searchBtn}>{t.search}
+                            </Button>
                         </div>
-                    </div> */}
+                    </div>
 
-                    <FiltersBar />
-
-
+                    <FiltersBar onFiltersChange={setFilters} />
 
                     <div className={s.specialistList}>
-                        {noTherapistFound ? (
-                            <p className={s.noTherapist}>{t.no_therapist_found || "There is no therapist with that nickname"}</p>
-                        ) : (
-                            specialistList.map(({ uid, ...specialist }) => {
-                                console.log('specialist', specialist)
-                                return (
-                                    <SpecialistCard key={uid} uid={uid as string} {...specialist} />
-                                )
-                            })
-                        )}
+                    {noTherapistFound ? (
+                        <p className={s.noTherapist}>
+                        {typeof t.no_therapist_found === 'string'
+                            ? t.no_therapist_found
+                            : "There is no teachers"}
+                        </p>
+                    ) : (
+                        filteredSpecialists.map(item => (
+                            <SpecialistCardNew specialist={item} key={item?.id} />
+                        ))
+                    )}
                     </div>
                 </div>
             </div>
