@@ -127,7 +127,7 @@ const BookSession = () => {
       );
 
       // // Cardano transaction
-      const response = await fetch('/api/lessons/request', {
+      const response = await fetch('/api/lessons/request/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
