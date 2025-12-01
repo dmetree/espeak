@@ -339,37 +339,41 @@ const Header = (props: IProps) => {
             )}
 
             {userUid && (
-              <div className={s.authOptions}>
-                {/* <div
-                  className={s.menuItem}
-                  onClick={() => displayNotificatonsTab()}>
-                  <MenuItem
-                    icon={menuObj.notifications}
-                    type={'stroke'}
-                    tooltip={t.notifications}
-                  />
-                  {(userData?.notifications?.length > 0) && (
-                    <span className={s.unreadBadge}></span>
-                  )}
-                </div> */}
-                <div className={s.menuItem}>
-                  <WalletsWidget />
-                </div>
-                {/* <div
-                  className={s.menuItem}
-                  onClick={() => displayNav()}
-                >
-                  {userData?.avatar ? (
-                    <Image width="50" height="50" src={userData?.avatar} alt="Avatar" className={s.avatarNav} loading="lazy" />
-                  ) : (
-                    <div className={s.welcomeBlock}>
-                      <div className={s.email_name}>
-                        {userEmail?.substring(0, 2).charAt(0).toUpperCase()}
+              <Link href="/dashboard" className={s.menuItem}>Dashboard</Link>
+            )}
+
+            {userUid && (
+                <div className={s.authOptions}>
+                  {/* <div
+                    className={s.menuItem}
+                    onClick={() => displayNotificatonsTab()}>
+                    <MenuItem
+                      icon={menuObj.notifications}
+                      type={'stroke'}
+                      tooltip={t.notifications}
+                    />
+                    {(userData?.notifications?.length > 0) && (
+                      <span className={s.unreadBadge}></span>
+                    )}
+                  </div> */}
+                  <div className={s.menuItem}>
+                    <WalletsWidget />
+                  </div>
+                  {/* <div
+                    className={s.menuItem}
+                    onClick={() => displayNav()}
+                  >
+                    {userData?.avatar ? (
+                      <Image width="50" height="50" src={userData?.avatar} alt="Avatar" className={s.avatarNav} loading="lazy" />
+                    ) : (
+                      <div className={s.welcomeBlock}>
+                        <div className={s.email_name}>
+                          {userEmail?.substring(0, 2).charAt(0).toUpperCase()}
+                        </div>
                       </div>
-                    </div>
-                  )}
-                </div> */}
-              </div>
+                    )}
+                  </div> */}
+                </div>
             )}
 
             <div onClick={() => setOpen(true)} className={s.settings}>

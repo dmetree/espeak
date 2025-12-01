@@ -13,7 +13,7 @@ export default function Document() {
         <meta name="description" content="" />
         <meta name="keywords" content="languages, learn" />
         <meta name="author" content="This web app has been developed by Dmitrii B & Anastasiia Polozova" />
-        <link rel="icon" href="favicon.ico" sizes="any" />
+        <link rel="icon" href="/favicon.ico" sizes="any" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
 
