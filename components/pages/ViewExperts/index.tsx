@@ -19,6 +19,7 @@ import s from './ViewExperts.module.scss';
 import Link from 'next/link';
 import { findRandomSpecialists, findSpecialists } from '@/store/actions/specialists';
 import Sidebar from "@/components/features/SidebarES";
+import { FiltersBar } from "@/components/pages/ViewExperts/ui/FiltersBar/FiltersBar";
 
 
 const ViewExperts = () => {
@@ -72,7 +73,7 @@ const ViewExperts = () => {
                 <Sidebar />
                 <div className={s.main}>
                     <h2 className={s.header}>Learn languages with our certified teachers and native speakers</h2>
-                    <div className={s.searchBox_wrap}>
+                    {/* <div className={s.searchBox_wrap}>
                         <span>{t.search_therapist}</span>
                         <div className={s.searchBox}>
                             <SingleInput placeholder="" onChange={onSearchChange} value={searchValue} onKeyDown={handleKeyPress} />
@@ -80,7 +81,9 @@ const ViewExperts = () => {
                                 onClick={handleTherapistSearch}
                                 className={s.searchBtn}>{t.search}</div>
                         </div>
-                    </div>
+                    </div> */}
+
+                    <FiltersBar />
 
 
 
