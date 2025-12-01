@@ -285,7 +285,7 @@
   "cancel": "Cancel",
   "call": "Join",
   "join_call": "Join call",
-  "enter_chat": "Enter chat",
+  "enter_chat": "Join class",
 
   "start_in": "Starts in XX days XXh XXm",
   "my_request": "My Request",
@@ -938,7 +938,7 @@
     "pending": "Pending",
     "confirmed": "Confirmed",
     "expert_accepted": "Expert accepted",
-    "awaiting_expert": "Awaiting expert",
+    "awaiting_expert": "Awaiting teacher",
     "cancel_penalty_check_failed": "Failed to prepare cancellation.",
     "cancel_session_success": "Session cancelled.",
     "cancel_session_failed": "Failed to cancel session.",
