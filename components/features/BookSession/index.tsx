@@ -125,7 +125,7 @@ const BookSession = () => {
       );
 
       // Create appointment in backend (Firestore)
-      const docId = await dispatch(createAppointment(userUid, appointment));
+      await dispatch(createAppointment(userUid, appointment));
 
       // Update specialist free slots in backend
       if (isSpecialist) {

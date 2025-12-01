@@ -84,7 +84,7 @@ const OpenPsyRequestItem = (props) => {
     const loadDateTime = async () => {
       try {
         const st = spacetime(scheduledUnixtime * 1000);
-        setReqDate(st.format('{date-ordinal} {month-short} {year}'));
+        setReqDate(st.format('{date-ordinal} {month-short}'));
         setReqTime(st.format('time-24'));
       } catch (error) {
         console.error('Error loading date and time:', error);
@@ -149,7 +149,7 @@ const OpenPsyRequestItem = (props) => {
           ? getLocalizedContent(reqItem?.selectedService?.title, currentLocale)
           : t[subject]
         }
-        </div>
+      </div>
       <RequestDateTime {...{ isTimeZoneLoaded, isDateTimeLoaded, reqDate, reqTime, t }} />
       <RequestPrice {...{ psyRank, price, t }} />
       <RequestActions

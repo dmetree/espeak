@@ -180,7 +180,7 @@
 
 .reqActions {
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;
   align-items: center;
 }
 
@@ -188,6 +188,14 @@
   margin-top: 5px;
   flex-direction: column;
   min-width: 46px;
+}
+
+.join_chat_btn {
+  border: 0;
+  margin: 0;
+  padding: 0;
+  background-color: transparent;
+  cursor: pointer;
 }
 
 .cancelButton {
