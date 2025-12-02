@@ -80,10 +80,10 @@ const nextConfig = {
         port: "",
       },
     ],
-    i18n: {
-      locales: ["en", "ru", "en"], // Define the supported locales
-      defaultLocale: "en", // Set the default locale
-    },
+  },
+  i18n: {
+    locales: ["en", "ru"], // Define the supported locales
+    defaultLocale: "en", // Set the default locale
   },
   webpack(config, { buildId, dev, isServer }) {
     const wasmExtensionRegExp = /\.wasm$/;
