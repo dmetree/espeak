@@ -9,7 +9,6 @@ import { EModalKind } from '@/components/shared/types';
 import { Modal } from "@/components/shared/ui/Modal";
 import VideoCall from '@/components/features/chat/features/VideoCall/VideoCall';
 import EventRoom from "@/components/features/EventRoom";
-import CreatePost from "@/components/features/CreatePost";
 import { loadMessages } from '@/components/shared/i18n/translationLoader';
 import * as actions from "@/store/actions/blockchain";
 
@@ -495,10 +494,6 @@ const Header = (props: IProps) => {
 
       <Modal modalKey={EModalKind.EventRoom}>
         <EventRoom />
-      </Modal>
-
-      <Modal modalKey={EModalKind.CreatePost}>
-        <CreatePost />
       </Modal>
 
       <Modal modalKey={EModalKind.LangModal}>
