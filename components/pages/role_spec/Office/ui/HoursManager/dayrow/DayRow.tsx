@@ -459,7 +459,6 @@ const DayRow = ({ hour, handleClick, mark, bgColor, request, isPastHour }) => {
 
           {userUid === request.clientUid && request.status !== EReqStatus.Open && (
             <Button
-              dayRowBtn
               className={s.dayRowBtn}
               onClick={joinChatRoom}
             >&#128682;</Button>
@@ -478,7 +477,7 @@ const DayRow = ({ hour, handleClick, mark, bgColor, request, isPastHour }) => {
               {showDropdownCancelNovicePsych && (
                 <div className={s.dropdown} ref={dropdownRefCancelNovicePsych}>
                   <Button
-                    cancel
+
                     onClick={onPsychNoviceDelete}
                   >{t.cancel}</Button>
                 </div>
@@ -506,7 +505,6 @@ const DayRow = ({ hour, handleClick, mark, bgColor, request, isPastHour }) => {
 
                     {/* TODO: add a hint that would explain the button onhover*/}
                     <Button
-                      dayRowBtn
                       className={s.dayRowBtn}
                       onClick={onSpecialistAccept}
                       // disabled={isAcceptDisabled}
@@ -527,7 +525,6 @@ const DayRow = ({ hour, handleClick, mark, bgColor, request, isPastHour }) => {
 
 
               <Button
-                dayRowBtn
                 className={s.dayRowBtn}
                 onClick={joinChatRoom}
               >&#128682;</Button>

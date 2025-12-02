@@ -128,6 +128,8 @@ export default function Dashboard() {
                     setCurrentDate={setSelectedDate}
                     myRequests={myRequests}
                     freeTimestamps={freeTimestamps}
+                    onCellClick={undefined}
+                    specialistActualFreeTimeslots={freeTimestamps}
                   />
                 </div>
               </div>

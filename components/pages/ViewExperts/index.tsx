@@ -132,8 +132,8 @@ const ViewExperts = () => {
                             : "There is no teachers"}
                         </p>
                     ) : (
-                        filteredSpecialists.map(item => (
-                            <SpecialistCardNew specialist={item} key={item?.id} />
+                        filteredSpecialists.map((item, index )=> (
+                            <SpecialistCardNew specialist={item} key={index} />
                         ))
                     )}
                     </div>

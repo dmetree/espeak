@@ -66,7 +66,7 @@ const DayRow = ({ hour, handleClick, mark, psyRequest, bgColor, request, isPastH
           )}
           {userUid === request.clientUid && request.status === EReqStatus.Open && (
             <Button
-              cancel
+
               className={s.dayRowBtnCancel}
               onClick={onNoviceDelete}
             >X</Button>
@@ -75,7 +75,7 @@ const DayRow = ({ hour, handleClick, mark, psyRequest, bgColor, request, isPastH
           {userUid === request.specUid && request.status !== EReqStatus.Open && (
             <span className={s.actionBtns}>
               <Button
-                cancel
+
                 className={s.dayRowBtnCancel}
                 onClick={onSpecialistCancelAccept}
               >X</Button>

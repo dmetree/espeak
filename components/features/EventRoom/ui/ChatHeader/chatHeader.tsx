@@ -127,13 +127,13 @@ const ChatHeader = ({
                 <div className={s.complainNav}>
                     {isAdmin &&
                         <span className={s.adminNav}>
-                            <Button onClick={() => handleServceBad(singletonId)} cancel className={`${s.videoButton} ${s.offchainBtn}`}>
+                            <Button onClick={() => handleServceBad(singletonId)} className={`${s.videoButton} ${s.offchainBtn}`}>
                                 <span>Service</span> 😔
                             </Button>
-                            <Button onClick={() => handleTherapistBad(singletonId)} cancel className={`${s.videoButton} ${s.offchainBtn}`}>
+                            <Button onClick={() => handleTherapistBad(singletonId)} className={`${s.videoButton} ${s.offchainBtn}`}>
                                 <span>Therapist</span> 😔
                             </Button>
-                            <Button onClick={() => handleClientBad(singletonId)} cancel className={`${s.videoButton} ${s.offchainBtn}`}>
+                            <Button onClick={() => handleClientBad(singletonId)} className={`${s.videoButton} ${s.offchainBtn}`}>
                                 <span>Client</span> 😔
                             </Button>
                         </span>
@@ -169,7 +169,7 @@ const ChatHeader = ({
             )}
 
             {!videoCall && (
-                <Button onClick={endSession} cancel className={`${s.videoButton} ${s.headerSessionButton}`}>X</Button>
+                <Button onClick={endSession} className={`${s.videoButton} ${s.headerSessionButton}`}>X</Button>
             )}
         </div>
     );

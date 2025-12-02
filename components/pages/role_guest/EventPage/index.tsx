@@ -46,14 +46,6 @@ const EventDetails = () => {
         (student) => student.uid === userUid
     );
 
-    const belts = useMemo(() => [
-        Belt1, Belt2, Belt3, Belt4, Belt5,
-        Belt6, Belt7, Belt8, Belt9, Belt10
-    ], []);
-
-    const psyBelt = belts[eventDetails?.author?.rank - 1];
-
-
     const formatDate = (dateString: string) => {
         const date = new Date(dateString);
         return date.toLocaleDateString("en-US", {
@@ -162,7 +154,7 @@ const EventDetails = () => {
                     {eventAuthor === userUid && eventDetails?.students?.length === 0 &&
                         <div className={s.eventNav}>
                             <Button size="s" onClick={editEvent}>{t.edit}</Button>
-                            <Button size="s" cancel onClick={handleDeleteEvent}>{t.delete}</Button>
+                            <Button size="s"  onClick={handleDeleteEvent}>{t.delete}</Button>
                         </div>
                     }
 
@@ -250,7 +242,7 @@ const EventDetails = () => {
 
 
                                             <Button
-                                                cancel
+
                                                 className={s.dayRowBtn}
                                                 onClick={() => handleRemoveStudent(student.uid)}
                                             >

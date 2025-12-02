@@ -342,7 +342,7 @@ const EditUserToSpec: React.FC<EditUserToSpecProps> = ({ selectedJobApplicationU
                             placeholder="PsyRank"
                             min="0"
                             max="10"
-                            maxLength="2"
+                            maxLength={2}
                         />
                     </div>
 
@@ -431,7 +431,7 @@ const EditUserToSpec: React.FC<EditUserToSpecProps> = ({ selectedJobApplicationU
 
                     <div className={s.actionBtns}>
                         <Button
-                            cancel
+
                             className={s.articleBtn}
                             onClick={jobApplicationDecline}>Decline
                         </Button>

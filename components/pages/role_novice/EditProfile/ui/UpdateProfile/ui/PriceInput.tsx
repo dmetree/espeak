@@ -18,7 +18,7 @@ const PriceInput: React.FC<Props> = ({ price, onChange, t }) => (
         type="number"
         name="price"
         value={price}
-        onChange={(e) => onChange((e.target as HTMLInputElement).value)}
+        onChange={onChange}
         placeholder="5"
       />
     </div>

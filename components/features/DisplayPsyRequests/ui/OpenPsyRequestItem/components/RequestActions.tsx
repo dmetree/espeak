@@ -53,7 +53,6 @@ export const RequestActions = ({
           {showDropdownCancelAcceptClient && canCancel && (
             <div className={s.dropdown}>
               <Button
-                cancel
                 className={`${s.cancelButton} ${s.actionBtn}`}
                 onClick={handleCancelClick}
               >
@@ -73,7 +72,6 @@ export const RequestActions = ({
           {showDropdownRefund && (
             <div className={s.dropdown}>
               <Button
-                cancel
                 onClick={onNoviceDelete}
                 className={`${s.cancelButton} ${s.actionBtn} ${!canCancel ? 'disabled' : ''}`}
               >

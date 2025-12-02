@@ -166,7 +166,7 @@ const PostDetails = () => {
                                         {t.edit}
                                     </Button>
                                     <Button
-                                        cancel
+
                                         className={s.actionItem}
                                         onClick={deletePost}
                                     >
@@ -211,7 +211,7 @@ const PostDetails = () => {
                         <p>{t.sure_to_delete}</p>
                         <div className={s.modalActions}>
                             <Button onClick={confirmDelete}>{t.yes_delete}</Button>
-                            <Button cancel onClick={() => setShowConfirmModal(false)}>{t.cancel}</Button>
+                            <Button  onClick={() => setShowConfirmModal(false)}>{t.cancel}</Button>
                         </div>
                     </div>
                 </div>

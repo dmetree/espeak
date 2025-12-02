@@ -272,7 +272,7 @@ const CreateEvent = () => {
                                 value={date}
                                 onChange={handleChange("dates", i)}
                             />
-                            <Button cancel tiny type="button" onClick={() => removeDate(i)}>
+                            <Button  type="button" onClick={() => removeDate(i)}>
                                 X
                             </Button>
                         </div>

@@ -1,17 +1,15 @@
 import React, { useEffect, useState, useRef, useId } from "react";
-import isEqual from "lodash/isEqual";
 
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from "@/store";
 import { logout, loadUserFromLocalStorage, fetchUserData } from '@/store/actions/profile/user';
 import { showModal } from '@/store/actions/modal';
 import { setEditPost } from "@/store/actions/posts";
-import { EModalKind, EUserRole } from '@/components/shared/types';
+import { EModalKind } from '@/components/shared/types';
 import { Modal } from "@/components/shared/ui/Modal";
 import VideoCall from '@/components/features/chat/features/VideoCall/VideoCall';
 import EventRoom from "@/components/features/EventRoom";
 import CreatePost from "@/components/features/CreatePost";
-import SpecApplication from '@/components/features/SpecApplication';
 import { loadMessages } from '@/components/shared/i18n/translationLoader';
 import * as actions from "@/store/actions/blockchain";
 
@@ -20,11 +18,8 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import Router from "next/router";
 import WalletsWidget from "@/components/features/Wallets";
-import Logo from '@/components/shared/assets/img/PSY_logo.webp';
 import Button from "@/components/shared/ui/Button";
-import { Icon } from '@/components/shared/ui/Icon/Icon';
-import ThemeSwitcher from "@/components/features/ThemeSwitcher";
-import LocaleSwitcher from "@/components/features/LocaleSwitcher";
+
 // import ExitIcon from '@/components/shared/assets/psy_icons_svg/nav_enter.svg';
 // import NotificationIcon from '@/components/shared/assets/psy_icons_svg/sidebar_notifications.svg';
 
@@ -32,12 +27,9 @@ import Menu from './ui/Menu';
 import Notifications from './ui/Notifications/index';
 
 import s from "./Header.module.scss";
-import MenuItem from "./ui/MenuItem";
-import { menuObj } from './ui/Icons';
 import FindTherapist from "@/components/features/FindTherapist";
 import { setLocale } from "@/store/actions/locale";
 import { SUPPORTED_LOCALES } from "@/components/shared/i18n/locales";
-import dynamic from "next/dynamic";
 import { actionUpdateProfile, } from '@/store/actions/profile/user';
 // import { notifications } from "./notifications";
 import LangModal from "../LocaleSwitcher/LangModal";
@@ -495,11 +487,6 @@ const Header = (props: IProps) => {
       <Modal
         modalKey={EModalKind.FindSpecialist}>
         <FindTherapist />
-      </Modal>
-
-      <Modal
-        modalKey={EModalKind.PsyworkerApplication}>
-        <SpecApplication />
       </Modal>
 
       <Modal modalKey={EModalKind.VideoCall}>
