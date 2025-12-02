@@ -37,15 +37,15 @@ const LevelSelector = ({ selected, onSelect }) => (
             {'Indicate your proficiency level in chosen language'}
         </p>
         <div className={styles.levels}>
-            {LEVELS.map((level, index) => (
-                <div className={styles.wrap} key={index}>
-                    <button
-                        key={level.id}
-                        onClick={() => onSelect(level.id)}
-                        className={`${styles.levelBtn} ${selected === level.id ? styles.selected : ''}`}
-                    >
+            {LEVELS.map((level) => (
+                <div
+                    key={level.id}
+                    onClick={() => onSelect(level.id)}
+                    className={`${styles.wrap} ${selected === level.id ? styles.selected : ''}`}
+                >
+                    <div className={styles.levelBtn}>
                         <div className={styles.label}>{level.label}</div>
-                    </button>
+                    </div>
                     <span className={styles.title}>{level.title}</span>
                 </div>
             ))}

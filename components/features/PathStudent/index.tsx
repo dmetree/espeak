@@ -99,7 +99,10 @@ const LANG_OPTIONS = [
                     onBack={handleQuit}
                     nextDisabled={!nativeLang}
                 >
-                    <NativeLanguage />
+                    <NativeLanguage
+                        nativeLang={nativeLang}
+                        setNativeLang={setNativeLang}
+                    />
                 </OnboardingLayout>
             )}
 

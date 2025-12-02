@@ -20,11 +20,11 @@
   right: 0;
   top: 0;
   z-index: 50;
-  max-width: 1400px;
   width: 100%;
-  margin: 0 auto;
 }
 .wrapper {
+  max-width: 1400px;
+  margin: 0 auto;
   padding: 8px 24px;
   display: flex;
   justify-content: space-between;
@@ -159,7 +159,13 @@
 .btnOutline {
   background: transparent;
   color: #111;
-  border: 1px solid #5468ff;
+  border: 1px solid #5b69d7;
+}
+.btn.btnOutline:hover {
+  background: transparent;
+  color: #111;
+  border-color: #d50c63;
+  filter: brightness(0.8);
 }
 
 .burger {
