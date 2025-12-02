@@ -12,22 +12,14 @@ import { hideModal } from "@/store/actions/modal";
 import { NoAuthError, EModalKind } from "@/components/shared/types";
 
 import { LiaTimesSolid } from "react-icons/lia";
-import dynamic from "next/dynamic";
 import TagsInput from "react-tagsinput";
 import { toast } from "react-toastify";
 import { useRouter } from "next/router";
 
 import Page from "@/components/shared/ui/Page/Page";
 import Button from "@/components/shared/ui/Button";
-import parse from "html-react-parser";
 
 import s from "./Preview.module.scss";
-
-// Dynamically load ReactQuill
-const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
-import 'react-quill/dist/quill.bubble.css';
-import 'react-tagsinput/react-tagsinput.css'
-import { spawn } from "child_process";
 
 interface PreviewProps {
     setPublish: any;
