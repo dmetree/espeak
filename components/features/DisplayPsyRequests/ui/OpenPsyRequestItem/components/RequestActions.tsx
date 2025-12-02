@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Button from '@/components/shared/ui/Button';
 import { ConfirmCancelModal } from '@/components/shared/ui/ConfirmCancelModal/ConfirmCancelModal';
-import { EReqStatus, EUserRole } from '@/components/shared/types';
+import { EReqStatus, EUserRole } from '@/components/shared/types/types';
 import s from '../OpenPsyRequestItem.module.css';
 import spacetime from 'spacetime';
 

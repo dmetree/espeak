@@ -4,7 +4,7 @@ import { loadMessages } from '@/components/shared/i18n/translationLoader';
 import { setDraftAppointment } from '@/store/actions/appointments';
 
 import { ExpToPrice } from "@/components/shared/assets/expToPriceDictionary/ExpToPriceDictionary";
-import { EGender } from '@/components/shared/types';
+import { EGender } from '@/components/shared/types/types';
 
 import s from './Session.module.css';
 

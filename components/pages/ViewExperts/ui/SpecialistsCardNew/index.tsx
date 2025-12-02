@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { loadMessages, getOptionsFromCodes } from '@/components/shared/i18n/translationLoader';
 import { hideModal } from '@/store/actions/modal';
 import { setSelectedSpecialist } from '@/store/actions/specialists';
-import { EModalKind } from '@/components/shared/types';
+import { EModalKind } from '@/components/shared/types/types';
 import { getLocalizedContent } from '@/hooks/localize';
 
 import styles from './styles.module.scss';

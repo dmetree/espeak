@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Button from "@/components/shared/ui/Button";
 import { actionUpdateProfile } from "@/store/actions/profile/user";
 import { showModal } from "@/store/actions/modal";
-import { EModalKind, EUserRole } from "@/components/shared/types";
+import { EModalKind, EUserRole } from "@/components/shared/types/types";
 
 const RoleSelector = () => {
   const dispatch: AppDispatch = useDispatch<AppDispatch>();

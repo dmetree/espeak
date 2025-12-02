@@ -5,7 +5,7 @@ import { AppDispatch } from "@/store";
 import { logout, loadUserFromLocalStorage, fetchUserData } from '@/store/actions/profile/user';
 import { showModal } from '@/store/actions/modal';
 import { setEditPost } from "@/store/actions/posts";
-import { EModalKind } from '@/components/shared/types';
+import { EModalKind } from '@/components/shared/types/types';
 import { Modal } from "@/components/shared/ui/Modal";
 import VideoCall from '@/components/features/chat/features/VideoCall/VideoCall';
 import EventRoom from "@/components/features/EventRoom";

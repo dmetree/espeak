@@ -1,9 +1,9 @@
 import * as actionTypes from "@/store/actionTypes";
 import { auth } from "@/components/shared/utils/firebase/init";
 
-import { IJobRequestStatus } from "@/components/shared/types";
+import { IJobRequestStatus } from "@/components/shared/types/types";
 import { signOut } from "firebase/auth";
-import { EUserRole } from "@/components/shared/types";
+import { EUserRole } from "@/components/shared/types/types";
 import "firebase/firestore";
 import firebase from "firebase/app";
 import {

@@ -7,7 +7,7 @@ import { AppDispatch } from "@/store";
 import { loadMessages } from '@/components/shared/i18n/translationLoader';
 import Button from '@/components/shared/ui/Button';
 import { SingleInput } from "@/components/shared/ui/SingleInput/SingleInput";
-import { ISpecProfile } from "@/components/shared/types";
+import { ISpecProfile } from "@/components/shared/types/types";
 
 import { findRandomSpecialists, findSpecialists } from '@/store/actions/specialists';
 import Sidebar from "@/components/features/SidebarES";
@@ -125,17 +125,17 @@ const ViewExperts = () => {
                     <FiltersBar onFiltersChange={setFilters} />
 
                     <div className={s.specialistList}>
-                    {noTherapistFound ? (
-                        <p className={s.noTherapist}>
-                        {typeof t.no_therapist_found === 'string'
-                            ? t.no_therapist_found
-                            : "There is no teachers"}
-                        </p>
-                    ) : (
-                        filteredSpecialists.map((item, index )=> (
-                            <SpecialistCardNew specialist={item} key={index} />
-                        ))
-                    )}
+                        {noTherapistFound ? (
+                            <p className={s.noTherapist}>
+                                {typeof t.no_therapist_found === 'string'
+                                    ? t.no_therapist_found
+                                    : "There is no teachers"}
+                            </p>
+                        ) : (
+                            filteredSpecialists.map((item, index) => (
+                                <SpecialistCardNew specialist={item} key={index} />
+                            ))
+                        )}
                     </div>
                 </div>
             </div>

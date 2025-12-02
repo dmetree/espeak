@@ -10,7 +10,7 @@ import { useNoviceDelete } from '@/components/features/DisplayPsyRequests/hooks/
 import { useClientCancelAccept } from '@/components/features/DisplayPsyRequests/hooks/useClientCancelAccept';
 import { useSpecialistClaimRewards } from '@/components/features/DisplayPsyRequests/hooks/useSpecialistClaimRewards';
 import spacetime from 'spacetime';
-import { EModalKind } from '@/components/shared/types';
+import { EModalKind } from '@/components/shared/types/types';
 
 import { RequestHeader } from './components/RequestHeader';
 import { RequestDateTime } from './components/RequestDateTime';

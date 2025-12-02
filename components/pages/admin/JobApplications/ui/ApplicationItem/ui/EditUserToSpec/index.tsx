@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { useRouter } from "next/router";
 import Select from 'react-select';
-import { IJobRequestStatus, IUserTypes } from '@/components/shared/types';
+import { IJobRequestStatus, IUserTypes } from '@/components/shared/types/types';
 import Image from 'next/image';
 
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";

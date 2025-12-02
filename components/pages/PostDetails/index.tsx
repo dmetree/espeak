@@ -6,7 +6,7 @@ import parse from "html-react-parser";
 import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from "@/store";
-import { EModalKind } from '@/components/shared/types';
+import { EModalKind } from '@/components/shared/types/types';
 import { getPostById, addNewClaps, deleteSelectedPost, setEditPost } from '@/store/actions/posts';
 import { showModal } from '@/store/actions/modal';
 

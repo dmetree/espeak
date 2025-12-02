@@ -9,7 +9,7 @@ import EventItem from "./ui/EventItem"; // ✅ new import
 import { AppDispatch } from "@/store";
 import s from "./.module.scss";
 import Button from "@/components/shared/ui/Button";
-import { EUserRole } from "@/components/shared/types";
+import { EUserRole } from "@/components/shared/types/types";
 import router from "next/router";
 
 const EventList = () => {

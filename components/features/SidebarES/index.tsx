@@ -4,7 +4,7 @@ import { AppDispatch } from "@/store";
 import { useDispatch, useSelector } from 'react-redux';
 import styles from './styles.module.scss';
 import { showModal } from "@/store/actions/modal";
-import { EModalKind, EUserRole } from "@/components/shared/types";
+import { EModalKind, EUserRole } from "@/components/shared/types/types";
 import router from "next/router";
 
 export default function Sidebar() {

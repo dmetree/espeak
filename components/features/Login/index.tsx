@@ -9,7 +9,7 @@ import { useRouter } from "next/router";
 import s from "./styles.module.scss";
 import { AppDispatch } from "@/store";
 import { hideModal, showModal } from "@/store/actions/modal";
-import { EModalKind } from "@/components/shared/types";
+import { EModalKind } from "@/components/shared/types/types";
 import { loadMessages } from "@/components/shared/i18n/translationLoader";
 
 import { auth, signInWithPopup, twitterProvider } from "@/components/shared/utils/firebase/init";

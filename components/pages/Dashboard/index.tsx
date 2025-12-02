@@ -5,7 +5,7 @@ import Button from '@/components/shared/ui/Button';
 import { useSelector } from 'react-redux';
 import { loadMessages } from '@/components/shared/i18n/translationLoader';
 import RoleSelector from '@/components/features/RoleSelector';
-import { EUserRole } from '@/components/shared/types';
+import { EUserRole } from '@/components/shared/types/types';
 
 import Image from "next/image";
 
@@ -99,15 +99,15 @@ export default function Dashboard() {
                     </div>
                     <div className={styles.heroImageSection}>
                       <Image
-                          src={isTeacher ? teacherMainImage : girlSittedIcon}
-                          alt={isTeacher ? 'Teacher' : 'Student'}
-                          width={150}
-                          height={250}
+                        src={isTeacher ? teacherMainImage : girlSittedIcon}
+                        alt={isTeacher ? 'Teacher' : 'Student'}
+                        width={150}
+                        height={250}
                       />
                       {!isTeacher && (
-                          <div className={styles.buttonBlock}>
-                              <Button onClick={handleFindTeacher}>Find a teacher</Button>
-                          </div>
+                        <div className={styles.buttonBlock}>
+                          <Button onClick={handleFindTeacher}>Find a teacher</Button>
+                        </div>
                       )}
                     </div>
                   </div>

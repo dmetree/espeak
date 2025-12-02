@@ -1,6 +1,6 @@
 import { collection, query, where, getDocs } from "firebase/firestore";
 import { database } from "@/components/shared/utils/firebase/init";
-import { EUserRole } from "@/components/shared/types";
+import { EUserRole } from "@/components/shared/types/types";
 import * as actionTypes from "@/store/actionTypes";
 import { extractFromCollection } from "@/components/shared/utils/firebase/fs-collection/extracter";
 
