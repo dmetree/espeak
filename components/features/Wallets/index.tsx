@@ -133,8 +133,8 @@ const HeaderCardano = () => {
 
             <div>
                 <div className={s.headerContainer}>
-                    {selectedBlockchain === "ergo" && <span className={s.blockchainIcon}> <ErgoIcon /> </span>}
-                    {selectedBlockchain === "cardano" && <span className={s.blockchainIcon}> </span>}
+                    {/* {selectedBlockchain === "ergo" && <span className={s.blockchainIcon}> <ErgoIcon /> </span>}
+                    {selectedBlockchain === "cardano" && <span className={s.blockchainIcon}> </span>} */}
                     <div className={s.leftContainer}>
                         {!wallet && !localStorageWallet && !ergoWalletConnected &&
                             <div className={s.tooltipWrapper}>
@@ -173,7 +173,7 @@ const HeaderCardano = () => {
                         {ergoWalletConnected &&
                             <div className={s.blockchainWalletBox}>
                                 <span className={s.walletIcon}>
-                                    <Image alt="img" height="30" width="30" src={NautilusLogo} loading="lazy"/>
+                                    <Image alt="img" height="30" width="30" src={NautilusLogo} loading="lazy" />
                                 </span>
                                 <span className="">
                                     {ergoWalletAddress && reduceAddress(ergoWalletAddress![0])}
