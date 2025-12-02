@@ -184,7 +184,6 @@ export enum EModalKind {
   CallEnd = "call-end",
   FindSpecialist = "find-specialist",
   PsyworkerApplication = "psyworker-application",
-  CreatePost = "create-post",
   LangModal = "lang-modal",
   Login = "login",
   SignUp = "sign-up",
