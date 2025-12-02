@@ -1,213 +1,542 @@
-import React, { useMemo } from 'react';
-import Image from 'next/image';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import parse from 'html-react-parser';
 import { getLocalizedContent } from '@/hooks/localize';
 import { Tooltip } from '@/components/shared/ui/Tooltip/Tooltip';
-import { useSelector } from 'react-redux';
-import { toast } from "react-toastify";
+import { useDispatch, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 
-import Belt1 from '@/components/shared/assets/img/belts/e001_belt.webp';
-import Belt2 from '@/components/shared/assets/img/belts/e002_belt.webp';
-import Belt3 from '@/components/shared/assets/img/belts/e003_belt.webp';
-import Belt4 from '@/components/shared/assets/img/belts/e004_belt.webp';
-import Belt5 from '@/components/shared/assets/img/belts/e005_belt.webp';
-import Belt6 from '@/components/shared/assets/img/belts/e006_belt.webp';
-import Belt7 from '@/components/shared/assets/img/belts/e007_belt.webp';
-import Belt8 from '@/components/shared/assets/img/belts/e008_belt.webp';
-import Belt9 from '@/components/shared/assets/img/belts/e009_belt.webp';
-import Belt10 from '@/components/shared/assets/img/belts/e010_belt.webp';
-
-import s from './.module.scss';
+import styles from './.module.scss';
 import Link from 'next/link';
+import { storage } from '@/components/shared/utils/firebase/init';
+import { AppDispatch } from '@/store';
+import { actionUpdateProfile } from '@/store/actions/profile/user';
 
 const UserInfo = ({ specialistData, t, isPublic, currentLocale }) => {
-  const belts = useMemo(() => [
-    Belt1, Belt2, Belt3, Belt4, Belt5,
-    Belt6, Belt7, Belt8, Belt9, Belt10
-  ], []);
+  const dispatch: AppDispatch = useDispatch<AppDispatch>();
+  const userUid = useSelector(({ user }) => user.uid);
+
+  const [isEditing, setIsEditing] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
+  const [avatarFile, setAvatarFile] = useState<File | null>(null);
+  const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
+
+  const [formState, setFormState] = useState({
+    nickname: '',
+    age: '',
+    nativeLanguage: '',
+    teachLanguage: '',
+    about: '',
+    introVideo: '',
+    topicsInput: '',
+    topics: [] as string[],
+    price: '',
+  });
+
+  const languageOptions = useMemo(() => {
+    const dict = t['user-languages'] || {};
+    return Object.entries(dict).map(([code, label]) => ({
+      code,
+      label: String(label),
+    }));
+  }, [t]);
 
   const handleShareClick = () => {
     const { origin, pathname } = window.location;
 
-    // Decide which URL to share
-    const pageUrl = pathname === "/office/"
-      ? `${origin}/specialist-profile/${specialistData?.nickname}`
-      : `${origin}${pathname}`;
+    const pageUrl =
+      pathname === '/office/'
+        ? `${origin}/specialist-profile/${specialistData?.nickname}`
+        : `${origin}${pathname}`;
 
-    navigator.clipboard.writeText(pageUrl)
+    navigator.clipboard
+      .writeText(pageUrl)
       .then(() => {
-        console.log("URL copied:", pageUrl);
         toast.success(t.specialist_url_copied);
       })
-      .catch(err => {
-        console.error("Failed to copy URL:", err);
+      .catch((err) => {
+        console.error('Failed to copy URL:', err);
         toast.error(t.specialist_url_copied_fail);
       });
   };
 
-  const psyBelt = belts[specialistData?.psyRank - 1];
+  useEffect(() => {
+    if (!specialistData) return;
+
+    const about = specialistData.infoAbout
+      ? getLocalizedContent(specialistData.infoAbout, currentLocale)
+      : '';
+
+    setFormState({
+      nickname: specialistData.nickname || '',
+      age: specialistData.age ? String(specialistData.age) : '',
+      nativeLanguage:
+        specialistData.nativeLanguage || specialistData.languages?.[0] || '',
+      teachLanguage:
+        specialistData.teachLanguage || specialistData.languages?.[0] || '',
+      about: typeof about === 'string' ? about : '',
+      introVideo: specialistData.introVideo || '',
+      topicsInput: '',
+      topics: Array.isArray(specialistData.topics)
+        ? specialistData.topics
+        : [],
+      price: specialistData.price ? String(specialistData.price / 100) : '',
+    });
+
+    setAvatarPreview(specialistData.avatar || null);
+  }, [specialistData, currentLocale]);
+
+  const handleAvatarClick = () => {
+    if (!isEditing) return;
+    fileInputRef.current?.click();
+  };
+
+  const handleAvatarChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    setAvatarFile(file);
+
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setAvatarPreview(reader.result as string);
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const uploadAvatar = async (file: File, userId: string) => {
+    const storageRef = ref(storage, `avatars/${userId}`);
+    await uploadBytes(storageRef, file);
+    return getDownloadURL(storageRef);
+  };
+
+  const handleChange = (
+    field: keyof typeof formState,
+    value: string | string[],
+  ) => {
+    setFormState((prev) => ({
+      ...prev,
+      [field]: value,
+    }));
+  };
+
+  const handleTopicsKeyDown = (
+    event: React.KeyboardEvent<HTMLInputElement>,
+  ) => {
+    if (event.key !== 'Enter' && event.key !== ',') return;
+
+    event.preventDefault();
+    const value = formState.topicsInput.trim();
+    if (!value) return;
+
+    setFormState((prev) => ({
+      ...prev,
+      topics: prev.topics.includes(value)
+        ? prev.topics
+        : [...prev.topics, value],
+      topicsInput: '',
+    }));
+  };
+
+  const handleRemoveTopic = (topic: string) => {
+    setFormState((prev) => ({
+      ...prev,
+      topics: prev.topics.filter((t) => t !== topic),
+    }));
+  };
+
+  const handleEditToggle = () => {
+    if (isPublic) return;
+    setIsEditing((prev) => !prev);
+  };
+
+  const handleCancel = () => {
+    setIsEditing(false);
+    if (specialistData) {
+      const about = specialistData.infoAbout
+        ? getLocalizedContent(specialistData.infoAbout, currentLocale)
+        : '';
+
+      setFormState({
+        nickname: specialistData.nickname || '',
+        age: specialistData.age ? String(specialistData.age) : '',
+        nativeLanguage:
+          specialistData.nativeLanguage || specialistData.languages?.[0] || '',
+        teachLanguage:
+          specialistData.teachLanguage || specialistData.languages?.[0] || '',
+        about: typeof about === 'string' ? about : '',
+        introVideo: specialistData.introVideo || '',
+        topicsInput: '',
+        topics: Array.isArray(specialistData.topics)
+          ? specialistData.topics
+          : [],
+        price: specialistData.price
+          ? String(specialistData.price / 100)
+          : '',
+      });
+
+      setAvatarPreview(specialistData.avatar || null);
+      setAvatarFile(null);
+    }
+  };
+
+  const handleSave = async () => {
+    if (!specialistData || !userUid) return;
+
+    try {
+      setIsSaving(true);
+
+      let avatarUrl = specialistData.avatar || '';
+      if (avatarFile) {
+        avatarUrl = await uploadAvatar(avatarFile, userUid);
+      }
+
+      const numericPrice = formState.price
+        ? Math.max(0, Number(formState.price))
+        : 0;
+
+      const infoAbout = {
+        ...(specialistData.infoAbout || {}),
+        [currentLocale]: formState.about,
+      };
+
+      const languages = Array.from(
+        new Set(
+          [formState.nativeLanguage, formState.teachLanguage].filter(Boolean),
+        ),
+      );
+
+      const updatedData: any = {
+        avatar: avatarUrl,
+        nickname: formState.nickname.trim(),
+        age: formState.age ? Number(formState.age) : null,
+        nativeLanguage: formState.nativeLanguage || null,
+        teachLanguage: formState.teachLanguage || null,
+        introVideo: formState.introVideo.trim(),
+        infoAbout,
+        topics: formState.topics,
+        price: numericPrice ? Math.round(numericPrice * 100) : null,
+      };
+
+      if (languages.length) {
+        updatedData.languages = languages;
+      }
+
+      await dispatch(actionUpdateProfile(updatedData, userUid));
+
+      toast.success(t.specialist_profile_updated || 'Profile updated');
+      setIsEditing(false);
+    } catch (error: any) {
+      console.error('Error updating profile', error);
+      toast.error(
+        t.specialist_profile_update_failed ||
+        error?.message ||
+        'Failed to update profile',
+      );
+    } finally {
+      setIsSaving(false);
+    }
+  };
 
   if (!specialistData) return null;
 
-  console.log('specialistData?.introVideo', specialistData?.introVideo)
+  const isTeacher = specialistData.userRole === 'specialist';
+
+  const displayName = formState.nickname || specialistData.nickname || '';
+
+  const speaksLabel = formState.nativeLanguage ||
+    specialistData.nativeLanguage ||
+    specialistData.languages?.[0] ||
+    '';
+
+  const teachesLabel = formState.teachLanguage ||
+    specialistData.teachLanguage ||
+    specialistData.languages?.[0] ||
+    '';
+
+  const resolveLanguageLabel = (code: string) => {
+    const option = languageOptions.find((opt) => opt.code === code);
+    return option?.label || code;
+  };
+
+  const avatarSrc =
+    avatarPreview ||
+    specialistData.avatar ||
+    'https://api.builder.io/api/v1/image/assets/TEMP/1511ba036a33e82d57c74c1d6bfdba0636f16395?width=280';
 
   return (
-    <div className={s.psyInfoBoard}>
-      <div className={s.nameRank}>
-        <div className={s.initBlock}>
-          {specialistData?.avatar ? (
-            <img className={s.profileImg} src={specialistData.avatar} alt="Avatar" />
-          ) : <div className={s.profileImg} />}<div className={s.gridAreaInfo}>
-            <div className={s.nameAndActions}>
-              <div>
-                <span className={s.psyName}>{specialistData?.nickname}</span>
-                <div className={s.rankBlock}>
-                  <span className={s.rankLabel}>{t.specialist_rank}</span>
-                  <span className={s.rankLabel}>{specialistData?.psyRank}</span>
-                  <Image className={s.belt} src={psyBelt} alt="Psy belt" width={20} height={20} loading="lazy" />
-                </div>
-              </div>
+    <div className={styles.page}>
+      <div className={styles.container}>
+        {!isPublic && (
+          <div className={styles.header}>
+            <h1 className={styles.title}>
+              {isEditing ? 'Edit profile' : 'My profile'}
+            </h1>
 
-              <div className={s.shareWrapper}>
-                <div className={s.shareProfile} onClick={handleShareClick}>&#128279;</div>
-                <div className={s.tooltipBox}>
-                  <Tooltip title={t.shareLinkTooltip} />
-                </div>
-              </div>
-              {/* {!isPublic && (
-                <button className={s.profileBtn} onClick={() => console.log('Edit profile')}>
-                  <svg
-                    width="20px"
-                    height="20px"
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
-                    className={s.edit}
-                  >
-                    <path d="M21 22H3C2.59 22 2.25 21.66 2.25 21.25C2.25 20.84 2.59 20.5 3 20.5H21C21.41 20.5 21.75 20.84 21.75 21.25C21.75 21.66 21.41 22 21 22Z" />
-                    <path d="M19.0206 3.48162C17.0806 1.54162 15.1806 1.49162 13.1906 3.48162L11.9806 4.69162C11.8806 4.79162 11.8406 4.95162 11.8806 5.09162C12.6406 7.74162 14.7606 9.86162 17.4106 10.6216C17.4506 10.6316 17.4906 10.6416 17.5306 10.6416C17.6406 10.6416 17.7406 10.6016 17.8206 10.5216L19.0206 9.31162C20.0106 8.33162 20.4906 7.38162 20.4906 6.42162C20.5006 5.43162 20.0206 4.47162 19.0206 3.48162Z" />
-                    <path d="M15.6103 11.5308C15.3203 11.3908 15.0403 11.2508 14.7703 11.0908C14.5503 10.9608 14.3403 10.8208 14.1303 10.6708C13.9603 10.5608 13.7603 10.4008 13.5703 10.2408C13.5503 10.2308 13.4803 10.1708 13.4003 10.0908C13.0703 9.81078 12.7003 9.45078 12.3703 9.05078C12.3403 9.03078 12.2903 8.96078 12.2203 8.87078C12.1203 8.75078 11.9503 8.55078 11.8003 8.32078C11.6803 8.17078 11.5403 7.95078 11.4103 7.73078C11.2503 7.46078 11.1103 7.19078 10.9703 6.91078C10.9491 6.86539 10.9286 6.82022 10.9088 6.77532C10.7612 6.442 10.3265 6.34455 10.0688 6.60231L4.34032 12.3308C4.21032 12.4608 4.09032 12.7108 4.06032 12.8808L3.52032 16.7108C3.42032 17.3908 3.61032 18.0308 4.03032 18.4608C4.39032 18.8108 4.89032 19.0008 5.43032 19.0008C5.55032 19.0008 5.67032 18.9908 5.79032 18.9708L9.63032 18.4308C9.81032 18.4008 10.0603 18.2808 10.1803 18.1508L15.9016 12.4295C16.1612 12.1699 16.0633 11.7245 15.7257 11.5804C15.6877 11.5642 15.6492 11.5476 15.6103 11.5308Z" />
-                  </svg>
+            <div className={styles.headerActions}>
+              {isEditing && (
+                <button
+                  type="button"
+                  className={styles.cancelButton}
+                  onClick={handleCancel}
+                  disabled={isSaving}
+                >
+                  Cancel
                 </button>
-              )} */}
+              )}
+              <button
+                type="button"
+                className={styles.editButton}
+                onClick={isEditing ? handleSave : handleEditToggle}
+                disabled={isSaving}
+              >
+                {isEditing ? 'Save' : 'Edit'}
+              </button>
             </div>
 
-            <div className={s.paramsBlock}>
-              <div className={s.paramItem}>
-                <span className={s.paramItemTitle}>{t.specialist_personal_therapy}</span>
-                <span className={s.paramNumber}>{specialistData?.hrInPsy}</span>
-                <span className={s.unitsOfMeasure}>{t.specialist_personal_therapy_hours}</span>
+          </div>
+        )}
+
+        <div className={styles.content}>
+          <div className={styles.profileSection}>
+            <button
+              type="button"
+              className={styles.avatarButton}
+              onClick={handleAvatarClick}
+              disabled={!isEditing}
+            >
+              <img
+                src={avatarSrc}
+                alt="Profile"
+                className={styles.profileImage}
+              />
+            </button>
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept="image/*"
+              onChange={handleAvatarChange}
+              style={{ display: 'none' }}
+            />
+
+            <div className={styles.profileInfo}>
+              <div className={styles.profileHeader}>
+                {isEditing ? (
+                  <input
+                    type="text"
+                    className={styles.textInput}
+                    value={formState.nickname}
+                    onChange={(e) => handleChange('nickname', e.target.value)}
+                    placeholder="Name / Nickname"
+                  />
+                ) : (
+                  <h2 className={styles.profileName}>{displayName}</h2>
+                )}
+                {isTeacher && (
+                  <p className={styles.profileRole}>Teacher</p>
+                )}
               </div>
-              <div className={s.paramItem}>
-                <span className={s.paramItemTitle}>{t.specialist_client_sessions}</span>
-                <span className={s.paramNumber}>{specialistData?.hrPsy}</span>
-                <span className={s.unitsOfMeasure}>{t.specialist_client_sessions_hours}</span>
-              </div>
-              <div className={s.paramItem}>
-                <span className={s.paramItemTitle}>{t.specialist_psy_education}</span>
-                <span className={s.paramNumber}>{specialistData?.hrEducation}</span>
-                <span className={s.unitsOfMeasure}>{t.specialist_psy_education_hours}</span>
-              </div>
-              <div className={s.paramItem}>
-                <span className={s.paramItemTitle}>{t.specialist_in_profession}</span>
-                <span className={s.paramNumber}>{specialistData?.inProfessionSince}</span>
-                <span className={s.unitsOfMeasure}>{t.specialist_in_profession_year}</span>
+
+              <div className={styles.inlineFields}>
+                <div className={styles.inlineField}>
+                  <span className={styles.label}>Speaks:</span>
+                  {isEditing ? (
+                    <select
+                      className={styles.select}
+                      value={formState.nativeLanguage}
+                      onChange={(e) =>
+                        handleChange('nativeLanguage', e.target.value)
+                      }
+                    >
+                      <option value="">Select language</option>
+                      {languageOptions.map((opt) => (
+                        <option key={opt.code} value={opt.code}>
+                          {opt.label}
+                        </option>
+                      ))}
+                    </select>
+                  ) : (
+                    <span className={styles.value}>
+                      {speaksLabel ? resolveLanguageLabel(speaksLabel) : '—'}
+                    </span>
+                  )}
+                </div>
+
+                <div className={styles.inlineField}>
+                  <span className={styles.label}>Teaches:</span>
+                  {isEditing ? (
+                    <select
+                      className={styles.select}
+                      value={formState.teachLanguage}
+                      onChange={(e) =>
+                        handleChange('teachLanguage', e.target.value)
+                      }
+                    >
+                      <option value="">Select language</option>
+                      {languageOptions.map((opt) => (
+                        <option key={opt.code} value={opt.code}>
+                          {opt.label}
+                        </option>
+                      ))}
+                    </select>
+                  ) : (
+                    <span className={styles.value}>
+                      {teachesLabel
+                        ? resolveLanguageLabel(teachesLabel)
+                        : '—'}
+                    </span>
+                  )}
+                </div>
               </div>
             </div>
           </div>
+
+          <section className={styles.section}>
+            <h3 className={styles.sectionTitle}>About</h3>
+            {isEditing ? (
+              <textarea
+                className={styles.textarea}
+                value={formState.about}
+                onChange={(e) => handleChange('about', e.target.value)}
+                rows={6}
+              />
+            ) : specialistData.infoAbout ? (
+              <div className={styles.sectionText}>
+                {parse(
+                  getLocalizedContent(
+                    specialistData.infoAbout,
+                    currentLocale,
+                  ) || '',
+                )}
+              </div>
+            ) : (
+              <p className={styles.sectionText}>No description yet.</p>
+            )}
+          </section>
+
+          <section className={styles.section}>
+            <h3 className={styles.sectionTitle}>Interesting topics</h3>
+            {isEditing ? (
+              <div className={styles.topicsEditor}>
+                <div className={styles.topicsContainer}>
+                  {formState.topics.map((topic) => (
+                    <button
+                      type="button"
+                      key={topic}
+                      className={styles.topicChip}
+                      onClick={() => handleRemoveTopic(topic)}
+                    >
+                      {topic}
+                      <span className={styles.topicRemove}>×</span>
+                    </button>
+                  ))}
+                </div>
+                <input
+                  type="text"
+                  className={styles.textInput}
+                  placeholder="Type topic and press Enter"
+                  value={formState.topicsInput}
+                  onChange={(e) => handleChange('topicsInput', e.target.value)}
+                  onKeyDown={handleTopicsKeyDown}
+                />
+              </div>
+            ) : formState.topics.length > 0 ? (
+              <div className={styles.topicsContainer}>
+                {formState.topics.map((topic) => (
+                  <span key={topic} className={styles.topic}>
+                    {topic}
+                  </span>
+                ))}
+              </div>
+            ) : (
+              <p className={styles.sectionText}>No topics added yet.</p>
+            )}
+          </section>
+
+          {specialistData.timeZone && (
+            <section className={styles.section}>
+              <h3 className={styles.sectionTitle}>Timezone</h3>
+              <p className={styles.sectionText}>{specialistData.timeZone}</p>
+            </section>
+          )}
+
+          {isTeacher && (
+            <section className={styles.videoSection}>
+              <div className={styles.videoText}>
+                <h3 className={styles.sectionTitle}>Introduction video</h3>
+                {specialistData.introVideo ? (
+                  <a
+                    href={specialistData.introVideo}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={`${styles.sectionText} ${styles.link}`}
+                  >
+                    Open current video
+                  </a>
+                ) : (
+                  <p className={`${styles.sectionText} ${styles.muted}`}>
+                    No video at this moment, please add your introduction video
+                    link.
+                  </p>
+                )}
+              </div>
+              {isEditing && (
+                <input
+                  type="text"
+                  className={styles.textInput}
+                  placeholder="https://www.youtube.com/..."
+                  value={formState.introVideo}
+                  onChange={(e) => handleChange('introVideo', e.target.value)}
+                />
+              )}
+            </section>
+          )}
+
+          {isTeacher && (
+            <section className={styles.priceSection}>
+              <h3 className={styles.sectionTitle}>Price (per lesson)</h3>
+              {isEditing ? (
+                <div className={styles.priceInputWrapper}>
+                  <input
+                    type="number"
+                    min={0}
+                    className={styles.priceInput}
+                    value={formState.price}
+                    onChange={(e) => handleChange('price', e.target.value)}
+                  />
+                  <span className={styles.priceSuffix}>$</span>
+                </div>
+              ) : (
+                <p className={styles.priceValue}>
+                  {specialistData.price ? specialistData.price / 100 : '—'} $
+                </p>
+              )}
+            </section>
+          )}
+
+          {isTeacher && (
+            <div className={styles.statsCard}>
+              <div className={styles.statItem}>
+                <svg
+                  className={styles.starIcon}
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M18.4687 22.4997C18.3109 22.5004 18.1568 22.4511 18.0286 22.3591L12 17.9885L5.97139 22.3591C5.84259 22.4525 5.68742 22.5026 5.52832 22.502C5.36921 22.5014 5.21441 22.4502 5.08629 22.3559C4.95818 22.2615 4.86339 22.1289 4.81563 21.9771C4.76787 21.8254 4.76961 21.6623 4.82061 21.5116L7.17186 14.5474L1.07811 10.3685C0.946113 10.2781 0.846491 10.1478 0.793797 9.99675C0.741103 9.84568 0.7381 9.68172 0.785225 9.52883C0.83235 9.37593 0.927135 9.24211 1.05573 9.14692C1.18432 9.05173 1.33999 9.00016 1.49998 8.99974H9.0178L11.2865 2.01771C11.3354 1.86697 11.4308 1.73558 11.559 1.6424C11.6871 1.54922 11.8415 1.49902 12 1.49902C12.1584 1.49902 12.3128 1.54922 12.441 1.6424C12.5692 1.73558 12.6645 1.86697 12.7134 2.01771L14.9822 9.00208H22.5C22.6602 9.002 22.8162 9.05322 22.9452 9.14823C23.0741 9.24323 23.1693 9.37704 23.2167 9.53005C23.2642 9.68307 23.2613 9.84724 23.2087 9.99854C23.1561 10.1498 23.0564 10.2803 22.9242 10.3708L16.8281 14.5474L19.178 21.5097C19.216 21.6225 19.2267 21.7426 19.2092 21.8603C19.1917 21.978 19.1464 22.0898 19.0771 22.1865C19.0078 22.2832 18.9165 22.3621 18.8107 22.4165C18.7049 22.471 18.5877 22.4995 18.4687 22.4997Z"
+                    fill="#FFC245"
+                  />
+                </svg>
+                <p className={styles.statValue}>5.0</p>
+              </div>
+              <p className={styles.statValue}>1 000 lessons</p>
+              <p className={styles.statValue}>200 students</p>
+            </div>
+          )}
         </div>
       </div>
-
-      {!specialistData?.isAlive && (
-        <div className={s.yearsOfLife}>
-          {specialistData?.yearOfBirth} - {specialistData?.yearOfDeath}
-        </div>
-      )}
-
-      {specialistData?.psySpecialities?.length > 0 && (
-        <div className={s.psyMethods}>
-          <span className={s.psyMethodsLabel}>{t.specialist_expert_in}</span>
-          <div className={s.psyMethodList}>
-            {specialistData?.psySpecialities?.map((speciality) => (
-              <span className={s.psyMethod} key={speciality}>
-                {t['psy-speciality'][speciality] || speciality}
-              </span>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {specialistData?.psyMethods?.length > 0 && (
-        <div className={s.psyMethods}>
-          <span className={s.psyMethodsLabel}>{t.specialist_psy_methods}</span>
-          <div className={s.psyMethodList}>
-            {specialistData.psyMethods.map((method) => (
-              <span className={s.psyMethod} key={method}>
-                {t['psy-methods'][method] || method}
-              </span>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {specialistData?.myTeachers?.length > 0 && (
-        <div className={s.teachers}>
-          <span className={s.teachersLabel}>{t.specialist_teachers_supervisiors}</span>
-          <div className={s.teachersList}>
-            {specialistData.myTeachers.map((teacher) => (
-              <span className={s.teacher} key={teacher}>{teacher}</span>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {specialistData?.isAlive && specialistData?.languages?.length > 0 && (
-        <div className={s.languages}>
-          <span className={s.languagesLabel}>{t.specialist_languages}</span>
-          <div className={s.languagesList}>
-            {specialistData.languages.map((language) => (
-              <span className={s.language} key={language}>{t['user-languages'][language]}</span>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {specialistData?.introVideo && (
-        <div className={s.about_video}>
-          <a
-            href={specialistData.introVideo}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            {t.your_introduction_video}
-          </a>
-        </div>
-      )}
-
-      {specialistData?.infoAbout && (
-        <div className={s.about_block}>
-          <div className={s.servicesLabel}>{t.about}</div>
-          <div className={s.infoAbout}>
-            {parse(getLocalizedContent(specialistData.infoAbout, currentLocale))}
-          </div>
-        </div>
-      )}
-
-      {specialistData?.services?.length > 0 && (
-        <div className={s.services}>
-          <div className={s.servicesLabel}>{t.specialist_services}</div>
-          <div className={s.serviceList}>
-            {specialistData.services.map((service, index) => (
-              <div key={index} className={s.serviceItem}>
-                <div className={s.generalInfo}>
-                  <div className={s.serviceTitle}>{getLocalizedContent(service.title, currentLocale)}</div>
-                  <div className={s.servicePrice}>${service.price / 100} / {service.length}min.</div>
-                </div>
-                <div className={s.description}>{parse(getLocalizedContent(service.description, currentLocale))}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
     </div>
   );
 };

@@ -49,7 +49,6 @@ export async function getTxReducedB64Safe(
   const txReducedBase64 = byteArrayToBase64(reducedTx.sigma_serialize_bytes());
 
   const ergoPayTx = txReducedBase64.replace(/\//g, '_').replace(/\+/g, '-');
-  //console.log("getTxReducedB64Safe3", txId, ergoPayTx);
   // split by chunk of 1000 char to generates the QR codes
 
   return [txId, ergoPayTx];

@@ -1,39 +1,35 @@
-import React from 'react'
-import { useRouter } from "next/router";
-import { useDispatch, useSelector } from 'react-redux';
-import { loadMessages } from '@/components/shared/i18n/translationLoader';
+import React from 'react';
+import { useRouter } from 'next/router';
 import s from './.module.scss';
 
 const Footer = () => {
-    const currentLocale = useSelector(({ locale }) => locale.currentLocale);
-    const t = loadMessages(currentLocale);
-    const router = useRouter();
+  const router = useRouter();
+  const year = new Date().getFullYear();
 
-    const goToTOU = () => {
-        router.push('/tou');
-    }
+  const goToTOU = () => router.push('/tou');
+  const goToPP = () => router.push('/privacy_policy');
+  const goToCookies = () => router.push('/cookies_settings');
 
-    const goToPP = () => {
-        router.push('/privacy_policy');
-    }
+  return (
+    <footer className={s.footer}>
+      <div className={s.separator} />
+      <div className={s.container}>
+        <div className={s.left}>© {year}. All rights reserved.</div>
 
-    const goToEP = () => {
-        router.push('/expert_policy');
-    }
+        <nav className={s.center} aria-label="Legal">
+          <button className={s.link} onClick={goToPP}>Privacy Policy</button>
+          <button className={s.link} onClick={goToTOU}>Terms of Service</button>
+          <button className={s.link} onClick={goToCookies}>Cookies Settings</button>
+        </nav>
 
-
-    return (
-        <div className={s.wrapper}>
-            <div className={s.footerItems}>
-                <div className={s.f_element} onClick={goToTOU}>{t.terms_of_use}</div>
-                <div className={s.vertialLine}></div>
-                {/* <div className={s.f_element} onClick={goToPP}>{t.privacy_policy}</div> */}
-                <div className={s.vertialLine}></div>
-                <div className={s.f_element} onClick={goToEP}>{t.expert_policy_header}</div>
-            </div>
-
+        <div className={s.right}>
+          <a className={`${s.link} ${s.external}`} href="https://twitter.com" target="_blank" rel="noopener noreferrer">Twitter</a>
+          <a className={`${s.link} ${s.external}`} href="https://discord.com" target="_blank" rel="noopener noreferrer">Discord</a>
+          <a className={`${s.link} ${s.external}`} href="https://instagram.com" target="_blank" rel="noopener noreferrer">Instagram</a>
         </div>
-    )
-}
+      </div>
+    </footer>
+  );
+};
 
 export default Footer;

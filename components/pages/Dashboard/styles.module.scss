@@ -1,0 +1,418 @@
+.container {
+  position: relative;
+  color: var(--text-color);
+  font-family: var(--font-sans);
+
+  padding: 1.5rem 19px 2.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+  justify-content: space-between;
+  height: 100%;
+
+  // @media (min-width: 1024px) {
+  //   padding: 0;
+  //   flex-direction: row;
+  //   align-items: center;
+  // }
+}
+
+/* ========== SECOND WELCOME STYLES ========== */
+
+.imageContainer {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  order: 1;
+
+  @media (min-width: 1024px) {
+    order: 2;
+    max-width: 631px;
+  }
+}
+
+.secondAccentLight,
+.secondPrimaryLight {
+  position: absolute;
+  border-radius: 30%;
+  z-index: 1;
+  opacity: 1;
+}
+
+.secondAccentLight {
+  filter: blur(var(--second-accent-light-blur));
+  width: var(--second-accent-light-w);
+  height: var(--second-accent-light-h);
+  top: var(--second-accent-light-top);
+  left: var(--second-accent-light-left);
+  background: var(--second-accent-light-color);
+  transform: rotate(var(--second-accent-light-rotate));
+}
+
+.secondPrimaryLight {
+  filter: blur(var(--second-primary-light-blur));
+  width: var(--second-primary-light-w);
+  height: var(--second-primary-light-h);
+  top: var(--second-primary-light-top);
+  left: var(--second-primary-light-left);
+  background: var(--second-primary-light-color);
+  transform: rotate(var(--second-primary-light-rotate));
+}
+
+.image {
+  width: 100%;
+  height: auto;
+  z-index: 2;
+}
+
+.textSection {
+  order: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+  z-index: 2;
+
+  @media (min-width: 1024px) {
+    order: 1;
+  }
+}
+
+.secondTextWrapper {
+  text-align: center;
+
+  @media (min-width: 1024px) {
+    text-align: left;
+  }
+
+  h1 {
+    font-size: 27px;
+    font-weight: 700;
+
+    @media (min-width: 1024px) {
+      font-size: 61px;
+    }
+  }
+
+  p {
+    font-size: 16px;
+
+    @media (min-width: 1024px) {
+      font-size: 21px;
+    }
+  }
+}
+
+.mobileText {
+  display: block;
+
+  @media (min-width: 1024px) {
+    display: none;
+  }
+}
+
+.desktopText {
+  display: none;
+
+  @media (min-width: 1024px) {
+    display: block;
+  }
+}
+
+.page {
+  width: 100vw;
+  min-height: 100vh;
+  background: url("./../../shared/assets/img/bg.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  flex-direction: column;
+
+  @media (min-width: 768px) {
+    flex-direction: row;
+  }
+}
+
+.mobileHeader {
+  display: block;
+  background-color: #fff;
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid #e5e7eb;
+
+  @media (min-width: 768px) {
+    display: none;
+  }
+
+  h1 {
+    font-family: "Raleway", sans-serif;
+    font-weight: 800;
+    font-size: 32px;
+    line-height: normal;
+
+    .blue {
+      color: #3b82f6; // Tailwind blue
+    }
+
+    .lightPink {
+      color: #f9a8d4;
+    }
+
+    .black {
+      color: #000;
+    }
+  }
+}
+
+.main {
+  position: relative;
+  flex: 1;
+  padding: 24px 20px 0px;
+}
+
+.mainContent {
+  position: relative;
+  z-index: 10;
+}
+
+.contentLayout {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+
+  @media (max-width: 1024px) {
+    flex-direction: column;
+  }
+}
+
+.leftSection {
+  flex: 1;
+}
+
+.welcomeCard {
+  // background-color: #fff;
+  // border-radius: 40px;
+  // box-shadow: 0 4px 8px 0 rgba(150, 160, 253, 0.3);
+  // padding: 1.5rem;
+  // margin-bottom: 4rem;
+  // position: relative;
+  // overflow: visible;
+  // min-height: 200px;
+
+  .content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 2rem;
+
+    @media (min-width: 768px) {
+      flex-direction: row;
+    }
+
+    .textBlock {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      z-index: 10;
+
+      h2 {
+        color: #000;
+        font-weight: 700;
+        font-size: 2.25rem; // 36px
+        line-height: 150%;
+      }
+
+      p {
+        color: #000;
+        font-size: 21px;
+        line-height: 150%;
+      }
+    }
+
+    .buttonBlock {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-end;
+      position: relative;
+      // min-height: 137px;
+
+      button {
+        background-color: #3b82f6;
+        color: #fff;
+        padding: 0.75rem 3.5rem;
+        border-radius: 1.5rem;
+        font-size: 21px;
+        line-height: 150%;
+        font-weight: 400;
+        transition: background-color 0.2s ease-in-out;
+
+        &:hover {
+          background-color: rgba(59, 130, 246, 0.9);
+        }
+      }
+    }
+  }
+}
+
+.upcomingLessons {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+
+  h2 {
+    color: #000;
+    font-weight: 700;
+    font-size: 27px;
+    line-height: 150%;
+  }
+
+  p {
+    color: #000;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 150%;
+  }
+}
+
+.rightSection {
+  @media (min-width: 1024px) {
+    width: 408px;
+  }
+}
+
+.heroCard {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 24px;
+  border-radius: 40px;
+  background: #fafafa;
+  box-shadow: 0 4px 8px 0 rgba(150, 160, 253, 0.3);
+  margin-bottom: 48px;
+  align-items: center;
+  width: 100%;
+
+  @media (min-width: 768px) {
+    flex-direction: row;
+    gap: 32px;
+    align-items: flex-end;
+  }
+}
+
+.heroContent {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+  text-align: center;
+
+  @media (min-width: 768px) {
+    text-align: left;
+  }
+}
+
+.heroTitle {
+  color: #161616;
+  font-family: Helvetica, -apple-system, Roboto, sans-serif;
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 150%;
+  margin: 0;
+
+  @media (min-width: 640px) {
+    font-size: 36px;
+  }
+}
+
+.heroSubtitle {
+  color: #161616;
+  font-family: Helvetica, -apple-system, Roboto, sans-serif;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 150%;
+  margin: 0;
+
+  @media (min-width: 640px) {
+    font-size: 21px;
+  }
+}
+
+.heroImageSection {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  flex: 1;
+  min-height: 180px;
+
+  @media (min-width: 768px) {
+    min-height: 137px;
+  }
+
+  img {
+    margin-bottom: -50px;
+    z-index: 2;
+  }
+}
+
+.findTeacherButton {
+  display: flex;
+  padding: 12px 40px;
+  justify-content: center;
+  align-items: center;
+  border-radius: 24px;
+  background: #5666ed;
+  color: #fafafa;
+  font-family: Helvetica, -apple-system, Roboto, sans-serif;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 150%;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  position: relative;
+  z-index: 2;
+
+  @media (min-width: 640px) {
+    padding: 12px 56px;
+    font-size: 21px;
+  }
+
+  &:hover {
+    background: #4a59d4;
+  }
+
+  &:focus-visible {
+    outline: 2px solid #5666ed;
+    outline-offset: 2px;
+  }
+
+  &:active {
+    transform: scale(0.98);
+  }
+}
+
+.heroIllustration {
+  position: absolute;
+  width: 150px;
+  height: auto;
+  right: -10px;
+  bottom: -24px;
+  z-index: 1;
+  pointer-events: none;
+
+  @media (min-width: 640px) {
+    width: 180px;
+    right: 20px;
+  }
+
+  @media (min-width: 768px) {
+    width: 213px;
+    right: 50px;
+    bottom: -40px;
+  }
+}

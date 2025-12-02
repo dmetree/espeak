@@ -5,7 +5,8 @@ import {
   acceptRequest,
   deleteAcceptedReqPsych,
   setRequestRoomId,
-  fetchMyAppointments
+  fetchMyAppointments,
+  psychDeleteRequestClaimRewards
 } from "@/store/actions/appointments";
 import { AppDispatch } from "@/store";
 import {
@@ -421,6 +422,11 @@ const DayRow = ({ hour, handleClick, mark, bgColor, request, isPastHour }) => {
     return () => clearInterval(id);
   }, []);
 
+  const handleClaimRewards = () => {
+    // dispatch(psychDeleteRequestClaimRewards(userUid, request.id));
+    toast.success("You claimed rewards")
+  }
+
   return (
     <div
       key={hour}
@@ -503,7 +509,7 @@ const DayRow = ({ hour, handleClick, mark, bgColor, request, isPastHour }) => {
                       dayRowBtn
                       className={s.dayRowBtn}
                       onClick={onSpecialistAccept}
-                      disabled={isAcceptDisabled}
+                      // disabled={isAcceptDisabled}
                       aria-disabled={isAcceptDisabled}
                       title={isAcceptDisabled ? t?.available_in_10_min ?? 'Available after 10 minutes' : ''}
                     >
@@ -541,10 +547,10 @@ const DayRow = ({ hour, handleClick, mark, bgColor, request, isPastHour }) => {
                   ref={dropdownRefCancelAcceptPsych}
                   onClick={(e) => e.stopPropagation()}
                 >
-                  <Button
-                    cancel
+                  {/* <Button
+
                     type="button"
-                    className={s.dropdownItem}
+                    // className={s.dropdownItem}
                     onClick={async (e) => {
                       e.stopPropagation();
 
@@ -571,6 +577,9 @@ const DayRow = ({ hour, handleClick, mark, bgColor, request, isPastHour }) => {
                     }}
                   >
                     {t.cancel}
+                  </Button> */}
+                  <Button onClick={handleClaimRewards}>
+                    {t.collect_rewards}
                   </Button>
                 </div>
               )}

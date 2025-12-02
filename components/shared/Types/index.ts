@@ -186,6 +186,10 @@ export enum EModalKind {
   PsyworkerApplication = "psyworker-application",
   CreatePost = "create-post",
   LangModal = "lang-modal",
+  Login = "login",
+  SignUp = "sign-up",
+  PathTeacher = "path-teacher",
+  PathStudent = "path-student",
 }
 
 export namespace TimetableRequests {

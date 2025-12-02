@@ -75,7 +75,7 @@ const UpdateProfile = () => {
     avatar: '',
     gender: '',
     timeZone: '',
-    birthYear: '',
+    yearOfBirth: '',
     languages: [],
     psySpecialities: [],
     psyMethods: [],
@@ -101,7 +101,7 @@ const UpdateProfile = () => {
         avatar: userData.avatar || null,
         gender: userData.gender || '',
         timeZone: userData.timeZone || '',
-        birthYear: userData.birthYear || '',
+        yearOfBirth: userData.yearOfBirth || '',
         languages: userData.languages || [],
         psySpecialities: userData.psySpecialities || [],
         psyMethods: userData.psyMethods || [],
@@ -117,12 +117,10 @@ const UpdateProfile = () => {
     }
   }, [userData]);
 
-  const handleInputChange = (event) => {
-    const { name, value } = event.target;
-    console.log('event', event.target, name, value)
+  const handleInputChange = (fieldName: keyof typeof formData) => (value: string) => {
     setFormData((prevData) => ({
       ...prevData,
-      [name]: value,
+      [fieldName]: value,
     }));
   };
 
@@ -220,7 +218,15 @@ const UpdateProfile = () => {
   const handleAddService = () => {
     setFormData((prevData) => ({
       ...prevData,
-      services: [...prevData.services, { title: '', length: 55, price: '' }],
+      services: [
+        ...prevData.services,
+        {
+          title: {},
+          description: {},
+          length: 55,
+          price: '',
+        },
+      ],
     }));
   };
 
@@ -361,16 +367,23 @@ const UpdateProfile = () => {
 
           <div className={s.profileInfo}>
             <div className={s.hello}>
-
               <span className={s.formLabelTitle}>{t.your_nickname} </span>
               <strong>{formData?.nickname}</strong>
             </div>
-            <div className={s.formLabel}>
 
+            <div className={s.formLabel}>
               <span className={s.formLabelTitle}>{t.email} </span>
               <strong>{userEmail}</strong>
             </div>
-            {userRole === 'specialist' && (<PsyRankSection psyRank={userData?.psyRank} t={t} />)}
+
+            <div className={s.formLabel}>
+              <span className={s.formLabelTitle}>
+                {/* {t.}  */}
+                Year of birth: </span>
+              <strong>{formData?.yearOfBirth}</strong>
+            </div>
+
+            {userRole === 'specialist' && (<PsyRankSection isAlive={userData?.isAlive} t={t} />)}
           </div>
         </div>
 
@@ -390,7 +403,7 @@ const UpdateProfile = () => {
               {/* <div className={s.psynameInfo}>{t.profile_title_info}</div> */}
               <NicknameInput
                 nickname={formData.nickname}
-                onChange={handleInputChange}
+                onChange={handleInputChange('nickname')}
                 t={t}
               />
 
@@ -429,7 +442,7 @@ const UpdateProfile = () => {
 
               <IntroductionVideo
                 introVideo={formData.introVideo}
-                onChange={handleInputChange}
+                onChange={handleInputChange('introVideo')}
                 t={t}
               />
 

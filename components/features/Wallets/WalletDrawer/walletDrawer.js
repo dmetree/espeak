@@ -28,7 +28,7 @@ import s from "./walletDrawer.module.scss";
 const WalletDrawer = (props) => {
   const currentLocale = useSelector(({ locale }) => locale.currentLocale);
   const t = loadMessages(currentLocale);
-  const supportedWallets = ["eternl", "gerowallet", "vespr", "lace"];
+  const supportedWallets = ["eternl", "vespr", "lace"];
   const [connecting, setConnecting] = useState(null);
   const [isNautilusInstalled, setNautilusIsInstalled] = useState(false);
   const dispatch = useDispatch();
@@ -103,22 +103,28 @@ const WalletDrawer = (props) => {
       {/* <div className={s.header}>
         <FaWallet className={s.walletIcon} />
         <span>CARDANO wallet</span>
-      </div>
-      <div className={s.walletList}>{walletsList}</div> */}
-      <div className={s.header}>
+      </div> */}
+      <div className={s.walletList}>{walletsList}</div>
+      {/* <div className={s.header}>
         <div className={s.titleWrapper}>
           <FaWallet className={s.walletIcon} />
           <span>ERGO wallet </span>
         </div>
 
         <div>{t.wallet_on_desktop}</div>
-      </div>
+      </div> */}
 
-      {isNautilusInstalled ? (
+      {/* {isNautilusInstalled ? (
         <div className={s.nautilusBtn}>
           <div className={s.ergoButton} onClick={() => connectNautilus()}>
             <span className={s.ergoIcon}>
-              <Image alt="img" height="30" width="30" src={NautilusLogo} loading="lazy"/>
+              <Image
+                alt="img"
+                height="30"
+                width="30"
+                src={NautilusLogo}
+                loading="lazy"
+              />
             </span>
             <span className={s.walletName}>Nautilus</span>
           </div>
@@ -151,7 +157,7 @@ const WalletDrawer = (props) => {
           Discord
         </a>
       </div>
-      <div></div>
+      <div></div> */}
 
       <div className={s.closeIcon} onClick={close}>
         <IoClose />

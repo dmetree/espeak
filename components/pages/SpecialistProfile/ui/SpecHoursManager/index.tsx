@@ -42,22 +42,24 @@ const HoursManager: FC<THoursManagerProps> = ({
     onCellClick && onCellClick(dayTimeActivityItem);
   };
 
-  const dayView = selectedDaySchedule?.map((item) => {
-    const isPastHour = formattedCurrentDate === todayFormatted && item.hour < currentHour + 2;
-    return (
-      <DayRow
-        key={item.hour}
-        handleClick={isPastHour ? () => { } : () => handleSelectTime(item)} // Disable click for past hours
-        hour={item.hour}
-        mark={item.mark}
-        // specialistActualFreeTimeslots={specialistActualFreeTimeslots}
-        psyRequest={item.request}
-        bgColor={getRequestColor(item?.request?.status)}
-        request={item?.request}
-        isPastHour={isPastHour}
-      />
-    );
-  });
+  const dayView = selectedDaySchedule
+    ?.filter((item) => item.mark !== 'busy')
+    .map((item) => {
+      const isPastHour = formattedCurrentDate === todayFormatted && item.hour < currentHour + 2;
+      return (
+        <DayRow
+          key={item.hour}
+          handleClick={isPastHour ? () => { } : () => handleSelectTime(item)} // Disable click for past hours
+          hour={item.hour}
+          mark={item.mark}
+          // specialistActualFreeTimeslots={specialistActualFreeTimeslots}
+          psyRequest={item.request}
+          bgColor={getRequestColor(item?.request?.status)}
+          request={item?.request}
+          isPastHour={isPastHour}
+        />
+      );
+    });
 
   return (
     <div className={s.tableDay}>

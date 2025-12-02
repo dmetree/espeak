@@ -15,6 +15,8 @@ export function SessionServices() {
     const draftAppointment = useSelector(({ appointments }) => appointments.draftAppointment);
     const selectedSpecialist = useSelector(({ specialists }) => specialists.selectedSpecialist);
 
+    const services = draftAppointment?.services || selectedSpecialist?.services || [];
+
     const handleItemClick = (selectedService) => {
         dispatch(setDraftAppointment({
             ...draftAppointment,
@@ -27,7 +29,7 @@ export function SessionServices() {
         <FormWrapper title={t.service_title}>
             <div className={s.wrapper}>
                 <div className={s.helpItems}>
-                    {draftAppointment?.services.map((service, index) => {
+                    {services.map((service, index) => {
                         const isSelected =
                             draftAppointment?.selectedService?.title?.[currentLocale] ===
                             service.title?.[currentLocale];

@@ -11,7 +11,6 @@ import {
   setIsAppointmentFinished,
   clearDraftAppointment,
   setDraftAppointment,
-  confirmAppointmentOnChain
 } from '@/store/actions/appointments';
 import { saveSlots, actionUpdateProfile, } from '@/store/actions/profile/user';
 import { loadMessages } from '@/components/shared/i18n/translationLoader';
@@ -33,14 +32,13 @@ import { SessionConfirm } from './ui/05_session_confirmation/SessionConfirm';
 import { useMultistepForm } from '@/components/shared/hooks/use-multistep-form';
 import { getCurrentTimeZone } from '@/components/shared/utils/datetime/get-current-timezone';
 
-import { TransactionBuilder, OutputBuilder, ErgoAddress } from "@fleet-sdk/core";
-import { Network, Box, EIP12UnsignedTransaction, OneOrMore } from "@fleet-sdk/common";
-
-import { TransactionHelper } from '@/blockchain/ergo/offchain/utils/transaction-helper';
-import { ErgoToken } from '@/blockchain/ergo/offchain/models/transaction.types';
-// import { psySessionContractErgoTree } from '@/blockchain/ergo/offchain/constants';
-import { getInputBoxes } from '@/blockchain/ergo/offchain/utils/input-selecter';
-import { buildCreateSession } from '@/blockchain/ergo/offchain/app/transactions/init';
+// Blockchain/off-chain imports disabled for backend-only flow
+// import { TransactionBuilder, OutputBuilder, ErgoAddress } from "@fleet-sdk/core";
+// import { Network, Box, EIP12UnsignedTransaction, OneOrMore } from "@fleet-sdk/common";
+// import { TransactionHelper } from '@/blockchain/ergo/offchain/utils/transaction-helper';
+// import { ErgoToken } from '@/blockchain/ergo/offchain/models/transaction.types';
+// import { getInputBoxes } from '@/blockchain/ergo/offchain/utils/input-selecter';
+// import { buildCreateSession } from '@/blockchain/ergo/offchain/app/transactions/init';
 
 import s from './.module.scss';
 import { AppDispatch } from "@/store";
@@ -56,10 +54,11 @@ const BookSession = () => {
   const userData = useSelector(({ user }) => user?.userData);
   const isAppointmentFinished = useSelector(({ appointments }) => appointments.isAppointmentFinished);
   const draftAppointment = useSelector(({ appointments }) => appointments.draftAppointment);
-  const ergoWalletConnected = useSelector(({ networkErgo }) => networkErgo.ergoWalletConnected);
-  const ergoBalance = useSelector(({ networkErgo }) => networkErgo.ergoBalance);
-  const sigUsdBalance = useSelector(({ networkErgo }) => networkErgo.sigUsdBalance);
-  const ergoCustomerWalletAddress = useSelector(({ networkErgo }) => networkErgo?.ergoWalletAddress[0]);
+  // Blockchain-related wallet state disabled for backend-only flow
+  // const ergoWalletConnected = useSelector(({ networkErgo }) => networkErgo.ergoWalletConnected);
+  // const ergoBalance = useSelector(({ networkErgo }) => networkErgo.ergoBalance);
+  // const sigUsdBalance = useSelector(({ networkErgo }) => networkErgo.sigUsdBalance);
+  // const ergoCustomerWalletAddress = useSelector(({ networkErgo }) => networkErgo?.ergoWalletAddress[0]);
 
   const currentLocale = useSelector(({ locale }) => locale.currentLocale);
   const t = loadMessages(currentLocale);
@@ -72,8 +71,9 @@ const BookSession = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
-  const [blockchainTransactionId, setBlockchainTransactionId] = useState<EIP12UnsignedTransaction | undefined>(undefined);
-  const [singletonId, setSingletonId] = useState<EIP12UnsignedTransaction | undefined>(undefined);
+  // Blockchain transaction state disabled for backend-only flow
+  // const [blockchainTransactionId, setBlockchainTransactionId] = useState<EIP12UnsignedTransaction | undefined>(undefined);
+  // const [singletonId, setSingletonId] = useState<EIP12UnsignedTransaction | undefined>(undefined);
 
   const localeRef = useRef(currentLocale);
 
@@ -81,13 +81,13 @@ const BookSession = () => {
     return router.pathname.startsWith('/specialist-profile')
       ? [<SessionServices key="services" />, <SessionConfirm key="confirm" />]
       : [
-          <SessionFormat key="format" />,
-          <SessionSubject key="subject" />,
-          <SessionDate key="date" />,
-          <SessionTime key="time" />,
-          <SessionPsy key="psy" />,
-          <SessionConfirm key="confirm" />
-        ];
+        <SessionFormat key="format" />,
+        <SessionSubject key="subject" />,
+        <SessionDate key="date" />,
+        <SessionTime key="time" />,
+        <SessionPsy key="psy" />,
+        <SessionConfirm key="confirm" />
+      ];
   };
 
   const { step, isFirstStep, isLastStep, back, next } = useMultistepForm(getSteps());
@@ -100,7 +100,7 @@ const BookSession = () => {
     const selectedDate = new Date(draftAppointment.selectedDate);
     const scheduledUnixtime = selectedDate.setHours(draftAppointment.selectedHour, 0, 0, 0) / 1000;
 
-    const appointment = {
+    const rawAppointment = {
       ...draftAppointment,
       created_at: Timestamp.now(),
       scheduledUnixtime,
@@ -111,148 +111,53 @@ const BookSession = () => {
       lang: userData?.languages,
     };
 
+    // Remove any undefined fields to satisfy Firestore (e.g. psyRank can be undefined)
+    const appointment = Object.fromEntries(
+      Object.entries(rawAppointment).filter(([, value]) => value !== undefined)
+    );
 
-
-    dispatch(hideModal(EModalKind.BookSession));
     setLoading(true);
 
-    // Ergo tx building ====================
     try {
+      const currentUnixTime = Math.floor(Date.now() / 1000);
+      const updatedFreeTimestamps = freeTimestamps.filter(
+        (timestamp) => timestamp > currentUnixTime && timestamp !== appointment.scheduledUnixtime
+      );
 
-      const isConnected = await ergoConnector.nautilus.connect({ createErgoObject: false });
-      const isAuthorized = ergoConnector.nautilus.isAuthorized();
+      // Create appointment in backend (Firestore)
+      await dispatch(createAppointment(userUid, appointment));
 
-      const nodeNetwork = Network.Mainnet;
-      const ergo = await ergoConnector.nautilus.getContext();
-
-      const nodeHeight = await ergo.get_current_height();
-      const transactionHelper = new TransactionHelper(ergo);
-      const nanoErgSessionValue = BigInt(1_100_000);
-      const nanoErgMinerFee = BigInt(1_100_000);
-
-      // person-to-person
-      const p2pkInputAmount = nanoErgSessionValue + nanoErgMinerFee;
-
-      const address = ergoCustomerWalletAddress.toString(nodeNetwork);
-      const contractAddress = ErgoAddress.fromBase58(process.env.NEXT_PUBLIC_SMART_CONTRACT_ADDRESS);
-
-      const paymentToken: ErgoToken = {
-        tokenId: "03faf2cb329f2e90d6d23b58d91bbb6c046aa143261cc21f52fbe2824bfcbf04",
-        amount: BigInt(draftAppointment.price),
-      };
-      const timeInBlocksBeforeStartOfSession = (appointment.scheduledUnixtime - Math.floor(Date.now() / 1000)) / 120;
-      const sessionStartTime = nodeHeight + Math.floor(timeInBlocksBeforeStartOfSession);
-
-      const customerAddress = ErgoAddress.fromBase58(ergoCustomerWalletAddress);
-      const userInputs = await ergo.get_utxos();
-
-      const partnerOneAddress = ErgoAddress.fromBase58(userData?.partnerOne ? userData?.partnerOne : "9efDyqCqk457p94YsFfuSX4CDYDG2WvEPouSVswU3xoyjcqhXJT");
-      const partnerTwoAddress = ErgoAddress.fromBase58(userData?.partnerTwo ? userData?.partnerTwo : "9efDyqCqk457p94YsFfuSX4CDYDG2WvEPouSVswU3xoyjcqhXJT");
-
-      buildCreateSession(
-        userInputs,
-        paymentToken,
-        customerAddress,
-        contractAddress,
-        customerAddress,
-        customerAddress,
-        sessionStartTime,
-        nanoErgSessionValue,
-        nanoErgMinerFee,
-        nodeHeight,
-        transactionHelper,
-        draftAppointment.price,
-        partnerOneAddress,
-        partnerTwoAddress,
-      ).then(async ({ singletonId, txId }) => {
-        setBlockchainTransactionId(txId);
-        setSingletonId(singletonId);
-
-        const currentUnixTime = Math.floor(Date.now() / 1000);
-        const updatedFreeTimestamps = freeTimestamps.filter(
-          (timestamp) => timestamp > currentUnixTime && timestamp !== appointment.scheduledUnixtime
-        );
-
-        const addressString1 = partnerOneAddress.toString();
-        const addressString2 = partnerTwoAddress.toString();
-
-        // 🟢 Dispatch appointment immediately
-        const docId = await dispatch(createAppointment(userUid, appointment, singletonId, txId, addressString1, addressString2));
-
-        if (isSpecialist) {
-          await dispatch(saveSlots(userUid, updatedFreeTimestamps));
-          setFreeTimestamps(updatedFreeTimestamps);
-        }
-
-        toast.info(t.tx_in_process, txId);
-
-        // 🕒 Polling confirmation logic
-        const maxAttempts = 30;
-        const pollInterval = 30 * 1000;
-        let pollAttempts = 0;
-
-        const pollForConfirmation = async () => {
-          try {
-            const response = await fetch(`https://api.ergoplatform.com/api/v1/boxes/unspent/byTokenId/${singletonId}`);
-            const data = await response.json();
-
-            if (Array.isArray(data.items) && data.items.length > 0) {
-              console.log("Transaction confirmed on chain.");
-
-              // ✅ Dispatch a follow-up action
-              await dispatch(confirmAppointmentOnChain(docId));
-
-              toast.success(t.request_confirmed_onchain);
-
-              const payload = {
-                title: t.notificaiton_request_created,
-                message: t.text_request_created,
-                linkTo: "",
-                created_at: new Date(),
-                isRead: false,
-              };
-
-              const currentNotifications = Array.isArray(userData?.notifications)
-                ? userData.notifications
-                : [];
-
-              const updatedNotifications = [...currentNotifications, payload];
-
-              await dispatch(actionUpdateProfile(updatedNotifications, userUid, "notifications"));
-
-              dispatch(setIsAppointmentFinished(true));
-              dispatch(clearDraftAppointment());
-              setLoading(false);
-              dispatch(hideModal(EModalKind.BookSession));
-            } else if (++pollAttempts < maxAttempts) {
-              setTimeout(pollForConfirmation, pollInterval);
-            } else {
-              setLoading(false);
-              setError("Transaction not confirmed after several attempts.");
-              toast.error("Transaction timeout. Please check later.");
-            }
-          } catch (err) {
-            console.error("Polling error:", err);
-            if (++pollAttempts < maxAttempts) {
-              setTimeout(pollForConfirmation, pollInterval);
-            } else {
-              setLoading(false);
-              setError("Transaction confirmation failed.");
-              toast.error("Unable to confirm transaction.");
-            }
-          }
-        };
-
-        // 🟡 Start polling
-        pollForConfirmation();
-      })
-
-    } catch (error) {
-      if (error instanceof NoAuthError) {
-        router.push("/sign_in");
-      } else {
-        setError(error.message || "Unknown error occurred");
+      // Update specialist free slots in backend
+      if (isSpecialist) {
+        await dispatch(saveSlots(userUid, updatedFreeTimestamps));
+        setFreeTimestamps(updatedFreeTimestamps);
       }
+
+      // Push notification into user profile in backend
+      const payload = {
+        title: t.notificaiton_request_created,
+        message: t.text_request_created,
+        linkTo: "",
+        created_at: new Date(),
+        isRead: false,
+      };
+
+      const currentNotifications = Array.isArray(userData?.notifications)
+        ? userData.notifications
+        : [];
+
+      const updatedNotifications = [...currentNotifications, payload];
+
+      await dispatch(actionUpdateProfile(updatedNotifications, userUid, "notifications"));
+
+      dispatch(setIsAppointmentFinished(true));
+      dispatch(clearDraftAppointment());
+      dispatch(hideModal(EModalKind.BookSession));
+      toast.success(t.request_confirmed_onchain || t.notificaiton_request_created);
+    } catch (error) {
+      console.error(error);
+      setError(error.message || "Unknown error occurred");
+    } finally {
       setLoading(false);
     }
   };
@@ -302,11 +207,10 @@ const BookSession = () => {
           <Button
             className={s.formBtn}
             type="submit"
-            disabled={!ergoWalletConnected && isLastStep
-              || sigUsdBalance < draftAppointment.price / 100 && isLastStep
-              || ergoBalance < 0.1 && isLastStep}
           >
-            {isLastStep ? t.confirm_iusd : t.done}
+            {isLastStep ? t.done : t.done}
+            {/* Wallet/balance warnings disabled for backend-only flow */}
+            {/*
             {!ergoWalletConnected && isLastStep && (
               <>
                 <span className={s.warningIndicator}>!</span>
@@ -331,6 +235,7 @@ const BookSession = () => {
                 </div>
               </>
             )}
+            */}
           </Button>
           {/* {!ergoWalletConnected && (
             <div className={s.tooltip}>You need to connect your wallet!</div>

@@ -1,0 +1,125 @@
+.languageSelector {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.flagGrid {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.flagButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 114px;
+  height: 40px;
+  gap: 8px;
+  border-radius: 12px;
+  border: 1px solid #bbc2fa;
+  background: #fafafa;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  color: #161616;
+  font-family: Helvetica, -apple-system, Roboto, Helvetica, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 150%;
+  text-align: center;
+
+  &:hover {
+    border-color: #5666ed;
+    background: #f0f2ff;
+  }
+
+  &:active {
+    transform: scale(0.98);
+  }
+
+  @media (max-width: 1024px) {
+    padding: 12px 8px;
+    min-height: 100px;
+    font-size: 13px;
+  }
+
+  @media (max-width: 768px) {
+    padding: 10px 8px;
+    min-height: 80px;
+    gap: 6px;
+    font-size: 12px;
+  }
+
+  @media (max-width: 480px) {
+    padding: 12px;
+    min-height: 90px;
+    gap: 6px;
+    font-size: 12px;
+  }
+}
+
+.selected {
+  border-color: #5666ed;
+  background: #e0e3ff;
+  font-weight: 600;
+
+  &:hover {
+    background: #d0d5ff;
+    border-color: #4555cc;
+  }
+}
+
+.flagEmoji {
+  width: 24px;
+  height: 24px;
+  line-height: 24px;
+}
+
+.selectInput {
+  display: flex;
+  padding: 10px 16px;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  border-radius: 6px;
+  border: 1px solid #bbc2fa;
+  background: #fafafa;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  color: #161616;
+  font-family: Helvetica, -apple-system, Roboto, Helvetica, sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 150%;
+
+  &:hover {
+    border-color: #5666ed;
+  }
+
+  &:focus {
+    outline: none;
+    border-color: #5666ed;
+    box-shadow: 0 0 0 2px rgba(86, 102, 237, 0.1);
+  }
+
+  option {
+    background: #fafafa;
+    color: #161616;
+    padding: 8px 4px;
+
+    &:checked {
+      background: #e0e3ff;
+    }
+  }
+
+  @media (max-width: 768px) {
+    padding: 8px 12px;
+    font-size: 14px;
+  }
+}

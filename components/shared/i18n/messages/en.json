@@ -1,5 +1,89 @@
 {
   "language": "EN",
+  "connect_wallet": "Crypto wallet",
+  "landing_faq": {
+    "how_it_work_title": "How does it work?",
+    "is_anonymous_title": "Is it anonymous?",
+    "how_to_pay_title": "How to make payments?",
+    "can_i_trust_title": "Can I trust the platform?",
+    "how_to_start_title": "How to get started?",
+    "how_it_work_text": "Our app provides a user‑friendly platform for teachers and students to connect. It also supports cryptocurrency payments for added privacy and security.",
+    "is_anonymous_text": "Yes. We do not require banking information. You get the benefits of learning a new language without compromising your privacy.",
+    "how_to_pay_text": "You can pay with crypto. Simple, fast and secure.",
+    "can_i_trust_text": "We aim to provide a safe environment. Your data remains private.",
+    "how_to_start_text": "Create a profile, explore lessons, book a session and start learning."
+  },
+  "common": {
+    "get_started": "Get started",
+    "send": "Send"
+  },
+  "landing_hero": {
+    "part1": "Learn languages easily with",
+    "part2": "- start your journey today",
+    "sub": "Our language learning application offers an anonymous and secure environment for teachers and students. With crypto payments, you can enjoy the benefits of a decentralized currency without the need for traditional banking information."
+  },
+  "landing_features": {
+    "crypto_title": "Pay with cryptocurrency",
+    "crypto_text": "Effortless transactions: embrace the future of payment.",
+    "anon_title": "Learn languages anonymously",
+    "anon_text": "Experience the benefits of anonymous language learning.",
+    "app_title": "Discover the power of our app",
+    "app_text": "Learn at your own pace with our easy-to-use interface.",
+    "badge": "Begin your journey today!"
+  },
+  "landing_discover": {
+    "title": "Discover our innovative Language Learning App",
+    "text": "Our application offers a range of benefits for both teachers and students. Teachers can easily create and manage their language courses, while students can enjoy a seamless learning experience with speaking lessons and personalized feedback."
+  },
+  "landing_steps": {
+    "title": "Get started in 3 simple steps",
+    "step1_title": "Join our language learning community today!",
+    "step1_text": "Signing up is quick and easy. Begin your journey by creating a profile. The app helps students explore lessons and teachers showcase their expertise.",
+    "step2_title": "Explore lessons and connect with the right match",
+    "step2_text": "Discover diverse lessons. For students, find the perfect teacher; for teachers, showcase your lessons to connect with eager learners.",
+    "step3_title": "Start your journey to learn a new language",
+    "step3_text": "Finalize your connection by booking lessons (for students) or getting booked (for teachers). Pay with crypto and start the learning journey!"
+  },
+  "landing_contact": {
+    "title": "Get in touch!",
+    "sub": "Have a question or need support? Contact us!",
+    "first_name": "First Name",
+    "last_name": "Last Name",
+    "email": "Email",
+    "message": "Type your message...",
+    "agree": "I fully agree to the Terms and Conditions stated."
+  },
+  "landing_bottom": {
+    "title": "Learn a new language today",
+    "text": "Discover the power of EasySpeak and unlock your potential to speak confidently and fluently in a short amount of time. Join our community and start your journey to improved speaking skills today!"
+  },
+  "welcome": {
+    "first": {
+      "title": "Welcome to EasySpeak!",
+      "subtitle": "Let's get started on your language-learning journey. Are you here to learn or teach?",
+      "learnOption": {
+        "title": "I'm here to learn",
+        "description": "Explore lessons, book tutors, and enhance your language skills with personalized learning plans."
+      },
+      "teachOption": {
+        "title": "I'm here to teach",
+        "description": "Share your expertise, connect with students, and guide them on their language-learning adventures."
+      },
+      "choose": "Choose"
+    },
+    "second": {
+      "title": "Learning everywhere",
+      "mobileDescription": "Experience joyful learning with us, no matter where you are!",
+      "desktopDescription": "Experience joyful learning with us, no matter where you are! Discover the freedom to learn on the go. With EasySpeak, dive into a world of knowledge anytime, anywhere. Join us in embracing learning beyond boundaries.",
+      "getStarted": "Get started",
+      "imageAlt": "Learning everywhere illustration"
+    }
+  },
+  "settings": "Settings",
+  "no_lessons": "Take the next step in your language adventure — book a lesson and continue your path to fluency!",
+  "join_class": "Join class",
+  "teacher": "Teacher",
+  "student": "Student",
 
   "home": "Home",
   "psy_contract": "Ψsy Contract",
@@ -18,7 +102,7 @@
   "create_spec": "Create Specialist",
   "notifications": "Notifications",
   "profile": "Profile",
-  "about": "About me",
+  "about": "About",
   "delete_service": "Delete service",
   "go_home": "Go to Home",
   "lost": "Look like you're lost",
@@ -37,7 +121,6 @@
   "create_post": "Create Post",
   "news_feed": "News Feed",
   "study_psychology": "Study Psychology",
-  "connect_wallet": "Connect Wallet",
   "wallet_on_desktop": "Nautilus wallet works only on desktop",
   "no_wallet_download_here": "No wallet installed. You can't accept or make payments. Download Nautilus here.",
 
@@ -202,7 +285,7 @@
   "cancel": "Cancel",
   "call": "Join",
   "join_call": "Join call",
-  "enter_chat": "Enter chat",
+  "enter_chat": "Join class",
 
   "start_in": "Starts in XX days XXh XXm",
   "my_request": "My Request",
@@ -521,7 +604,7 @@
   "novice_news_feed": "View More Articles",
   "client_requests": "View Clients' Requests",
   "work_at_mindhealer": "Work as Expert",
-  "collect_rewards": "Collect Payments",
+  "collect_rewards": "Collect Payment",
   "become_partner": "Work as Partner",
   "create_event": "Create Event",
   "edit_event": "Edit Event",
@@ -855,7 +938,7 @@
     "pending": "Pending",
     "confirmed": "Confirmed",
     "expert_accepted": "Expert accepted",
-    "awaiting_expert": "Awaiting expert",
+    "awaiting_expert": "Awaiting teacher",
     "cancel_penalty_check_failed": "Failed to prepare cancellation.",
     "cancel_session_success": "Session cancelled.",
     "cancel_session_failed": "Failed to cancel session.",

@@ -7,8 +7,8 @@ import { useRouter } from "next/router";
 import { toast } from 'react-toastify';
 import { loadMessages } from "@/components/shared/i18n/translationLoader";
 
-import { schema, ValidationSchemaType } from './utils/schema';
-import { useFormWithValidation } from './hooks/useFormHook';
+import { schema, ValidationSchemaType } from '@/components/pages/Auth/psy-signin/utils/schema';
+import { useFormWithValidation } from "@/components/pages/Auth/psy-signin/hooks/useFormHook";
 import { signup } from "@/store/actions/profile/user";
 
 import Button from "@/components/shared/ui/Button";

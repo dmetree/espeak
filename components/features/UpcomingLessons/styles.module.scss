@@ -1,0 +1,107 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  height: 300px;
+  overflow-y: scroll;
+}
+
+.card {
+  background: var(--option-primary-bg-color);
+  border-radius: 16px;
+  padding: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #e0e3ff;
+}
+
+.title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #222;
+  margin: 10px 0;
+}
+
+.teacher {
+  font-size: 0.875rem;
+  color: #666;
+}
+
+.details {
+  display: grid;
+  grid-template-columns: 1fr auto; // две колонки: левая = контент, правая = футер
+  align-items: center; // выравниваем join_class по вертикали с первой строкой
+  margin-top: 8px;
+  column-gap: 16px;
+}
+
+.left {
+  display: flex;
+  flex-direction: column; // дата и время в столбик
+  gap: 2px;
+}
+
+.date,
+.time {
+  margin: 0;
+  line-height: 1.4;
+}
+
+.footer {
+  display: flex;
+  align-items: center;
+}
+
+.link {
+  color: var(--color-accent, #e0e3ff);
+  text-decoration: none;
+  font-weight: 500;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.date {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #333;
+}
+
+.time {
+  font-size: 0.875rem;
+  color: #777;
+}
+
+.footer {
+  margin-top: 12px;
+  text-align: right;
+}
+
+.link {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #3b5cff;
+  text-decoration: none;
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: #001aff;
+  }
+}
+
+.empty {
+  text-align: center;
+  color: #555;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}

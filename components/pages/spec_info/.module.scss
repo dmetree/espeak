@@ -1,300 +1,691 @@
-/* ===========================
-   VARIABLES FOR REUSE
-=========================== */
-$borderColor: var(--dark);
-$textColor: var(--textColor);
-$highlightColor: var(--darker);
+// /* ===========================
+//    VARIABLES FOR REUSE
+// =========================== */
+// $borderColor: var(--dark);
+// $textColor: var(--textColor);
+// $highlightColor: var(--darker);
 
-/* ===========================
-   GENERAL LAYOUT & SECTIONS
-=========================== */
+// /* ===========================
+//    GENERAL LAYOUT & SECTIONS
+// =========================== */
 
-.psyInfoBoard {
-  margin-bottom: 2vh;
-  padding-bottom: 2vh;
+// .psyInfoBoard {
+//   margin-bottom: 2vh;
+//   padding-bottom: 2vh;
+// }
+
+// .initBlock,
+// .nameAndActions,
+// .rankBlock,
+// .generalInfo {
+//   display: flex;
+//   justify-content: space-between;
+//   align-items: center;
+// }
+
+// .rankBlock {
+//   justify-content: flex-start;
+// }
+
+// .gridAreaInfo {
+//   flex: auto;
+//   padding-left: 10px;
+// }
+
+// /* ===========================
+//    AVATAR & PROFILE IMAGE
+// =========================== */
+
+// .profileImg {
+//   width: 12rem;
+//   height: 14rem;
+//   border-radius: 5px;
+//   object-fit: cover;
+//   background-color: $borderColor;
+
+//   @media (max-width: 600px) {
+//     width: 8rem;
+//     height: 9rem;
+//   }
+// }
+
+// /* ===========================
+//    NAME & RANK
+// =========================== */
+
+// .psyName {
+//   margin-right: 0.5vw;
+//   font-weight: 900;
+//   color: $textColor;
+// }
+
+// .belt {
+//   padding: 5px;
+//   border: 1px solid $borderColor;
+//   border-radius: 25px;
+// }
+
+// .rankLabel {
+//   margin-right: 0.5vw;
+//   color: $textColor;
+// }
+
+// /* ===========================
+//    ACTION BUTTONS
+// =========================== */
+
+// .profileBtn {
+//   padding: 3px 7px;
+//   margin-bottom: 5px;
+//   font-size: 14px;
+
+//   svg {
+//     transition: fill 0.3s ease;
+
+//     &.block {
+//       fill: #9d2727;
+
+//       &:hover,
+//       &:active {
+//         fill: #fff;
+//       }
+//     }
+
+//     &.edit {
+//       fill: #429084;
+
+//       &:hover,
+//       &:active {
+//         fill: #fff;
+//       }
+//     }
+//   }
+// }
+
+// .actions {
+//   display: flex;
+//   align-items: center;
+//   gap: 8px;
+// }
+
+// .shareWrapper {
+//   position: relative;
+// }
+
+// .shareProfile {
+//   cursor: pointer;
+// }
+
+// .tooltipBox {
+//   position: absolute;
+//   top: -5px;
+//   right: -15px;
+// }
+
+// /* ===========================
+//    PRICE & METRICS BLOCK
+// =========================== */
+
+// .priceBlock {
+//   margin: 0.5rem 0;
+//   display: flex;
+//   flex-direction: column;
+// }
+
+// .paramsBlock {
+//   margin: 2vh 0;
+//   width: 100%;
+//   display: grid;
+//   grid-template-columns: auto auto;
+//   row-gap: 20px;
+// }
+
+// .paramItem {
+//   display: flex;
+//   flex-direction: column;
+//   justify-content: center;
+//   align-items: center;
+
+//   .paramItemTitle,
+//   .unitsOfMeasure {
+//     font-size: 12px;
+//     color: $textColor;
+
+//     @media (max-width: 500px) {
+//       font-size: 10px;
+//     }
+//   }
+
+//   .paramNumber {
+//     font-size: 20px;
+//     color: $textColor;
+//   }
+// }
+
+// /* ===========================
+//    LABEL-LIST REUSABLE BLOCKS
+// =========================== */
+
+// .labelListBlock {
+//   margin: 1.5vh 0;
+//   display: flex;
+//   flex-direction: column;
+
+//   &Label {
+//     font-size: 12px;
+//     color: $textColor;
+//   }
+
+//   &List {
+//     display: flex;
+//     flex-wrap: wrap;
+
+//     > * {
+//       font-size: 12px;
+//       padding: 2px;
+//       margin: 2px;
+//       border-radius: 5px;
+//       border: 1px solid $borderColor;
+//       color: $textColor;
+//     }
+//   }
+// }
+
+// // Aliases
+// .psyMethods {
+//   @extend .labelListBlock;
+// }
+// .teachers {
+//   @extend .labelListBlock;
+// }
+// .languages {
+//   @extend .labelListBlock;
+// }
+
+// .psyMethodsLabel {
+//   @extend .labelListBlockLabel;
+// }
+// .teachersLabel {
+//   @extend .labelListBlockLabel;
+// }
+// .languagesLabel {
+//   @extend .labelListBlockLabel;
+// }
+
+// .psyMethodList {
+//   @extend .labelListBlockList;
+// }
+// .teachersList {
+//   @extend .labelListBlockList;
+// }
+// .languagesList {
+//   @extend .labelListBlockList;
+// }
+
+// /* ===========================
+//    SERVICES SECTION
+// =========================== */
+
+// .servicesBlock {
+//   padding: 10px 0;
+//   margin-top: 10px;
+//   border-top: 1px solid var(--lightShadow);
+//   border-bottom: 1px solid var(--lightShadow);
+//   color: $textColor;
+// }
+
+// .servicesLabel {
+//   font-size: 18px;
+//   margin-bottom: 10px;
+//   color: $textColor;
+// }
+
+// .serviceList {
+//   display: flex;
+//   flex-direction: column;
+//   gap: 10px;
+// }
+
+// .serviceItem {
+//   display: flex;
+//   flex-direction: column;
+//   justify-content: space-between;
+// }
+
+// .serviceTitle,
+// .servicePrice {
+//   font-size: 16px;
+//   font-weight: bold;
+//   color: $highlightColor;
+// }
+
+// /* ===========================
+//    INFO SECTION
+// =========================== */
+
+// .description {
+//   font-size: 14px;
+//   color: $textColor;
+// }
+
+// .infoAbout {
+//   overflow: hidden;
+//   transition: max-height 0.5s ease, padding 0.5s ease;
+//   color: $textColor;
+
+//   p {
+//     font-size: 14px;
+//   }
+
+//   &.collapsed {
+//     max-height: 200px;
+//     padding: 10px 0;
+//   }
+
+//   &.expanded {
+//     max-height: 1000px;
+//     padding: 10px 0;
+//   }
+// }
+
+// /* ===========================
+//    VIDEO SECTION
+// =========================== */
+// .about_video {
+//   margin-bottom: 20px;
+
+//   a {
+//     color: var(--darker);
+//     font-weight: 700;
+//     text-decoration: none;
+
+//     &:hover {
+//       text-decoration: underline;
+//     }
+//   }
+// }
+
+.page {
+  // min-height: 100vh;
+  background-color: #fafafa;
+  padding: 32px 16px;
+
+  @media (min-width: 640px) {
+    padding: 32px 24px;
+  }
+
+  @media (min-width: 1024px) {
+    padding: 32px;
+  }
 }
 
-.initBlock,
-.nameAndActions,
-.rankBlock,
-.generalInfo {
+.container {
+  max-width: 968px;
+  margin: 0 auto;
+}
+
+.header {
   display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 48px;
   justify-content: space-between;
+
+  @media (min-width: 640px) {
+    flex-direction: row;
+    align-items: center;
+  }
+}
+
+.title {
+  font-size: 36px;
+  font-weight: 700;
+  color: #161616;
+  line-height: 150%;
+  margin: 0;
+}
+
+.headerActions {
+  display: flex;
   align-items: center;
+  gap: 12px;
 }
 
-.rankBlock {
-  justify-content: flex-start;
-}
+.editButton {
+  height: 3.5rem;
+  padding: 1rem 3.5rem;
+  border-radius: 32px;
+  border: 1px solid #5666ed;
+  background-color: #fafafa;
+  color: #161616;
+  font-size: 21px;
+  font-weight: 400;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  font-family: Helvetica, -apple-system, Roboto, sans-serif;
 
-.gridAreaInfo {
-  flex: auto;
-  padding-left: 10px;
-}
+  &:hover {
+    background-color: #f9f9f9;
+  }
 
-/* ===========================
-   AVATAR & PROFILE IMAGE
-=========================== */
-
-.profileImg {
-  width: 12rem;
-  height: 14rem;
-  border-radius: 5px;
-  object-fit: cover;
-  background-color: $borderColor;
-
-  @media (max-width: 600px) {
-    width: 8rem;
-    height: 9rem;
+  &:focus-visible {
+    outline: 2px solid #5666ed;
+    outline-offset: 2px;
   }
 }
 
-/* ===========================
-   NAME & RANK
-=========================== */
+.cancelButton {
+  height: 3.5rem;
+  padding: 1rem 2rem;
+  border-radius: 32px;
+  border: 1px solid #ddd;
+  background-color: #ffffff;
+  color: #161616;
+  font-size: 18px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  font-family: Helvetica, -apple-system, Roboto, sans-serif;
 
-.psyName {
-  margin-right: 0.5vw;
-  font-weight: 900;
-  color: $textColor;
-}
+  &:hover {
+    background-color: #f4f4f4;
+  }
 
-.belt {
-  padding: 5px;
-  border: 1px solid $borderColor;
-  border-radius: 25px;
-}
-
-.rankLabel {
-  margin-right: 0.5vw;
-  color: $textColor;
-}
-
-/* ===========================
-   ACTION BUTTONS
-=========================== */
-
-.profileBtn {
-  padding: 3px 7px;
-  margin-bottom: 5px;
-  font-size: 14px;
-
-  svg {
-    transition: fill 0.3s ease;
-
-    &.block {
-      fill: #9d2727;
-
-      &:hover,
-      &:active {
-        fill: #fff;
-      }
-    }
-
-    &.edit {
-      fill: #429084;
-
-      &:hover,
-      &:active {
-        fill: #fff;
-      }
-    }
+  &:focus-visible {
+    outline: 2px solid #161616;
+    outline-offset: 2px;
   }
 }
 
-.shareWrapper {
-  position: relative;
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
 }
 
-.shareProfile {
+.profileSection {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+
+  @media (min-width: 640px) {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+}
+
+.avatarButton {
+  border: none;
+  padding: 0;
+  background: none;
   cursor: pointer;
 }
 
-.tooltipBox {
-  position: absolute;
-  top: -5px;
-  right: -15px;
+.profileImage {
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
 }
 
-/* ===========================
-   PRICE & METRICS BLOCK
-=========================== */
-
-.priceBlock {
-  margin: 0.5rem 0;
+.profileInfo {
   display: flex;
   flex-direction: column;
+  gap: 8px;
 }
 
-.paramsBlock {
-  margin: 2vh 0;
-  width: 100%;
-  display: grid;
-  grid-template-columns: auto auto;
-  row-gap: 20px;
-}
-
-.paramItem {
+.profileHeader {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
-
-  .paramItemTitle,
-  .unitsOfMeasure {
-    font-size: 12px;
-    color: $textColor;
-
-    @media (max-width: 500px) {
-      font-size: 10px;
-    }
-  }
-
-  .paramNumber {
-    font-size: 20px;
-    color: $textColor;
-  }
+  gap: 4px;
 }
 
-/* ===========================
-   LABEL-LIST REUSABLE BLOCKS
-=========================== */
-
-.labelListBlock {
-  margin: 1.5vh 0;
-  display: flex;
-  flex-direction: column;
-
-  &Label {
-    font-size: 12px;
-    color: $textColor;
-  }
-
-  &List {
-    display: flex;
-    flex-wrap: wrap;
-
-    > * {
-      font-size: 12px;
-      padding: 2px;
-      margin: 2px;
-      border-radius: 5px;
-      border: 1px solid $borderColor;
-      color: $textColor;
-    }
-  }
+.profileName {
+  font-size: 21px;
+  font-weight: 700;
+  color: #161616;
+  line-height: 150%;
+  margin: 0;
 }
 
-// Aliases
-.psyMethods {
-  @extend .labelListBlock;
-}
-.teachers {
-  @extend .labelListBlock;
-}
-.languages {
-  @extend .labelListBlock;
-}
-
-.psyMethodsLabel {
-  @extend .labelListBlockLabel;
-}
-.teachersLabel {
-  @extend .labelListBlockLabel;
-}
-.languagesLabel {
-  @extend .labelListBlockLabel;
-}
-
-.psyMethodList {
-  @extend .labelListBlockList;
-}
-.teachersList {
-  @extend .labelListBlockList;
-}
-.languagesList {
-  @extend .labelListBlockList;
-}
-
-/* ===========================
-   SERVICES SECTION
-=========================== */
-
-.servicesBlock {
-  padding: 10px 0;
-  margin-top: 10px;
-  border-top: 1px solid var(--lightShadow);
-  border-bottom: 1px solid var(--lightShadow);
-  color: $textColor;
-}
-
-.servicesLabel {
-  font-size: 18px;
-  margin-bottom: 10px;
-  color: $textColor;
-}
-
-.serviceList {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.serviceItem {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-.serviceTitle,
-.servicePrice {
+.profileRole {
   font-size: 16px;
-  font-weight: bold;
-  color: $highlightColor;
+  color: #797979;
+  line-height: 150%;
+  margin: 0;
 }
 
-/* ===========================
-   INFO SECTION
-=========================== */
+.profileLanguage {
+  display: flex;
+  align-items: flex-start;
+  gap: 4px;
+  margin: 0;
+  font-size: 21px;
+  color: #161616;
+  line-height: 150%;
 
-.description {
+  .label {
+    margin: 0;
+  }
+
+  .value {
+    margin: 0;
+  }
+}
+
+.inlineFields {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.inlineField {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.textInput {
+  width: 100%;
+  max-width: 420px;
+  padding: 10px 14px;
+  border-radius: 12px;
+  border: 1px solid #d7d7ff;
+  background-color: #ffffff;
+  font-size: 16px;
+  font-family: Helvetica, -apple-system, Roboto, sans-serif;
+}
+
+.select {
+  padding: 10px 14px;
+  border-radius: 12px;
+  border: 1px solid #d7d7ff;
+  background-color: #ffffff;
+  font-size: 16px;
+  font-family: Helvetica, -apple-system, Roboto, sans-serif;
+}
+
+.textarea {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1px solid #d7d7ff;
+  background-color: #ffffff;
+  font-size: 16px;
+  font-family: Helvetica, -apple-system, Roboto, sans-serif;
+  resize: vertical;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.sectionTitle {
+  font-size: 21px;
+  font-weight: 700;
+  color: #161616;
+  line-height: 150%;
+  margin: 0;
+}
+
+.sectionText {
+  font-size: 21px;
+  color: #161616;
+  line-height: 150%;
+  margin: 0;
+
+  &.muted {
+    color: #797979;
+  }
+}
+
+.topicsContainer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.topic {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border: 1px solid #bbc2fa;
+  border-radius: 1rem;
+  background-color: transparent;
+  font-size: 16px;
+  color: #161616;
+  font-family: Helvetica, -apple-system, Roboto, sans-serif;
+}
+
+.topicsEditor {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.topicChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border-radius: 1rem;
+  border: 1px solid #bbc2fa;
+  background-color: #f3f4ff;
   font-size: 14px;
-  color: $textColor;
+  cursor: pointer;
 }
 
-.infoAbout {
-  overflow: hidden;
-  transition: max-height 0.5s ease, padding 0.5s ease;
-  color: $textColor;
+.topicRemove {
+  font-size: 16px;
+}
 
-  p {
-    font-size: 14px;
+.videoSection {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.videoText {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.link {
+  text-decoration: underline;
+  color: #5666ed;
+}
+
+.uploadButton {
+  height: 3.5rem;
+  padding: 1rem 3.5rem;
+  border-radius: 32px;
+  border: 1px solid #5666ed;
+  background-color: #fafafa;
+  color: #161616;
+  font-size: 21px;
+  font-weight: 400;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  font-family: Helvetica, -apple-system, Roboto, sans-serif;
+  align-self: flex-start;
+
+  &:hover {
+    background-color: #f9f9f9;
   }
 
-  &.collapsed {
-    max-height: 200px;
-    padding: 10px 0;
-  }
-
-  &.expanded {
-    max-height: 1000px;
-    padding: 10px 0;
+  &:focus-visible {
+    outline: 2px solid #5666ed;
+    outline-offset: 2px;
   }
 }
 
-/* ===========================
-   VIDEO SECTION
-=========================== */
-.about_video {
-  margin-bottom: 20px;
+.statsCard {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  padding: 24px;
+  border-radius: 16px;
+  background-color: rgba(86, 102, 237, 0.2);
+  justify-content: center;
+  align-items: flex-start;
 
-  a {
-    color: var(--darker);
-    font-weight: 700;
-    text-decoration: none;
-
-    &:hover {
-      text-decoration: underline;
-    }
+  @media (min-width: 640px) {
+    flex-direction: row;
+    align-items: center;
+    padding: 32px;
   }
+}
+
+.statItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.starIcon {
+  width: 24px;
+  height: 24px;
+}
+
+.statValue {
+  font-size: 27px;
+  color: #161616;
+  line-height: 150%;
+  margin: 0;
+}
+
+.priceSection {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.priceValue {
+  font-size: 21px;
+  color: #161616;
+  line-height: 150%;
+  margin: 0;
+}
+
+.priceInputWrapper {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.priceInput {
+  width: 120px;
+  padding: 10px 14px;
+  border-radius: 12px;
+  border: 1px solid #d7d7ff;
+  font-size: 16px;
+}
+
+.priceSuffix {
+  font-size: 18px;
 }

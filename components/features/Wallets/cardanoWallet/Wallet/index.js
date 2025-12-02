@@ -3,35 +3,42 @@ import { useDispatch, useSelector } from "react-redux";
 import { selectBlockchain } from "@/store/actions/blockchain";
 // import Loading from '@/components/shared/ui/Loader';
 import s from "./.module.scss";
+import Image from "next/image";
+import eternlIcon from "@/components/shared/assets/image_icons/eternl.png";
+import vesprIcon from "@/components/shared/assets/image_icons/vespr.jpg";
+import laceIcon from "@/components/shared/assets/image_icons/lace.svg";
 
 const Wallet = (props) => {
   const dispatch = useDispatch();
 
   const icons = {
-    eternl: "/assets/images/wallets/eternl.png",
-    gerowallet: "/assets/images/wallets/gero.ico",
-    vespr: "/assets/images/wallets/vespr.jpg",
-    lace: "/assets/images/wallets/lace.svg",
+    eternl: eternlIcon,
+    vespr: vesprIcon,
+    lace: laceIcon,
   };
   const walletNames = {
     eternl: "Eternl",
-    gerowallet: "Gero Wallet",
     vespr: "Vespr",
     lace: "Lace",
   };
 
   const handleConnection = () => {
-    props.connectWallet({ name: props.wallet, icon: icons[props.wallet] });
+    const icon = icons[props.wallet];
+    const iconSrc = typeof icon === "string" ? icon : icon?.src;
+
+    props.connectWallet({ name: props.wallet, icon: iconSrc });
     dispatch(selectBlockchain("cardano"));
   };
 
   return (
     <div className={s.walletContainer} onClick={() => handleConnection()}>
       <div className={s.iconContainer}>
-        <img
+        <Image
           src={icons[props.wallet]}
           alt={props.wallet}
           className={s.walletIcon}
+          width={40}
+          height={25}
         />
       </div>
       <span className={s.walletName}>{walletNames[props.wallet]}</span>

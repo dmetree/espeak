@@ -15,16 +15,16 @@ import { toast } from "react-toastify";
 import s from "./.module.scss";
 
 
-import Belt1 from '@/components/shared/assets/img/belts/e001_belt.webp';
-import Belt2 from '@/components/shared/assets/img/belts/e002_belt.webp';
-import Belt3 from '@/components/shared/assets/img/belts/e003_belt.webp';
-import Belt4 from '@/components/shared/assets/img/belts/e004_belt.webp';
-import Belt5 from '@/components/shared/assets/img/belts/e005_belt.webp';
-import Belt6 from '@/components/shared/assets/img/belts/e006_belt.webp';
-import Belt7 from '@/components/shared/assets/img/belts/e007_belt.webp';
-import Belt8 from '@/components/shared/assets/img/belts/e008_belt.webp';
-import Belt9 from '@/components/shared/assets/img/belts/e009_belt.webp';
-import Belt10 from '@/components/shared/assets/img/belts/e010_belt.webp';
+// import Belt1 from '@/components/shared/assets/img/belts/e001_belt.webp';
+// import Belt2 from '@/components/shared/assets/img/belts/e002_belt.webp';
+// import Belt3 from '@/components/shared/assets/img/belts/e003_belt.webp';
+// import Belt4 from '@/components/shared/assets/img/belts/e004_belt.webp';
+// import Belt5 from '@/components/shared/assets/img/belts/e005_belt.webp';
+// import Belt6 from '@/components/shared/assets/img/belts/e006_belt.webp';
+// import Belt7 from '@/components/shared/assets/img/belts/e007_belt.webp';
+// import Belt8 from '@/components/shared/assets/img/belts/e008_belt.webp';
+// import Belt9 from '@/components/shared/assets/img/belts/e009_belt.webp';
+// import Belt10 from '@/components/shared/assets/img/belts/e010_belt.webp';
 
 
 const EventDetails = () => {
@@ -196,7 +196,7 @@ const EventDetails = () => {
                                             />
                                         )}
                                         <span className={s.nickname}>{eventDetails.author.nickname}</span>
-                                        {eventDetails.author.rank && (
+                                        {/* {eventDetails.author.rank && (
                                             <Image
                                                 className={s.belt}
                                                 src={psyBelt}
@@ -205,7 +205,7 @@ const EventDetails = () => {
                                                 height={18}
                                                 loading="lazy"
                                             />
-                                        )}
+                                        )} */}
                                     </div>
                                 )}
                             </div>

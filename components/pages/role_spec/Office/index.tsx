@@ -22,6 +22,8 @@ import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 import s from './.module.scss';
+import { motion } from "framer-motion";
+import Sidebar from "@/components/features/SidebarES";
 
 const Office = () => {
 
@@ -162,40 +164,47 @@ const Office = () => {
 
 
     return (
-        <Page className={s.userboardPage}>
-            <Substrate className={s.userboard} color="bg-color">
+        <motion.div
+            className={`${s.container} ${s.second}`}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5 }}
+        >
 
-                {userData?.userRole === EUserRole.Specialist &&
+            <div className={s.page}>
+                <Sidebar />
+                <div className={s.main}>
 
-                    <div className={s.timeTable}>
-                        <div className={s.rightColumn}>
-                            <UserInfo />
+                    {userData?.userRole === EUserRole.Specialist &&
+
+                        <div className={s.timeTable}>
+
+                            <div className={s.rightRightColumn}>
+                                {/* @ts-expect-error @TODO */}
+                                <TableCalendar
+                                    currentDate={selectedDate}
+                                    setCurrentDate={setSelectedDate}
+                                    myRequests={myRequests}
+                                    freeTimestamps={freeTimestamps}
+                                />
+                                <HoursManager
+                                    onCellClick={onHourClick}
+                                    currentDate={selectedDate}
+                                    selectedDaySchedule={selectedDaySchedule}
+                                />
+                                <button
+                                    disabled={!hasNewToSave}
+                                    className={`${s.saveBtn} ${hasNewToSave ? '' : s.disabled}`}
+                                    onClick={onFreeTimeSave}
+                                >
+                                    {t.save}
+                                </button>
+                            </div>
                         </div>
-                        <div className={s.rightRightColumn}>
-                            {/* @ts-expect-error @TODO */}
-                            <TableCalendar
-                                currentDate={selectedDate}
-                                setCurrentDate={setSelectedDate}
-                                myRequests={myRequests}
-                                freeTimestamps={freeTimestamps}
-                            />
-                            <HoursManager
-                                onCellClick={onHourClick}
-                                currentDate={selectedDate}
-                                selectedDaySchedule={selectedDaySchedule}
-                            />
-                            <button
-                                disabled={!hasNewToSave}
-                                className={`${s.saveBtn} ${hasNewToSave ? '' : s.disabled}`}
-                                onClick={onFreeTimeSave}
-                            >
-                                {t.save}
-                            </button>
-                        </div>
-                    </div>
-                }
-            </Substrate>
-        </Page>
+                    }
+                </div>
+            </div>
+        </motion.div>
     )
 }
 

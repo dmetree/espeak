@@ -27,7 +27,8 @@
     "**/*.tsx",
     "Components/FlatpickerMin.js",
     "components/shared/utils/helper.js",
-    "components/features/Wallets/cardanoWallet/Wallet/index.js"
+    "components/features/Wallets/cardanoWallet/Wallet/index.js",
+    "components/features/PathStudent/steps/01_OnboardingLayout"
   ],
   "exclude": ["node_modules", "**/*.wasm"]
 }

@@ -171,9 +171,9 @@ const TableCalendar = ({
         ))}
       </div>
 
-      <div className={s.toolTipBox}>
+      {/* <div className={s.toolTipBox}>
         <Tooltip title={t.mark_open_hours} />
-      </div>
+      </div> */}
     </div>
   );
 };

@@ -1,7 +1,5 @@
 import en from "./messages/en.json";
-// import es from "./messages/es.json";
 import ru from "./messages/ru.json";
-import pt from "./messages/pt.json";
 
 import translate from "./messages/en.json"; // Adjust the path as needed
 
@@ -11,7 +9,7 @@ const specialityList = translate["psy-speciality"];
 const methodsList = translate["psy-methods"];
 const servicesList = translate["psy-services"];
 
-export const translations = { en, ru, pt };
+export const translations = { en, ru };
 
 // Load messages for a given locale
 export const loadMessages = (locale) =>
@@ -41,12 +39,19 @@ export const getAllLangOptions = (t: any) => {
 };
 
 export const getOptionsFromCodes = (langCodes, t: any) => {
-  return (
-    langCodes?.map((langCode) => ({
-      value: langCode,
-      label: getTranslation("user-languages", langCode),
-    })) || []
-  );
+  if (!langCodes) return [];
+
+  // Normalize to array: accept single string/value or comma-separated string
+  const codesArray = Array.isArray(langCodes)
+    ? langCodes
+    : typeof langCodes === 'string'
+      ? langCodes.split(',').map((c) => c.trim()).filter(Boolean)
+      : [langCodes];
+
+  return codesArray.map((langCode) => ({
+    value: langCode,
+    label: getTranslation("user-languages", langCode),
+  }));
 };
 
 // Specialities options

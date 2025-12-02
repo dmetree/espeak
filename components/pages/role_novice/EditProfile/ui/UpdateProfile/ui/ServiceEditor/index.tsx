@@ -82,8 +82,8 @@ const ServicesEditor: React.FC<Props> = ({
                       type="text"
                       name="title"
                       value={service.title?.[activeLang] || ''}
-                      onChange={(e) =>
-                        onServiceChange(index, 'title', (e.target as HTMLInputElement).value, activeLang)
+                      onChange={(value) =>
+                        onServiceChange(index, 'title', value, activeLang)
                       }
                       placeholder={t.service_title || 'Service title'}
                     />
@@ -96,8 +96,8 @@ const ServicesEditor: React.FC<Props> = ({
                           type="number"
                           name="length"
                           value={String(service.length)}
-                          onChange={(e) =>
-                            onServiceChange(index, 'length', Number((e.target as HTMLInputElement).value))
+                          onChange={(value) =>
+                            onServiceChange(index, 'length', Number(value))
                           }
                           placeholder="Length"
                           readOnly
@@ -114,8 +114,8 @@ const ServicesEditor: React.FC<Props> = ({
                           type="number"
                           name="price"
                           value={service.price}
-                          onChange={(e) =>
-                            onServiceChange(index, 'price', (e.target as HTMLInputElement).value)
+                          onChange={(value) =>
+                            onServiceChange(index, 'price', value)
                           }
                           placeholder="5"
                         />

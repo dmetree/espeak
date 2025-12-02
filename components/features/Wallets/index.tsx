@@ -23,6 +23,7 @@ import { getActiveConnector } from "@dcspark/adalib";
 import { minifyAddress } from "@/components/shared/utils/helper";
 
 import NautilusLogo from "@/public/NautilusLogo.png";
+import walletIcon from "@/components/shared/assets/psy_icons_svg/cardano-logo-svgrepo-com.svg"
 
 import s from "./.module.scss";
 
@@ -138,7 +139,13 @@ const HeaderCardano = () => {
                         {!wallet && !localStorageWallet && !ergoWalletConnected &&
                             <div className={s.tooltipWrapper}>
                                 <div className={s.connectButton} onClick={toggleWalletPop}>
-                                    <FaWallet className={s.hWalletIcon} />
+                                    <Image
+                                        alt="wallet"
+                                        src={walletIcon}
+                                        width="40"
+                                        height="40"
+                                    />
+                                    {/* <FaWallet className={s.hWalletIcon} /> */}
                                     <div className={s.connectWalletText}>{t.connect_wallet}</div>
                                 </div>
                                 {/* <span className={s.tooltip}>{t.wallet_on_desktop}</span> */}
@@ -166,7 +173,7 @@ const HeaderCardano = () => {
                         {ergoWalletConnected &&
                             <div className={s.blockchainWalletBox}>
                                 <span className={s.walletIcon}>
-                                    <Image alt="img" height="30" width="30" src={NautilusLogo} loading="lazy"/>
+                                    <Image alt="img" height="30" width="30" src={NautilusLogo} loading="lazy" />
                                 </span>
                                 <span className="">
                                     {ergoWalletAddress && reduceAddress(ergoWalletAddress![0])}

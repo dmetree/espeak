@@ -1,0 +1,73 @@
+.levels {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+
+  gap: 16px;
+}
+
+.mainTitle {
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1.2;
+  margin: 0;
+}
+
+.subtitle {
+  font-size: 1.125rem;
+  color: #333;
+  margin-bottom: 40px;
+}
+
+.wrap {
+  padding: 16px;
+  max-width: 240px;
+  border: 1px solid #bbc2fa;
+  border-radius: 16px;
+  height: 100px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+
+  background: #fafafa;
+  transition: all 0.2s ease;
+
+  &:hover {
+    border-color: #5666ed;
+    background: #f0f2ff;
+    cursor: pointer;
+  }
+}
+
+.wrap.selected {
+  border-color: #5666ed;
+  background: #e0e3ff;
+  box-shadow: 0 0 0 2px rgba(86, 102, 237, 0.33);
+  cursor: pointer;
+}
+
+.wrap.selected:hover {
+  background: #d0d5ff;
+  border-color: #4555cc;
+  cursor: pointer;
+}
+
+.levelBtn {
+  border: none;
+  background: none;
+  padding: 0;
+}
+
+.title {
+  font-size: 12px;
+  color: #161616;
+  padding-top: 8px;
+}
+
+.label {
+  font-size: 16px;
+  text-align: left;
+}

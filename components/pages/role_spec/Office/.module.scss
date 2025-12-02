@@ -1,3 +1,44 @@
+.page {
+  width: 100vw;
+  min-height: 100vh;
+  background: url("./../../../shared/assets//img/bg.png");
+  // ./../../shared/assets/img/bg.png
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  flex-direction: column;
+
+  @media (min-width: 768px) {
+    flex-direction: row;
+  }
+}
+
+.main {
+  position: relative;
+  flex: 1;
+  padding: 24px 20px 0px;
+}
+
+.container {
+  position: relative;
+  color: var(--text-color);
+  font-family: var(--font-sans);
+
+  padding: 1.5rem 19px 2.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+  justify-content: space-between;
+  height: 100%;
+
+  // @media (min-width: 1024px) {
+  //   padding: 0;
+  //   flex-direction: row;
+  //   align-items: center;
+  // }
+}
+
 .timeTable {
   position: relative;
   min-height: 55vh;
@@ -28,16 +69,13 @@
 .saveBtn {
   color: var(--bgColor);
   background-color: var(--dark);
-  position: absolute;
-  top: 565px;
-  right: -140px;
   width: 240px;
-  height: 30px;
+  height: 36px;
   border: none;
   border-radius: 60px;
-  z-index: 10;
-  rotate: -90deg;
   cursor: pointer;
+  margin: 16px auto;
+  display: block;
   &:hover {
     background-color: var(--darker);
   }
@@ -45,14 +83,13 @@
 
 .disabled {
   /* Your styles for the disabled state */
-  z-index: -1;
   cursor: default;
-  /* Additional styles to visually indicate that the button is disabled */
+  opacity: 0.6;
 }
 
 .disabled:hover {
-  color: var(--dark);
-  background-color: var(--bgColor);
+  color: inherit;
+  background-color: var(--dark);
 }
 
 @media (max-width: 830px) {
@@ -62,10 +99,9 @@
   }
 
   .saveBtn {
-    width: 50vh;
-    height: 5vh;
-    top: 70vh;
-    right: -23vh;
+    width: 100%;
+    max-width: 400px;
+    height: 40px;
     border: 3px solid var(--dark);
     font-size: 12px;
   }

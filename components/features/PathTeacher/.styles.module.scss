@@ -1,0 +1,41 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  padding: 2rem;
+  text-align: center;
+}
+
+.subtitle {
+  color: #666;
+  margin-bottom: 1rem;
+}
+
+.content {
+  margin: 2rem 0;
+  width: 100%;
+  max-width: 400px;
+}
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 400px;
+}
+
+.next,
+.back {
+  background: black;
+  color: white;
+  padding: 0.8rem 1.4rem;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+}
+
+.next:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
