@@ -334,8 +334,8 @@ const Header = (props: IProps) => {
             )}
 
             {userUid && (
-                <div className={s.authOptions}>
-                  {/* <div
+              <div className={s.authOptions}>
+                {/* <div
                     className={s.menuItem}
                     onClick={() => displayNotificatonsTab()}>
                     <MenuItem
@@ -347,10 +347,10 @@ const Header = (props: IProps) => {
                       <span className={s.unreadBadge}></span>
                     )}
                   </div> */}
-                  <div className={s.menuItem}>
-                    <WalletsWidget />
-                  </div>
-                  {/* <div
+                <div className={s.menuItem}>
+                  <WalletsWidget />
+                </div>
+                {/* <div
                     className={s.menuItem}
                     onClick={() => displayNav()}
                   >
@@ -364,7 +364,7 @@ const Header = (props: IProps) => {
                       </div>
                     )}
                   </div> */}
-                </div>
+              </div>
             )}
 
             <div onClick={() => setOpen(true)} className={s.settings}>

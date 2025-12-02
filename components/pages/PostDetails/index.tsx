@@ -211,7 +211,7 @@ const PostDetails = () => {
                         <p>{t.sure_to_delete}</p>
                         <div className={s.modalActions}>
                             <Button onClick={confirmDelete}>{t.yes_delete}</Button>
-                            <Button  onClick={() => setShowConfirmModal(false)}>{t.cancel}</Button>
+                            <Button onClick={() => setShowConfirmModal(false)}>{t.cancel}</Button>
                         </div>
                     </div>
                 </div>

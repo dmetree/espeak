@@ -154,7 +154,7 @@ const EventDetails = () => {
                     {eventAuthor === userUid && eventDetails?.students?.length === 0 &&
                         <div className={s.eventNav}>
                             <Button size="s" onClick={editEvent}>{t.edit}</Button>
-                            <Button size="s"  onClick={handleDeleteEvent}>{t.delete}</Button>
+                            <Button size="s" onClick={handleDeleteEvent}>{t.delete}</Button>
                         </div>
                     }
 

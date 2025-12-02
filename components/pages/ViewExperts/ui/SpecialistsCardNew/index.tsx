@@ -108,15 +108,15 @@ const SpecialistCardNew = ({ specialist }) => {
         </div>
       </div>
 
-    <div className={styles.text}>
+      <div className={styles.text}>
         <div className={styles.speaks}>
-            <span className={styles.value}>
-                {typeof aboutText === 'string' && aboutText.trim().length > 0
-                  ? aboutText
-                  : '—'}
-            </span>
+          <span className={styles.value}>
+            {typeof aboutText === 'string' && aboutText.trim().length > 0
+              ? aboutText
+              : '—'}
+          </span>
         </div>
-    </div>
+      </div>
     </div>
   );
 };

@@ -22,7 +22,7 @@ export const ComplaintsCheck = () => {
         <Page className=''>
             <Substrate className='' color="bg-color">
                 <h3>Complaints check</h3>
-                <RequestList requests={complaintRequests} />
+                {/* <RequestList requests={complaintRequests} /> */}
             </Substrate>
         </Page>
     )
