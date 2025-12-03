@@ -5,7 +5,7 @@ import { AppDispatch } from "@/store";
 import { logout, loadUserFromLocalStorage, fetchUserData } from '@/store/actions/profile/user';
 import { showModal } from '@/store/actions/modal';
 import { setEditPost } from "@/store/actions/posts";
-import { EModalKind } from '@/components/shared/types';
+import { EModalKind } from '@/components/shared/types/types';
 import { Modal } from "@/components/shared/ui/Modal";
 import VideoCall from '@/components/features/chat/features/VideoCall/VideoCall';
 import EventRoom from "@/components/features/EventRoom";
@@ -334,8 +334,8 @@ const Header = (props: IProps) => {
             )}
 
             {userUid && (
-                <div className={s.authOptions}>
-                  {/* <div
+              <div className={s.authOptions}>
+                {/* <div
                     className={s.menuItem}
                     onClick={() => displayNotificatonsTab()}>
                     <MenuItem
@@ -347,10 +347,10 @@ const Header = (props: IProps) => {
                       <span className={s.unreadBadge}></span>
                     )}
                   </div> */}
-                  <div className={s.menuItem}>
-                    <WalletsWidget />
-                  </div>
-                  {/* <div
+                <div className={s.menuItem}>
+                  <WalletsWidget />
+                </div>
+                {/* <div
                     className={s.menuItem}
                     onClick={() => displayNav()}
                   >
@@ -364,7 +364,7 @@ const Header = (props: IProps) => {
                       </div>
                     )}
                   </div> */}
-                </div>
+              </div>
             )}
 
             <div onClick={() => setOpen(true)} className={s.settings}>

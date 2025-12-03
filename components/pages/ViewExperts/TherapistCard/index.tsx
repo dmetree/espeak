@@ -5,7 +5,7 @@ import { useRouter } from 'next/router';
 import Image from "next/image";
 import { useDispatch, useSelector } from 'react-redux';
 import { loadMessages } from '@/components/shared/i18n/translationLoader';
-import { EModalKind } from '@/components/shared/types';
+import { EModalKind } from '@/components/shared/types/types';
 import { hideModal } from '@/store/actions/modal';
 import { setSelectedSpecialist } from '@/store/actions/specialists';
 import Button from "@/components/shared/ui/Button";

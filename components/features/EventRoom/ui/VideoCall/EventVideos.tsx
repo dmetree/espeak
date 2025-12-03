@@ -25,7 +25,7 @@ import { hideModal } from "@/store/actions/modal";
 import { showVideoCall, hideVideoCall } from "@/store/actions/videoCall";
 
 import { loadMessages } from "@/components/shared/i18n/translationLoader";
-import { EModalKind, EUserRole, } from "@/components/shared/types";
+import { EModalKind, EUserRole, } from "@/components/shared/types/types";
 import Button from "@/components/shared/ui/Button";
 import { Chat } from "../chat";
 import ChatHeader from '../ChatHeader/chatHeader';

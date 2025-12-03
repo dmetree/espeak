@@ -6,7 +6,7 @@ import parse from "html-react-parser";
 import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from "@/store";
-import { EModalKind } from '@/components/shared/types';
+import { EModalKind } from '@/components/shared/types/types';
 import { getPostById, addNewClaps, deleteSelectedPost, setEditPost } from '@/store/actions/posts';
 import { showModal } from '@/store/actions/modal';
 
@@ -211,7 +211,7 @@ const PostDetails = () => {
                         <p>{t.sure_to_delete}</p>
                         <div className={s.modalActions}>
                             <Button onClick={confirmDelete}>{t.yes_delete}</Button>
-                            <Button  onClick={() => setShowConfirmModal(false)}>{t.cancel}</Button>
+                            <Button onClick={() => setShowConfirmModal(false)}>{t.cancel}</Button>
                         </div>
                     </div>
                 </div>

@@ -29,7 +29,7 @@ import { showModal, hideModal, toggleModal } from '@/store/actions/modal';
 import { toast } from "react-toastify";
 import { loadMessages } from '@/components/shared/i18n/translationLoader';
 
-import { EScheduleMark, EReqStatus, EModalKind } from '@/components/shared/types';
+import { EScheduleMark, EReqStatus, EModalKind } from '@/components/shared/types/types';
 import Button from '@/components/shared/ui/Button';
 import { Tooltip } from '@/components/shared/ui/Tooltip/Tooltip';
 

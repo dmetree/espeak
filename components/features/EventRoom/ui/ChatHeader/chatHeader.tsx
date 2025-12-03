@@ -1,6 +1,6 @@
 "use client";
 import { useState, useEffect, useMemo } from "react";
-import { EModalKind, EUserRole } from '@/components/shared/types';
+import { EModalKind, EUserRole } from '@/components/shared/types/types';
 import { useSelector } from "react-redux";
 import Button from "@/components/shared/ui/Button";
 import { Tooltip } from "@/components/shared/ui/Tooltip/Tooltip";

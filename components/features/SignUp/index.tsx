@@ -14,7 +14,7 @@ import { useFormWithValidation } from "@/components/pages/Auth/psy-signin/hooks/
 import { signup, googleSignup } from "@/store/actions/profile/user";
 import { auth, signInWithPopup, googleProvider, twitterProvider } from "@/components/shared/utils/firebase/init";
 import { hideModal, showModal } from "@/store/actions/modal";
-import { EModalKind } from "@/components/shared/types";
+import { EModalKind } from "@/components/shared/types/types";
 
 import Button from "@/components/shared/ui/Button";
 import styles from "./styles.module.scss";

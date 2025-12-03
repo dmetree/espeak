@@ -19,17 +19,15 @@
     "incremental": true,
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./*"]
+      "@/*": ["*"]
     }
   },
   "include": [
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    "Components/FlatpickerMin.js",
-    "components/shared/utils/helper.js",
-    "components/features/Wallets/cardanoWallet/Wallet/index.js",
-    "components/features/PathStudent/steps/01_OnboardingLayout"
+    "components",
+    "сomponents/FlatpickerMin.js",
   ],
-  "exclude": ["node_modules", "**/*.wasm"]
+  "exclude": ["**/*.wasm"]
 }

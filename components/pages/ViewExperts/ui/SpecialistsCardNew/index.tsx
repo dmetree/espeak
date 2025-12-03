@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { loadMessages, getOptionsFromCodes } from '@/components/shared/i18n/translationLoader';
 import { hideModal } from '@/store/actions/modal';
 import { setSelectedSpecialist } from '@/store/actions/specialists';
-import { EModalKind } from '@/components/shared/types';
+import { EModalKind } from '@/components/shared/types/types';
 import { getLocalizedContent } from '@/hooks/localize';
 
 import styles from './styles.module.scss';
@@ -108,15 +108,15 @@ const SpecialistCardNew = ({ specialist }) => {
         </div>
       </div>
 
-    <div className={styles.text}>
+      <div className={styles.text}>
         <div className={styles.speaks}>
-            <span className={styles.value}>
-                {typeof aboutText === 'string' && aboutText.trim().length > 0
-                  ? aboutText
-                  : '—'}
-            </span>
+          <span className={styles.value}>
+            {typeof aboutText === 'string' && aboutText.trim().length > 0
+              ? aboutText
+              : '—'}
+          </span>
         </div>
-    </div>
+      </div>
     </div>
   );
 };

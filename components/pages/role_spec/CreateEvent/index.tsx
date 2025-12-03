@@ -7,7 +7,7 @@ import Button from '@/components/shared/ui/Button';
 import LanguageSelector from '@/components/shared/ui/LanguageSelector';
 import { getAllLangOptions } from '@/components/shared/i18n/translationLoader';
 
-import { EventForm, EventStatus, EventType, Option } from "@/components/shared/types";
+import { EventForm, EventStatus, EventType, Option } from "@/components/shared/types/types";
 import { Input } from "@/components/shared/ui/Input/Input"; // ✅ match DiplomaStep
 import s from "./.module.scss";
 
@@ -272,7 +272,7 @@ const CreateEvent = () => {
                                 value={date}
                                 onChange={handleChange("dates", i)}
                             />
-                            <Button  type="button" onClick={() => removeDate(i)}>
+                            <Button type="button" onClick={() => removeDate(i)}>
                                 X
                             </Button>
                         </div>

@@ -1,8 +1,8 @@
 import s from './.module.scss';
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/router";
-import { EUserRole } from '@/components/shared/types';
-import { MenuItem } from '@/components/shared/types';
+import { EUserRole } from '@/components/shared/types/types';
+import { MenuItem } from '@/components/shared/types/types';
 import { loadMessages } from '@/components/shared/i18n/translationLoader';
 
 

@@ -4,7 +4,7 @@ import { FC, useEffect, useMemo, useState } from 'react';
 import s from './TableDay.module.css';
 import DayRow from './dayrow/DayRow';
 
-import { THourSchedule } from '@/components/shared/types/index';
+import { THourSchedule } from '@/components/shared/types/types';
 import { getRequestColor } from '@/components/shared/utils/req-color';
 
 type THoursManagerProps = {

@@ -1,6 +1,6 @@
 import { convertStatus } from "@/components/shared/utils/convert-status";
-import { EReqStatus } from "@/components/shared/types";
-import { TimetableRequests } from "@/components/shared/types";
+import { EReqStatus } from "@/components/shared/types/types";
+import { TimetableRequests } from "@/components/shared/types/types";
 
 type TColorScheme = Record<TimetableRequests.EStatus, string>;
 

@@ -3,13 +3,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch } from '@/store';
 import { showModal } from '@/store/actions/modal';
 import { setRequestRoomId } from '@/store/actions/appointments';
-import { EModalKind } from '@/components/shared/types';
+
 import { loadMessages } from '@/components/shared/i18n/translationLoader';
 import { useSpecialistAccept } from '@/components/features/DisplayPsyRequests/hooks/useSpecialistAccept';
 import { useNoviceDelete } from '@/components/features/DisplayPsyRequests/hooks/useNoviceDelete';
 import { useClientCancelAccept } from '@/components/features/DisplayPsyRequests/hooks/useClientCancelAccept';
 import { useSpecialistClaimRewards } from '@/components/features/DisplayPsyRequests/hooks/useSpecialistClaimRewards';
 import spacetime from 'spacetime';
+import { EModalKind } from '@/components/shared/types/types';
 
 import { RequestHeader } from './components/RequestHeader';
 import { RequestDateTime } from './components/RequestDateTime';

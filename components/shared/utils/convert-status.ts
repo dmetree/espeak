@@ -1,4 +1,4 @@
-import { EReqStatus, TimetableRequests } from "@/components/shared/types";
+import { EReqStatus, TimetableRequests } from "@/components/shared/types/types";
 
 const ReqToCal = {
   [EReqStatus.Open]: TimetableRequests.EStatus.ActionRequired,

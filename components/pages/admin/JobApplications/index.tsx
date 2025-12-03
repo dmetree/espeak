@@ -6,7 +6,7 @@ import { AppDispatch } from "@/store";
 import { fetchJobApplications } from '@/store/actions/jobApplications';
 import { setSelectedJobApplication } from '@/store/actions/jobApplications';
 
-import { IJobRequestStatus } from '@/components/shared/types';
+import { IJobRequestStatus } from '@/components/shared/types/types';
 import Page from "@/components/shared/ui/Page/Page";
 import Substrate from "@/components/shared/ui/Substrate/Substrate";
 import Button from "@/components/shared/ui/Button";

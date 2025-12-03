@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
 import { useDispatch, useSelector } from "react-redux";
 import { loadMessages } from "@/components/shared/i18n/translationLoader";
-import { EModalKind } from '@/components/shared/types';
+import { EModalKind } from '@/components/shared/types/types';
 import { showModal } from '@/store/actions/modal';
 import Page from "@/components/shared/ui/Page/Page";
 import Substrate from "@/components/shared/ui/Substrate/Substrate";
@@ -154,7 +154,7 @@ const EventDetails = () => {
                     {eventAuthor === userUid && eventDetails?.students?.length === 0 &&
                         <div className={s.eventNav}>
                             <Button size="s" onClick={editEvent}>{t.edit}</Button>
-                            <Button size="s"  onClick={handleDeleteEvent}>{t.delete}</Button>
+                            <Button size="s" onClick={handleDeleteEvent}>{t.delete}</Button>
                         </div>
                     }
 

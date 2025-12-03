@@ -9,7 +9,7 @@ import { loadMessages } from '@/components/shared/i18n/translationLoader';
 import OnboardingLayout from '@/components/shared/ui/OnboardingLayout';
 import LevelSelector from './steps/03_LevelSelector';
 import PurposeSelector from './steps/04_PurpuseSelector';
-import { EModalKind, EUserRole } from '@/components/shared/types';
+import { EModalKind, EUserRole } from '@/components/shared/types/types';
 import { toast } from 'react-toastify';
 import { hideModal } from '@/store/actions/modal';
 import { NameInput } from '@/components/shared/ui/InitForm/NicknameField';

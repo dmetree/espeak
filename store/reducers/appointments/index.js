@@ -1,7 +1,7 @@
 import * as actionTypes from "../../actionTypes";
 
 import { format } from "date-fns";
-import { EReqStatus, EGender } from "@/components/shared/types";
+import { EReqStatus, EGender } from "@/components/shared/types/types";
 
 const initialState = {
   vacantAppointments: [],

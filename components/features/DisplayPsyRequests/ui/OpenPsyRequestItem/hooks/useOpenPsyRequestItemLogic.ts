@@ -4,7 +4,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from "@/store";
 import { showModal } from "@/store/actions/modal";
 import { setRequestRoomId } from "@/store/actions/appointments";
-import { EModalKind, EUserRole, EReqStatus } from "@/components/shared/types";
+import {
+  EModalKind,
+  EUserRole,
+  EReqStatus,
+} from "@/components/shared/types/types";
 import { loadMessages } from "@/components/shared/i18n/translationLoader";
 import { ExpToPrice } from "@/components/shared/assets/expToPriceDictionary/ExpToPriceDictionary";
 import { useSpecialistAccept } from "@/components/features/DisplayPsyRequests/hooks/useSpecialistAccept";
