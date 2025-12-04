@@ -34,7 +34,7 @@ export const RequestActions = ({
   return (
     <div className={`${s.col4}`}>
       {userRole === EUserRole.Admin && (
-        <Button className={`${s.callButton} ${s.actionBtn}`} onClick={joinChatRoom}>
+        <Button className={s.dayRowBtn} onClick={joinChatRoom}>
           {t.join_call}
         </Button>
       )}
@@ -83,22 +83,28 @@ export const RequestActions = ({
       )}
 
       {userUid !== clientUid && status === EReqStatus.Open && (
-        <Button size="s" className={s.actionBtn} onClick={onSpecialistAccept}>
+        <Button size="s" className={s.dayRowBtn} onClick={onSpecialistAccept}>
           {t.accept_request}
         </Button>
       )}
 
-      {userUid === specUid && status !== EReqStatus.Open && (
-        <div className={s.actionBtns}>
-          <Button
-            size="s"
-            onClick={onSpecialistClaimRewards}
-            className={`${s.callButton} ${s.actionBtn}`}
-            disabled={!canClaimReward}
-          >
-            💰
-          </Button>
-        </div>
+      {userUid === specUid && status !== EReqStatus.Open && canClaimReward && (
+        <Button
+          size="s"
+          onClick={onSpecialistClaimRewards}
+          className={s.dayRowBtn}
+          disabled={!canClaimReward}
+        >
+          💰
+        </Button>
+      )}
+
+      {(userUid === specUid || userUid === clientUid) && status !== EReqStatus.Open && !canClaimReward && (
+        <Button
+          size="s"
+          onClick={joinChatRoom}
+          className={s.dayRowBtn}
+        >&#128682;</Button>
       )}
 
       {showCancelModal && cancelMeta && (
