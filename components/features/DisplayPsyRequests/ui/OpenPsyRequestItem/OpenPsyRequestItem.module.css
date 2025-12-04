@@ -30,6 +30,9 @@
 .col4 {
   grid-area: col4;
   width: 96%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
 }
 
 .wrapperHeader {
