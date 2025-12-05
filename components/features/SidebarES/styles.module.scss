@@ -50,8 +50,9 @@
 
 .navItem {
   display: flex;
-  align-items: flex-start;
-  gap: 1rem;
+  align-items: center;
+
+  gap: 0.5rem;
   text-decoration: none;
   transition: opacity 0.2s ease;
 
@@ -69,7 +70,6 @@
   font-size: 21px;
   font-weight: 400;
   line-height: 150%;
-  padding-top: 0.5rem;
 }
 
 .socials {
@@ -84,5 +84,11 @@
     &:hover {
       opacity: 0.7;
     }
+  }
+}
+
+@media (max-width: 1024px) {
+  .sidebar {
+    display: none;
   }
 }

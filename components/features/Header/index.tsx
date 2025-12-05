@@ -18,7 +18,11 @@ import { useRouter } from "next/router";
 import Router from "next/router";
 import WalletsWidget from "@/components/features/Wallets";
 import Button from "@/components/shared/ui/Button";
-
+import { FaRegCalendarDays, FaUsersViewfinder } from "react-icons/fa6";
+import { MdDashboard } from "react-icons/md";
+import { RiProfileLine } from "react-icons/ri";
+import { IoIosSettings } from "react-icons/io";
+import { CiMenuFries } from "react-icons/ci";
 // import ExitIcon from '@/components/shared/assets/psy_icons_svg/nav_enter.svg';
 // import NotificationIcon from '@/components/shared/assets/psy_icons_svg/sidebar_notifications.svg';
 
@@ -132,17 +136,24 @@ const Header = (props: IProps) => {
 
   const goToDashboard = () => {
     router.replace('/dashboard');
-    setShowNav(!showNav)
+    setShowNav(!showNav);
+    closeMobile();
   };
 
-  const goToRequests = () => {
-    router.replace('/psy_requests');
+
+  const goToViewExperts = () => {
+    router.replace('/view_experts');
     setShowNav(!showNav)
   };
 
   const goToProfile = () => {
-    router.replace('/edit_profile');
+    router.replace('/user_info');
     setShowNav(!showNav)
+  }
+
+  const goToOffice = () => {
+    router.replace('/office');
+    setShowNav(!showNav);
   }
 
   const goToBecomeThrapist = () => {
@@ -292,6 +303,8 @@ const Header = (props: IProps) => {
 
           {!isReturningUser &&
             <nav className={s.navDesktop} aria-label="Primary">
+
+
               <Link href="#features" className={s.navLink}>Features</Link>
               <Link href="#how-it-works" className={s.navLink}>How it works</Link>
               <Link href="#contact" className={s.navLink}>Contact us</Link>
@@ -323,15 +336,18 @@ const Header = (props: IProps) => {
                 >
                   Log in
                 </Button>
-
-
-
               </div>
             )}
 
             {userUid && (
-              <Link href="/dashboard" className={s.menuItem}>Dashboard</Link>
+              <Link href="/dashboard" className={`${s.menuItem} ${s.desktopElement}`}><MdDashboard size={34} color="#3b82f6" /></Link>
             )}
+
+            <div onClick={() => setOpen(true)} className={s.settings}>
+              <IoIosSettings size={36} color="#3b82f6" />
+              {/* {t.settings} */}
+            </div>
+            {open && <SettingsModal onClose={() => setOpen(false)} />}
 
             {userUid && (
               <div className={s.authOptions}>
@@ -367,27 +383,16 @@ const Header = (props: IProps) => {
               </div>
             )}
 
-            <div onClick={() => setOpen(true)} className={s.settings}>
-              <Image
-                alt="settings"
-                src={settingsIcon}
-                width="40"
-                height="40"
-              />
-              {t.settings}
 
-            </div>
-            {open && <SettingsModal onClose={() => setOpen(false)} />}
+
 
             {userUid && (
-              <Button className={`${s.btn} ${s.btnOutline}`} onClick={handleLogout}>{t.exit}</Button>
+              <Button className={`${s.btn} ${s.btnOutline} ${s.desktopElement}`} onClick={handleLogout}>{t.exit}</Button>
             )}
 
             {/* Mobile burger */}
             <button className={s.burger} aria-label="Open menu" onClick={openMobile}>
-              <span />
-              <span />
-              <span />
+              <CiMenuFries size={40} />
             </button>
           </div>
 
@@ -401,14 +406,14 @@ const Header = (props: IProps) => {
             </span>
           )}
 
-          {showNav && (
+          {/* {showNav && (
             <span ref={menuRef} className={s.menuModalWarpper}>
               <Menu
                 menuItems={menuItems}
                 userRole={userRole}
               />
             </span>
-          )}
+          )} */}
 
           <ToastContainer />
         </div>
@@ -429,10 +434,15 @@ const Header = (props: IProps) => {
             </div>
 
             <ul className={s.mobileNavList}>
-              <li><Link href="#features" onClick={closeMobile}>Features</Link></li>
+              <li className={s.mobileMenuItem} onClick={goToDashboard}><MdDashboard size={34} color="#3b82f6" />&nbsp; Dashboard</li>
+              <li className={s.mobileMenuItem} onClick={goToViewExperts}><FaUsersViewfinder size={34} color="#3b82f6" />&nbsp; Find Teacher</li>
+              <li className={s.mobileMenuItem} onClick={goToOffice}><FaRegCalendarDays size={30} color="#3b82f6" />&nbsp; Teacher's Calendar</li>
+              <li className={s.mobileMenuItem} onClick={goToProfile}><RiProfileLine size={34} color="#3b82f6" />&nbsp; Profile</li>
+              <li className={s.mobileMenuItem} onClick={() => setOpen(true)}><IoIosSettings size={36} color="#3b82f6" />&nbsp;Settings</li>
+              {/* <li><Link href="#features" onClick={closeMobile}>Features</Link></li>
               <li><Link href="#how-it-works" onClick={closeMobile}>How it works</Link></li>
               <li><Link href="#contact" onClick={closeMobile}>Contact us</Link></li>
-              <li><Link href="#faqs" onClick={closeMobile}>FAQs</Link></li>
+              <li><Link href="#faqs" onClick={closeMobile}>FAQs</Link></li> */}
             </ul>
 
             <div className={s.mobileButtons}>

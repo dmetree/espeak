@@ -121,7 +121,7 @@ export default function Dashboard() {
                 </div>
 
                 <div className={styles.rightSection}>
-                  <H4TitleBold>My calendar</H4TitleBold>
+                  <h2>My calendar</h2>
 
                   <TableCalendar
                     currentDate={selectedDate}

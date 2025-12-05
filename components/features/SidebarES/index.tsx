@@ -7,6 +7,11 @@ import { showModal } from "@/store/actions/modal";
 import { EModalKind, EUserRole } from "@/components/shared/types/types";
 import router from "next/router";
 
+import { FaRegCalendarDays, FaUsersViewfinder } from "react-icons/fa6";
+import { MdDashboard } from "react-icons/md";
+import { RiProfileLine } from "react-icons/ri";
+import { FaChalkboardTeacher } from "react-icons/fa";
+
 export default function Sidebar() {
   const dispatch: AppDispatch = useDispatch<AppDispatch>();
   const userData = useSelector(({ user }) => user?.userData);
@@ -25,7 +30,7 @@ export default function Sidebar() {
 
         <nav className={styles.nav}>
           <Link href="/dashboard" className={styles.navItem}>
-            <svg
+            {/* <svg
               width="40"
               height="40"
               viewBox="0 0 40 40"
@@ -46,12 +51,13 @@ export default function Sidebar() {
                 strokeLinecap="round"
                 strokeLinejoin="round"
               />
-            </svg>
-            <span className={styles.navText} onClick={handleGoToMain}>Main</span>
+            </svg> */}
+            <MdDashboard size={34} color="#3b82f6" />
+            <span className={styles.navText} onClick={handleGoToMain}>Dashboard</span>
           </Link>
           {userData?.userRole !== EUserRole.Specialist && (
             <Link href="#" className={styles.navItem}>
-              <svg
+              {/* <svg
                 width="40"
                 height="40"
                 viewBox="0 0 40 40"
@@ -72,13 +78,14 @@ export default function Sidebar() {
                   strokeLinecap="round"
                   strokeLinejoin="round"
                 />
-              </svg>
+              </svg> */}
+              <FaChalkboardTeacher size={34} color="#3b82f6" />
               <span className={styles.navText} onClick={handleBecomeTeacher}>Become a teacher</span>
             </Link>
           )}
 
           <Link href="/view_experts/" className={styles.navItem}>
-            <svg
+            {/* <svg
               width="40"
               height="40"
               viewBox="0 0 40 40"
@@ -99,12 +106,13 @@ export default function Sidebar() {
                 strokeLinecap="round"
                 strokeLinejoin="round"
               />
-            </svg>
-            <span className={styles.navText}>Teachers</span>
+            </svg> */}
+            <FaUsersViewfinder size={34} color="#3b82f6" />
+            <span className={styles.navText}>Find Teacher</span>
           </Link>
 
           <Link href="/user_info" className={styles.navItem}>
-            <svg
+            {/* <svg
               width="40"
               height="40"
               viewBox="0 0 40 40"
@@ -125,13 +133,14 @@ export default function Sidebar() {
                 strokeLinecap="round"
                 strokeLinejoin="round"
               />
-            </svg>
-            <span className={styles.navText}>My profile</span>
+            </svg> */}
+            <RiProfileLine size={34} color="#3b82f6" />
+            <span className={styles.navText}>Profile</span>
           </Link>
 
           {userData?.userRole === EUserRole.Specialist &&
             <Link href="/office" className={styles.navItem}>
-              <svg
+              {/* <svg
                 width="40"
                 height="40"
                 viewBox="0 0 40 40"
@@ -149,12 +158,13 @@ export default function Sidebar() {
                   d="M7.5 33.75C8.19036 33.75 8.75 33.1904 8.75 32.5C8.75 31.8096 8.19036 31.25 7.5 31.25C6.80964 31.25 6.25 31.8096 6.25 32.5C6.25 33.1904 6.80964 33.75 7.5 33.75Z"
                   fill="#161616"
                 />
-              </svg>
+              </svg> */}
+              <FaRegCalendarDays size={30} color="#3b82f6" />
               <span className={styles.navText}>Teacher's Calendar</span>
             </Link>
           }
 
-          <Link href="#" className={styles.navItem}>
+          {/* <Link href="#" className={styles.navItem}>
             <svg
               width="40"
               height="40"
@@ -175,9 +185,9 @@ export default function Sidebar() {
               />
             </svg>
             <span className={styles.navText}>Support</span>
-          </Link>
+          </Link> */}
 
-          <Link href="#" className={styles.navItem}>
+          {/* <Link href="#" className={styles.navItem}>
             <svg
               width="40"
               height="40"
@@ -194,7 +204,7 @@ export default function Sidebar() {
               />
             </svg>
             <span className={styles.navText}>Log out</span>
-          </Link>
+          </Link> */}
         </nav>
 
         <div className={styles.socials}>
