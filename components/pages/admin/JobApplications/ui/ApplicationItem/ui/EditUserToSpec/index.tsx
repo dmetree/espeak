@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { useRouter } from "next/router";
 import Select from 'react-select';
-import { IJobRequestStatus, IUserTypes } from '@/components/shared/types';
+import { IJobRequestStatus, IUserTypes } from '@/components/shared/types/types';
 import Image from 'next/image';
 
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
@@ -342,7 +342,7 @@ const EditUserToSpec: React.FC<EditUserToSpecProps> = ({ selectedJobApplicationU
                             placeholder="PsyRank"
                             min="0"
                             max="10"
-                            maxLength="2"
+                            maxLength={2}
                         />
                     </div>
 
@@ -431,7 +431,7 @@ const EditUserToSpec: React.FC<EditUserToSpecProps> = ({ selectedJobApplicationU
 
                     <div className={s.actionBtns}>
                         <Button
-                            cancel
+
                             className={s.articleBtn}
                             onClick={jobApplicationDecline}>Decline
                         </Button>

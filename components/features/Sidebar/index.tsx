@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import ThemeSwitcher from '@/components/features/ThemeSwitcher';
 import LocalSwitcher from '@/components/features/LocaleSwitcher';
 import { loadMessages } from '@/components/shared/i18n/translationLoader';
-import { EReqStatus, EUserRole } from '@/components/shared/types';
+import { EReqStatus, EUserRole } from '@/components/shared/types/types';
 import { useRouter } from 'next/router';
 import { throttle } from '@/components/shared/utils/throttleDebounce';
 

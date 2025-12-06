@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from "@/store";
 
-import { ISpecProfile } from "@/components/shared/types";
+import { ISpecProfile } from "@/components/shared/types/types";
 import { findSpecialists, clearSpecialists, findRandomSpecialists } from '@/store/actions/specialists';
 import { loadMessages } from '@/components/shared/i18n/translationLoader';
 import Button from '@/components/shared/ui/Button';

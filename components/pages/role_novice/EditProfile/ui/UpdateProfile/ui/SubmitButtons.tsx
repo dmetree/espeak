@@ -13,7 +13,7 @@ const SubmitButtons: React.FC<Props> = ({ loading, onDelete, t }) => (
     <Button type="submit" disabled={loading}>
       {loading ? t.saving : t.save}
     </Button>
-    <Button cancel className={s.deleteBtn} onClick={onDelete}>
+    <Button className={s.deleteBtn} onClick={onDelete}>
       {t.delete_profile}
     </Button>
   </div>

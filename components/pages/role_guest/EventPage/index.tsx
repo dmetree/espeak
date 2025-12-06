@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
 import { useDispatch, useSelector } from "react-redux";
 import { loadMessages } from "@/components/shared/i18n/translationLoader";
-import { EModalKind } from '@/components/shared/types';
+import { EModalKind } from '@/components/shared/types/types';
 import { showModal } from '@/store/actions/modal';
 import Page from "@/components/shared/ui/Page/Page";
 import Substrate from "@/components/shared/ui/Substrate/Substrate";
@@ -45,14 +45,6 @@ const EventDetails = () => {
     const isEventStudent = !!eventDetails?.students?.some(
         (student) => student.uid === userUid
     );
-
-    const belts = useMemo(() => [
-        Belt1, Belt2, Belt3, Belt4, Belt5,
-        Belt6, Belt7, Belt8, Belt9, Belt10
-    ], []);
-
-    const psyBelt = belts[eventDetails?.author?.rank - 1];
-
 
     const formatDate = (dateString: string) => {
         const date = new Date(dateString);
@@ -162,7 +154,7 @@ const EventDetails = () => {
                     {eventAuthor === userUid && eventDetails?.students?.length === 0 &&
                         <div className={s.eventNav}>
                             <Button size="s" onClick={editEvent}>{t.edit}</Button>
-                            <Button size="s" cancel onClick={handleDeleteEvent}>{t.delete}</Button>
+                            <Button size="s" onClick={handleDeleteEvent}>{t.delete}</Button>
                         </div>
                     }
 
@@ -250,7 +242,7 @@ const EventDetails = () => {
 
 
                                             <Button
-                                                cancel
+
                                                 className={s.dayRowBtn}
                                                 onClick={() => handleRemoveStudent(student.uid)}
                                             >

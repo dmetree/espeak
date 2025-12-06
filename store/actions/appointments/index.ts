@@ -18,7 +18,7 @@ import { database } from "@/components/shared/utils/firebase/init";
 import * as actionTypes from "../../actionTypes";
 import { Timestamp } from "firebase/firestore";
 import { AnyAction, ThunkDispatch } from "@reduxjs/toolkit";
-import { EReqStatus } from "@/components/shared/types";
+import { EReqStatus } from "@/components/shared/types/types";
 
 type Dispatch = ThunkDispatch<any, any, AnyAction>;
 

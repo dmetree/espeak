@@ -17,6 +17,14 @@ export const NativeLanguage: React.FC<NativeLanguageProps> = ({ nativeLang, setN
   const selectedOption =
     langOptions.find((opt) => opt.value === nativeLang) || null;
 
+  const handleChange = (selected: any) => {
+    if (!selected || Array.isArray(selected)) {
+      setNativeLang('');
+      return;
+    }
+    setNativeLang(selected.value as string);
+  };
+
   return (
     <div className={styles.container}>
       <h1 className={styles.title}>What is your native language?</h1>
@@ -29,14 +37,7 @@ export const NativeLanguage: React.FC<NativeLanguageProps> = ({ nativeLang, setN
         <LanguageSelector
           value={selectedOption}
           options={langOptions}
-          onChange={(selected) => {
-            if (!selected || Array.isArray(selected)) {
-              setNativeLang('');
-              return;
-            }
-            // single select -> Option
-            setNativeLang(selected.value);
-          }}
+          onChange={handleChange}
           t={t}
           isMulti={false}
           placeholder={'Choose the language'}

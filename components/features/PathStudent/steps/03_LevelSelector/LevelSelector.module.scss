@@ -23,7 +23,7 @@
 .wrap {
   padding: 16px;
   max-width: 240px;
-  border: 1px solid var(--option-border-color);
+  border: 1px solid #bbc2fa;
   border-radius: 16px;
   height: 100px;
 
@@ -32,26 +32,27 @@
   align-items: flex-start;
   justify-content: center;
 
-  cursor: pointer;
+  background: #fafafa;
+  transition: all 0.2s ease;
 
   &:hover {
-    background: #5666ed33;
+    border-color: #5666ed;
+    background: #f0f2ff;
+    cursor: pointer;
   }
 }
 
 .wrap.selected {
-  background: #5666ed22;
   border-color: #5666ed;
-  box-shadow: 0 0 0 2px #5666ed55;
+  background: #e0e3ff;
+  box-shadow: 0 0 0 2px rgba(86, 102, 237, 0.33);
+  cursor: pointer;
 }
 
-.wrap.selected .label {
-  font-weight: 600;
-  color: #202020;
-}
-
-.wrap.selected .title {
-  color: #000;
+.wrap.selected:hover {
+  background: #d0d5ff;
+  border-color: #4555cc;
+  cursor: pointer;
 }
 
 .levelBtn {

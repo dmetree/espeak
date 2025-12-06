@@ -93,7 +93,7 @@ const TeacherInfoForm = () => {
           </div>
 
           <div className={styles.field}>
-            <label>My introduction video (optional)</label>
+            <label>Introduction video (optional)</label>
             <label className={styles.uploadButton}>
               Upload
               <input
@@ -106,7 +106,7 @@ const TeacherInfoForm = () => {
         </div>
 
         <div className={styles.field}>
-          <label>About me</label>
+          <label>About</label>
           <textarea
             name="about"
             placeholder="Share a brief introduction about yourself, your teaching philosophy, and what makes your lessons special"

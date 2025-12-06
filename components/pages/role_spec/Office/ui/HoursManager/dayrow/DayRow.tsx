@@ -29,7 +29,7 @@ import { showModal, hideModal, toggleModal } from '@/store/actions/modal';
 import { toast } from "react-toastify";
 import { loadMessages } from '@/components/shared/i18n/translationLoader';
 
-import { EScheduleMark, EReqStatus, EModalKind } from '@/components/shared/types';
+import { EScheduleMark, EReqStatus, EModalKind } from '@/components/shared/types/types';
 import Button from '@/components/shared/ui/Button';
 import { Tooltip } from '@/components/shared/ui/Tooltip/Tooltip';
 
@@ -105,105 +105,6 @@ const DayRow = ({ hour, handleClick, mark, bgColor, request, isPastHour }) => {
   };
 
   const onSpecialistAccept = async () => {
-
-    const response = await fetch(
-      `https://api.ergoplatform.com/api/v1/boxes/unspent/byTokenId/${request.singletonId}`
-    );
-    const data = await response.json();
-
-    if (!data.items?.length) return;
-
-    const sessionBox = data.items[0];
-    setSessionBox(sessionBox);
-
-    const ergo = await ergoConnector.nautilus.getContext();
-    const nodeHeight = await ergo.get_current_height();
-    const transactionHelper = new TransactionHelperAccept(ergo);
-
-    const therapistAddress = ErgoAddress.fromBase58(therapistWalletAddress);
-    const therapistTokenIdPass =
-      "f151f5c1aab0d47a82083d210346fb0cf919335a31308e1448ac0bff33eb2209";
-    const collateral = (request.price / 10).toString();
-
-    const checkTherapistTokenIdPass = await ergo.get_utxos({
-      tokens: [
-        {
-          tokenId: therapistTokenIdPass,
-        },
-      ],
-    });
-
-    const registrationBoxToken = checkTherapistTokenIdPass.find((box) =>
-      box?.assets?.some(
-        (asset) =>
-          asset?.tokenId === therapistTokenIdPass && asset.amount >= "1"
-      )
-    );
-
-    if (!registrationBoxToken) {
-      return toast.error(t.requests.not_a_psychologist);
-    }
-
-    const registrationBox = checkTherapistTokenIdPass[0];
-
-    let checkEnoughAmount = await ergo.get_utxos({
-      tokens: [
-        {
-          tokenId:
-            "03faf2cb329f2e90d6d23b58d91bbb6c046aa143261cc21f52fbe2824bfcbf04",
-          amount: collateral,
-        },
-      ],
-    });
-
-    if (!checkEnoughAmount?.length) {
-      return toast.error(t.requests.not_enough_funds);
-    }
-
-    const index = checkEnoughAmount.findIndex(
-      (item) => item === registrationBox
-    );
-    if (index !== -1) {
-      checkEnoughAmount = [
-        ...checkEnoughAmount.slice(0, index),
-        ...checkEnoughAmount.slice(index + 1),
-      ];
-    }
-
-    const paymentToken = {
-      tokenId:
-        "03faf2cb329f2e90d6d23b58d91bbb6c046aa143261cc21f52fbe2824bfcbf04",
-      amount: BigInt(request.price),
-    };
-
-    await buildAcceptRequest(
-      sessionBox,
-      therapistAddress,
-      registrationBox,
-      checkEnoughAmount,
-      request.singletonId,
-      paymentToken,
-      nanoErgMinerFee,
-      nodeHeight,
-      transactionHelper
-    );
-
-    setIsAccepting(true);
-
-    // listenerRef.current = new TxConfirmationListener({
-    //   txId,
-    //   onConfirmed: () => {
-    //     dispatch(acceptRequest(userUid, request.id, userData.nickname, userData.avatar, userData.psyRank));
-    //     dispatch(fetchMyAppointments(userUid));
-    //     toast.success("You accepted a personal request for therapy.");
-    //     setIsAccepting(false); // reset
-    //   },
-    //   onError: () => {
-    //     toast.error("Blockchain confirmation failed.");
-    //     setIsAccepting(false); // reset
-    //   }
-    // });
-    // listenerRef.current.start();
 
     dispatch(acceptRequest(userUid, request.id, userData.nickname, userData.avatar, userData.psyRank));
     dispatch(fetchMyAppointments(userUid));
@@ -459,7 +360,6 @@ const DayRow = ({ hour, handleClick, mark, bgColor, request, isPastHour }) => {
 
           {userUid === request.clientUid && request.status !== EReqStatus.Open && (
             <Button
-              dayRowBtn
               className={s.dayRowBtn}
               onClick={joinChatRoom}
             >&#128682;</Button>
@@ -478,7 +378,7 @@ const DayRow = ({ hour, handleClick, mark, bgColor, request, isPastHour }) => {
               {showDropdownCancelNovicePsych && (
                 <div className={s.dropdown} ref={dropdownRefCancelNovicePsych}>
                   <Button
-                    cancel
+
                     onClick={onPsychNoviceDelete}
                   >{t.cancel}</Button>
                 </div>
@@ -506,7 +406,6 @@ const DayRow = ({ hour, handleClick, mark, bgColor, request, isPastHour }) => {
 
                     {/* TODO: add a hint that would explain the button onhover*/}
                     <Button
-                      dayRowBtn
                       className={s.dayRowBtn}
                       onClick={onSpecialistAccept}
                       // disabled={isAcceptDisabled}
@@ -527,7 +426,6 @@ const DayRow = ({ hour, handleClick, mark, bgColor, request, isPastHour }) => {
 
 
               <Button
-                dayRowBtn
                 className={s.dayRowBtn}
                 onClick={joinChatRoom}
               >&#128682;</Button>

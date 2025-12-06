@@ -1,24 +1,24 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo } from "react";
 import { useRouter } from "next/router";
-import Select from 'react-select';
+import Select from "react-select";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
-import { storage } from '@/components/shared/utils/firebase/init';
-import GenderSelector from '@/components/shared/ui/GenderSelector/GenderSelector';
+import { storage } from "@/components/shared/utils/firebase/init";
+import GenderSelector from "@/components/shared/ui/GenderSelector/GenderSelector";
 
-import { useDispatch, useSelector } from 'react-redux';
-import { loadMessages } from '@/components/shared/i18n/translationLoader';
-import { actionUpdateProfile } from '@/store/actions/profile/user';
-import { actionCreateUser } from '@/store/actions/profile/user';
+import { useDispatch, useSelector } from "react-redux";
+import { loadMessages } from "@/components/shared/i18n/translationLoader";
+import { actionUpdateProfile } from "@/store/actions/profile/user";
+import { actionCreateUser } from "@/store/actions/profile/user";
 
 import Button from "@/components/shared/ui/Button";
 import { Input } from "@/components/shared/ui/Input/Input";
-import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
-import TimeZonePicker from '@/components/shared/ui/TimeZonePicker/TimeZonePicker'
+import TimeZonePicker from "@/components/shared/ui/TimeZonePicker/TimeZonePicker";
 
-import s from './.module.scss';
+import s from "./.module.scss";
 
 import {
   getAllLangOptions,
@@ -28,12 +28,10 @@ import {
   getAllMethodsOptions,
   getOptionsFromMethods,
   getAllServicesOptions,
-  getOptionsFromServices
-} from '@/components/shared/i18n/translationLoader';
-
+  getOptionsFromServices,
+} from "@/components/shared/i18n/translationLoader";
 
 const UpdateUserToSpec = () => {
-
   const userUid = useSelector(({ user }) => user.uid);
   const userEmail = useSelector(({ user }) => user?.email);
   const applicantUserData = useSelector(({ user }) => user?.applicantUserData);
@@ -45,34 +43,33 @@ const UpdateUserToSpec = () => {
   const t = loadMessages(currentLocale);
 
   const [formData, setFormData] = useState({
-    nickname: '',
-    gender: '',
-    timeZone: '',
-    birthYear: '',
+    nickname: "",
+    gender: "",
+    timeZone: "",
+    birthYear: "",
     languages: [],
     psySpecialities: [],
     psyMethods: [],
     services: [],
-    infoAbout: '',
-    userRole: 'specialist'
+    infoAbout: "",
+    userRole: "specialist",
   });
 
   const [loading, setLoading] = useState(false);
 
-
   useEffect(() => {
     if (applicantUserData) {
       setFormData({
-        nickname: applicantUserData.nickname || '',
+        nickname: applicantUserData.nickname || "",
         avatar: applicantUserData.avatar || null,
-        gender: applicantUserData.gender || '',
-        timeZone: applicantUserData.timeZone || '',
-        birthYear: applicantUserData.birthYear || '',
+        gender: applicantUserData.gender || "",
+        timeZone: applicantUserData.timeZone || "",
+        birthYear: applicantUserData.birthYear || "",
         languages: applicantUserData.languages || [],
         psySpecialities: applicantUserData.psySpecialities || [],
         psyMethods: applicantUserData.psyMethods || [],
         services: applicantUserData.services || [],
-        infoAbout: applicantUserData.infoAbout || '',
+        infoAbout: applicantUserData.infoAbout || "",
       });
     }
   }, [applicantUserData]);
@@ -116,7 +113,6 @@ const UpdateUserToSpec = () => {
     }));
   };
 
-
   const handleAvatarChange = (event) => {
     const file = event.target.files[0];
     if (file) {
@@ -141,7 +137,8 @@ const UpdateUserToSpec = () => {
   const handleServiceChange = (index, field, value) => {
     setFormData((prevData) => {
       const updatedServices = [...prevData.services];
-      const updatedValue = field === 'price' ? Math.max(5, Math.min(9000, value)) : value; // Ensure price is between 5 and 1000
+      const updatedValue =
+        field === "price" ? Math.max(5, Math.min(9000, value)) : value; // Ensure price is between 5 and 1000
       updatedServices[index] = {
         ...updatedServices[index],
         [field]: updatedValue,
@@ -153,11 +150,10 @@ const UpdateUserToSpec = () => {
     });
   };
 
-
   const handleAddService = () => {
     setFormData((prevData) => ({
       ...prevData,
-      services: [...prevData.services, { title: '', length: 55, price: '' }],
+      services: [...prevData.services, { title: "", length: 55, price: "" }],
     }));
   };
 
@@ -168,7 +164,6 @@ const UpdateUserToSpec = () => {
       services: updatedServices,
     }));
   };
-
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -190,7 +185,7 @@ const UpdateUserToSpec = () => {
       await dispatch(actionCreateUser(newUserData));
 
       toast.success("New user profile was created.");
-      router.replace('/admin');
+      router.replace("/admin");
     } catch (error) {
       console.error("Error creating user profile:", error);
       toast.error("Failed to create a user. Please try again.");
@@ -198,7 +193,6 @@ const UpdateUserToSpec = () => {
       setLoading(false);
     }
   };
-
 
   const handleAboutInfoChange = (event) => {
     const { value } = event.target;
@@ -240,7 +234,6 @@ const UpdateUserToSpec = () => {
     return getOptionsFromServices(formData?.psyServices, t);
   }, [t, formData.psyServices]);
 
-
   return (
     <div className="">
       {/* <div className={s.leftColumn}> */}
@@ -248,20 +241,24 @@ const UpdateUserToSpec = () => {
       {/* Image Upload for Avatar */}
       <div className={s.avatarContainer}>
         {formData.avatar ? (
-          <img src={typeof formData.avatar === 'string' ? formData.avatar : URL.createObjectURL(formData.avatar)} alt="Avatar Preview" className={s.avatarPreview} />
-        ) : <div alt="Avatar Preview" className={s.avatarPreview} />}
+          <img
+            src={
+              typeof formData.avatar === "string"
+                ? formData.avatar
+                : URL.createObjectURL(formData.avatar)
+            }
+            alt="Avatar Preview"
+            className={s.avatarPreview}
+          />
+        ) : (
+          <div alt="Avatar Preview" className={s.avatarPreview} />
+        )}
         <input type="file" accept="image/*" onChange={handleAvatarChange} />
       </div>
 
-      <div className={s.formLabel}>
-        User email:  {userEmail}
-      </div>
-
+      <div className={s.formLabel}>User email: {userEmail}</div>
 
       <form onSubmit={handleSubmit} className={s.formContainer}>
-
-
-
         <>
           <label htmlFor="">{t.profile_title}</label>
 
@@ -277,7 +274,10 @@ const UpdateUserToSpec = () => {
             required
           />
 
-          <div className="">User role: TODO add select to select and change userRole portalUser / specialist</div>
+          <div className="">
+            User role: TODO add select to select and change userRole portalUser
+            / specialist
+          </div>
 
           {/* TODO: Add input for psyrank */}
           <div className={s.formLabel}>
@@ -285,13 +285,10 @@ const UpdateUserToSpec = () => {
             {applicantUserData?.psyRank}
           </div>
 
-
           <div className="">Personal Therapy</div>
           <div className="">Client Sessions</div>
           <div className="">Hr Education</div>
           <div className="">Psy since year</div>
-
-
 
           <div className={s.formLabel}>
             <span>{t.specialist_expert_in}</span>
@@ -307,7 +304,6 @@ const UpdateUserToSpec = () => {
           <span className={s.psyMethodsLabel}>
             {t.specialist_author_of_methods}
           </span>
-
 
           <div className={s.formLabel}>
             <span>{t.specialist_psy_methods}</span>
@@ -337,7 +333,6 @@ const UpdateUserToSpec = () => {
             />
           </div>
 
-
           <div className={s.formLabel}>
             <span>{t.specialist_services}</span>
             {formData.services.length === 0 ? (
@@ -351,8 +346,16 @@ const UpdateUserToSpec = () => {
                       className={s.serviceTitle}
                       name="title"
                       options={servicesOptions}
-                      value={servicesOptions.find(option => option.value === service.title)}
-                      onChange={(selectedOption) => handleServiceChange(index, 'title', selectedOption.value)}
+                      value={servicesOptions.find(
+                        (option) => option.value === service.title
+                      )}
+                      onChange={(selectedOption) =>
+                        handleServiceChange(
+                          index,
+                          "title",
+                          selectedOption.value
+                        )
+                      }
                       placeholder="Service Title"
                     />
                     <div className={s.serviceParam}>
@@ -362,7 +365,9 @@ const UpdateUserToSpec = () => {
                           type="number"
                           name="length"
                           value={service.length}
-                          onChange={(e) => handleServiceChange(index, 'length', e.target.value)}
+                          onChange={(e) =>
+                            handleServiceChange(index, "length", e.target.value)
+                          }
                           placeholder="Length"
                           readOnly
                         />
@@ -379,7 +384,11 @@ const UpdateUserToSpec = () => {
                           name="price"
                           value={service.price || 5} // Default value to 5 if not set
                           onChange={(e) =>
-                            handleServiceChange(index, 'price', Math.max(5, Math.min(9000, e.target.value)))
+                            handleServiceChange(
+                              index,
+                              "price",
+                              Math.max(5, Math.min(9000, e.target.value))
+                            )
                           }
                           placeholder="Price in"
                           min="5" // Ensures user cannot input a value less than 5
@@ -389,7 +398,6 @@ const UpdateUserToSpec = () => {
                     </div>
 
                     <Button
-                      cancel
                       className={s.deleteServiceBtn}
                       onClick={() => handleDeleteService(index)}
                     >
@@ -408,16 +416,14 @@ const UpdateUserToSpec = () => {
             </Button>
           </div>
 
-
           <div className="">
             <div>About</div>
             <textarea
               value={formData.infoAbout}
               onChange={handleAboutInfoChange}
               rows="10"
-              className={s.textarea}>
-            </textarea>
-
+              className={s.textarea}
+            ></textarea>
           </div>
         </>
 

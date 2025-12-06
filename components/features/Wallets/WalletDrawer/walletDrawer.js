@@ -28,7 +28,7 @@ import s from "./walletDrawer.module.scss";
 const WalletDrawer = (props) => {
   const currentLocale = useSelector(({ locale }) => locale.currentLocale);
   const t = loadMessages(currentLocale);
-  const supportedWallets = ["eternl", "gerowallet", "vespr", "lace"];
+  const supportedWallets = ["eternl", "vespr", "lace"];
   const [connecting, setConnecting] = useState(null);
   const [isNautilusInstalled, setNautilusIsInstalled] = useState(false);
   const dispatch = useDispatch();

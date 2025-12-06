@@ -134,8 +134,8 @@ const ServicesEditor: React.FC<Props> = ({
 
                   </div>
                   <Button
-                    cancel
-                    tiny
+
+
                     className={s.deleteServiceBtn}
                     onClick={() => onDeleteService(index)}
                   >

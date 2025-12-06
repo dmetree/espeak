@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Button from '@/components/shared/ui/Button';
 import { ConfirmCancelModal } from '@/components/shared/ui/ConfirmCancelModal/ConfirmCancelModal';
-import { EReqStatus, EUserRole } from '@/components/shared/types';
+import { EReqStatus, EUserRole } from '@/components/shared/types/types';
 import s from '../OpenPsyRequestItem.module.css';
 import spacetime from 'spacetime';
 
@@ -34,7 +34,7 @@ export const RequestActions = ({
   return (
     <div className={`${s.col4}`}>
       {userRole === EUserRole.Admin && (
-        <Button className={`${s.callButton} ${s.actionBtn}`} onClick={joinChatRoom}>
+        <Button className={s.dayRowBtn} onClick={joinChatRoom}>
           {t.join_call}
         </Button>
       )}
@@ -53,7 +53,6 @@ export const RequestActions = ({
           {showDropdownCancelAcceptClient && canCancel && (
             <div className={s.dropdown}>
               <Button
-                cancel
                 className={`${s.cancelButton} ${s.actionBtn}`}
                 onClick={handleCancelClick}
               >
@@ -73,7 +72,6 @@ export const RequestActions = ({
           {showDropdownRefund && (
             <div className={s.dropdown}>
               <Button
-                cancel
                 onClick={onNoviceDelete}
                 className={`${s.cancelButton} ${s.actionBtn} ${!canCancel ? 'disabled' : ''}`}
               >
@@ -85,22 +83,28 @@ export const RequestActions = ({
       )}
 
       {userUid !== clientUid && status === EReqStatus.Open && (
-        <Button size="s" className={s.actionBtn} onClick={onSpecialistAccept}>
+        <Button size="s" className={s.dayRowBtn} onClick={onSpecialistAccept}>
           {t.accept_request}
         </Button>
       )}
 
-      {userUid === specUid && status !== EReqStatus.Open && (
-        <div className={s.actionBtns}>
-          <Button
-            size="s"
-            onClick={onSpecialistClaimRewards}
-            className={`${s.callButton} ${s.actionBtn}`}
-            disabled={!canClaimReward}
-          >
-            💰
-          </Button>
-        </div>
+      {userUid === specUid && status !== EReqStatus.Open && canClaimReward && (
+        <Button
+          size="s"
+          onClick={onSpecialistClaimRewards}
+          className={s.dayRowBtn}
+          disabled={!canClaimReward}
+        >
+          💰
+        </Button>
+      )}
+
+      {(userUid === specUid || userUid === clientUid) && status !== EReqStatus.Open && !canClaimReward && (
+        <Button
+          size="s"
+          onClick={joinChatRoom}
+          className={s.dayRowBtn}
+        >&#128682;</Button>
       )}
 
       {showCancelModal && cancelMeta && (

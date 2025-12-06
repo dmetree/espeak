@@ -9,7 +9,7 @@ import { loadMessages } from '@/components/shared/i18n/translationLoader';
 import OnboardingLayout from '@/components/shared/ui/OnboardingLayout';
 import LevelSelector from './steps/03_LevelSelector';
 import PurposeSelector from './steps/04_PurpuseSelector';
-import { EModalKind, EUserRole } from '@/components/shared/types';
+import { EModalKind, EUserRole } from '@/components/shared/types/types';
 import { toast } from 'react-toastify';
 import { hideModal } from '@/store/actions/modal';
 import { NameInput } from '@/components/shared/ui/InitForm/NicknameField';
@@ -31,18 +31,18 @@ const BecomeStudentPath = () => {
     const [purpose, setPurpose] = useState('');
 
     // Mock language list
-const LANG_OPTIONS = [
-    { code: 'en', name: 'English', flag: '🇬🇧' },
-    { code: 'es', name: 'Spanish', flag: '🇪🇸' },
-    { code: 'fr', name: 'French', flag: '🇫🇷' },
-    { code: 'de', name: 'German', flag: '🇩🇪' },
-    { code: 'pt', name: 'Portuguese', flag: '🇵🇹' },
+    const LANG_OPTIONS = [
+        { code: 'en', name: 'English', flag: '🇬🇧' },
+        { code: 'es', name: 'Spanish', flag: '🇪🇸' },
+        { code: 'fr', name: 'French', flag: '🇫🇷' },
+        { code: 'de', name: 'German', flag: '🇩🇪' },
+        { code: 'pt', name: 'Portuguese', flag: '🇵🇹' },
 
-    { code: 'zh', name: 'Chinese', flag: '🇨🇳' },
-    { code: 'ja', name: 'Japanese', flag: '🇯🇵' },
-    { code: 'ko', name: 'Korean', flag: '🇰🇷' },
-    { code: 'pl', name: 'Polish', flag: '🇵🇱' },
-];
+        { code: 'zh', name: 'Chinese', flag: '🇨🇳' },
+        { code: 'ja', name: 'Japanese', flag: '🇯🇵' },
+        { code: 'ko', name: 'Korean', flag: '🇰🇷' },
+        { code: 'pl', name: 'Polish', flag: '🇵🇱' },
+    ];
 
     const handleNext = () => {
         if (step === 5) {
@@ -99,7 +99,10 @@ const LANG_OPTIONS = [
                     onBack={handleQuit}
                     nextDisabled={!nativeLang}
                 >
-                    <NativeLanguage />
+                    <NativeLanguage
+                        nativeLang={nativeLang}
+                        setNativeLang={setNativeLang}
+                    />
                 </OnboardingLayout>
             )}
 

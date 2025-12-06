@@ -57,7 +57,7 @@ export const ConfirmCancelModal = ({ meta, onConfirm, onClose, t, status }) => {
 
                 <div className={s.actions}>
                     <Button onClick={onConfirm}>{t.confirm_yes}</Button>
-                    <Button cancel onClick={onClose}>{t.confirm_no}</Button>
+                    <Button onClick={onClose}>{t.confirm_no}</Button>
                 </div>
             </div>
         </div>

@@ -12,12 +12,12 @@ import SpecTableCalendar from '@/components/pages/SpecialistProfile/ui/SpecTable
 import SpecHoursManager from '@/components/pages/SpecialistProfile/ui/SpecHoursManager';
 import { getSelectedSpecialistByNickname } from '@/store/actions/specialists';
 import { showModal } from '@/store/actions/modal';
-import { EModalKind, EScheduleMark } from '@/components/shared/types';
+import { EModalKind, EScheduleMark } from '@/components/shared/types/types';
 import Page from '@/components/shared/ui/Page/Page';
 import Substrate from '@/components/shared/ui/Substrate/Substrate';
 import * as blockChainActions from '@/store/actions/networkCardano';
 import { toast } from 'react-toastify';
-import { THourSchedule } from '@/components/shared/types/index';
+import { THourSchedule } from '@/components/shared/types/types';
 import { motion } from 'framer-motion';
 import Sidebar from '@/components/features/SidebarES';
 import s from './.module.scss';

@@ -24,17 +24,9 @@
   position: relative;
   color: var(--text-color);
   font-family: var(--font-sans);
-
-  padding: 1.5rem 19px 2.5rem;
   display: flex;
   flex-direction: column;
   gap: 2.5rem;
   justify-content: space-between;
   height: 100%;
-
-  // @media (min-width: 1024px) {
-  //   padding: 0;
-  //   flex-direction: row;
-  //   align-items: center;
-  // }
 }

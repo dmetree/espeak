@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 
 import { convertStatus } from '@/components/shared/utils/convert-status';
 import { getRequestColor } from '@/components/shared/utils/req-color';
-import { EReqStatus } from '@/components/shared/types';
+import { EReqStatus } from '@/components/shared/types/types';
 
 import s from "./.module.scss";
 

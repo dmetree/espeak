@@ -9,7 +9,7 @@ import {
 } from "firebase/firestore";
 import { database } from "@/components/shared/utils/firebase/init";
 
-import { EventStatus } from "@/components/shared/types";
+import { EventStatus } from "@/components/shared/types/types";
 
 import * as actionTypes from "../../actionTypes";
 

@@ -15,6 +15,8 @@ interface InputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'onChan
   countryCode?: string;
   onSendCode?: () => void;
   placeholder?: string;
+  formLabel?: boolean;
+  inputClassName?: string;
 }
 
 export const Input = forwardRef<HTMLInputElement, InputProps>(

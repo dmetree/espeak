@@ -14,10 +14,11 @@ import { useFormWithValidation } from "@/components/pages/Auth/psy-signin/hooks/
 import { signup, googleSignup } from "@/store/actions/profile/user";
 import { auth, signInWithPopup, googleProvider, twitterProvider } from "@/components/shared/utils/firebase/init";
 import { hideModal, showModal } from "@/store/actions/modal";
-import { EModalKind } from "@/components/shared/types";
+import { EModalKind } from "@/components/shared/types/types";
 
 import Button from "@/components/shared/ui/Button";
 import styles from "./styles.module.scss";
+import { FaXTwitter, FaGoogle } from "react-icons/fa6";
 
 export default function SignUp() {
   const router = useRouter();
@@ -115,10 +116,10 @@ export default function SignUp() {
 
       <div className={styles.socialRow}>
         <button type="button" onClick={handleGoogleLogin}>
-          <Image src="/icons/google.svg" alt="Google" width={20} height={20} />
+          <FaGoogle size={24} />
         </button>
         <button type="button" onClick={handleTwitterLogin}>
-          <Image src="/icons/twitter.svg" alt="Twitter" width={20} height={20} />
+          <FaXTwitter size={24} />
         </button>
       </div>
 

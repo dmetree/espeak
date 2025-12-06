@@ -124,7 +124,7 @@ const Comments = ({ showCommentSection, setShowCommentSection }) => {
                                 <span className={s.replyTextWrapper}>
                                     <span>{replyTo?.replyToPostText}</span>
                                     <Button
-                                        cancel
+
                                         className={s.smallCancel}
                                         onClick={cancelReply}>X</Button>
                                 </span>

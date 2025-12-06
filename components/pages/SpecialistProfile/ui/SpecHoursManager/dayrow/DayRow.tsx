@@ -5,7 +5,7 @@ import { showModal, hideModal, toggleModal } from '@/store/actions/modal';
 import { toast } from "react-toastify";
 import { loadMessages } from '@/components/shared/i18n/translationLoader';
 
-import { EScheduleMark, EReqStatus, EModalKind } from '@/components/shared/types';
+import { EScheduleMark, EReqStatus, EModalKind } from '@/components/shared/types/types';
 import Button from '@/components/shared/ui/Button';
 import { AppDispatch } from "@/store";
 
@@ -66,7 +66,7 @@ const DayRow = ({ hour, handleClick, mark, psyRequest, bgColor, request, isPastH
           )}
           {userUid === request.clientUid && request.status === EReqStatus.Open && (
             <Button
-              cancel
+
               className={s.dayRowBtnCancel}
               onClick={onNoviceDelete}
             >X</Button>
@@ -75,7 +75,7 @@ const DayRow = ({ hour, handleClick, mark, psyRequest, bgColor, request, isPastH
           {userUid === request.specUid && request.status !== EReqStatus.Open && (
             <span className={s.actionBtns}>
               <Button
-                cancel
+
                 className={s.dayRowBtnCancel}
                 onClick={onSpecialistCancelAccept}
               >X</Button>

@@ -9,17 +9,26 @@ const PURPOSES = [
 ];
 
 const PurposeSelector = ({ selected, onSelect }) => (
-    <div className={styles.purposes}>
-        {PURPOSES.map(p => (
-            <button
-                key={p.id}
-                onClick={() => onSelect(p.id)}
-                className={`${styles.purposeBtn} ${selected === p.id ? styles.selected : ''}`}
-            >
-                {p.label}
-            </button>
-        ))}
-    </div>
+    <>
+        <h1 className={styles.mainTitle}>
+            {"What is your purpose for learning?"}
+        </h1>
+        <p className={styles.subtitle}>
+            {"Choose your main motivation for studying this language."}
+        </p>
+
+        <div className={styles.purposes}>
+            {PURPOSES.map((p) => (
+                <button
+                    key={p.id}
+                    onClick={() => onSelect(p.id)}
+                    className={`${styles.purposeBtn} ${selected === p.id ? styles.selected : ''}`}
+                >
+                    {p.label}
+                </button>
+            ))}
+        </div>
+    </>
 );
 
 export default PurposeSelector;

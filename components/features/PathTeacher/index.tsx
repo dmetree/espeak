@@ -10,7 +10,7 @@ import { loadMessages } from '@/components/shared/i18n/translationLoader';
 import OnboardingLayout from '../../shared/ui/OnboardingLayout';
 import TeacherTypeSelector from './steps/TeacherTypeSelector';
 import { hideModal } from '@/store/actions/modal';
-import { EModalKind, EUserRole } from '@/components/shared/types';
+import { EModalKind, EUserRole } from '@/components/shared/types/types';
 import { toast } from 'react-toastify';
 import { NameInput } from '@/components/shared/ui/InitForm/NicknameField';
 import { NativeLanguage } from '@/components/shared/ui/InitForm/NativeLanguage';

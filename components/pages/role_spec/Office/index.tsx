@@ -7,7 +7,7 @@ import { AppDispatch } from "@/store";
 import { loadMessages } from '@/components/shared/i18n/translationLoader';
 import { fetchMyAppointments } from '@/store/actions/appointments';
 import { saveSlots } from '@/store/actions/profile/user';
-import { EScheduleMark, EUserRole, THourSchedule } from "@/components/shared/types";
+import { EScheduleMark, EUserRole, THourSchedule } from "@/components/shared/types/types";
 import TableCalendar from "@/components/pages/role_spec/Office/ui/TableCalendar";
 import HoursManager from "@/components/pages/role_spec/Office/ui/HoursManager";
 

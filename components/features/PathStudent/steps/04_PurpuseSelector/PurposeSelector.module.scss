@@ -1,0 +1,51 @@
+.mainTitle {
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1.2;
+  margin: 0;
+}
+
+.subtitle {
+  font-size: 1.125rem;
+  color: #333;
+  margin-bottom: 40px;
+}
+
+.purposes {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 16px;
+}
+
+.purposeBtn {
+  padding: 16px;
+  min-width: 220px;
+  border: 1px solid #bbc2fa;
+  border-radius: 16px;
+
+  background: #fafafa;
+  transition: all 0.2s ease;
+  cursor: pointer;
+
+  color: #161616;
+  font-size: 16px;
+  text-align: left;
+}
+
+.purposeBtn:hover {
+  border-color: #5666ed;
+  background: #f0f2ff;
+}
+
+.selected {
+  border-color: #5666ed;
+  background: #e0e3ff;
+  box-shadow: 0 0 0 2px rgba(86, 102, 237, 0.33);
+}
+
+.selected:hover {
+  background: #d0d5ff;
+  border-color: #4555cc;
+}

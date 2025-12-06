@@ -6,7 +6,7 @@ import Button from "@/components/shared/ui/Button";
 import { Modal } from '@/components/shared/ui/Modal';
 import { showModal, hideModal, toggleModal } from '@/store/actions/modal';
 
-import { EModalKind } from '@/components/shared/types';
+import { EModalKind } from '@/components/shared/types/types';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { loadMessages } from '@/components/shared/i18n/translationLoader';
