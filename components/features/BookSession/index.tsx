@@ -144,6 +144,11 @@ const BookSession = () => {
       if (!success) {
         throw new Error('Lesson request transaction was not successful');
       }
+      
+      const cardano = await window.cardano[wallet.name].enable();
+      const tx = await cardano.signTx(txCbor);
+      const txHash = await cardano.submitTx(tx);
+      console.log('Lesson request transaction tx Hash:', txHash);
 
       // Create appointment in backend (Firestore)
       await dispatch(createAppointment(userUid, appointment));
