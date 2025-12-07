@@ -5,9 +5,7 @@ async function loadCSL() {
 }
 
 async function getStakeAddress(baseAddress) {
-    if (!CSL) {
-        await loadCSL();
-    }
+    
     return CSL.RewardAddress.new(
         CSL.NetworkInfo.mainnet().network_id(),
         CSL.BaseAddress.from_address(CSL.Address.from_bech32(baseAddress)).stake_cred()
@@ -27,8 +25,34 @@ async function connect(wallet) {
 async function signTx(wallet, tx, partial = false) {
     try {
         const walletInstance = await connect(wallet)
-        const witnesses = await walletInstance.signTx(tx, partial)
+        const witnesses = await walletInstance.signTx(tx, partial);
+        console.log("Transaction signed witnesses:", witnesses);
+
         return witnesses;
+    }
+    catch (err) {
+        console.log(err);
+        throw new Error(err)
+    }
+}
+
+async function submitTx(wallet, tx, witnesses) {
+    try {
+        if (!CSL)
+            await loadCSL();
+
+        const walletInstance = await connect(wallet);
+        const witnessSet = CSL.TransactionWitnessSet.from_bytes(
+            Buffer.from(witnesses, "hex")
+        );
+        const unsignedTx = CSL.Transaction.from_bytes(Buffer.from(tx, "hex"));
+        const signedTx = CSL.Transaction.new(unsignedTx.body(), witnessSet, undefined);
+        console.log("Signed Transaction:", signedTx);
+        const signedTxHex = Buffer.from(signedTx.to_bytes()).toString("hex");
+        console.log("Signed Transaction Hex:", signedTxHex);
+        const txHash = await walletInstance.submitTx(signedTxHex);
+        console.log("Lesson request transaction tx Hash:", txHash);
+        return txHash;
     }
     catch (err) {
         console.log(err);
@@ -62,4 +86,4 @@ const getPubkey = async (addr) => {
     return pubkey;
 };
 
-export { connect, getStakeAddress, addressToBech32, signTx, signData, loadCSL, getPubkey }
+export { connect, getStakeAddress, addressToBech32, signTx, signData, loadCSL, getPubkey, submitTx }

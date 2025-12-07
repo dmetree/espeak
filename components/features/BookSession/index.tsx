@@ -43,6 +43,7 @@ import { getCurrentTimeZone } from '@/components/shared/utils/datetime/get-curre
 import s from './.module.scss';
 import { AppDispatch } from "@/store";
 import { debounce } from '@/components/shared/utils/throttleDebounce';
+import * as actions from "@/store/actions/networkCardano";
 
 
 const BookSession = () => {
@@ -94,6 +95,47 @@ const BookSession = () => {
 
   const { step, isFirstStep, isLastStep, back, next } = useMultistepForm(getSteps());
 
+  const buildTxToBackend = async (address, appointment) => {
+    const response = await fetch('/api/lessons/request/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        userAddress: address,
+        lessonData: appointment,
+      }),
+    });
+
+    if (response.status !== 200)
+      throw new Error('Failed to create lesson request transaction');
+    const { success, txCbor } = await response.json();
+    if (!success)
+      throw new Error('Lesson request transaction was not successful');
+    return txCbor;
+  }
+
+  const submitTxToBackend = async (address, tx, witnesses) => {
+    const response = await fetch('/api/lessons/submit/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        address,
+        tx,
+        witnesses
+      }),
+    });
+
+    if (response.status !== 200)
+      throw new Error('Failed to create lesson request transaction');
+    const { success, hash } = await response.json();
+    if (!success)
+      throw new Error('Lesson request transaction was not successful');
+    return hash;
+  }
+
   // Submit handler
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -126,32 +168,13 @@ const BookSession = () => {
         (timestamp) => timestamp > currentUnixTime && timestamp !== appointment.scheduledUnixtime
       );
 
-      // // Cardano transaction
-      const response = await fetch('/api/lessons/request/', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          userAddress: user.address,
-          lessonData: appointment,
-        }),
-      });
-      if (response.status !== 200) {
-        throw new Error('Failed to create lesson request transaction');
-      }
-      const { success, txCbor } = await response.json();
-      if (!success) {
-        throw new Error('Lesson request transaction was not successful');
-      }
-      
-      const cardano = await window.cardano[wallet.name].enable();
-      const tx = await cardano.signTx(txCbor);
-      const txHash = await cardano.submitTx(tx);
-      console.log('Lesson request transaction tx Hash:', txHash);
+      // Cardano transaction
+      const txCbor = await buildTxToBackend(user.address, appointment);
+      const witnesses = await actions.signTx(wallet, txCbor);
+      const txHash = await submitTxToBackend(user.address, txCbor, witnesses);
 
       // Create appointment in backend (Firestore)
-      await dispatch(createAppointment(userUid, appointment));
+      await dispatch(createAppointment(userUid, appointment, null, txHash));
 
       // Update specialist free slots in backend
       if (isSpecialist) {

@@ -3,13 +3,19 @@ import {
   Blockfrost
 } from "@lucid-evolution/lucid";
 
-const getLucid = async () => {
+// This endpoint submits the signed lesson request transaction to the Cardano blockchain.
+// It receives the signed transaction CBOR from the frontend and submits it via Blockfrost.
+// It returns the transaction hash to the frontend.
+
+const getUserLucid = async (address) => {
   const apiKey = process.env.NEXT_PUBLIC_BLOCKFROST_API_KEY || "";
   const apiUrl = process.env.NEXT_PUBLIC_BLOCKFROST_URL || "";
   const lucid = await Lucid(
     new Blockfrost(apiUrl, apiKey),
     process.env.NEXT_PUBLIC_BLOCKFROST_NETWORK
   );
+  const utxos = await lucid.utxosAt(address);
+  lucid.selectWallet.fromAddress(address, utxos);
   return lucid;
 };
 
@@ -31,14 +37,14 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { tx, witnesses } = req.body;
+    const { address, tx, witnesses } = req.body;
     if (!tx || !witnesses)
         return res.status(400).json({ error: "Unsigned transaction and witness set are required." });
-    console.log("Request body:", req.body);
 
-    const lucid = await getLucid();
+    // Load and submit the signed transaction
+    const lucid = await getUserLucid(address);
     const txBuilder = lucid.fromTx(tx);
-    const signedTx = await txBuilder.assemble(witnesses).complete();
+    const signedTx = await txBuilder.assemble([witnesses]).complete();
     const txHash = await signedTx.submit();
     console.log("Transaction submitted with hash:", txHash);
 
