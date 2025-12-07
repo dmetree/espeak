@@ -267,8 +267,10 @@ export default async function handler(req, res) {
       const adminAddress = process.env.NEXT_PUBLIC_ADMIN_ADDRESS;
         tx = tx.pay.ToAddress(adminAddress, outputs.admin);
     }
-    tx = await tx.addSigner(teacherAddress)
-        .complete();
+    tx = await tx.attach
+      .SpendingValidator(requestAcceptedScript)
+      .addSigner(teacherAddress)
+      .complete();
 
     return res.status(200).json({
       success: true,

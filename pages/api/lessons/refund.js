@@ -25,7 +25,7 @@ const getTeacherLucid = async (address) => {
   return lucid;
 };
 
-function buildRedeemerDatum(thisInputIndex = 0n) {
+function buildRedeemerDatum() {
   const LessonRequestRedeemer = Data.Enum([
     Data.Literal("Refund"),
     Data.Object("Accept", {
@@ -107,6 +107,7 @@ export default async function handler(req, res) {
       .newTx()
       .collectFrom([inputUtxo], redeemerDatum)
       .pay.ToAddress(studentAddress, txAmount)
+      .attach.SpendingValidator(requestScript)
       .addSigner(teacherAddress)
       .complete();
 

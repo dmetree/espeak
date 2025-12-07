@@ -43,7 +43,7 @@ function buildTransactionDatum(data, lockUnit, lockAmount, lessonPaymentUnit) {
     const preparedData = {
         student: fromText(data.clientUid),
         teacher: fromText(data.specUid),
-        admin: fromText(''),
+        admin: fromText(process.env.NEXT_PUBLIC_ADMIN_ADDRESS || ""),
         lessonStartTime: BigInt(data.scheduledUnixtime),
         lessonDuration: BigInt(60),
         deltaAfterLesson: BigInt(50),
@@ -52,7 +52,7 @@ function buildTransactionDatum(data, lockUnit, lockAmount, lessonPaymentUnit) {
         lessonLockAmount: BigInt(lockAmount),
         lessonPriceTokenPolicyId: fromText(pricePolicyId),
         lessonPriceTokenAssetName: fromText(priceAssetName),
-        lessonPriceAmount: BigInt(data.price * 1_000_000),
+        lessonPriceAmount: BigInt(Math.round((data.price / 100) * 1_000_000)),
     };
     return Data.to(
       preparedData,

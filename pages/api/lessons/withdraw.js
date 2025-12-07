@@ -130,7 +130,7 @@ export default async function handler(req, res) {
       throw new Error("Invalid lesson lock lovelace amount configured");
     }
 
-    // Fetch student's UTXOs and build transaction
+    // Fetch teacher's UTXOs and build transaction
     const lucid = await getTeacherLucid(teacherAddress);
     const utxos = await lucid.utxosAt(requestAcceptedValidatorAddress);
     const inputUtxo = utxos.find((utxo) => utxo.txHash === lessonData.acceptedTxHash);
@@ -163,8 +163,10 @@ export default async function handler(req, res) {
       const adminAddress = process.env.NEXT_PUBLIC_ADMIN_ADDRESS;
         tx = tx.pay.ToAddress(adminAddress, admin);
     }
-    tx = await tx.addSigner(teacherAddress)
-        .complete();
+    tx = await tx
+      .attach.SpendingValidator(requestAcceptedScript)
+      .addSigner(teacherAddress)
+      .complete();
 
     return res.status(200).json({
       success: true,
