@@ -20,6 +20,7 @@ import spacetime from "spacetime";
 export const useOpenPsyRequestItemLogic = (props) => {
   const {
     reqID,
+    reqItem,
     clientUid,
     specUid,
     subject,
@@ -151,7 +152,7 @@ export const useOpenPsyRequestItemLogic = (props) => {
     singletonId,
     therapistWalletAddress,
     userData,
-    reqID,
+    reqItem,
     clientUid,
     t,
   });

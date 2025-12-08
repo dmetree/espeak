@@ -125,7 +125,7 @@ const OpenPsyRequestItem = (props) => {
     singletonId,
     therapistWalletAddress,
     userData,
-    reqID,
+    reqItem,
     clientUid,
     t,
   });

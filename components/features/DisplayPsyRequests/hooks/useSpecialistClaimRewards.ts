@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 import { TransactionHelperEndSessionPsych } from "@/blockchain/ergo/offchain/app/transactions/endSessionPsychTx/end-session-psych-transaction-helper";
 import { buildPsychEndNoProblem } from "@/blockchain/ergo/offchain/app/transactions/endSessionPsychTx/endSessionPsych";
 import { nanoErgMinerFee } from "@/components/shared/utils/ergo-blockchain-utils";
-
+import * as actions from "@/store/actions/networkCardano";
 import { useDispatch, useSelector } from "react-redux";
 import {
   actionUpdateProfile,
@@ -23,14 +23,65 @@ export const useSpecialistClaimRewards = ({
   singletonId,
   therapistWalletAddress,
   userData,
-  reqID,
+  reqItem,
   clientUid,
   t,
 }) => {
   const dispatch: AppDispatch = useDispatch<AppDispatch>();
   const userUid = useSelector(({ user }) => user.uid);
+  const user = useSelector(({ networkCardano }) => networkCardano.user);
+  const wallet = useSelector(({ networkCardano }) => networkCardano.wallet);
+
+  const buildTxToBackend = async (address, appointment) => {
+    const response = await fetch('/api/lessons/withdraw/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        userAddress: address,
+        lessonData: appointment,
+      }),
+    });
+
+    if (response.status !== 200)
+      throw new Error('Failed to create lesson withdraw transaction');
+    const { success, txCbor } = await response.json();
+    if (!success)
+      throw new Error('Lesson withdraw transaction was not successful');
+    return txCbor;
+  }
+
+  const submitTxToBackend = async (address, tx, witnesses) => {
+    const response = await fetch('/api/lessons/submit/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        address,
+        tx,
+        witnesses
+      }),
+    });
+
+    if (response.status !== 200)
+      throw new Error('Failed to create lesson request transaction');
+    const { success, hash } = await response.json();
+    if (!success)
+      throw new Error('Lesson request transaction was not successful');
+    return hash;
+  }
+
   const onSpecialistClaimRewards = useCallback(async () => {
     try {
+
+      const txCbor = await buildTxToBackend(user.address, reqItem);
+      const witnesses = await actions.signTx(wallet, txCbor);
+      const txHash = await submitTxToBackend(user.address, txCbor, witnesses);
+
+
+
       const response = await fetch(
         `https://api.ergoplatform.com/api/v1/boxes/unspent/byTokenId/${singletonId}`
       );
@@ -83,7 +134,7 @@ export const useSpecialistClaimRewards = ({
 
       dispatch(incrementHrPsy(userUid));
       dispatch(incrementHrInPsy(clientUid));
-      dispatch(psychDeleteRequestClaimRewards(userUid, reqID));
+      dispatch(psychDeleteRequestClaimRewards(userUid, reqItem.id));
       dispatch(fetchMyAppointments(userUid));
       toast.success(t.requests.claim_rewards);
     } catch (error) {

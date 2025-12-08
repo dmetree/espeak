@@ -19,13 +19,9 @@ import { ErgoToken } from "@/blockchain/ergo/offchain/models/transaction.types";
 
 import {
   nodeNetwork,
-  nanoErgSessionValue,
   nanoErgMinerFee,
-  p2pkInputAmount,
 } from '@/components/shared/utils/ergo-blockchain-utils';
-
-import { saveSlots } from '@/store/actions/profile/user';
-import { showModal, hideModal, toggleModal } from '@/store/actions/modal';
+import { showModal } from '@/store/actions/modal';
 import { toast } from "react-toastify";
 import { loadMessages } from '@/components/shared/i18n/translationLoader';
 
@@ -37,8 +33,6 @@ import { buildRefundClient } from "@/blockchain/ergo/offchain/app/transactions/r
 import { TransactionHelperRefund } from "@/blockchain/ergo/offchain/app/transactions/refundClientTx/refund-transaction-helper";
 import { buildCancelAcceptPsych } from '@/blockchain/ergo/offchain/app/transactions/cancelAcceptedSessionPsychTx/cancelAcceptPsych';
 import { TransactionHelperCancelAcceptPsych } from '@/blockchain/ergo/offchain/app/transactions/cancelAcceptedSessionPsychTx/cancel-accept-psych-transaction-helper';
-import { TransactionHelperAccept } from "@/blockchain/ergo/offchain/app/transactions/acceptRequestTx/accept-transaction-helper";
-import { buildAcceptRequest } from "@/blockchain/ergo/offchain/app/transactions/acceptRequestTx/acceptRequest";
 
 import { buildPsychEndNoProblem } from '@/blockchain/ergo/offchain/app/transactions/endSessionPsychTx/endSessionPsych';
 import { TransactionHelperEndSessionPsych } from '@/blockchain/ergo/offchain/app/transactions/endSessionPsychTx/end-session-psych-transaction-helper';
@@ -48,10 +42,13 @@ import s from './DayRow.module.scss';
 import { ConfirmCancelModal } from '@/components/shared/ui/ConfirmCancelModal/ConfirmCancelModal';
 import { useClickOutside } from '@/hooks/useClickOutside';
 import { getLocalizedContent } from '@/hooks/localize';
-
+import * as actions from "@/store/actions/networkCardano";
 
 const DayRow = ({ hour, handleClick, mark, bgColor, request, isPastHour }) => {
   const dispatch: AppDispatch = useDispatch<AppDispatch>();
+  const user = useSelector(({ networkCardano }) => networkCardano.user);
+  const wallet = useSelector(({ networkCardano }) => networkCardano.wallet);
+  
   const userUid = useSelector(({ user }) => user.uid);
   const userData = useSelector(({ user }) => user?.userData);
   const therapistWalletAddress = useSelector(({ networkErgo }) => networkErgo?.ergoWalletAddress[0]);
@@ -104,9 +101,76 @@ const DayRow = ({ hour, handleClick, mark, bgColor, request, isPastHour }) => {
     dispatch(setRequestRoomId(request.id)); // TODO: import method
   };
 
+  const buildAcceptTxToBackend = async (address, appointment) => {
+    const response = await fetch('/api/lessons/accept/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        teacherAddress: address,
+        lessonData: appointment,
+      }),
+    });
+
+    if (response.status !== 200)
+      throw new Error('Failed to create lesson accept transaction');
+    const { success, txCbor } = await response.json();
+    if (!success)
+      throw new Error('Lesson accept transaction was not successful');
+    return txCbor;
+  }
+
+  const buildCancelTxToBackend = async (address, studentAddress, appointment) => {
+    const response = await fetch('/api/lessons/cancel/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        teacherAddress: address,
+        studentAddress: studentAddress,
+        requestor: "teacher",
+        lessonData: appointment,
+      }),
+    });
+
+    if (response.status !== 200)
+      throw new Error('Failed to create lesson cancel transaction');
+    const { success, txCbor } = await response.json();
+    if (!success)
+      throw new Error('Lesson cancel transaction was not successful');
+    return txCbor;
+  }
+
+  const submitTxToBackend = async (address, tx, witnesses) => {
+    const response = await fetch('/api/lessons/submit/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        address,
+        tx,
+        witnesses
+      }),
+    });
+
+    if (response.status !== 200)
+      throw new Error('Failed to create lesson request transaction');
+    const { success, hash } = await response.json();
+    if (!success)
+      throw new Error('Lesson request transaction was not successful');
+    return hash;
+  }
+
   const onSpecialistAccept = async () => {
 
-    dispatch(acceptRequest(userUid, request.id, userData.nickname, userData.avatar, userData.psyRank));
+    const txCbor = await buildAcceptTxToBackend(user.address, request);
+    const witnesses = await actions.signTx(wallet, txCbor);
+    const txHash = await submitTxToBackend(user.address, txCbor, witnesses);
+
+    dispatch(acceptRequest(userUid, request.id, userData.nickname, userData.avatar, userData.psyRank, txHash));
     dispatch(fetchMyAppointments(userUid));
     setIsAccepting(false); // reset
 
@@ -222,6 +286,10 @@ const DayRow = ({ hour, handleClick, mark, bgColor, request, isPastHour }) => {
   };
 
   const onSpecialistCancelAccept = async (singletonId) => {
+
+    const txCbor = await buildCancelTxToBackend(user.address, 'student address', request);
+    const witnesses = await actions.signTx(wallet, txCbor);
+    const txHash = await submitTxToBackend(user.address, txCbor, witnesses);
 
     const response = await fetch(`https://api.ergoplatform.com/api/v1/boxes/unspent/byTokenId/${singletonId}`);
     const data = await response.json();

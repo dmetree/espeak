@@ -371,7 +371,8 @@ export const acceptRequest =
     reqID: string,
     nickname: string,
     specAvatar: string,
-    psyRank: string
+    psyRank: string,
+    txHash: string
   ) =>
   async (dispatch: Dispatch) => {
     dispatch(acceptRequestStart());
@@ -382,6 +383,7 @@ export const acceptRequest =
         specUid: uID,
         specNickname: nickname,
         specAvatar: specAvatar,
+        acceptationTxId: txHash,
       });
       dispatch(acceptRequestSuccess(reqID));
       dispatch(fetchVacantAppointments(uID, psyRank));
