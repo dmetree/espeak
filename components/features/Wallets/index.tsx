@@ -91,13 +91,13 @@ const HeaderCardano = () => {
             //eternl dapp connector
             // @ts-ignore
             initCardanoDAppConnectorBridge(async (walletApi) => {
-                console.log("bridge established");
+                // console.log("bridge established");
                 if (walletApi.name === "eternl") {
                     window.dappWallet = walletApi;
                     // @ts-ignore
                     window.cardano["eternl"] = walletApi;
                     // @ts-ignore
-                    if (!connectedWallet && localStorage.wallet && !user.address) {
+                    if (!wallet && localStorage.wallet && !user.address) {
                         dispatch(actions.connectWallet(JSON.parse(localStorage.wallet)));
                     }
                 }
@@ -136,14 +136,14 @@ const HeaderCardano = () => {
                     {/* {selectedBlockchain === "ergo" && <span className={s.blockchainIcon}> <ErgoIcon /> </span>}
                     {selectedBlockchain === "cardano" && <span className={s.blockchainIcon}> </span>} */}
                     <div className={s.leftContainer}>
-                        {!wallet && !localStorageWallet && !ergoWalletConnected &&
+                        {!wallet && !ergoWalletConnected &&
                             <div className={s.tooltipWrapper}>
                                 <div className={s.connectButton} onClick={toggleWalletPop}>
                                     <Image
                                         alt="wallet"
                                         src={walletIcon}
-                                        width="40"
-                                        height="40"
+                                        width="36"
+                                        height="36"
                                     />
                                     {/* <FaWallet className={s.hWalletIcon} /> */}
                                     <div className={s.connectWalletText}>{t.connect_wallet}</div>
@@ -151,9 +151,9 @@ const HeaderCardano = () => {
                                 {/* <span className={s.tooltip}>{t.wallet_on_desktop}</span> */}
                             </div>
                         }
-                        {wallet && localStorageWallet &&
+                        {wallet &&
                             <div className={s.blockchainWalletBox}>
-                                {localStorageWallet && !user.address ? (
+                                {!user.address ? (
                                     <SpinnerXs />
                                 ) : (
                                     <div className={s.blockchainWalletBox}>
