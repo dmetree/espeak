@@ -11,16 +11,20 @@ import Link from 'next/link';
 import { storage } from '@/components/shared/utils/firebase/init';
 import { AppDispatch } from '@/store';
 import { actionUpdateProfile } from '@/store/actions/profile/user';
+import { minifyAddress, copyTextToClipboard } from '@/components/shared/utils/helper';
 
 const UserInfo = ({ specialistData, t, isPublic, currentLocale }) => {
   const dispatch: AppDispatch = useDispatch<AppDispatch>();
   const userUid = useSelector(({ user }) => user.uid);
+  const cardanoAddress = useSelector(({ networkCardano }) => networkCardano.user?.address);
 
   const [isEditing, setIsEditing] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [avatarFile, setAvatarFile] = useState<File | null>(null);
   const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
+
+  const hasWallet = Boolean(specialistData?.walletAddress);
 
   const [formState, setFormState] = useState({
     nickname: '',
@@ -514,6 +518,58 @@ const UserInfo = ({ specialistData, t, isPublic, currentLocale }) => {
               )}
             </section>
           )}
+
+          {hasWallet ? (
+            <div className={styles.walletBox}>
+              <div className="">
+                <h3>Your Cardano wallet:</h3>
+                <p className={styles.priceValue}>{minifyAddress(specialistData.walletAddress, 5)}</p>
+              </div>
+
+              <button
+                type="button"
+                className={styles.saveWalletButton}
+                onClick={() => {
+                  if (!specialistData.walletAddress) return;
+                  copyTextToClipboard(specialistData.walletAddress);
+                  toast.success('Wallet address copied');
+                }}
+              >
+                Copy address
+              </button>
+            </div>
+          ) : (
+            <div>
+              <p>Connect wallet and save it to your profile.</p>
+              <button
+                type="button"
+                className={styles.saveWalletButton}
+                onClick={async () => {
+                  if (!userUid) {
+                    toast.error('You must be logged in to save a wallet.');
+                    return;
+                  }
+                  if (!cardanoAddress) {
+                    toast.error('Connect a Cardano wallet first.');
+                    return;
+                  }
+
+                  try {
+                    await dispatch(
+                      actionUpdateProfile({ walletAddress: cardanoAddress }, userUid),
+                    );
+                    toast.success('Wallet saved to your profile.');
+                  } catch (e) {
+                    console.error(e);
+                    toast.error('Failed to save wallet. Please try again.');
+                  }
+                }}
+              >
+                Save Wallet
+              </button>
+            </div>
+          )}
+
 
           {isTeacher && (
             <div className={styles.statsCard}>
