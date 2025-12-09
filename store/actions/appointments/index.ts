@@ -299,8 +299,11 @@ export const createAppointment =
     partnerOne?: string,
     partnerTwo?: string
   ) =>
-  async (dispatch: Dispatch) => {
+  async (dispatch: Dispatch, getState: () => any) => {
     dispatch(createAppointmentStart());
+
+    const { user } = getState();
+    const studentWallet = user?.userData?.walletAddress;
 
     if (!userUid) {
       const error = new Error("Cannot create appointment: no user ID.");
@@ -324,6 +327,7 @@ export const createAppointment =
       txId,
       partnerOne,
       partnerTwo,
+      studentWallet,
     };
 
     // Remove any undefined fields (e.g. singletonId/txId when blockchain flow is disabled)
@@ -331,7 +335,7 @@ export const createAppointment =
       Object.entries(rawAppointment).filter(([, value]) => value !== undefined)
     );
 
-    console.log("appointment", appointment);
+    // console.log("appointment", appointment);
 
     try {
       const requestsRef = collection(database, "requests");
@@ -344,7 +348,7 @@ export const createAppointment =
 
       return docRef.id;
     } catch (error) {
-      console.error("Error booking session:", error);
+      // console.error("Error booking session:", error);
       dispatch(createAppointmentFail(error));
     } finally {
       dispatch(setIsAppointmentFinished(true));
@@ -373,8 +377,11 @@ export const acceptRequest =
     specAvatar: string,
     psyRank: string
   ) =>
-  async (dispatch: Dispatch) => {
+  async (dispatch: Dispatch, getState: () => any) => {
     dispatch(acceptRequestStart());
+
+    const { user } = getState();
+    const teacherWallet = user?.userData?.walletAddress;
 
     try {
       await updateDoc(doc(database, "requests", reqID), {
@@ -382,6 +389,7 @@ export const acceptRequest =
         specUid: uID,
         specNickname: nickname,
         specAvatar: specAvatar,
+        teacherWallet,
       });
       dispatch(acceptRequestSuccess(reqID));
       dispatch(fetchVacantAppointments(uID, psyRank));
