@@ -1,106 +1,11 @@
-# MINDHEALER
+# Service Overview
 
-## How to launch?
+This service is a web-based marketplace for live lessons that combines a familiar Web2 user experience with Web3 guarantees on Cardano. Students and teachers interact through a simple interface, while payments, refunds, and penalties are enforced by smart contracts rather than trust alone.
 
-Download or clone the repo
+Users can register with traditional methods such as email, Google, or Twitter and connect Cardano wallet for payment. Once registered, students can browse teachers, request lessons, and pay in ADA or other supported native tokens. Teachers see incoming lesson requests, accept or decline them, and manage their schedule from a dedicated dashboard.
 
-```bash
-git clone https://github.com/Pakistanka/mhdev-next.git
-```
+## Economic logic
 
-Install dependencies
+The economic logic of the platform is encoded in Cardano smart contracts. When a student requests a lesson, funds are locked on-chain under a lesson-request contract. If the teacher accepts, additional collateral is added and the lesson moves into an “accepted” contract state. From there, a clear set of rules governs refunds, cancellations, lateness, and final payouts—covering scenarios such as last-minute cancellations, no-shows, and technical issues. A small service fee and a “lock” token ensure the platform and teachers are incentivized to behave correctly.
 
-```bash
-npm install
-# or
-yarn install
-# or
-pnpm install
-```
-
-Start development server with
-
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
-
-Launch the smart-contract tests
-
-```bash
-yarn run test:unit
-```
-
-SVG optimization (manual)
-
-```bash
-npx svgo ./components/shared/assets/psy_icons_svg --recursive
-```
-
-Check unused exports, functions, components etc
-
-```bash
-yarn knip
-```
-
-## Do you need any .env.local?
-
-Yes, you do. But you will be able to get variables even from one of the team member.
-
-## Project structure
-
-project/
-│
-├── .next/ # Build output (auto-generated)
-├── .vscode/ # VS Code settings
-│
-├── blockchain/ # Blockchain logic
-│ ├── Cardano/ # Cardano-specific utilities
-│ └── ergo/ # Ergo-specific logic (Fleet SDK, smart contracts, etc.)
-│
-├── components/ # Reusable UI components
-│ ├── features/ # Feature-specific components
-│ ├── Layout/ # Layout and wrapper components
-│ ├── MetaTags/ # SEO-related meta tag components
-│
-├── pages/ # Next.js pages (includes route components)
-│
-├── PrivateRoute/ # Authentication wrappers or guards
-│
-├── providers/ # Context providers (auth, theme, etc.)
-│
-├── shared/ # Shared utilities, constants, or components
-│
-├── context/ # React Context logic
-│
-├── functions/ # Serverless functions (if using Vercel or Firebase functions)
-│
-├── node_modules/ # Installed dependencies
-│
-├── public/ # Static assets (images, fonts, etc.)
-│
-├── store/ # State management logic (Redux, Zustand, etc.)
-│
-├── styles/ # Tailwind and global styles
-│
-├── types/ # TypeScript type definitions
-│
-├── .env.local # Environment variables (local)
-├── .eslintrc.json # ESLint configuration
-├── .firebaserc # Firebase project configuration
-├── .gitignore # Git ignore rules
-├── firebase.json # Firebase deployment config
-├── global.d.ts # Global TypeScript declarations
-├── next-env.d.ts # Next.js TS environment file
-├── next.config.js # Next.js configuration
-├── package.json # Project metadata and dependencies
-├── postcss.config.js # PostCSS config (used with Tailwind)
-├── README.md # Project documentation
-├── svgo.config.js # Svgo config
-├── tailwind.config.js # Tailwind CSS configuration
-├── tsconfig.json # TypeScript configuration
-├── yarn.lock # Yarn lockfile (dependency versions)
-├── yarn-error.log # Yarn error log (if present)
+An off-chain service monitors the blockchain and lesson timeline. It exposes simple endpoints to: list and request lessons, accept or cancel them, trigger refunds for expired requests, and settle lessons after they end. Based on reports (e.g. problems during the lesson) and objective criteria like start time and lateness, it chooses the appropriate payout scenario and executes a final settlement transaction. The result is a transparent, rules-based lesson platform where all participants know in advance how money will move in every situation.
