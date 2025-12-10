@@ -79,8 +79,8 @@ export const useSpecialistClaimRewards = ({
       const txCbor = await buildTxToBackend(user.address, reqItem);
       const witnesses = await actions.signTx(wallet, txCbor);
       const txHash = await submitTxToBackend(user.address, txCbor, witnesses);
-
-
+      console.log("txHash: ", txHash);
+      //TODO: save txhash in appointment in database
 
       const response = await fetch(
         `https://api.ergoplatform.com/api/v1/boxes/unspent/byTokenId/${singletonId}`
@@ -106,7 +106,8 @@ export const useSpecialistClaimRewards = ({
         therapistAddress,
         nanoErgMinerFee,
         nodeHeight,
-        transactionHelper
+        transactionHelper,
+
       );
 
       //// pushing notifications and getting it back====
