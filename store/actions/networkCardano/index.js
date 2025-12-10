@@ -10,10 +10,22 @@ export const connectWallet = (wallet) => {
   return async (dispatch) => {
     try {
       const walletInstance = await FluidLib.Cardano.Wallet.connect(wallet);
-      const addresses = await walletInstance.getUsedAddresses();
+
+      // Some wallets (or brand new wallets) can return an empty array from getUsedAddresses.
+      // In that case we fall back to the change address so we still have a base address
+      // to display and derive the stake address from.
+      let addresses = await walletInstance.getUsedAddresses();
+      if (!addresses || !addresses.length) {
+        const changeAddress = await walletInstance.getChangeAddress?.();
+        if (changeAddress) {
+          addresses = [changeAddress];
+        }
+      }
+
       let user = {};
-      if (addresses.length)
+      if (addresses && addresses.length) {
         user.address = FluidLib.Cardano.Wallet.addressToBech32(addresses[0]);
+      }
       if (user.address)
         user.stakeAddress = await FluidLib.Cardano.Wallet.getStakeAddress(
           user.address

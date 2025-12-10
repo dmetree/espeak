@@ -374,6 +374,35 @@
   }
 }
 
+.saveWalletButton {
+  height: 3.5rem;
+  padding: 1rem 3.5rem;
+  border-radius: 32px;
+  border: 1px solid #5666ed;
+  background-color: #fafafa;
+  color: #161616;
+  font-size: 21px;
+  font-weight: 400;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  font-family: Helvetica, -apple-system, Roboto, sans-serif;
+
+  &:hover {
+    background-color: #f9f9f9;
+  }
+
+  &:focus-visible {
+    outline: 2px solid #5666ed;
+    outline-offset: 2px;
+  }
+}
+
+.walletBox {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 .cancelButton {
   height: 3.5rem;
   padding: 1rem 2rem;
