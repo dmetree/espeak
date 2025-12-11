@@ -338,7 +338,7 @@
 }
 
 .title {
-  font-size: 36px;
+  font-size: 20px;
   font-weight: 700;
   color: #161616;
   line-height: 150%;
@@ -352,13 +352,12 @@
 }
 
 .editButton {
-  height: 3.5rem;
-  padding: 1rem 3.5rem;
+  padding: 1rem 2.5rem;
   border-radius: 32px;
   border: 1px solid #5666ed;
   background-color: #fafafa;
   color: #161616;
-  font-size: 21px;
+  font-size: 16px;
   font-weight: 400;
   cursor: pointer;
   transition: all 0.2s ease-in-out;
@@ -375,13 +374,12 @@
 }
 
 .saveWalletButton {
-  height: 3.5rem;
-  padding: 1rem 3.5rem;
+  padding: 1rem 1.5rem;
   border-radius: 32px;
   border: 1px solid #5666ed;
   background-color: #fafafa;
   color: #161616;
-  font-size: 21px;
+  font-size: 16px;
   font-weight: 400;
   cursor: pointer;
   transition: all 0.2s ease-in-out;
@@ -430,6 +428,10 @@
   display: flex;
   flex-direction: column;
   gap: 32px;
+}
+
+.contentGeneral {
+  flex-wrap: wrap;
 }
 
 .contentGeneral,
@@ -703,7 +705,7 @@
 }
 
 .priceValue {
-  font-size: 21px;
+  font-size: 16px;
   color: #161616;
   line-height: 150%;
   margin: 0;
