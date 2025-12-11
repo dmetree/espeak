@@ -155,7 +155,7 @@ const SpecialistProfile = () => {
         <Sidebar />
         <div className={s.main}>
           <Page className={s.userboardPage}>
-            <Substrate className={s.userboard} color="bg-color">
+            {/* <Substrate className={s.userboard} color="bg-color"> */}
               <div className={s.timeTable}>
                 <div className={s.rightColumn}>
                   <UserInfo />
@@ -178,7 +178,7 @@ const SpecialistProfile = () => {
                   </div>
                 )}
               </div>
-            </Substrate>
+            {/* </Substrate> */}
           </Page>
         </div>
       </div>
