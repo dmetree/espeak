@@ -401,6 +401,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 20px;
 }
 
 .cancelButton {
@@ -429,6 +430,13 @@
   display: flex;
   flex-direction: column;
   gap: 32px;
+}
+
+.contentGeneral,
+.topicsAndTimezone {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
 }
 
 .profileSection {
@@ -552,7 +560,7 @@
 }
 
 .sectionTitle {
-  font-size: 21px;
+  font-size: 16px;
   font-weight: 700;
   color: #161616;
   line-height: 150%;
@@ -560,7 +568,7 @@
 }
 
 .sectionText {
-  font-size: 21px;
+  font-size: 16px;
   color: #161616;
   line-height: 150%;
   margin: 0;
@@ -657,16 +665,16 @@
   display: flex;
   flex-direction: column;
   gap: 32px;
-  padding: 24px;
+  padding: 12px;
   border-radius: 16px;
   background-color: rgba(86, 102, 237, 0.2);
   justify-content: center;
   align-items: flex-start;
+  font-size: 16px;
 
   @media (min-width: 640px) {
     flex-direction: row;
     align-items: center;
-    padding: 32px;
   }
 }
 
@@ -682,7 +690,7 @@
 }
 
 .statValue {
-  font-size: 27px;
+  font-size: 16px;
   color: #161616;
   line-height: 150%;
   margin: 0;
