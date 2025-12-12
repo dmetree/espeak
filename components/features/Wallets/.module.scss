@@ -30,7 +30,7 @@
   align-items: center;
 
   & span {
-    color: var(--darker);
+    color: var(--text-color);
   }
 }
 
@@ -42,7 +42,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--darker);
+  color: var(--text-color);
 }
 
 .walletIcon {

@@ -5,6 +5,16 @@
   align-items: center;
 }
 
+.noServices {
+  max-width: 520px;
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: 1px solid var(--dark);
+  background: var(--bgColor);
+  color: var(--textColor);
+  text-align: center;
+}
+
 .helpItems {
   display: grid;
   grid-template-columns: repeat(3, 1fr);

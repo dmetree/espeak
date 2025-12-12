@@ -1,32 +1,38 @@
 export const translateSelectOptions = (
   options: { value: string; label: string }[],
   t: any,
-  translationKey: string
+  translationKey?: string
 ) => {
+  const dict = translationKey ? t?.[translationKey] || {} : {};
+
   return options.map((option) => ({
     value: option.value,
-    label: t[translationKey][option.value] || option.label, // Translate label dynamically based on the translation key
+    label: dict?.[option.value] || option.label,
   }));
 };
 
 export const translateSelectedValues = (
-  value: { value: string; label: string } | { value: string; label: string }[] | null,
+  value:
+    | { value: string; label: string }
+    | { value: string; label: string }[]
+    | null,
   t: any,
-  translationKey: string
+  translationKey?: string
 ) => {
   if (!value) return null;
+
+  const dict = translationKey ? t?.[translationKey] || {} : {};
 
   if (Array.isArray(value)) {
     return value.map((selectedOption) => ({
       value: selectedOption.value,
-      label: t[translationKey][selectedOption.value] || selectedOption.label,
+      label: dict?.[selectedOption.value] || selectedOption.label,
     }));
   }
 
-  // Single value
   return {
     value: value.value,
-    label: t[translationKey][value.value] || value.label,
+    label: dict?.[value.value] || value.label,
   };
 };
 

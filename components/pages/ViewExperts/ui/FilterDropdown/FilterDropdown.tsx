@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react';
+import { useMemo, useRef, useEffect, useState } from 'react';
 import styles from './style.module.scss';
 
 interface FilterOption {
@@ -11,6 +11,8 @@ interface FilterDropdownProps {
   options: FilterOption[];
   selectedValue?: string;
   onChange?: (value: string) => void;
+  searchable?: boolean;
+  searchPlaceholder?: string;
 }
 
 export function FilterDropdown({
@@ -18,11 +20,26 @@ export function FilterDropdown({
   options,
   selectedValue,
   onChange,
+  searchable = false,
+  searchPlaceholder = 'Search…',
 }: FilterDropdownProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const [query, setQuery] = useState('');
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   const selectedOption = options.find((opt) => opt.value === selectedValue);
+
+  const filteredOptions = useMemo(() => {
+    if (!searchable) return options;
+    const q = query.trim().toLowerCase();
+    if (!q) return options;
+
+    return options.filter((opt) => {
+      const labelText = String(opt.label || '').toLowerCase();
+      const valueText = String(opt.value || '').toLowerCase();
+      return labelText.includes(q) || valueText.includes(q);
+    });
+  }, [options, query, searchable]);
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -46,13 +63,20 @@ export function FilterDropdown({
   const handleOptionClick = (value: string) => {
     onChange?.(value);
     setIsOpen(false);
+    setQuery('');
   };
 
   return (
     <div className={styles.filterDropdown} ref={dropdownRef}>
       <button
         className={styles.dropdownButton}
-        onClick={() => setIsOpen(!isOpen)}
+        onClick={() => {
+          setIsOpen((prev) => {
+            const next = !prev;
+            if (!next) setQuery('');
+            return next;
+          });
+        }}
         aria-expanded={isOpen}
         aria-haspopup="true"
       >
@@ -82,29 +106,48 @@ export function FilterDropdown({
 
       {isOpen && (
         <div className={styles.dropdownMenu}>
-          {options.map((option) => (
-            <button
-              key={option.value}
-              className={styles.radioButton}
-              onClick={() => handleOptionClick(option.value)}
-              role="radio"
-              aria-checked={selectedValue === option.value}
-            >
-              <svg
-                width="14"
-                height="14"
-                viewBox="0 0 14 14"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
+          {searchable && (
+            <div className={styles.searchRow}>
+              <input
+                className={styles.searchInput}
+                type="text"
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                placeholder={searchPlaceholder}
+                autoFocus
+              />
+            </div>
+          )}
+
+          <div className={styles.optionsList}>
+            {filteredOptions.map((option) => (
+              <button
+                key={option.value}
+                className={styles.radioButton}
+                onClick={() => handleOptionClick(option.value)}
+                role="radio"
+                aria-checked={selectedValue === option.value}
               >
-                <circle cx="7" cy="7" r="6.5" stroke="#3F3D56" />
-                {selectedValue === option.value && (
-                  <circle cx="7" cy="7" r="5" fill="#3F3D56" />
-                )}
-              </svg>
-              <span>{option.label}</span>
-            </button>
-          ))}
+                <svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 14 14"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <circle cx="7" cy="7" r="6.5" stroke="#3F3D56" />
+                  {selectedValue === option.value && (
+                    <circle cx="7" cy="7" r="5" fill="#3F3D56" />
+                  )}
+                </svg>
+                <span>{option.label}</span>
+              </button>
+            ))}
+
+            {filteredOptions.length === 0 && (
+              <div className={styles.noResults}>No results</div>
+            )}
+          </div>
         </div>
       )}
     </div>

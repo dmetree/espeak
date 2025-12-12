@@ -8,7 +8,7 @@
   grid-template-rows: 15px 1fr;
   grid-template-areas:
     "full full full full"
-    "col1 col2 col3 col4";
+    "col2 col2 col3 col4";
   gap: 5px;
   position: relative;
   align-items: center;

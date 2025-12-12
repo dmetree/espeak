@@ -15,7 +15,7 @@ const NicknameInput: React.FC<Props> = ({ nickname, onChange, t }) => {
         <span className={s.nicknameTitle}>{t.profile_title}</span>
         <span className={s.tooltip}>
           ⓘ
-          <span className={s.tooltipText}>{t.profile_title_info}</span>
+          {/* <span className={s.tooltipText}>{t.profile_title_info}</span> */}
         </span>
       </label>
 

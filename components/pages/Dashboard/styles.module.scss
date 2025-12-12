@@ -181,6 +181,13 @@
   flex: 1;
 }
 
+.rightSection {
+  flex: 1;
+  @media (min-width: 1024px) {
+    width: 408px;
+  }
+}
+
 .welcomeCard {
   // background-color: #fff;
   // border-radius: 40px;
@@ -266,12 +273,6 @@
     font-size: 1rem;
     font-weight: 400;
     line-height: 150%;
-  }
-}
-
-.rightSection {
-  @media (min-width: 1024px) {
-    width: 408px;
   }
 }
 

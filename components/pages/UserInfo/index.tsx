@@ -5,6 +5,7 @@ import Sidebar from '@/components/features/SidebarES';
 import UserInfo from '@/components/pages/spec_info/UserInfoSelf';
 
 import s from './.module.scss';
+import EditProfile from '@/components/pages/role_novice/EditProfile';
 
 const UserInfoPage = () => {
   return (
