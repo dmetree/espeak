@@ -18,6 +18,7 @@ import H4TitleBold from '@/components/shared/ui/Typography/h4-bold';
 import TableCalendar from '@/components/pages/role_spec/Office/ui/TableCalendar';
 import router from 'next/router';
 import Sidebar from '@/components/features/SidebarES';
+// import Sidebar from '@/components/features/Sidebar';
 
 export default function Dashboard() {
   const currentLocale = useSelector(({ locale }) => locale.currentLocale);
@@ -61,8 +62,6 @@ export default function Dashboard() {
       setFreeTimestamps(userData?.freeTimestamps);
     }
   }, [userData?.freeTimestamps]);
-
-  console.log('isTeacher', isTeacher)
 
   return (
     <motion.div

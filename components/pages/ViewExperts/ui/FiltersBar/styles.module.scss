@@ -15,3 +15,39 @@
     }
   }
 }
+
+.clearButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: 1px solid #bbc2fa;
+  background: #ffffff;
+  color: #161616;
+  font-family: Helvetica, -apple-system, Roboto, sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 150%;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out, transform 0.12s ease, opacity 0.2s ease;
+  white-space: nowrap;
+
+  &:hover:not(:disabled) {
+    background: #f5f5f5;
+  }
+
+  &:active:not(:disabled) {
+    transform: translateY(1px);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  &:focus-visible {
+    outline: 2px solid #5666ed;
+    outline-offset: 2px;
+  }
+}

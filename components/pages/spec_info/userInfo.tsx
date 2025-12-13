@@ -7,11 +7,28 @@ import { toast } from 'react-toastify';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 
 import styles from './.module.scss';
-import Link from 'next/link';
+
 import { storage } from '@/components/shared/utils/firebase/init';
 import { AppDispatch } from '@/store';
 import { actionUpdateProfile } from '@/store/actions/profile/user';
 import { minifyAddress, copyTextToClipboard } from '@/components/shared/utils/helper';
+
+import LanguageSelector from '@/components/pages/spec_info/ui/LanguageSelector';
+import AboutTextarea from '@/components/pages/spec_info/ui/AboutTextarea';
+import ServicesEditor from '@/components/pages/spec_info/ui/ServiceEditor';
+import NicknameInput from '@/components/pages/spec_info/ui/NicknameInput';
+import AvatarUploader from '@/components/pages/spec_info/ui/AvatarUploader';
+import MethodSelector from '@/components/pages/spec_info/ui/MethodSelector';
+import { ColoredInfoBlock } from '@/components/pages/spec_info/ui/ColoredInfoBlock';
+
+type SelectOption = { value: string; label: string };
+
+type Service = {
+  title: { [lang: string]: string };
+  description?: { [lang: string]: string };
+  length: number;
+  price: string;
+};
 
 const UserInfo = ({ specialistData, t, isPublic, currentLocale }) => {
   const dispatch: AppDispatch = useDispatch<AppDispatch>();
@@ -22,9 +39,12 @@ const UserInfo = ({ specialistData, t, isPublic, currentLocale }) => {
   const [isSaving, setIsSaving] = useState(false);
   const [avatarFile, setAvatarFile] = useState<File | null>(null);
   const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
-  const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null!);
 
   const hasWallet = Boolean(specialistData?.walletAddress);
+
+  const [priceErrors, setPriceErrors] = useState<string[]>([]);
+  const [activeLang, setActiveLang] = useState(currentLocale || 'en');
 
   const [formState, setFormState] = useState({
     nickname: '',
@@ -33,15 +53,15 @@ const UserInfo = ({ specialistData, t, isPublic, currentLocale }) => {
     teachLanguage: '',
     about: '',
     introVideo: '',
-    topicsInput: '',
     topics: [] as string[],
     price: '',
+    services: [] as Service[],
   });
 
-  const languageOptions = useMemo(() => {
+  const languageOptions = useMemo((): SelectOption[] => {
     const dict = t['user-languages'] || {};
     return Object.entries(dict).map(([code, label]) => ({
-      code,
+      value: String(code),
       label: String(label),
     }));
   }, [t]);
@@ -72,6 +92,38 @@ const UserInfo = ({ specialistData, t, isPublic, currentLocale }) => {
       ? getLocalizedContent(specialistData.infoAbout, currentLocale)
       : '';
 
+    const services: Service[] = Array.isArray(specialistData.services)
+      ? specialistData.services.map((service: any) => {
+          const title =
+            typeof service?.title === 'object' && service?.title
+              ? service.title
+              : { [currentLocale]: String(service?.title || '') };
+
+          const description =
+            typeof service?.description === 'object' && service?.description
+              ? service.description
+              : service?.description
+              ? { [currentLocale]: String(service.description) }
+              : {};
+
+          const priceNumber =
+            typeof service?.price === 'number'
+              ? service.price / 100
+              : Number(service?.price);
+
+          return {
+            ...service,
+            title,
+            description,
+            length: Number(service?.length) || 55,
+            price:
+              Number.isFinite(priceNumber) && priceNumber
+                ? String(priceNumber)
+                : '',
+          };
+        })
+      : [];
+
     setFormState({
       nickname: specialistData.nickname || '',
       age: specialistData.age ? String(specialistData.age) : '',
@@ -81,14 +133,14 @@ const UserInfo = ({ specialistData, t, isPublic, currentLocale }) => {
         specialistData.teachLanguage || specialistData.languages?.[0] || '',
       about: typeof about === 'string' ? about : '',
       introVideo: specialistData.introVideo || '',
-      topicsInput: '',
-      topics: Array.isArray(specialistData.topics)
-        ? specialistData.topics
-        : [],
+      topics: Array.isArray(specialistData.topics) ? specialistData.topics : [],
       price: specialistData.price ? String(specialistData.price / 100) : '',
+      services,
     });
 
     setAvatarPreview(specialistData.avatar || null);
+    setActiveLang(currentLocale || 'en');
+    setPriceErrors([]);
   }, [specialistData, currentLocale]);
 
   const handleAvatarClick = () => {
@@ -125,30 +177,64 @@ const UserInfo = ({ specialistData, t, isPublic, currentLocale }) => {
     }));
   };
 
-  const handleTopicsKeyDown = (
-    event: React.KeyboardEvent<HTMLInputElement>,
+  const handleServiceChange = (
+    index: number,
+    field: string,
+    value: any,
+    lang?: string,
   ) => {
-    if (event.key !== 'Enter' && event.key !== ',') return;
+    setFormState((prev) => {
+      const updatedServices = [...prev.services];
+      const currentService = updatedServices[index];
 
-    event.preventDefault();
-    const value = formState.topicsInput.trim();
-    if (!value) return;
+      if (lang) {
+        updatedServices[index] = {
+          ...currentService,
+          [field]: {
+            ...((currentService as any)[field] || {}),
+            [lang]: value,
+          },
+        } as any;
+      } else {
+        updatedServices[index] = {
+          ...currentService,
+          [field]: value,
+        } as any;
+      }
 
-    setFormState((prev) => ({
-      ...prev,
-      topics: prev.topics.includes(value)
-        ? prev.topics
-        : [...prev.topics, value],
-      topicsInput: '',
-    }));
+      return {
+        ...prev,
+        services: updatedServices,
+      };
+    });
   };
 
-  const handleRemoveTopic = (topic: string) => {
+  const handleAddService = () => {
     setFormState((prev) => ({
       ...prev,
-      topics: prev.topics.filter((t) => t !== topic),
+      services: [
+        ...prev.services,
+        {
+          title: {},
+          description: {},
+          length: 55,
+          price: '',
+        },
+      ],
     }));
+
+    setPriceErrors((prev) => [...prev, '']);
   };
+
+  const handleDeleteService = (index: number) => {
+    setFormState((prev) => ({
+      ...prev,
+      services: prev.services.filter((_, i) => i !== index),
+    }));
+
+    setPriceErrors((prev) => prev.filter((_, i) => i !== index));
+  };
+
 
   const handleEditToggle = () => {
     if (isPublic) return;
@@ -162,6 +248,38 @@ const UserInfo = ({ specialistData, t, isPublic, currentLocale }) => {
         ? getLocalizedContent(specialistData.infoAbout, currentLocale)
         : '';
 
+      const services: Service[] = Array.isArray(specialistData.services)
+        ? specialistData.services.map((service: any) => {
+            const title =
+              typeof service?.title === 'object' && service?.title
+                ? service.title
+                : { [currentLocale]: String(service?.title || '') };
+
+            const description =
+              typeof service?.description === 'object' && service?.description
+                ? service.description
+                : service?.description
+                ? { [currentLocale]: String(service.description) }
+                : {};
+
+            const priceNumber =
+              typeof service?.price === 'number'
+                ? service.price / 100
+                : Number(service?.price);
+
+            return {
+              ...service,
+              title,
+              description,
+              length: Number(service?.length) || 55,
+              price:
+                Number.isFinite(priceNumber) && priceNumber
+                  ? String(priceNumber)
+                  : '',
+            };
+          })
+        : [];
+
       setFormState({
         nickname: specialistData.nickname || '',
         age: specialistData.age ? String(specialistData.age) : '',
@@ -171,22 +289,35 @@ const UserInfo = ({ specialistData, t, isPublic, currentLocale }) => {
           specialistData.teachLanguage || specialistData.languages?.[0] || '',
         about: typeof about === 'string' ? about : '',
         introVideo: specialistData.introVideo || '',
-        topicsInput: '',
-        topics: Array.isArray(specialistData.topics)
-          ? specialistData.topics
-          : [],
-        price: specialistData.price
-          ? String(specialistData.price / 100)
-          : '',
+        topics: Array.isArray(specialistData.topics) ? specialistData.topics : [],
+        price: specialistData.price ? String(specialistData.price / 100) : '',
+        services,
       });
 
       setAvatarPreview(specialistData.avatar || null);
       setAvatarFile(null);
+      setActiveLang(currentLocale || 'en');
+      setPriceErrors([]);
     }
   };
 
   const handleSave = async () => {
     if (!specialistData || !userUid) return;
+
+    // validate services prices (same rule as UpdateProfile)
+    const invalidPrices = formState.services
+      .map((s) => Number(s.price))
+      .map((p, i) => (p < 5 ? i : -1))
+      .filter((i) => i !== -1);
+
+    if (invalidPrices.length > 0) {
+      const errorMsgs = formState.services.map((_, i) =>
+        invalidPrices.includes(i) ? 'Minimum price is $5' : '',
+      );
+      setPriceErrors(errorMsgs);
+      toast.error('Please fix pricing errors before saving.');
+      return;
+    }
 
     try {
       setIsSaving(true);
@@ -221,6 +352,22 @@ const UserInfo = ({ specialistData, t, isPublic, currentLocale }) => {
         infoAbout,
         topics: formState.topics,
         price: numericPrice ? Math.round(numericPrice * 100) : null,
+        services: formState.services.map((service) => ({
+          ...service,
+          title: Object.fromEntries(
+            Object.entries(service.title || {}).map(([lang, text]) => [
+              lang,
+              typeof text === 'string' ? text.trim() : '',
+            ]),
+          ),
+          description: Object.fromEntries(
+            Object.entries(service.description || {}).map(([lang, text]) => [
+              lang,
+              typeof text === 'string' ? text.trim() : '',
+            ]),
+          ),
+          price: Math.round(Number(service.price || 0) * 100),
+        })),
       };
 
       if (languages.length) {
@@ -235,8 +382,8 @@ const UserInfo = ({ specialistData, t, isPublic, currentLocale }) => {
       console.error('Error updating profile', error);
       toast.error(
         t.specialist_profile_update_failed ||
-        error?.message ||
-        'Failed to update profile',
+          error?.message ||
+          'Failed to update profile',
       );
     } finally {
       setIsSaving(false);
@@ -260,9 +407,11 @@ const UserInfo = ({ specialistData, t, isPublic, currentLocale }) => {
     '';
 
   const resolveLanguageLabel = (code: string) => {
-    const option = languageOptions.find((opt) => opt.code === code);
+    const option = languageOptions.find((opt) => opt.value === code);
     return option?.label || code;
   };
+
+  console.log('formState.services', formState.services, formState)
 
   const avatarSrc =
     avatarPreview ||
@@ -305,35 +454,30 @@ const UserInfo = ({ specialistData, t, isPublic, currentLocale }) => {
         <div className={styles.content}>
           <div className={styles.contentGeneral}>
             <div className={styles.profileSection}>
-              <button
-                type="button"
-                className={styles.avatarButton}
-                onClick={handleAvatarClick}
-                disabled={!isEditing}
-              >
+              {isEditing ? (
+                <AvatarUploader
+                  avatar={avatarSrc}
+                  fileInputRef={fileInputRef}
+                  onFileChange={handleAvatarChange}
+                  onClick={handleAvatarClick}
+                  fileSizeError={''}
+                  t={t}
+                />
+              ) : (
                 <img
                   src={avatarSrc}
                   alt="Profile"
                   className={styles.profileImage}
                 />
-              </button>
-              <input
-                ref={fileInputRef}
-                type="file"
-                accept="image/*"
-                onChange={handleAvatarChange}
-                style={{ display: 'none' }}
-              />
+              )}
 
               <div className={styles.profileInfo}>
                 <div className={styles.profileHeader}>
                   {isEditing ? (
-                    <input
-                      type="text"
-                      className={styles.textInput}
-                      value={formState.nickname}
-                      onChange={(e) => handleChange('nickname', e.target.value)}
-                      placeholder="Name / Nickname"
+                    <NicknameInput
+                      nickname={formState.nickname}
+                      onChange={(value) => handleChange('nickname', value)}
+                      t={t}
                     />
                   ) : (
                     <h2 className={styles.profileName}>{displayName}</h2>
@@ -345,52 +489,66 @@ const UserInfo = ({ specialistData, t, isPublic, currentLocale }) => {
 
                 <div className={styles.inlineFields}>
                   <div className={styles.inlineField}>
-                    <span className={styles.label}>Speaks:</span>
                     {isEditing ? (
-                      <select
-                        className={styles.select}
-                        value={formState.nativeLanguage}
-                        onChange={(e) =>
-                          handleChange('nativeLanguage', e.target.value)
+                      <LanguageSelector
+                        label="Speaks"
+                        isMulti={false}
+                        value={
+                          formState.nativeLanguage
+                            ? {
+                                value: formState.nativeLanguage,
+                                label: resolveLanguageLabel(formState.nativeLanguage),
+                              }
+                            : null
                         }
-                      >
-                        <option value="">Select language</option>
-                        {languageOptions.map((opt) => (
-                          <option key={opt.code} value={opt.code}>
-                            {opt.label}
-                          </option>
-                        ))}
-                      </select>
+                        options={languageOptions}
+                        onChange={(selected: any) => {
+                          const opt = Array.isArray(selected)
+                            ? selected[0]
+                            : selected;
+                          handleChange('nativeLanguage', opt?.value || '');
+                        }}
+                        t={t}
+                      />
                     ) : (
-                      <span className={styles.value}>
-                        {speaksLabel ? resolveLanguageLabel(speaksLabel) : '—'}
-                      </span>
+                      <>
+                        <span className={styles.label}>Speaks:</span>
+                        <span className={styles.value}>
+                          {speaksLabel ? resolveLanguageLabel(speaksLabel) : '—'}
+                        </span>
+                      </>
                     )}
                   </div>
 
                   <div className={styles.inlineField}>
-                    <span className={styles.label}>Teaches:</span>
                     {isEditing ? (
-                      <select
-                        className={styles.select}
-                        value={formState.teachLanguage}
-                        onChange={(e) =>
-                          handleChange('teachLanguage', e.target.value)
+                      <LanguageSelector
+                        label="Teaches"
+                        isMulti={false}
+                        value={
+                          formState.teachLanguage
+                            ? {
+                                value: formState.teachLanguage,
+                                label: resolveLanguageLabel(formState.teachLanguage),
+                              }
+                            : null
                         }
-                      >
-                        <option value="">Select language</option>
-                        {languageOptions.map((opt) => (
-                          <option key={opt.code} value={opt.code}>
-                            {opt.label}
-                          </option>
-                        ))}
-                      </select>
+                        options={languageOptions}
+                        onChange={(selected: any) => {
+                          const opt = Array.isArray(selected)
+                            ? selected[0]
+                            : selected;
+                          handleChange('teachLanguage', opt?.value || '');
+                        }}
+                        t={t}
+                      />
                     ) : (
-                      <span className={styles.value}>
-                        {teachesLabel
-                          ? resolveLanguageLabel(teachesLabel)
-                          : '—'}
-                      </span>
+                      <>
+                        <span className={styles.label}>Teaches:</span>
+                        <span className={styles.value}>
+                          {teachesLabel ? resolveLanguageLabel(teachesLabel) : '—'}
+                        </span>
+                      </>
                     )}
                   </div>
                 </div>
@@ -449,36 +607,19 @@ const UserInfo = ({ specialistData, t, isPublic, currentLocale }) => {
             )}
             </div>
           </div>
-          {isTeacher && (
-            <div className={styles.statsCard}>
-              <div className={styles.statItem}>
-                <svg
-                  className={styles.starIcon}
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M18.4687 22.4997C18.3109 22.5004 18.1568 22.4511 18.0286 22.3591L12 17.9885L5.97139 22.3591C5.84259 22.4525 5.68742 22.5026 5.52832 22.502C5.36921 22.5014 5.21441 22.4502 5.08629 22.3559C4.95818 22.2615 4.86339 22.1289 4.81563 21.9771C4.76787 21.8254 4.76961 21.6623 4.82061 21.5116L7.17186 14.5474L1.07811 10.3685C0.946113 10.2781 0.846491 10.1478 0.793797 9.99675C0.741103 9.84568 0.7381 9.68172 0.785225 9.52883C0.83235 9.37593 0.927135 9.24211 1.05573 9.14692C1.18432 9.05173 1.33999 9.00016 1.49998 8.99974H9.0178L11.2865 2.01771C11.3354 1.86697 11.4308 1.73558 11.559 1.6424C11.6871 1.54922 11.8415 1.49902 12 1.49902C12.1584 1.49902 12.3128 1.54922 12.441 1.6424C12.5692 1.73558 12.6645 1.86697 12.7134 2.01771L14.9822 9.00208H22.5C22.6602 9.002 22.8162 9.05322 22.9452 9.14823C23.0741 9.24323 23.1693 9.37704 23.2167 9.53005C23.2642 9.68307 23.2613 9.84724 23.2087 9.99854C23.1561 10.1498 23.0564 10.2803 22.9242 10.3708L16.8281 14.5474L19.178 21.5097C19.216 21.6225 19.2267 21.7426 19.2092 21.8603C19.1917 21.978 19.1464 22.0898 19.0771 22.1865C19.0078 22.2832 18.9165 22.3621 18.8107 22.4165C18.7049 22.471 18.5877 22.4995 18.4687 22.4997Z"
-                    fill="#FFC245"
-                  />
-                </svg>
-                <p className={styles.statValue}>5.0</p>
-              </div>
-              <p className={styles.statValue}>1 000 lessons</p>
-              <p className={styles.statValue}>200 students</p>
-            </div>
-          )}
 
+          <ColoredInfoBlock isEditing={isEditing}/>
 
           <section className={styles.section}>
             <h3 className={styles.sectionTitle}>About</h3>
             {isEditing ? (
-              <textarea
-                className={styles.textarea}
-                value={formState.about}
-                onChange={(e) => handleChange('about', e.target.value)}
-                rows={6}
+              <AboutTextarea
+                aboutText={{ [currentLocale]: formState.about }}
+                selectedLanguages={[currentLocale]}
+                activeLang={currentLocale}
+                setActiveLang={() => undefined}
+                onChange={(_, text) => handleChange('about', text)}
+                t={t}
               />
             ) : specialistData.infoAbout ? (
               <div className={styles.sectionText}>
@@ -494,33 +635,85 @@ const UserInfo = ({ specialistData, t, isPublic, currentLocale }) => {
             )}
           </section>
 
+          {isTeacher && (
+            <section className={styles.section}>
+              <h3 className={styles.sectionTitle}>Services</h3>
+              {isEditing ? (
+                <ServicesEditor
+                  services={formState.services}
+                  servicesOptions={[]}
+                  onServiceChange={handleServiceChange}
+                  onAddService={handleAddService}
+                  onDeleteService={handleDeleteService}
+                  t={t}
+                  priceErrors={priceErrors}
+                  selectedLanguages={[currentLocale]}
+                  activeLang={activeLang}
+                  setActiveLang={setActiveLang}
+                />
+              ) : Array.isArray(specialistData.services) &&
+                specialistData.services.length > 0 ? (
+                <div className={styles.sectionText}>
+                  {specialistData.services.map((service: any, idx: number) => {
+                    const title = getLocalizedContent(service.title || {}, currentLocale);
+
+                    const description = getLocalizedContent(
+                      service.description || {},
+                      currentLocale,
+                    );
+
+                    const price =
+                      typeof service.price === 'number'
+                        ? service.price / 100
+                        : Number(service.price);
+
+                    return (
+                      <div key={`${idx}-${String(title)}`}>
+                        <strong>{typeof title === 'string' ? title : '—'}</strong>
+
+                        {Number.isFinite(price) && price ? (
+                          <span>{` — $${price}`}</span>
+                        ) : null}
+
+                        <div
+                          dangerouslySetInnerHTML={{
+                            __html: typeof description === 'string' ? description : '',
+                          }}
+                        />
+                      </div>
+                    );
+                  })}
+
+                </div>
+              ) : (
+                <p className={styles.sectionText}>No services added yet.</p>
+              )}
+            </section>
+          )}
+
           <div className={styles.topicsAndTimezone}>
             <section className={styles.section}>
               <h3 className={styles.sectionTitle}>Interesting topics</h3>
               {isEditing ? (
-                <div className={styles.topicsEditor}>
-                  <div className={styles.topicsContainer}>
-                    {formState.topics.map((topic) => (
-                      <button
-                        type="button"
-                        key={topic}
-                        className={styles.topicChip}
-                        onClick={() => handleRemoveTopic(topic)}
-                      >
-                        {topic}
-                        <span className={styles.topicRemove}>×</span>
-                      </button>
-                    ))}
-                  </div>
-                  <input
-                    type="text"
-                    className={styles.textInput}
-                    placeholder="Type topic and press Enter"
-                    value={formState.topicsInput}
-                    onChange={(e) => handleChange('topicsInput', e.target.value)}
-                    onKeyDown={handleTopicsKeyDown}
-                  />
-                </div>
+                <MethodSelector
+                  label="Interesting topics"
+                  translationKey="topics"
+                  name="topics"
+                  isCreatable
+                  value={formState.topics.map((topic) => ({ value: topic, label: topic }))}
+                  options={Array.from(new Set(formState.topics)).map((topic) => ({
+                    value: topic,
+                    label: topic,
+                  }))}
+                  onChange={(selected: any) => {
+                    const list = Array.isArray(selected) ? selected : [];
+                    handleChange(
+                      'topics',
+                      list.map((opt) => opt.value),
+                    );
+                  }}
+                  t={t}
+                />
               ) : formState.topics.length > 0 ? (
                 <div className={styles.topicsContainer}>
                   {formState.topics.map((topic) => (
@@ -534,7 +727,7 @@ const UserInfo = ({ specialistData, t, isPublic, currentLocale }) => {
               )}
             </section>
 
-            {isTeacher && (
+            {/* {isTeacher && (
               <section className={styles.priceSection}>
                 <h3 className={styles.sectionTitle}>Price (per lesson)</h3>
                 {isEditing ? (
@@ -554,7 +747,7 @@ const UserInfo = ({ specialistData, t, isPublic, currentLocale }) => {
                   </p>
                 )}
               </section>
-            )}
+            )} */}
 
             {specialistData.timeZone && (
               <section className={styles.section}>

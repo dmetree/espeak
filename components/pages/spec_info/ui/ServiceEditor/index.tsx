@@ -66,7 +66,7 @@ const ServicesEditor: React.FC<Props> = ({
         </div>
       )}
 
-      <span className={`${s.formLabelTitle} ${s.labelWithTooltip}`}>{t.specialist_services}</span>
+      {/* <span className={`${s.formLabelTitle} ${s.labelWithTooltip}`}>{t.specialist_services}</span> */}
       {services.length === 0 ? (
         <span>{t.no_services_added || 'No services added.'}</span>
       ) : (

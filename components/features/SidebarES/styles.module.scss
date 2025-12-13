@@ -1,19 +1,53 @@
 .sidebar {
-  width: 100%;
-  // height: 100vh;
-  background: white;
+  background: var(--bgColor);
   display: block;
-  overflow-y: auto;
+
+  /* stay between sticky header and footer */
+  position: fixed;
+  left: 0;
+  top: 64px; /* Header height */
+  bottom: 72px; /* Footer height (keeps sidebar above footer) */
+
+  /* allow the outside toggle button to be visible */
+  overflow: visible;
+
+  border-right: 1px solid rgba(0, 0, 0, 0.08);
+  z-index: 40; /* below Header (z-index: 50) */
+
+  transition: width 0.25s ease;
+}
+
+.sidebarOpen {
   width: 300px;
-  overflow-y: hidden;
+}
+
+.sidebarCollapsed {
+  width: 100px;
+}
+
+/* Spacer used to push page content so it doesn't sit under the fixed sidebar */
+.sidebarSpacer {
+  flex: 0 0 auto;
+}
+
+.sidebarSpacerOpen {
+  width: 300px;
+}
+
+.sidebarSpacerCollapsed {
+  width: 100px;
 }
 
 .sidebarInner {
   display: flex;
   flex-direction: column;
   height: 100%;
-  padding: 1.5rem 1.5rem; // py-6 px-6
-  gap: 2rem;
+  padding: 1.5rem 1.5rem;
+  gap: 1.25rem;
+  position: relative;
+
+  /* allow the toggle button to sit outside sidebar width */
+  overflow: visible;
 }
 
 .logoContainer {
@@ -45,50 +79,131 @@
 .nav {
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: 10px;
+
+  /* menu scrolls (if needed), sidebar itself stays fixed */
+  flex: 1 1 auto;
+  overflow-y: auto;
+  padding-right: 6px;
+}
+
+.nav::-webkit-scrollbar {
+  width: 6px;
+}
+
+.nav::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.12);
+  border-radius: 9999px;
 }
 
 .navItem {
   display: flex;
   align-items: center;
-
-  gap: 0.5rem;
+  gap: 12px;
   text-decoration: none;
-  transition: opacity 0.2s ease;
+  padding: 10px 0px;
+  border-radius: 12px;
+  transition: background-color 0.2s ease, transform 0.12s ease;
+  color: var(--text-color);
 
   &:hover {
-    opacity: 0.8;
+    background-color: rgba(59, 130, 246, 0.08);
   }
 
-  svg {
-    flex-shrink: 0;
+  &:active {
+    transform: translateY(1px);
   }
 }
 
+.navIcon {
+  color: #3b82f6;
+  flex-shrink: 0;
+}
+
 .navText {
-  color: #161616;
-  font-size: 21px;
+  color: var(--text-color);
+  font-size: 18px;
   font-weight: 400;
   line-height: 150%;
+  white-space: nowrap;
 }
 
 .socials {
   display: flex;
-  align-items: flex-start;
-  gap: 1.5rem;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
   margin-top: auto;
+  margin-bottom: 64px; /* keep clear space for the toggle button */
+  color: #3b82f6; /* match nav icons */
 
   a {
-    transition: opacity 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    color: inherit;
+    transition: background-color 0.2s ease, transform 0.12s ease;
 
     &:hover {
-      opacity: 0.7;
+      background-color: rgba(0, 0, 0, 0.06);
+    }
+
+    &:active {
+      transform: translateY(1px);
     }
   }
 }
 
+.socialsCollapsed {
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.toggle {
+  width: 44px;
+  height: 44px;
+  border-radius: 9999px;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  background: #ffffff;
+  position: absolute;
+  right: -22px;
+  bottom: 30px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.12s ease;
+}
+
+.toggle:hover {
+  background: rgba(59, 130, 246, 0.08);
+}
+
+.toggle:active {
+  transform: translateY(1px);
+}
+
+.arrowOpen {
+  transform: rotate(0deg);
+  fill: #3b82f6;
+}
+
+.arrowCollapsed {
+  transform: rotate(180deg);
+  fill: #3b82f6;
+}
+
 @media (max-width: 1024px) {
   .sidebar {
+    display: none;
+  }
+
+  .sidebarSpacer {
     display: none;
   }
 }

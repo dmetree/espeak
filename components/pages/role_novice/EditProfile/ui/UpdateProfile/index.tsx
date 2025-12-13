@@ -32,13 +32,13 @@ import {
   getOptionsFromServices
 } from '@/components/shared/i18n/translationLoader';
 import Loading from '@/components/shared/ui/Loader';
-import ServicesEditor from '@/components/pages/role_novice/EditProfile/ui/UpdateProfile/ui/ServiceEditor';
-import AvatarUploader from '@/components/pages/role_novice/EditProfile/ui/UpdateProfile/ui/AvatarUploader';
-import NicknameInput from '@/components/pages/role_novice/EditProfile/ui/UpdateProfile/ui/NicknameInput';
+import ServicesEditor from '@/components/pages/spec_info/ui/ServiceEditor';
+import AvatarUploader from '@/components/pages/spec_info/ui/AvatarUploader';
+import NicknameInput from '@/components/pages/spec_info/ui/NicknameInput';
 import GenderSelectorBlock from '@/components/pages/role_novice/EditProfile/ui/UpdateProfile/ui/GenderSelectorBlock';
-import MethodSelector from '@/components/pages/role_novice/EditProfile/ui/UpdateProfile/ui/MethodSelector';
+import MethodSelector from '@/components/pages/spec_info/ui/MethodSelector';
 import SpecialitySelector from '@/components/pages/role_novice/EditProfile/ui/UpdateProfile/ui/SpecialitySelector';
-import AboutTextarea from '@/components/pages/role_novice/EditProfile/ui/UpdateProfile/ui/AboutTextarea';
+import AboutTextarea from '@/components/pages/spec_info/ui/AboutTextarea';
 import SubmitButtons from '@/components/pages/role_novice/EditProfile/ui/UpdateProfile/ui/SubmitButtons';
 import PriceInput from '@/components/pages/role_novice/EditProfile/ui/UpdateProfile/ui/PriceInput';
 import PsyRankSection from '@/components/pages/role_novice/EditProfile/ui/UpdateProfile/ui/PsyRankSection';
