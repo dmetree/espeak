@@ -303,98 +303,173 @@ const UserInfo = ({ specialistData, t, isPublic, currentLocale }) => {
         )}
 
         <div className={styles.content}>
-          <div className={styles.profileSection}>
-            <button
-              type="button"
-              className={styles.avatarButton}
-              onClick={handleAvatarClick}
-              disabled={!isEditing}
-            >
-              <img
-                src={avatarSrc}
-                alt="Profile"
-                className={styles.profileImage}
+          <div className={styles.contentGeneral}>
+            <div className={styles.profileSection}>
+              <button
+                type="button"
+                className={styles.avatarButton}
+                onClick={handleAvatarClick}
+                disabled={!isEditing}
+              >
+                <img
+                  src={avatarSrc}
+                  alt="Profile"
+                  className={styles.profileImage}
+                />
+              </button>
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept="image/*"
+                onChange={handleAvatarChange}
+                style={{ display: 'none' }}
               />
-            </button>
-            <input
-              ref={fileInputRef}
-              type="file"
-              accept="image/*"
-              onChange={handleAvatarChange}
-              style={{ display: 'none' }}
-            />
 
-            <div className={styles.profileInfo}>
-              <div className={styles.profileHeader}>
-                {isEditing ? (
-                  <input
-                    type="text"
-                    className={styles.textInput}
-                    value={formState.nickname}
-                    onChange={(e) => handleChange('nickname', e.target.value)}
-                    placeholder="Name / Nickname"
-                  />
-                ) : (
-                  <h2 className={styles.profileName}>{displayName}</h2>
-                )}
-                {isTeacher && (
-                  <p className={styles.profileRole}>Teacher</p>
-                )}
-              </div>
-
-              <div className={styles.inlineFields}>
-                <div className={styles.inlineField}>
-                  <span className={styles.label}>Speaks:</span>
+              <div className={styles.profileInfo}>
+                <div className={styles.profileHeader}>
                   {isEditing ? (
-                    <select
-                      className={styles.select}
-                      value={formState.nativeLanguage}
-                      onChange={(e) =>
-                        handleChange('nativeLanguage', e.target.value)
-                      }
-                    >
-                      <option value="">Select language</option>
-                      {languageOptions.map((opt) => (
-                        <option key={opt.code} value={opt.code}>
-                          {opt.label}
-                        </option>
-                      ))}
-                    </select>
+                    <input
+                      type="text"
+                      className={styles.textInput}
+                      value={formState.nickname}
+                      onChange={(e) => handleChange('nickname', e.target.value)}
+                      placeholder="Name / Nickname"
+                    />
                   ) : (
-                    <span className={styles.value}>
-                      {speaksLabel ? resolveLanguageLabel(speaksLabel) : '—'}
-                    </span>
+                    <h2 className={styles.profileName}>{displayName}</h2>
+                  )}
+                  {isTeacher && (
+                    <p className={styles.profileRole}>Teacher</p>
                   )}
                 </div>
 
-                <div className={styles.inlineField}>
-                  <span className={styles.label}>Teaches:</span>
-                  {isEditing ? (
-                    <select
-                      className={styles.select}
-                      value={formState.teachLanguage}
-                      onChange={(e) =>
-                        handleChange('teachLanguage', e.target.value)
-                      }
-                    >
-                      <option value="">Select language</option>
-                      {languageOptions.map((opt) => (
-                        <option key={opt.code} value={opt.code}>
-                          {opt.label}
-                        </option>
-                      ))}
-                    </select>
-                  ) : (
-                    <span className={styles.value}>
-                      {teachesLabel
-                        ? resolveLanguageLabel(teachesLabel)
-                        : '—'}
-                    </span>
-                  )}
+                <div className={styles.inlineFields}>
+                  <div className={styles.inlineField}>
+                    <span className={styles.label}>Speaks:</span>
+                    {isEditing ? (
+                      <select
+                        className={styles.select}
+                        value={formState.nativeLanguage}
+                        onChange={(e) =>
+                          handleChange('nativeLanguage', e.target.value)
+                        }
+                      >
+                        <option value="">Select language</option>
+                        {languageOptions.map((opt) => (
+                          <option key={opt.code} value={opt.code}>
+                            {opt.label}
+                          </option>
+                        ))}
+                      </select>
+                    ) : (
+                      <span className={styles.value}>
+                        {speaksLabel ? resolveLanguageLabel(speaksLabel) : '—'}
+                      </span>
+                    )}
+                  </div>
+
+                  <div className={styles.inlineField}>
+                    <span className={styles.label}>Teaches:</span>
+                    {isEditing ? (
+                      <select
+                        className={styles.select}
+                        value={formState.teachLanguage}
+                        onChange={(e) =>
+                          handleChange('teachLanguage', e.target.value)
+                        }
+                      >
+                        <option value="">Select language</option>
+                        {languageOptions.map((opt) => (
+                          <option key={opt.code} value={opt.code}>
+                            {opt.label}
+                          </option>
+                        ))}
+                      </select>
+                    ) : (
+                      <span className={styles.value}>
+                        {teachesLabel
+                          ? resolveLanguageLabel(teachesLabel)
+                          : '—'}
+                      </span>
+                    )}
+                  </div>
                 </div>
               </div>
             </div>
+            <div>
+            {hasWallet ? (
+              <div className={styles.walletBox}>
+                <div className="">
+                  <h3>Your Cardano wallet:</h3>
+                  <p className={styles.priceValue}>{minifyAddress(specialistData.walletAddress, 5)}</p>
+                </div>
+
+                <button
+                  type="button"
+                  className={styles.saveWalletButton}
+                  onClick={() => {
+                    if (!specialistData.walletAddress) return;
+                    copyTextToClipboard(specialistData.walletAddress);
+                    toast.success('Wallet address copied');
+                  }}
+                >
+                  Copy address
+                </button>
+              </div>
+            ) : (
+              <div>
+                <p>Connect wallet and save it to your profile.</p>
+                <button
+                  type="button"
+                  className={styles.saveWalletButton}
+                  onClick={async () => {
+                    if (!userUid) {
+                      toast.error('You must be logged in to save a wallet.');
+                      return;
+                    }
+                    if (!cardanoAddress) {
+                      toast.error('Connect a Cardano wallet first.');
+                      return;
+                    }
+
+                    try {
+                      await dispatch(
+                        actionUpdateProfile({ walletAddress: cardanoAddress }, userUid),
+                      );
+                      toast.success('Wallet saved to your profile.');
+                    } catch (e) {
+                      console.error(e);
+                      toast.error('Failed to save wallet. Please try again.');
+                    }
+                  }}
+                >
+                  Save Wallet
+                </button>
+              </div>
+            )}
+            </div>
           </div>
+          {isTeacher && (
+            <div className={styles.statsCard}>
+              <div className={styles.statItem}>
+                <svg
+                  className={styles.starIcon}
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M18.4687 22.4997C18.3109 22.5004 18.1568 22.4511 18.0286 22.3591L12 17.9885L5.97139 22.3591C5.84259 22.4525 5.68742 22.5026 5.52832 22.502C5.36921 22.5014 5.21441 22.4502 5.08629 22.3559C4.95818 22.2615 4.86339 22.1289 4.81563 21.9771C4.76787 21.8254 4.76961 21.6623 4.82061 21.5116L7.17186 14.5474L1.07811 10.3685C0.946113 10.2781 0.846491 10.1478 0.793797 9.99675C0.741103 9.84568 0.7381 9.68172 0.785225 9.52883C0.83235 9.37593 0.927135 9.24211 1.05573 9.14692C1.18432 9.05173 1.33999 9.00016 1.49998 8.99974H9.0178L11.2865 2.01771C11.3354 1.86697 11.4308 1.73558 11.559 1.6424C11.6871 1.54922 11.8415 1.49902 12 1.49902C12.1584 1.49902 12.3128 1.54922 12.441 1.6424C12.5692 1.73558 12.6645 1.86697 12.7134 2.01771L14.9822 9.00208H22.5C22.6602 9.002 22.8162 9.05322 22.9452 9.14823C23.0741 9.24323 23.1693 9.37704 23.2167 9.53005C23.2642 9.68307 23.2613 9.84724 23.2087 9.99854C23.1561 10.1498 23.0564 10.2803 22.9242 10.3708L16.8281 14.5474L19.178 21.5097C19.216 21.6225 19.2267 21.7426 19.2092 21.8603C19.1917 21.978 19.1464 22.0898 19.0771 22.1865C19.0078 22.2832 18.9165 22.3621 18.8107 22.4165C18.7049 22.471 18.5877 22.4995 18.4687 22.4997Z"
+                    fill="#FFC245"
+                  />
+                </svg>
+                <p className={styles.statValue}>5.0</p>
+              </div>
+              <p className={styles.statValue}>1 000 lessons</p>
+              <p className={styles.statValue}>200 students</p>
+            </div>
+          )}
+
 
           <section className={styles.section}>
             <h3 className={styles.sectionTitle}>About</h3>
@@ -419,51 +494,76 @@ const UserInfo = ({ specialistData, t, isPublic, currentLocale }) => {
             )}
           </section>
 
-          <section className={styles.section}>
-            <h3 className={styles.sectionTitle}>Interesting topics</h3>
-            {isEditing ? (
-              <div className={styles.topicsEditor}>
+          <div className={styles.topicsAndTimezone}>
+            <section className={styles.section}>
+              <h3 className={styles.sectionTitle}>Interesting topics</h3>
+              {isEditing ? (
+                <div className={styles.topicsEditor}>
+                  <div className={styles.topicsContainer}>
+                    {formState.topics.map((topic) => (
+                      <button
+                        type="button"
+                        key={topic}
+                        className={styles.topicChip}
+                        onClick={() => handleRemoveTopic(topic)}
+                      >
+                        {topic}
+                        <span className={styles.topicRemove}>×</span>
+                      </button>
+                    ))}
+                  </div>
+                  <input
+                    type="text"
+                    className={styles.textInput}
+                    placeholder="Type topic and press Enter"
+                    value={formState.topicsInput}
+                    onChange={(e) => handleChange('topicsInput', e.target.value)}
+                    onKeyDown={handleTopicsKeyDown}
+                  />
+                </div>
+              ) : formState.topics.length > 0 ? (
                 <div className={styles.topicsContainer}>
                   {formState.topics.map((topic) => (
-                    <button
-                      type="button"
-                      key={topic}
-                      className={styles.topicChip}
-                      onClick={() => handleRemoveTopic(topic)}
-                    >
+                    <span key={topic} className={styles.topic}>
                       {topic}
-                      <span className={styles.topicRemove}>×</span>
-                    </button>
+                    </span>
                   ))}
                 </div>
-                <input
-                  type="text"
-                  className={styles.textInput}
-                  placeholder="Type topic and press Enter"
-                  value={formState.topicsInput}
-                  onChange={(e) => handleChange('topicsInput', e.target.value)}
-                  onKeyDown={handleTopicsKeyDown}
-                />
-              </div>
-            ) : formState.topics.length > 0 ? (
-              <div className={styles.topicsContainer}>
-                {formState.topics.map((topic) => (
-                  <span key={topic} className={styles.topic}>
-                    {topic}
-                  </span>
-                ))}
-              </div>
-            ) : (
-              <p className={styles.sectionText}>No topics added yet.</p>
-            )}
-          </section>
-
-          {specialistData.timeZone && (
-            <section className={styles.section}>
-              <h3 className={styles.sectionTitle}>Timezone</h3>
-              <p className={styles.sectionText}>{specialistData.timeZone}</p>
+              ) : (
+                <p className={styles.sectionText}>No topics added yet.</p>
+              )}
             </section>
-          )}
+
+            {isTeacher && (
+              <section className={styles.priceSection}>
+                <h3 className={styles.sectionTitle}>Price (per lesson)</h3>
+                {isEditing ? (
+                  <div className={styles.priceInputWrapper}>
+                    <input
+                      type="number"
+                      min={0}
+                      className={styles.priceInput}
+                      value={formState.price}
+                      onChange={(e) => handleChange('price', e.target.value)}
+                    />
+                    <span className={styles.priceSuffix}>$</span>
+                  </div>
+                ) : (
+                  <p className={styles.priceValue}>
+                    {specialistData.price ? specialistData.price / 100 : '—'} $
+                  </p>
+                )}
+              </section>
+            )}
+
+            {specialistData.timeZone && (
+              <section className={styles.section}>
+                <h3 className={styles.sectionTitle}>Timezone</h3>
+                <p className={styles.sectionText}>{specialistData.timeZone}</p>
+              </section>
+            )}
+          </div>
+
 
           {isTeacher && (
             <section className={styles.videoSection}>
@@ -495,101 +595,6 @@ const UserInfo = ({ specialistData, t, isPublic, currentLocale }) => {
                 />
               )}
             </section>
-          )}
-
-          {isTeacher && (
-            <section className={styles.priceSection}>
-              <h3 className={styles.sectionTitle}>Price (per lesson)</h3>
-              {isEditing ? (
-                <div className={styles.priceInputWrapper}>
-                  <input
-                    type="number"
-                    min={0}
-                    className={styles.priceInput}
-                    value={formState.price}
-                    onChange={(e) => handleChange('price', e.target.value)}
-                  />
-                  <span className={styles.priceSuffix}>$</span>
-                </div>
-              ) : (
-                <p className={styles.priceValue}>
-                  {specialistData.price ? specialistData.price / 100 : '—'} $
-                </p>
-              )}
-            </section>
-          )}
-
-          {hasWallet ? (
-            <div className={styles.walletBox}>
-              <div className="">
-                <h3>Your Cardano wallet:</h3>
-                <p className={styles.priceValue}>{minifyAddress(specialistData.walletAddress, 5)}</p>
-              </div>
-
-              <button
-                type="button"
-                className={styles.saveWalletButton}
-                onClick={() => {
-                  if (!specialistData.walletAddress) return;
-                  copyTextToClipboard(specialistData.walletAddress);
-                  toast.success('Wallet address copied');
-                }}
-              >
-                Copy address
-              </button>
-            </div>
-          ) : (
-            <div>
-              <p>Connect wallet and save it to your profile.</p>
-              <button
-                type="button"
-                className={styles.saveWalletButton}
-                onClick={async () => {
-                  if (!userUid) {
-                    toast.error('You must be logged in to save a wallet.');
-                    return;
-                  }
-                  if (!cardanoAddress) {
-                    toast.error('Connect a Cardano wallet first.');
-                    return;
-                  }
-
-                  try {
-                    await dispatch(
-                      actionUpdateProfile({ walletAddress: cardanoAddress }, userUid),
-                    );
-                    toast.success('Wallet saved to your profile.');
-                  } catch (e) {
-                    console.error(e);
-                    toast.error('Failed to save wallet. Please try again.');
-                  }
-                }}
-              >
-                Save Wallet
-              </button>
-            </div>
-          )}
-
-
-          {isTeacher && (
-            <div className={styles.statsCard}>
-              <div className={styles.statItem}>
-                <svg
-                  className={styles.starIcon}
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M18.4687 22.4997C18.3109 22.5004 18.1568 22.4511 18.0286 22.3591L12 17.9885L5.97139 22.3591C5.84259 22.4525 5.68742 22.5026 5.52832 22.502C5.36921 22.5014 5.21441 22.4502 5.08629 22.3559C4.95818 22.2615 4.86339 22.1289 4.81563 21.9771C4.76787 21.8254 4.76961 21.6623 4.82061 21.5116L7.17186 14.5474L1.07811 10.3685C0.946113 10.2781 0.846491 10.1478 0.793797 9.99675C0.741103 9.84568 0.7381 9.68172 0.785225 9.52883C0.83235 9.37593 0.927135 9.24211 1.05573 9.14692C1.18432 9.05173 1.33999 9.00016 1.49998 8.99974H9.0178L11.2865 2.01771C11.3354 1.86697 11.4308 1.73558 11.559 1.6424C11.6871 1.54922 11.8415 1.49902 12 1.49902C12.1584 1.49902 12.3128 1.54922 12.441 1.6424C12.5692 1.73558 12.6645 1.86697 12.7134 2.01771L14.9822 9.00208H22.5C22.6602 9.002 22.8162 9.05322 22.9452 9.14823C23.0741 9.24323 23.1693 9.37704 23.2167 9.53005C23.2642 9.68307 23.2613 9.84724 23.2087 9.99854C23.1561 10.1498 23.0564 10.2803 22.9242 10.3708L16.8281 14.5474L19.178 21.5097C19.216 21.6225 19.2267 21.7426 19.2092 21.8603C19.1917 21.978 19.1464 22.0898 19.0771 22.1865C19.0078 22.2832 18.9165 22.3621 18.8107 22.4165C18.7049 22.471 18.5877 22.4995 18.4687 22.4997Z"
-                    fill="#FFC245"
-                  />
-                </svg>
-                <p className={styles.statValue}>5.0</p>
-              </div>
-              <p className={styles.statValue}>1 000 lessons</p>
-              <p className={styles.statValue}>200 students</p>
-            </div>
           )}
         </div>
       </div>
