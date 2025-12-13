@@ -52,6 +52,7 @@ const BookSession = () => {
 
   const user = useSelector(({ networkCardano }) => networkCardano.user);
   const wallet = useSelector(({ networkCardano }) => networkCardano.wallet);
+  const selectedSpecialist = useSelector(({ specialists }) => specialists.selectedSpecialist);
 
   const userUid = useSelector(({ user }) => user.uid);
   const userData = useSelector(({ user }) => user?.userData);
@@ -95,7 +96,7 @@ const BookSession = () => {
 
   const { step, isFirstStep, isLastStep, back, next } = useMultistepForm(getSteps());
 
-  const buildTxToBackend = async (address, appointment) => {
+  const buildTxToBackend = async (address, appointment, specialist) => {
     const response = await fetch('/api/lessons/request/', {
       method: 'POST',
       headers: {
@@ -104,6 +105,7 @@ const BookSession = () => {
       body: JSON.stringify({
         userAddress: address,
         lessonData: appointment,
+        specialistData: specialist,
       }),
     });
 
@@ -152,7 +154,7 @@ const BookSession = () => {
       clientAvatar: userData?.avatar,
       specUid: draftAppointment.specUid ? draftAppointment.specUid : null,
       type: draftAppointment.specUid ? 'direct' : 'general',
-      lang: userData?.languages,
+      lang: userData?.languages
     };
 
     // Remove any undefined fields to satisfy Firestore (e.g. psyRank can be undefined)
@@ -169,7 +171,10 @@ const BookSession = () => {
       );
 
       // Cardano transaction
-      const txCbor = await buildTxToBackend(user.address, appointment);
+      if (user?.address == null || appointment == null || selectedSpecialist == null)
+        throw new NoAuthError('User not authenticated or missing appointment/specialist data');
+      
+      const txCbor = await buildTxToBackend(user.address, appointment, selectedSpecialist);
       const witnesses = await actions.signTx(wallet, txCbor);
       const txHash = await submitTxToBackend(user.address, txCbor, witnesses);
 
