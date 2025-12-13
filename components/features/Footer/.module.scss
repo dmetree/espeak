@@ -1,7 +1,7 @@
 .footer {
   width: 100%;
   background: var(--bgColor);
-  color: var(--textColor);
+  color: var(--text-color);
 }
 
 .separator {
@@ -37,15 +37,20 @@
 .link {
   background: none;
   border: none;
-  color: #111;
+  color: var(--text-color);
   opacity: 0.85;
   font-size: 14px;
   cursor: pointer;
   text-decoration: none;
 }
-.link:hover { opacity: 1; }
+.link:hover {
+  opacity: 1;
+}
 
-.external::after { content: " \2197"; color: #5468ff; }
+.external::after {
+  content: " \2197";
+  color: #5468ff;
+}
 
 /* Mobile layout */
 @media (max-width: 720px) {
@@ -55,7 +60,16 @@
     text-align: center;
     gap: 18px;
   }
-  .right { order: 1; }
-  .center { order: 2; flex-wrap: wrap; justify-content: center; gap: 16px; }
-  .left { order: 3; }
+  .right {
+    order: 1;
+  }
+  .center {
+    order: 2;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 16px;
+  }
+  .left {
+    order: 3;
+  }
 }

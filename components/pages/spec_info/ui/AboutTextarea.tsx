@@ -19,7 +19,6 @@ const AboutTextarea: React.FC<Props> = ({ aboutText, selectedLanguages, activeLa
 
   return (
     <div className={s.aboutWrapper}>
-      <label className={s.label}>{t.about}</label>
 
       {selectedLanguages.length > 1 && (
         <div className={s.langTabs}>

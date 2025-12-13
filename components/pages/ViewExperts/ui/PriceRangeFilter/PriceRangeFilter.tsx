@@ -17,6 +17,12 @@ export function PriceRangeFilter({
   const [max, setMax] = useState(maxPrice);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
+  // keep internal slider state in sync with external props (needed for "Clear filters")
+  useEffect(() => {
+    setMin(minPrice);
+    setMax(maxPrice);
+  }, [minPrice, maxPrice]);
+
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (

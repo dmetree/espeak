@@ -1,9 +1,11 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 
 import { FilterDropdown } from '@/components/pages/ViewExperts/ui/FilterDropdown/FilterDropdown';
 import { PriceRangeFilter } from '@/components/pages/ViewExperts/ui/PriceRangeFilter/PriceRangeFilter';
 
 import styles from './styles.module.scss';
+import { useSelector } from 'react-redux';
+import { loadMessages } from '@/components/shared/i18n/translationLoader';
 
 export type FiltersState = {
   learnLanguage: string | null;
@@ -18,20 +20,30 @@ interface FiltersBarProps {
 }
 
 export function FiltersBar({ onFiltersChange }: FiltersBarProps) {
-  // use language *codes* as values (e.g. 'en')
-  const [learnLanguage, setLearnLanguage] = useState<string | null>(null);
-  const [teacherType, setTeacherType] = useState<'Both' | 'Teacher' | 'Tutor'>('Both');
-  const [speaksLanguage, setSpeaksLanguage] = useState<string | null>(null);
-  const [minPrice, setMinPrice] = useState<number>(4);
-  const [maxPrice, setMaxPrice] = useState<number>(80);
+  const currentLocale = useSelector(({ locale }) => locale.currentLocale);
+  const t = loadMessages(currentLocale);
 
-  const languageOptions = [
-    { value: 'en', label: 'English' },
-    { value: 'fr', label: 'French' },
-    { value: 'de', label: 'German' },
-    { value: 'it', label: 'Italian' },
-    { value: 'pl', label: 'Polish' },
-  ];
+  const DEFAULTS: FiltersState = {
+    learnLanguage: null,
+    teacherType: 'Both',
+    speaksLanguage: null,
+    minPrice: 4,
+    maxPrice: 80,
+  };
+
+  // use language *codes* as values (e.g. 'en')
+  const [learnLanguage, setLearnLanguage] = useState<string | null>(DEFAULTS.learnLanguage);
+  const [teacherType, setTeacherType] = useState<'Both' | 'Teacher' | 'Tutor'>(DEFAULTS.teacherType);
+  const [speaksLanguage, setSpeaksLanguage] = useState<string | null>(DEFAULTS.speaksLanguage);
+  const [minPrice, setMinPrice] = useState<number>(DEFAULTS.minPrice);
+  const [maxPrice, setMaxPrice] = useState<number>(DEFAULTS.maxPrice);
+
+  const languageOptions = useMemo(() => {
+    const dict = t?.['user-languages'] || {};
+    return Object.entries(dict)
+      .map(([value, label]) => ({ value: String(value), label: String(label) }))
+      .sort((a, b) => a.label.localeCompare(b.label));
+  }, [t]);
 
   const teacherTypeOptions = [
     { value: 'Both', label: 'Both' },
@@ -76,6 +88,22 @@ export function FiltersBar({ onFiltersChange }: FiltersBarProps) {
     emitFilters({ minPrice: min, maxPrice: max });
   };
 
+  const handleClearFilters = () => {
+    setLearnLanguage(DEFAULTS.learnLanguage);
+    setTeacherType(DEFAULTS.teacherType);
+    setSpeaksLanguage(DEFAULTS.speaksLanguage);
+    setMinPrice(DEFAULTS.minPrice);
+    setMaxPrice(DEFAULTS.maxPrice);
+    emitFilters({ ...DEFAULTS });
+  };
+
+  const isDefault =
+    learnLanguage === DEFAULTS.learnLanguage &&
+    teacherType === DEFAULTS.teacherType &&
+    speaksLanguage === DEFAULTS.speaksLanguage &&
+    minPrice === DEFAULTS.minPrice &&
+    maxPrice === DEFAULTS.maxPrice;
+
   return (
     <div className={styles.filtersBar}>
       <FilterDropdown
@@ -83,7 +111,10 @@ export function FiltersBar({ onFiltersChange }: FiltersBarProps) {
         options={languageOptions}
         selectedValue={learnLanguage ?? undefined}
         onChange={handleLearnLanguageChange}
+        searchable
+        searchPlaceholder="Search language"
       />
+
       <FilterDropdown
         label="Teacher type"
         options={teacherTypeOptions}
@@ -95,8 +126,23 @@ export function FiltersBar({ onFiltersChange }: FiltersBarProps) {
         options={languageOptions}
         selectedValue={speaksLanguage ?? undefined}
         onChange={handleSpeaksLanguageChange}
+        searchable
+        searchPlaceholder="Search language"
       />
-      <PriceRangeFilter onChange={handlePriceChange} />
+      <PriceRangeFilter
+        minPrice={minPrice}
+        maxPrice={maxPrice}
+        onChange={handlePriceChange}
+      />
+
+      <button
+        type="button"
+        className={styles.clearButton}
+        onClick={handleClearFilters}
+        disabled={isDefault}
+      >
+        Clear filters
+      </button>
     </div>
   );
 }

@@ -92,6 +92,10 @@ const BookSession = () => {
 
   const { step, isFirstStep, isLastStep, back, next } = useMultistepForm(getSteps());
 
+  const services = draftAppointment?.services || [];
+  const isServicesStep = router.pathname.startsWith('/specialist-profile') && step?.type === SessionServices;
+  const isNoServices = isServicesStep && (!Array.isArray(services) || services.length === 0);
+
   // Submit handler
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -207,6 +211,7 @@ const BookSession = () => {
           <Button
             className={s.formBtn}
             type="submit"
+            disabled={loading || isNoServices}
           >
             {isLastStep ? t.done : t.done}
             {/* Wallet/balance warnings disabled for backend-only flow */}

@@ -24,6 +24,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import s from './.module.scss';
 import { motion } from "framer-motion";
 import Sidebar from "@/components/features/SidebarES";
+// import Sidebar from "@/components/features/Sidebar";
 
 const Office = () => {
 

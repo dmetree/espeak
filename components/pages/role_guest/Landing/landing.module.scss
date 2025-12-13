@@ -39,7 +39,7 @@
 .heroTitle {
   font-size: 36px;
   line-height: 1.2;
-  color: #121212;
+  color: var(--text-color);
 }
 
 .heroSub {
@@ -78,7 +78,7 @@
 .cardPrimary h4 {
   margin: 0 0 8px;
   font-size: 16px;
-  color: #111;
+  color: var(--text-color);
 }
 
 .card p,
@@ -106,7 +106,7 @@
   right: 12px;
   bottom: 12px;
   background: #fff;
-  color: #111;
+  color: var(--text-color);
   border-radius: 12px;
   padding: 8px 10px;
   font-size: 12px;
@@ -128,7 +128,7 @@
 .discoverText h2 {
   font-size: 24px;
   margin: 0 0 8px;
-  color: #111;
+  color: var(--text-color);
 }
 
 .discoverText p {
@@ -154,7 +154,7 @@
 .title {
   font-size: 2rem;
   font-weight: 700;
-  color: #111;
+  color: var(--text-color);
   margin-bottom: 3rem;
 }
 
@@ -212,7 +212,7 @@
 .stepContent h3 {
   font-size: 1.1rem;
   font-weight: 600;
-  color: #111;
+  color: var(--text-color);
   margin-bottom: 0.5rem;
 }
 
@@ -258,7 +258,7 @@
 .contact h2 {
   font-size: 22px;
   margin-bottom: 6px;
-  color: #111;
+  color: var(--text-color);
 }
 
 .contactSub {
@@ -293,7 +293,7 @@
   padding: 10px 12px;
   font-size: 14px;
   background: #fff;
-  color: #111;
+  color: var(--text-color);
 }
 
 .textarea {
@@ -345,12 +345,16 @@
   }
 }
 
+.question {
+  color: var(--text-color);
+}
+
 /* Left column (title + description) */
 .faqTextCol {
   h2 {
     font-size: 28px;
     font-weight: 700;
-    color: #111;
+    color: var(--text-color);
     margin-bottom: 12px;
   }
 

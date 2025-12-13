@@ -1,313 +1,6 @@
-// /* ===========================
-//    VARIABLES FOR REUSE
-// =========================== */
-// $borderColor: var(--dark);
-// $textColor: var(--textColor);
-// $highlightColor: var(--darker);
-
-// /* ===========================
-//    GENERAL LAYOUT & SECTIONS
-// =========================== */
-
-// .psyInfoBoard {
-//   margin-bottom: 2vh;
-//   padding-bottom: 2vh;
-// }
-
-// .initBlock,
-// .nameAndActions,
-// .rankBlock,
-// .generalInfo {
-//   display: flex;
-//   justify-content: space-between;
-//   align-items: center;
-// }
-
-// .rankBlock {
-//   justify-content: flex-start;
-// }
-
-// .gridAreaInfo {
-//   flex: auto;
-//   padding-left: 10px;
-// }
-
-// /* ===========================
-//    AVATAR & PROFILE IMAGE
-// =========================== */
-
-// .profileImg {
-//   width: 12rem;
-//   height: 14rem;
-//   border-radius: 5px;
-//   object-fit: cover;
-//   background-color: $borderColor;
-
-//   @media (max-width: 600px) {
-//     width: 8rem;
-//     height: 9rem;
-//   }
-// }
-
-// /* ===========================
-//    NAME & RANK
-// =========================== */
-
-// .psyName {
-//   margin-right: 0.5vw;
-//   font-weight: 900;
-//   color: $textColor;
-// }
-
-// .belt {
-//   padding: 5px;
-//   border: 1px solid $borderColor;
-//   border-radius: 25px;
-// }
-
-// .rankLabel {
-//   margin-right: 0.5vw;
-//   color: $textColor;
-// }
-
-// /* ===========================
-//    ACTION BUTTONS
-// =========================== */
-
-// .profileBtn {
-//   padding: 3px 7px;
-//   margin-bottom: 5px;
-//   font-size: 14px;
-
-//   svg {
-//     transition: fill 0.3s ease;
-
-//     &.block {
-//       fill: #9d2727;
-
-//       &:hover,
-//       &:active {
-//         fill: #fff;
-//       }
-//     }
-
-//     &.edit {
-//       fill: #429084;
-
-//       &:hover,
-//       &:active {
-//         fill: #fff;
-//       }
-//     }
-//   }
-// }
-
-// .actions {
-//   display: flex;
-//   align-items: center;
-//   gap: 8px;
-// }
-
-// .shareWrapper {
-//   position: relative;
-// }
-
-// .shareProfile {
-//   cursor: pointer;
-// }
-
-// .tooltipBox {
-//   position: absolute;
-//   top: -5px;
-//   right: -15px;
-// }
-
-// /* ===========================
-//    PRICE & METRICS BLOCK
-// =========================== */
-
-// .priceBlock {
-//   margin: 0.5rem 0;
-//   display: flex;
-//   flex-direction: column;
-// }
-
-// .paramsBlock {
-//   margin: 2vh 0;
-//   width: 100%;
-//   display: grid;
-//   grid-template-columns: auto auto;
-//   row-gap: 20px;
-// }
-
-// .paramItem {
-//   display: flex;
-//   flex-direction: column;
-//   justify-content: center;
-//   align-items: center;
-
-//   .paramItemTitle,
-//   .unitsOfMeasure {
-//     font-size: 12px;
-//     color: $textColor;
-
-//     @media (max-width: 500px) {
-//       font-size: 10px;
-//     }
-//   }
-
-//   .paramNumber {
-//     font-size: 20px;
-//     color: $textColor;
-//   }
-// }
-
-// /* ===========================
-//    LABEL-LIST REUSABLE BLOCKS
-// =========================== */
-
-// .labelListBlock {
-//   margin: 1.5vh 0;
-//   display: flex;
-//   flex-direction: column;
-
-//   &Label {
-//     font-size: 12px;
-//     color: $textColor;
-//   }
-
-//   &List {
-//     display: flex;
-//     flex-wrap: wrap;
-
-//     > * {
-//       font-size: 12px;
-//       padding: 2px;
-//       margin: 2px;
-//       border-radius: 5px;
-//       border: 1px solid $borderColor;
-//       color: $textColor;
-//     }
-//   }
-// }
-
-// // Aliases
-// .psyMethods {
-//   @extend .labelListBlock;
-// }
-// .teachers {
-//   @extend .labelListBlock;
-// }
-// .languages {
-//   @extend .labelListBlock;
-// }
-
-// .psyMethodsLabel {
-//   @extend .labelListBlockLabel;
-// }
-// .teachersLabel {
-//   @extend .labelListBlockLabel;
-// }
-// .languagesLabel {
-//   @extend .labelListBlockLabel;
-// }
-
-// .psyMethodList {
-//   @extend .labelListBlockList;
-// }
-// .teachersList {
-//   @extend .labelListBlockList;
-// }
-// .languagesList {
-//   @extend .labelListBlockList;
-// }
-
-// /* ===========================
-//    SERVICES SECTION
-// =========================== */
-
-// .servicesBlock {
-//   padding: 10px 0;
-//   margin-top: 10px;
-//   border-top: 1px solid var(--lightShadow);
-//   border-bottom: 1px solid var(--lightShadow);
-//   color: $textColor;
-// }
-
-// .servicesLabel {
-//   font-size: 18px;
-//   margin-bottom: 10px;
-//   color: $textColor;
-// }
-
-// .serviceList {
-//   display: flex;
-//   flex-direction: column;
-//   gap: 10px;
-// }
-
-// .serviceItem {
-//   display: flex;
-//   flex-direction: column;
-//   justify-content: space-between;
-// }
-
-// .serviceTitle,
-// .servicePrice {
-//   font-size: 16px;
-//   font-weight: bold;
-//   color: $highlightColor;
-// }
-
-// /* ===========================
-//    INFO SECTION
-// =========================== */
-
-// .description {
-//   font-size: 14px;
-//   color: $textColor;
-// }
-
-// .infoAbout {
-//   overflow: hidden;
-//   transition: max-height 0.5s ease, padding 0.5s ease;
-//   color: $textColor;
-
-//   p {
-//     font-size: 14px;
-//   }
-
-//   &.collapsed {
-//     max-height: 200px;
-//     padding: 10px 0;
-//   }
-
-//   &.expanded {
-//     max-height: 1000px;
-//     padding: 10px 0;
-//   }
-// }
-
-// /* ===========================
-//    VIDEO SECTION
-// =========================== */
-// .about_video {
-//   margin-bottom: 20px;
-
-//   a {
-//     color: var(--darker);
-//     font-weight: 700;
-//     text-decoration: none;
-
-//     &:hover {
-//       text-decoration: underline;
-//     }
-//   }
-// }
-
 .page {
   // min-height: 100vh;
-  background-color: #fafafa;
+  background: var(--bgColor);
   padding: 32px 16px;
 
   @media (min-width: 640px) {
@@ -340,7 +33,7 @@
 .title {
   font-size: 20px;
   font-weight: 700;
-  color: #161616;
+  color: var(--text-color);
   line-height: 150%;
   margin: 0;
 }
@@ -355,16 +48,29 @@
   padding: 1rem 2.5rem;
   border-radius: 32px;
   border: 1px solid #5666ed;
-  background-color: #fafafa;
-  color: #161616;
+  background-color: transparent;
+  color: var(--text-color);
   font-size: 16px;
   font-weight: 400;
   cursor: pointer;
-  transition: all 0.2s ease-in-out;
+  transition: transform 0.12s ease, background-color 0.2s ease,
+    box-shadow 0.2s ease;
   font-family: Helvetica, -apple-system, Roboto, sans-serif;
 
-  &:hover {
-    background-color: #f9f9f9;
+  &:hover:not(:disabled) {
+    background-color: transparent;
+    box-shadow: 0 6px 18px rgba(86, 102, 237, 0.3);
+  }
+
+  &:active:not(:disabled) {
+    transform: translateY(1px);
+    background-color: transparent;
+    box-shadow: 0 2px 8px rgba(86, 102, 237, 0.3);
+  }
+
+  &:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
   }
 
   &:focus-visible {
@@ -377,16 +83,29 @@
   padding: 1rem 1.5rem;
   border-radius: 32px;
   border: 1px solid #5666ed;
-  background-color: #fafafa;
-  color: #161616;
+  background-color: transparent;
+  color: var(--text-color);
   font-size: 16px;
   font-weight: 400;
   cursor: pointer;
-  transition: all 0.2s ease-in-out;
+  transition: transform 0.12s ease, background-color 0.2s ease,
+    box-shadow 0.2s ease;
   font-family: Helvetica, -apple-system, Roboto, sans-serif;
 
-  &:hover {
-    background-color: #f9f9f9;
+  &:hover:not(:disabled) {
+    background-color: transparent;
+    box-shadow: 0 6px 18px rgba(86, 102, 237, 0.3);
+  }
+
+  &:active:not(:disabled) {
+    transform: translateY(1px);
+    background-color: transparent;
+    box-shadow: 0 2px 8px rgba(86, 102, 237, 0.3);
+  }
+
+  &:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
   }
 
   &:focus-visible {
@@ -408,14 +127,27 @@
   border-radius: 32px;
   border: 1px solid #ddd;
   background-color: #ffffff;
-  color: #161616;
+  color: var(--text-color);
   font-size: 18px;
   cursor: pointer;
-  transition: all 0.2s ease-in-out;
+  transition: transform 0.12s ease, background-color 0.2s ease,
+    box-shadow 0.2s ease;
   font-family: Helvetica, -apple-system, Roboto, sans-serif;
 
-  &:hover {
+  &:hover:not(:disabled) {
     background-color: #f4f4f4;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+  }
+
+  &:active:not(:disabled) {
+    transform: translateY(1px);
+    background-color: #ededed;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+  }
+
+  &:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
   }
 
   &:focus-visible {
@@ -427,7 +159,7 @@
 .content {
   display: flex;
   flex-direction: column;
-  gap: 32px;
+  gap: 10px;
 }
 
 .contentGeneral {
@@ -467,6 +199,12 @@
   flex-shrink: 0;
 }
 
+.errorMessage {
+  margin-top: 8px;
+  font-size: 14px;
+  color: #b00020;
+}
+
 .profileInfo {
   display: flex;
   flex-direction: column;
@@ -482,7 +220,7 @@
 .profileName {
   font-size: 21px;
   font-weight: 700;
-  color: #161616;
+  color: var(--text-color);
   line-height: 150%;
   margin: 0;
 }
@@ -500,7 +238,7 @@
   gap: 4px;
   margin: 0;
   font-size: 21px;
-  color: #161616;
+  color: var(--text-color);
   line-height: 150%;
 
   .label {
@@ -516,12 +254,51 @@
   display: flex;
   flex-direction: column;
   gap: 8px;
+  width: 100%;
 }
 
 .inlineField {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 8px;
+  width: 100%;
+
+  .formLabel {
+    flex: 1;
+    min-width: 280px;
+  }
+}
+
+.label {
+  font-size: 14px;
+  color: var(--text-color);
+  line-height: 150%;
+  white-space: nowrap;
+}
+
+.value {
+  font-size: 14px;
+  color: var(--text-color);
+  line-height: 150%;
+}
+
+.formLabel {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.formLabelTitle {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-color);
+  line-height: 150%;
+}
+
+.labelWithTooltip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
 }
 
 .textInput {
@@ -564,14 +341,14 @@
 .sectionTitle {
   font-size: 16px;
   font-weight: 700;
-  color: #161616;
+  color: var(--text-color);
   line-height: 150%;
   margin: 0;
 }
 
 .sectionText {
-  font-size: 21px;
-  color: #161616;
+  font-size: 14px;
+  color: var(--text-color);
   line-height: 150%;
   margin: 0;
 
@@ -596,7 +373,7 @@
   border-radius: 1rem;
   background-color: transparent;
   font-size: 16px;
-  color: #161616;
+  color: var(--text-color);
   font-family: Helvetica, -apple-system, Roboto, sans-serif;
 }
 
@@ -645,7 +422,7 @@
   border-radius: 32px;
   border: 1px solid #5666ed;
   background-color: #fafafa;
-  color: #161616;
+  color: var(--text-color);
   font-size: 21px;
   font-weight: 400;
   cursor: pointer;
@@ -693,7 +470,7 @@
 
 .statValue {
   font-size: 16px;
-  color: #161616;
+  color: var(--text-color);
   line-height: 150%;
   margin: 0;
 }
@@ -706,7 +483,7 @@
 
 .priceValue {
   font-size: 16px;
-  color: #161616;
+  color: var(--text-color);
   line-height: 150%;
   margin: 0;
 }
