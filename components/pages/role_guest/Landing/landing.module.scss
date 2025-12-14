@@ -45,7 +45,7 @@
 .heroSub {
   max-width: 820px;
   margin: 12px auto 20px;
-  color: #374151;
+  color: var(--textGrey);
   font-size: 14px;
 }
 
@@ -78,20 +78,20 @@
 .cardPrimary h4 {
   margin: 0 0 8px;
   font-size: 16px;
-  color: var(--text-color);
+  color: var(--dark);
 }
 
 .card p,
 .cardPrimary p {
   margin: 0;
   font-size: 13px;
-  color: #4b5563;
+  color: var(--dark);
 }
 
 /* Главная карточка с цветным фоном */
 .cardPrimary {
   background: #5468ff;
-  color: #fff;
+  color: var(--dark);
   position: relative;
 }
 
@@ -106,7 +106,8 @@
   right: 12px;
   bottom: 12px;
   background: #fff;
-  color: var(--text-color);
+  color: var(--dark);
+
   border-radius: 12px;
   padding: 8px 10px;
   font-size: 12px;
@@ -132,7 +133,7 @@
 }
 
 .discoverText p {
-  color: #4b5563;
+  color: var(--textGreyLighter);
   font-size: 14px;
 }
 
@@ -217,7 +218,7 @@
 }
 
 .stepContent p {
-  color: #4b5563;
+  color: var(--textGreyLighter);
   font-size: 0.95rem;
   line-height: 1.5;
   max-width: 320px;
@@ -262,7 +263,7 @@
 }
 
 .contactSub {
-  color: #4b5563;
+  color: var(--textGreyLighter);
   font-size: 13px;
   margin-bottom: 16px;
 }
@@ -284,6 +285,11 @@
 
 .input {
   width: 100%;
+}
+
+.start {
+  color: var(--text-color);
+  text-decoration: none;
 }
 
 .input,
@@ -308,7 +314,7 @@
 .check {
   grid-column: span 2;
   font-size: 12px;
-  color: #4b5563;
+  color: var(--textGreyLighter);
   display: flex;
   align-items: center;
   gap: 8px;
@@ -359,7 +365,7 @@
   }
 
   .faqSub {
-    color: #4b5563;
+    color: var(--textGreyLighter);
     font-size: 15px;
     line-height: 1.5;
   }
@@ -420,7 +426,7 @@
 }
 
 .answer {
-  color: #4b5563;
+  color: var(--textGreyLighter);
   font-size: 14px;
   line-height: 1.5;
   padding-bottom: 16px;

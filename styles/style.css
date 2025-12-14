@@ -20,12 +20,15 @@ body.theme-default {
   --oppositeBgColor: #3f3d56;
   --oppositeTextColor: #ffffff;
 
+  --textGrey: #374151;
+  --textGreyLighter: #4b5563;
+
   --light: #fae4b9;
   --highLight: #ab5601;
   --calendarHighLight: #7a373a;
   --text: #1d1f28;
   --white: #e8eeed;
-  --bgColorTransparent: rgba(232, 238, 237, 0.6);
+  --bgColorTransparent: #e8eeed99;
   --dark: #3b82f6;
   --darkTransparent: rgba(38, 90, 138, 0.5);
   --darker: rgba(59, 130, 246, 0.9);
@@ -47,12 +50,12 @@ body.theme-default {
   --secondary: oklch(80% 0.1 190);
   --secondary-foreground: oklch(25% 0.15 260);
   --muted: oklch(90% 0.02 260);
-  --muted-foreground: oklch(60% 0.05 260);
+  --muted-foreground: #6f819f;
   --accent: oklch(80% 0.15 60);
   --accent-foreground: oklch(25% 0.15 260);
-  --border: oklch(88% 0.03 260);
-  --input: oklch(88% 0.03 260);
-  --ring: oklch(65% 0.2 270);
+  --border: #ccd8ec;
+  --input: #ccd8ec;
+  --ring: #6281ff;
 
   --text-color: rgba(22, 22, 22, 1);
 
@@ -133,6 +136,10 @@ body.theme-dark {
   --walletPrimary: #0031f3;
   --walletBg: #072b4c;
   --calendarHighLight: #d67e0a;
+  --oppositeTextColor: #324a6b;
+
+  --textGrey: #d6dfec;
+  --textGreyLighter: #d6dfec;
 
   --background: rgba(47, 46, 65, 1);
   --foreground: #d6dfec;
