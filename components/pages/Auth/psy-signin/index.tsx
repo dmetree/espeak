@@ -21,10 +21,7 @@ export default function SignUp() {
         <SignInForm />
 
         <div className={s.confirmation}>
-          {t.have_an_account}{" "}
-          <Link className={s.link} href="/login">
-            {t.enter}
-          </Link>
+          {t.have_an_account}
         </div>
       </Substrate>
     </Page>

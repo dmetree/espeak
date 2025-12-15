@@ -12,6 +12,19 @@
   gap: 0.5rem;
   cursor: pointer;
   color: var(--darker);
+
+  img {
+    filter: brightness(1);
+    transition: filter 0.2s ease;
+  }
+}
+
+:global(body.theme-dark) .connectButton {
+  color: var(--text-color);
+
+  img {
+    filter: brightness(1.2) contrast(1.1);
+  }
 }
 
 .blockchainIcon {

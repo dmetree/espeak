@@ -126,6 +126,9 @@ body.theme-default {
 }
 
 body.theme-dark {
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
   --bgColor: #2f2e41;
   --text: #dee7e5;
   --bgColorTransparent: rgba(29, 31, 40, 0.9);
@@ -225,6 +228,39 @@ body.theme-dark {
   --second-accent-light-rotate: 90deg;
   --second-accent-light-blur: 75px;
   --second-accent-light-color: rgba(254, 246, 235, 1);
+}
+
+/* Portal adjustments for dark mode */
+body.theme-dark #portal {
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  overflow-x: hidden;
+}
+
+body.theme-dark #__next {
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  overflow-x: hidden;
+}
+
+/* Mobile-specific dark mode width */
+@media (max-width: 768px) {
+  body.theme-dark {
+    width: 375px;
+    max-width: 375px;
+  }
+
+  body.theme-dark #portal {
+    width: 375px;
+    max-width: 375px;
+  }
+
+  body.theme-dark #__next {
+    width: 375px;
+    max-width: 375px;
+  }
 }
 
 .react-datepicker-wrapper,

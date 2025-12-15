@@ -17,9 +17,9 @@ const PrivateRoute = ({ children }) => {
             setIsAuthenticated(false);
         }
 
-        // Redirect to login if not authenticated
+        // Redirect if not authenticated
         if (!uid || !email) {
-            router.replace('/login');
+            // Authentication check - no redirect
         }
     }, [router]);
 

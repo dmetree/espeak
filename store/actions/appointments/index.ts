@@ -172,17 +172,21 @@ export const fetchVacantAppointments =
 
     try {
       const requestsRef = collection(database, "requests");
+      // Query only for vacant appointments (specUid == null)
+      // Filter out user's own requests in JavaScript to avoid composite index requirement
       const vacantAppointmentsQuery = query(
         requestsRef,
-        where("specUid", "==", null),
-        where("clientUid", "!=", userUid)
+        where("specUid", "==", null)
       );
       const querySnapshot = await getDocs(vacantAppointmentsQuery);
 
-      const appointmentsData: Appointment[] = querySnapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
+      // Filter out appointments where clientUid matches the current user
+      const appointmentsData: Appointment[] = querySnapshot.docs
+        .map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }))
+        .filter((appointment) => appointment.clientUid !== userUid);
 
       dispatch(fetchVacantAppointmentsSuccess(appointmentsData));
     } catch (err) {

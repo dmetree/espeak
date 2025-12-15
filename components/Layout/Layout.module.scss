@@ -6,6 +6,10 @@
   background-color: var(--bgColor);
 }
 
+:global(body.theme-dark) .app {
+  overflow-x: hidden;
+}
+
 .content {
   flex: 1 0 auto;
   display: flex;
@@ -15,6 +19,10 @@
   align-items: center;
   width: 100%;
   margin: 0 auto;
+}
+
+:global(body.theme-dark) .content {
+  width: 100%;
 }
 
 .visuallyHidden {

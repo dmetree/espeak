@@ -19,6 +19,7 @@ const DiscoverSection = () => {
         alt={'mobile'}
         width={600}
         height={600}
+        className={s.discoverImage}
       />
     </section>
   );

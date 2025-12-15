@@ -94,6 +94,14 @@ const nextConfig = {
       topLevelAwait: true,
     };
 
+    // Handle Node.js built-in modules for client-side
+    if (!isServer) {
+      config.resolve.fallback = {
+        ...config.resolve.fallback,
+        util: require.resolve('util/'),
+      };
+    }
+
     if (!dev && isServer) {
       config.output.webassemblyModuleFilename = "chunks/[id].wasm";
       config.plugins.push(new WasmChunksFixPlugin());

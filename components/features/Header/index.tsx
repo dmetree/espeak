@@ -340,7 +340,11 @@ const Header = (props: IProps) => {
             )}
 
             {userUid && (
-              <Link href="/dashboard" className={`${s.menuItem} ${s.desktopElement}`}><MdDashboard size={34} color="#3b82f6" /></Link>
+              <>
+                <Link href="/dashboard" className={`${s.menuItem} ${s.desktopElement}`} title="Dashboard">
+                  <MdDashboard size={34} color="#3b82f6" />
+                </Link>
+              </>
             )}
 
             <div onClick={() => setOpen(true)} className={s.settings}>
@@ -434,10 +438,14 @@ const Header = (props: IProps) => {
             </div>
 
             <ul className={s.mobileNavList}>
-              <li className={s.mobileMenuItem} onClick={goToDashboard}><MdDashboard size={34} color="#3b82f6" />&nbsp; Dashboard</li>
-              <li className={s.mobileMenuItem} onClick={goToViewExperts}><FaUsersViewfinder size={34} color="#3b82f6" />&nbsp; Find Teacher</li>
-              <li className={s.mobileMenuItem} onClick={goToOffice}><FaRegCalendarDays size={30} color="#3b82f6" />&nbsp; Teacher's Calendar</li>
-              <li className={s.mobileMenuItem} onClick={goToProfile}><RiProfileLine size={34} color="#3b82f6" />&nbsp; Profile</li>
+              {userUid && (
+                <>
+                  <li className={s.mobileMenuItem} onClick={goToDashboard}><MdDashboard size={34} color="#3b82f6" />&nbsp; Dashboard</li>
+                  <li className={s.mobileMenuItem} onClick={goToViewExperts}><FaUsersViewfinder size={34} color="#3b82f6" />&nbsp; Find Teacher</li>
+                  <li className={s.mobileMenuItem} onClick={goToOffice}><FaRegCalendarDays size={30} color="#3b82f6" />&nbsp; Teacher's Calendar</li>
+                  <li className={s.mobileMenuItem} onClick={goToProfile}><RiProfileLine size={34} color="#3b82f6" />&nbsp; Profile</li>
+                </>
+              )}
               <li className={s.mobileMenuItem} onClick={() => setOpen(true)}><IoIosSettings size={36} color="#3b82f6" />&nbsp;Settings</li>
               {/* <li><Link href="#features" onClick={closeMobile}>Features</Link></li>
               <li><Link href="#how-it-works" onClick={closeMobile}>How it works</Link></li>

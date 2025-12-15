@@ -40,6 +40,10 @@
   color: var(--textColor);
 }
 
+:global(body.theme-dark) .walletName {
+  color: var(--text-color);
+}
+
 .spinnerContainer {
   margin-left: 1rem; /* Equivalent to ml-4 in Tailwind */
 }
