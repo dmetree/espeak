@@ -399,6 +399,12 @@ const DayRow = ({ hour, handleClick, mark, bgColor, request, isPastHour }) => {
     toast.success("You claimed rewards")
   }
 
+  const handleTeacherDeclineRequest = () => {
+    toast.success("You declined a personal request for therapy.");
+  }
+
+
+
   return (
     <div
       key={hour}
@@ -551,6 +557,9 @@ const DayRow = ({ hour, handleClick, mark, bgColor, request, isPastHour }) => {
                   </Button> */}
                   <Button onClick={handleClaimRewards}>
                     {t.collect_rewards}
+                  </Button>
+                  <Button onClick={handleTeacherDeclineRequest}>
+                    {t.teacher_decline_request}
                   </Button>
                 </div>
               )}
