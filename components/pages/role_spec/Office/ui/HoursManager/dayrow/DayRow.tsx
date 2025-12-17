@@ -6,7 +6,9 @@ import {
   deleteAcceptedReqPsych,
   setRequestRoomId,
   fetchMyAppointments,
-  psychDeleteRequestClaimRewards
+  psychDeleteRequestClaimRewards,
+  incrementHrPsy,
+  incrementHrInPsy,
 } from "@/store/actions/appointments";
 import { AppDispatch } from "@/store";
 import {
@@ -34,8 +36,6 @@ import { TransactionHelperRefund } from "@/blockchain/ergo/offchain/app/transact
 import { buildCancelAcceptPsych } from '@/blockchain/ergo/offchain/app/transactions/cancelAcceptedSessionPsychTx/cancelAcceptPsych';
 import { TransactionHelperCancelAcceptPsych } from '@/blockchain/ergo/offchain/app/transactions/cancelAcceptedSessionPsychTx/cancel-accept-psych-transaction-helper';
 
-import { buildPsychEndNoProblem } from '@/blockchain/ergo/offchain/app/transactions/endSessionPsychTx/endSessionPsych';
-import { TransactionHelperEndSessionPsych } from '@/blockchain/ergo/offchain/app/transactions/endSessionPsychTx/end-session-psych-transaction-helper';
 import { TxConfirmationListener } from '@/hooks/blockchainListener';
 
 import s from './DayRow.module.scss';
@@ -95,11 +95,30 @@ const DayRow = ({ hour, handleClick, mark, bgColor, request, isPastHour }) => {
     return EReqStatus[status] || 'Unknown Status';
   };
 
-
   const joinChatRoom = () => {
     dispatch(showModal(EModalKind.VideoCall)); // TODO: add modal
     dispatch(setRequestRoomId(request.id)); // TODO: import method
   };
+
+  const buildWithdrawTxToBackend = async (address, appointment) => {
+    const response = await fetch('/api/lessons/withdraw/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        userAddress: address,
+        lessonData: appointment,
+      }),
+    });
+
+    if (response.status !== 200)
+      throw new Error('Failed to create lesson withdraw transaction');
+    const { success, txCbor } = await response.json();
+    if (!success)
+      throw new Error('Lesson withdraw transaction was not successful');
+    return txCbor;
+  }
 
   const buildAcceptTxToBackend = async (address, appointment) => {
     console.log('address', address, 'appointment', appointment)
@@ -347,36 +366,6 @@ const DayRow = ({ hour, handleClick, mark, bgColor, request, isPastHour }) => {
     toast.success("You canceled an accepted request.");
   };
 
-
-  const onSpecialistClaimRewards = async (singletonId) => {
-    const response = await fetch(`https://api.ergoplatform.com/api/v1/boxes/unspent/byTokenId/${singletonId}`);
-    const data = await response.json();
-
-    console.log('data', data.items[0])
-
-    if (data.items && data.items.length > 0) {
-      // The first box in the result should be your session box
-      const sessionBox = data.items[0];
-
-      // --- Build accept transaction --- //
-
-      const ergo = await ergoConnector.nautilus.getContext();
-      const nodeHeight = await ergo.get_current_height();
-      const transactionHelper = new TransactionHelperEndSessionPsych(ergo);
-
-
-      const therapistAddress = ErgoAddress.fromBase58(therapistWalletAddress);
-
-      await buildPsychEndNoProblem(
-        sessionBox,
-        therapistAddress,
-        nanoErgMinerFee,
-        nodeHeight,
-        transactionHelper,
-      )
-    }
-  }
-
   const createdAtMs =
     request?.created_at?.seconds * 1000 +
     Math.floor(request?.created_at?.nanoseconds / 1e6);
@@ -394,9 +383,50 @@ const DayRow = ({ hour, handleClick, mark, bgColor, request, isPastHour }) => {
     return () => clearInterval(id);
   }, []);
 
-  const handleClaimRewards = () => {
-    // dispatch(psychDeleteRequestClaimRewards(userUid, request.id));
-    toast.success("You claimed rewards")
+  const handleClaimRewards = async () => {
+    try {
+      // 1. Build & submit Cardano withdraw transaction
+      const txCbor = await buildWithdrawTxToBackend(user.address, request);
+      const witnesses = await actions.signTx(wallet, txCbor);
+      const txHash = await submitTxToBackend(user.address, txCbor, witnesses);
+      console.log("txHash (withdraw): ", txHash);
+
+      // 2. Push notification to teacher profile
+      const payload = {
+        title: t.notification_spec_claim_rewards,
+        message: t.text_spec_claim_rewards,
+        linkTo: "",
+        created_at: new Date(),
+        isRead: false,
+      };
+
+      const currentNotifications = Array.isArray(userData?.notifications)
+        ? userData.notifications
+        : [];
+
+      const updatedNotifications = [...currentNotifications, payload];
+
+      await dispatch(
+        actionUpdateProfile(updatedNotifications, userUid, "notifications")
+      );
+
+      await dispatch(fetchUserData(userUid));
+
+      // 3. Update hours and remove request
+      await dispatch(incrementHrPsy(userUid));
+      if (request?.clientUid) {
+        await dispatch(incrementHrInPsy(request.clientUid));
+      }
+      await dispatch(psychDeleteRequestClaimRewards(userUid, request.id));
+      await dispatch(fetchMyAppointments(userUid));
+
+      toast.success(t.requests.claim_rewards);
+    } catch (error) {
+      console.error("Error claiming rewards:", error);
+      toast.error(t.requests.failed_claim_rewards);
+    } finally {
+      setShowDropdownCancelAcceptPsych(false);
+    }
   }
 
   return (
@@ -518,48 +548,11 @@ const DayRow = ({ hour, handleClick, mark, bgColor, request, isPastHour }) => {
                   ref={dropdownRefCancelAcceptPsych}
                   onClick={(e) => e.stopPropagation()}
                 >
-                  {/* <Button
-
-                    type="button"
-                    // className={s.dropdownItem}
-                    onClick={async (e) => {
-                      e.stopPropagation();
-
-                      const response = await fetch(
-                        `https://api.ergoplatform.com/api/v1/boxes/unspent/byTokenId/${request.singletonId}`
-                      );
-                      const data = await response.json();
-                      if (!data.items?.length) return;
-
-                      const sessionBox = data.items[0];
-                      const startBlockHeight = Number(sessionBox.additionalRegisters?.R4?.renderedValue);
-                      const ergo = await ergoConnector.nautilus.getContext();
-                      const nodeHeight = await ergo.get_current_height();
-                      const blocksBeforeStart = startBlockHeight - nodeHeight;
-
-                      setCancelMeta({
-                        singletonId: request.singletonId,
-                        blocksBeforeStart,
-                      });
-
-                      // close dropdown, then open modal
-                      setShowDropdownCancelAcceptPsych(false);
-                      setShowConfirmCancelModal(true);
-                    }}
-                  >
-                    {t.cancel}
-                  </Button> */}
                   <Button onClick={handleClaimRewards}>
                     {t.collect_rewards}
                   </Button>
                 </div>
               )}
-
-              {/* <Button
-                dayRowBtn
-                className={s.dayRowBtn}
-                onClick={() => onSpecialistClaimRewards(psyRequest?.singletonId)}
-              >💰</Button> */}
               {showConfirmCancelModal && cancelMeta && (
                 <ConfirmCancelModal
                   meta={cancelMeta}
