@@ -10,7 +10,7 @@ export const RequestActions = ({
   dropdownRef, dropdownRefundRef,
   toggleDropdownCancelAccept, toggleDropdownRefund,
   showDropdownCancelAcceptClient, showDropdownRefund,
-  ergoWalletConnected,
+  walletConnected,
   showCancelModal, cancelMeta, setShowCancelModal,
   joinChatRoom, handleCancelClick, executeCancel,
   onNoviceDelete, onSpecialistAccept, onSpecialistClaimRewards,
@@ -56,7 +56,7 @@ export const RequestActions = ({
                 className={`${s.cancelButton} ${s.actionBtn}`}
                 onClick={handleCancelClick}
               >
-                {ergoWalletConnected ? t.cancel : <div className={s.tooltip}>{t.connect_your_wallet}</div>}
+                {walletConnected ? t.cancel : <div className={s.tooltip}>{t.connect_your_wallet}</div>}
               </Button>
             </div>
           )}
@@ -75,7 +75,7 @@ export const RequestActions = ({
                 onClick={onNoviceDelete}
                 className={`${s.cancelButton} ${s.actionBtn} ${!canCancel ? 'disabled' : ''}`}
               >
-                {!ergoWalletConnected ? <div className={s.tooltip}>{t.connect_your_wallet}</div> : t.cancel}
+                {!walletConnected ? <div className={s.tooltip}>{t.connect_your_wallet}</div> : t.cancel}
               </Button>
             </div>
           )}

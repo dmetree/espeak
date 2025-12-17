@@ -74,19 +74,10 @@ export default function Dashboard() {
       {!firstTime ? (
 
         <div className={styles.page}>
-          {/* <div className={styles.mobileHeader}>
-            <h1>
-              <span className={styles.blue}>E</span>
-              <span className={styles.black}>asy </span>
-              <span className={styles.lightPink}>S</span>
-              <span className={styles.black}>peak</span>
-            </h1>
-          </div> */}
 
           <Sidebar />
 
           <main className={styles.main}>
-            {/* SVG kept unchanged */}
             <div className={styles.mainContent}>
               <div className={styles.welcomeCard}>
                 <div className={styles.content}>
@@ -94,15 +85,22 @@ export default function Dashboard() {
                     <div className={styles.heroContent}>
                       <h1 className={styles.heroTitle}>Hello!</h1>
                       <p className={styles.heroSubtitle}>
-                        Today is a good day to learn something new.
+                        {isTeacher
+                          ? 'Today is a good day to guide and discover.'
+                          : 'Today is a good day to learn something new.'}
                       </p>
                     </div>
                     <div className={styles.heroImageSection}>
                       <Image
                         src={isTeacher ? teacherMainImage : girlSittedIcon}
                         alt={isTeacher ? 'Teacher' : 'Student'}
-                        width={150}
+                        width={isTeacher ? 270 : 150}
                         height={250}
+                        className={
+                          isTeacher
+                            ? styles.heroImageTeacher
+                            : styles.heroImageStudent
+                        }
                       />
                       {!isTeacher && (
                         <div className={styles.buttonBlock}>

@@ -48,7 +48,7 @@ const DayRow = ({ hour, handleClick, mark, bgColor, request, isPastHour }) => {
   const dispatch: AppDispatch = useDispatch<AppDispatch>();
   const user = useSelector(({ networkCardano }) => networkCardano.user);
   const wallet = useSelector(({ networkCardano }) => networkCardano.wallet);
-  
+
   const userUid = useSelector(({ user }) => user.uid);
   const userData = useSelector(({ user }) => user?.userData);
   const therapistWalletAddress = useSelector(({ networkErgo }) => networkErgo?.ergoWalletAddress[0]);
@@ -102,6 +102,7 @@ const DayRow = ({ hour, handleClick, mark, bgColor, request, isPastHour }) => {
   };
 
   const buildAcceptTxToBackend = async (address, appointment) => {
+    console.log('address', address, 'appointment', appointment)
     const response = await fetch('/api/lessons/accept/', {
       method: 'POST',
       headers: {
@@ -498,7 +499,9 @@ const DayRow = ({ hour, handleClick, mark, bgColor, request, isPastHour }) => {
               <Button
                 className={s.dayRowBtn}
                 onClick={joinChatRoom}
-              >&#128682;</Button>
+              >
+                &#128682;
+              </Button>
               <div
                 className={s.etc}
                 onClick={(e) => {

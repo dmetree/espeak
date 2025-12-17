@@ -206,10 +206,6 @@
   min-width: 90px;
 }
 
-.cancelButton {
-  color: rgb(201, 97, 97);
-}
-
 .cancelButton .cancelIcon {
   fill: rgb(201, 97, 97);
 }

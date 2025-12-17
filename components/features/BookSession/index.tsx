@@ -173,7 +173,7 @@ const BookSession = () => {
       // Cardano transaction
       if (user?.address == null || appointment == null || selectedSpecialist == null)
         throw new NoAuthError('User not authenticated or missing appointment/specialist data');
-      
+
       const txCbor = await buildTxToBackend(user.address, appointment, selectedSpecialist);
       const witnesses = await actions.signTx(wallet, txCbor);
       const txHash = await submitTxToBackend(user.address, txCbor, witnesses);
@@ -247,6 +247,9 @@ const BookSession = () => {
     };
   }, []);
 
+  // Treat wallet as connected when we have a Cardano user address
+  const isWalletConnected = !!user?.address;
+
 
   return (
     <div className={s.booking}>
@@ -261,6 +264,7 @@ const BookSession = () => {
           <Button
             className={s.formBtn}
             type="submit"
+            disabled={isLastStep && !isWalletConnected}
           >
             {isLastStep ? t.done : t.done}
             {/* Wallet/balance warnings disabled for backend-only flow */}
