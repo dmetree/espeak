@@ -179,7 +179,7 @@ const BookSession = () => {
       const txHash = await submitTxToBackend(user.address, txCbor, witnesses);
 
       // Create appointment in backend (Firestore)
-      await dispatch(createAppointment(userUid, appointment, null, txHash));
+      await dispatch(createAppointment(userUid, appointment, null, txHash, undefined, undefined, user?.address));
 
       // Update specialist free slots in backend
       if (isSpecialist) {
