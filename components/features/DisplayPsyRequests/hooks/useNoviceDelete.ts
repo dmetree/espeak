@@ -16,19 +16,70 @@ import {
 import { loadMessages } from "@/components/shared/i18n/translationLoader";
 import { TransactionHelperRefund } from "@/blockchain/ergo/offchain/app/transactions/refundClientTx/refund-transaction-helper";
 import { AppDispatch } from "@/store";
+import * as actions from "@/store/actions/networkCardano";
 
-export const useNoviceDelete = ({ reqID, singletonId, draftAppointment }) => {
+export const useNoviceDelete = ({ reqID, singletonId, draftAppointment, reqItem }) => {
   const dispatch: AppDispatch = useDispatch<AppDispatch>();
   const userUid = useSelector(({ user }) => user.uid);
   const userData = useSelector(({ user }) => user?.userData);
+  const user = useSelector(({ networkCardano }) => networkCardano.user);
+  const wallet = useSelector(({ networkCardano }) => networkCardano.wallet);
   const ergoCustomerWalletAddress = useSelector(
     ({ networkErgo }) => networkErgo?.ergoWalletAddress[0]
   );
   const currentLocale = useSelector(({ locale }) => locale.currentLocale);
   const t = loadMessages(currentLocale);
 
+   const buildRefundTxToBackend = async (address, appointment) => {
+    const response = await fetch('/api/lessons/refund/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        studentAddress: address,
+        lessonData: appointment
+      }),
+    });
+
+    if (response.status !== 200)
+      throw new Error('Failed to create lesson refund transaction');
+    const { success, txCbor } = await response.json();
+    if (!success)
+      throw new Error('Lesson refund transaction was not successful');
+    return txCbor;
+  }
+
+  const submitTxToBackend = async (address, tx, witnesses) => {
+    const response = await fetch('/api/lessons/submit/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        address,
+        tx,
+        witnesses
+      }),
+    });
+
+    if (response.status !== 200)
+      throw new Error('Failed to create lesson request transaction');
+    const { success, hash } = await response.json();
+    if (!success)
+      throw new Error('Lesson request transaction was not successful');
+    return hash;
+  }
+
   const onNoviceDelete = async () => {
     try {
+
+      console.log("Initiating refund transaction for novice delete...", reqItem);
+      const txCbor = await buildRefundTxToBackend(user.address, reqItem);
+      const witnesses = await actions.signTx(wallet, txCbor);
+      const txHash = await submitTxToBackend(user.address, txCbor, witnesses);
+      console.log("Refund transaction submitted with hash:", txHash);
+
       const response = await fetch(
         `https://api.ergoplatform.com/api/v1/boxes/unspent/byTokenId/${singletonId}`
       );

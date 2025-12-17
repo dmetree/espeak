@@ -126,7 +126,7 @@ const OpenPsyRequestItem = (props) => {
     t,
   });
 
-  const { onNoviceDelete } = useNoviceDelete({ reqID, singletonId, draftAppointment });
+  const { onNoviceDelete } = useNoviceDelete({ reqID, singletonId, draftAppointment, reqItem });
 
   const { onSpecialistClaimRewards } = useSpecialistClaimRewards({
     singletonId,
