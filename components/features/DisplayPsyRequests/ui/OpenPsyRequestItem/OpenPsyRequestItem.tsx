@@ -139,7 +139,8 @@ const OpenPsyRequestItem = (props) => {
 
   const handleCancelClick = async () => {
     const ready = await prepareCancel();
-    if (ready) setShowCancelModal(true);
+    if (ready) 
+      setShowCancelModal(true);
   };
 
   const {
@@ -147,7 +148,7 @@ const OpenPsyRequestItem = (props) => {
     executeCancel,
     isLoading: cancelLoading,
     cancelMeta,
-  } = useClientCancelAccept({ singletonId, reqID, t });
+  } = useClientCancelAccept({ singletonId, reqID, t, reqItem });
 
   return (
     <div className={s.wrapper}>

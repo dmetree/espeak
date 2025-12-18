@@ -134,6 +134,7 @@ export const useOpenPsyRequestItemLogic = (props) => {
 
   const { onSpecialistAccept } = useSpecialistAccept({
     reqID: reqID,
+    reqItem,
     singletonId,
     price,
     scheduledUnixtime,
@@ -146,6 +147,7 @@ export const useOpenPsyRequestItemLogic = (props) => {
     reqID,
     singletonId,
     draftAppointment,
+    reqItem
   });
 
   const { onSpecialistClaimRewards } = useSpecialistClaimRewards({
@@ -167,7 +169,7 @@ export const useOpenPsyRequestItemLogic = (props) => {
     executeCancel,
     isLoading: cancelLoading,
     cancelMeta,
-  } = useClientCancelAccept({ singletonId, reqID, t });
+  } = useClientCancelAccept({ singletonId, reqID, t, reqItem });
 
   return {
     isTimeZoneLoaded,
