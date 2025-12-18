@@ -8,7 +8,6 @@ import {
   applyParamsToScript,
   Constr
 } from "@lucid-evolution/lucid";
-import { bigint } from "zod";
 
 // This endpoint allows a student or teacher to cancel a lesson.
 // It builds a transaction that spends the lesson UTXO from the script address
@@ -65,22 +64,28 @@ const getLucid = async (address) => {
 
 function buildRedeemerDatum(requestor, windowType, opts) {
   const CancelBase = Data.Object({
-    teacherOutputIndex: Data.Integer(),
-    serviceOutputIndex: Data.Integer(),
-  });
-
-  const TeacherCancelFields = Data.Object({
-    studentOutputIndex: Data.Integer(),
-    serviceOutputIndex: Data.Integer(),
-  });
-
-  const LessonAcceptedRedeemer = Data.Enum([
-    Data.Object({ StudentCancel24Hours: CancelBase }),
-    Data.Object({ StudentCancel12Hours: CancelBase }),
-    Data.Object({ StudentCancel4Hours: CancelBase }),
-    Data.Object({ StudentCancelLessThan4Hours: CancelBase }),
-    Data.Object({ TeacherCancel: TeacherCancelFields }),
-  ]);
+      teacherOutputIndex: Data.Integer(),
+      serviceOutputIndex: Data.Integer(),
+    });
+    const TeacherCancelFields = Data.Object({
+      studentOutputIndex: Data.Integer(),
+      serviceOutputIndex: Data.Integer(),
+    });
+    const ComplaintFields = Data.Object({
+      complaintOutputIndex: Data.Integer(),
+      complaintType: Data.Integer(),
+    });
+    const LessonAcceptedRedeemer = Data.Enum([
+      Data.Object({ StudentCancel24Hours: CancelBase }),
+      Data.Object({ StudentCancel12Hours: CancelBase }),
+      Data.Object({ StudentCancel4Hours: CancelBase }),
+      Data.Object({ StudentCancelLessThan4Hours: CancelBase }),
+      Data.Object({ TeacherCancel: TeacherCancelFields }),
+      Data.Object({ Complaint: ComplaintFields }),
+      Data.Object({ TeacherWithdraw: Data.Object({
+        currentAcceptedLessonInputIndex: Data.Integer(),
+      }) }),
+    ]);
 
   if (requestor === "student") {
     // enforce: teacher(0), service(1), student(2)

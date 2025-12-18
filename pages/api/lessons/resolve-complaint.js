@@ -5,11 +5,6 @@ import {
   Data
 } from "@lucid-evolution/lucid";
 
-// This endpoint handles lesson withdrawal requests from teachers.
-// It constructs and submits a transaction that unlocks funds from the lesson accepted script UTXO.
-// It requires the teacher's address and lesson data including the accepted transaction hash.
-// It returns the transaction hash to the frontend.
-
 const COMPLAINT_SCRIPT_COMPILED_CODE = 
 "59088f01010029800aba4aba2aba1aba0aab9faab9eaab9dab9cab9a4888888888c96600264653001300a00198051805800cdc3a4005300a0024888966002600460146ea800e2646644b300100789919912cc004c00c006264b300100180744c96600200313259800980a000c56600266e252004301300180844c9660026032009006808a02c300b3013001404501040546ea800601f00f807c03d018180a800a026301137540151598009804000c56600260226ea802a00500d404900d403880705660026002601c6ea800a330013012300f375400523013301430143014301430143014301400191809980a180a180a180a180a180a000c8c04cc050c050c050c050c050c050c050c050c050c050c05000646026602860286028602860286028602860286028602800323013301430143014301430143014301430143014001912cc0040062900044cdc02400466004004602a0028092460266028003374a900048c04cc050c050c050c050c050c050c050c05000644b30010018a4001133700900119801001180a800a02491809980a180a000a4444444444453001300600691192cc004c040c074dd5000c4c8cc88cc008008004896600200314a115980099b8f375c604800200714a3133002002302500140788110dd61803980f9baa004375c6042603c6ea80062a660389213965787065637420566572696669636174696f6e4b6579286861736829203d20616464726573732e7061796d656e745f63726564656e7469616c0016406c6040603a6ea80066004005222598008014530103d87a80008acc004c0400062600e66040604200497ae08cc00400e6044005337000029000a006406c80f922229800911112cc004cdd7981398121baa0050048acc004cdc3992cc004c070c090dd5000c5200089bad3028302537540028110c966002603860486ea8006298103d87a8000899198008009bab30293026375400444b30010018a6103d87a8000899192cc004cdc8803800c56600266e3c01c0062602466056605200497ae08a60103d87a80004099133004004302d00340986eb8c09c004c0a8005028204432330010013756601e604a6ea8018896600200314c103d87a8000899192cc004cdc8803800c56600266e3c01c0062602266054605000497ae08a60103d87a80004095133004004302c00340946eb8c098004c0a4005027000c4cdc4980499198008009bab300f3025375400c44b30010018a5eb82264664466446600400400244b30010018801c4c8cc0b8dd3998171ba90053302e302b0013302e302c0014bd701980180198180011817000a058375660520066eb8c098004cc00c00cc0ac008c0a40050272401514a0810a294102148c05cc00cc8cc004004008896600200314bd7044cc8966002b3001301b30233754604e60486ea8c09cc090dd5180718121baa0028a518a50408513302600233004004001899802002000a04230250013026001408d3001001488966002602860426ea806e26644b30013016302337540031332259800980c18129baa0018992cc004c01cdd6181518139baa01d8acc004cc02c074c034c09cdd500c4566002b30010058acc0066002007302a30273754031375c6026604e6ea80626eb8c050c09cdd500c4dd6980a98139baa018402119800800cc044c09cdd500c4dd7180b18139baa0189bae301730273754031375a601e604e6ea8061008452820488a50409114a3159800acc0040162942330014a14a14a2812102445660033001003980898139baa0189bae301330273754031375c6028604e6ea80626eb4c054c09cdd500c20108cc004006601a604e6ea80626eb8c058c09cdd500c4dd7180b98139baa0189bad300f302737540308042294102445282048409114a081222941024181498131baa0018a9981224813865787065637420536f6d6528636f6c6c61746572616c4f757470757429203d206c6973742e61742873656c662e6f7574707574732c2031290016408c604e60486ea8004cc00cdd6180518121baa01a4800a2a6604492013965787065637420536f6d65286c6573736f6e4d6f6e65794f757470757429203d206c6973742e61742873656c662e6f7574707574732c20302900164084603260426ea8c094c088dd500d998009bac300830223754030900044c966002602a60446ea8006264b300130163023375400313259800980b98121baa0018acc004c014dd6181418129baa01b8acc004cc02406cc02cc094dd500b45660033001302830253754007300f3025375402d375c6022604a6ea805a6eb8c048c094dd500b4cdc199b82375a6026604a6ea8059206448320050064566003300130283025375400530283025375402d375c6022604a6ea805a6eb8c048c094dd500b4cdc199b82375a6026604a6ea8059206448320050064660026050604a6ea80066016604a6ea805a6eb8c050c094dd500b4dd7180a98129baa0169bad300d3025375402c80322941022452820448a50408914a081122a6604692013865787065637420536f6d6528636f6c6c61746572616c4f757470757429203d206c6973742e61742873656c662e6f7574707574732c20322900164088660066eb0c028c090dd500d2400915330224913565787065637420536f6d652873747564656e744f757470757429203d206c6973742e61742873656c662e6f7574707574732c20312900164084660046eb0c024c08cdd500ca400515330214913565787065637420536f6d6528746561636865724f757470757429203d206c6973742e61742873656c662e6f7574707574732c20302900164080660026eb0c020c088dd500c2400080f8454cc03524011e65787065637420536f6d6528646174756d29203d20646174756d5f6f707400164030601c6ea8020dc3a400100a805402a0148098c03c004c03cc040004c02cdd5001c590080c028004c014dd5005c5268a99801a491856616c696461746f722072657475726e65642066616c7365001365640082a6600492011272656465656d65723a2052656465656d6572001601";
 
@@ -50,7 +45,7 @@ const getValidatorsData = () => {
   }
 }
 
-const getTeacherLucid = async (address) => {
+const getLucid = async (address) => {
   const apiKey = process.env.NEXT_PUBLIC_BLOCKFROST_API_KEY || "";
   const apiUrl = process.env.NEXT_PUBLIC_BLOCKFROST_URL || "";
   const lucid = await Lucid(
@@ -62,36 +57,65 @@ const getTeacherLucid = async (address) => {
   return lucid;
 };
 
-function buildRedeemerDatum() {
-    const CancelBase = Data.Object({
-      teacherOutputIndex: Data.Integer(),
-      serviceOutputIndex: Data.Integer(),
-    });
-    const TeacherCancelFields = Data.Object({
-      studentOutputIndex: Data.Integer(),
-      serviceOutputIndex: Data.Integer(),
-    });
-    const ComplaintFields = Data.Object({
-      complaintOutputIndex: Data.Integer(),
-      complaintType: Data.Integer(),
-    });
-    const LessonAcceptedRedeemer = Data.Enum([
-      Data.Object({ StudentCancel24Hours: CancelBase }),
-      Data.Object({ StudentCancel12Hours: CancelBase }),
-      Data.Object({ StudentCancel4Hours: CancelBase }),
-      Data.Object({ StudentCancelLessThan4Hours: CancelBase }),
-      Data.Object({ TeacherCancel: TeacherCancelFields }),
-      Data.Object({ Complaint: ComplaintFields }),
-      Data.Object({ TeacherWithdraw: Data.Object({
-        currentAcceptedLessonInputIndex: Data.Integer(),
-      }) }),
+function buildRedeemerDatum(resolution, toStudent = false) {
+    const ResolveComplaintRedeemer = Data.Enum([
+        Data.Object({ MoneyToOne:
+            Data.Object({ toStudent: Data.Boolean() })
+        }),
+        Data.Object("MoneyToToBoth", Data.Tuple([])),
     ]);
-    
-    return Data.to(
-      { TeacherWithdraw: { currentAcceptedLessonInputIndex: 0 }},
-      LessonAcceptedRedeemer
-    );
+
+    if (resolution === 'money_to_one') {
+        return Data.to({ MoneyToOne: { toStudent } }, ResolveComplaintRedeemer);
+    } else if (resolution === 'money_to_both') {
+        return Data.to({ MoneyToToBoth: [] }, ResolveComplaintRedeemer);
+    }
+
+    throw new Error("Invalid requestor");
 }
+
+export function computeComplaintOutputs(resolutionType, toStudent, studentAddress, teacherAddress, priceUnit, priceAmount, lockUnit, lockAmount) {
+  const add = (m, unit, qty) => {
+    if (!unit || qty === 0n) return;
+    m[unit] = (m[unit] ?? 0n) + qty;
+  };
+
+  const adminAddress = process.env.NEXT_PUBLIC_ADMIN_ADDRESS;
+  if (resolutionType === "money_to_one") {
+    const out0 = { lovelace: 0 };
+    add(out0, priceUnit, priceAmount);
+    const out1 = { lovelace: 0 };
+    add(out1, lockUnit, lockAmount);
+
+    return [
+      {
+        address: toStudent ? studentAddress : teacherAddress,
+        assets: out0,
+      },
+      {
+        address: toStudent ? teacherAddress : adminAddress,
+        assets: out1,
+      },
+    ];
+  }
+
+  const half = (params.lessonPriceAmount * 50n) / 100n;
+
+  const outTeacher = { lovelace: 0 };
+  const outStudent = { lovelace: 0 };
+  const outAdmin = { lovelace: 0 };
+
+  add(outTeacher, priceUnit, half);
+  add(outStudent, priceUnit, half);
+  add(outAdmin, lockUnit, lockAmount);
+
+  return [
+    { address: teacherAddress, assets: outTeacher }, // outputs[0]
+    { address: studentAddress, assets: outStudent }, // outputs[1]
+    { address: adminAddress, assets: outAdmin },     // outputs[2]
+  ];
+}
+
 
 export default async function handler(req, res) {
   // Basic CORS headers so that http://localhost:3000 can call https://localhost:3000 in dev
@@ -111,13 +135,18 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { teacherAddress, lessonData, lessonPaymentUnit = 'lovelace' } = req.body;
-    if (!lessonData.acceptationTxId)
+    const { lessonData, resolutionType, toStudent, lessonPaymentUnit = 'lovelace' } = req.body;
+    if (!lessonData.complaintTxId)
       throw new Error("Accepted transaction hash is required in lesson data");
+    if (!['money_to_one', 'money_to_both'].includes(resolutionType))
+      throw new Error("Invalid resolution type");
+    if (resolutionType === 'money_to_one' && typeof toStudent !== 'boolean') {
+      throw new Error("toStudent must be a boolean when resolutionType is 'money_to_one'");
+    }
 
     // Derive validator address from compiled Plutus script
-    const { acceptedAddress, acceptedValidator } = getValidatorsData();
-    console.log("Validator address:", acceptedAddress);
+    const { complaintAddress, complaintValidator } = getValidatorsData();
+    console.log("Validator address:", complaintAddress);
 
     // Define lock data
     const lockUnit = process.env.NEXT_PUBLIC_LESSON_LOCK_ASSET_UNIT || "lovelace";
@@ -127,30 +156,39 @@ export default async function handler(req, res) {
     }
 
     // Fetch teacher's UTXOs and build transaction
-    const lucid = await getTeacherLucid(teacherAddress);
-    const utxos = await lucid.utxosAt(acceptedAddress);
-    const inputUtxo = utxos.find((utxo) => utxo.txHash === lessonData.acceptationTxId);
+    const adminAddress = process.env.NEXT_PUBLIC_ADMIN_ADDRESS;
+    const studentAddress = lessonData.studentWallet;
+    const teacherAddress = lessonData.teacherWallet;
+    const lucid = await getTeacherLucid(adminAddress);
+    const utxos = await lucid.utxosAt(complaintAddress);
+    const inputUtxo = utxos.find((utxo) => utxo.txHash === lessonData.complaintTxId);
     if (!inputUtxo) {
       throw new Error("Input UTXO not found in validator's address");
     }
 
     // Build transaction amounts
-    const lessonPrice = BigInt(Math.round((lessonData.price / 100) * 1_000_000));
-    const admin = {};
-    admin[lockUnit] = (admin[lockUnit] || 0n) + lockAmount;
-    const teacher = {};
-    teacher[lessonPaymentUnit] = (teacher[lessonPaymentUnit] || 0n) + lessonPrice;
-    console.log("Computed confirmation outputs:", admin, teacher);
+    const lessonPriceAmount = BigInt(Math.round((lessonData.price / 100) * 1_000_000));
+    const outputs = computeComplaintOutputs(
+      resolutionType,
+      toStudent,
+      studentAddress,
+      teacherAddress,
+      lessonPaymentUnit,
+      lessonPriceAmount,
+      lockUnit,
+      BigInt(lockAmount)
+    );
+    console.log("Computed confirmation outputs:", outputs);
 
     // Build redeemer datum
-    const redeemerDatum = buildRedeemerDatum();
+    const redeemerDatum = buildRedeemerDatum(resolutionType, toStudent);
     if (!redeemerDatum) {
       throw new Error("Failed to build redeemer datum");
     }
 
     // Create transaction
-    const teacherKeyHash = getAddressDetails(teacherAddress).paymentCredential.hash;
-    if (!teacherKeyHash) {
+    const adminKeyHash = getAddressDetails(adminAddress).paymentCredential.hash;
+    if (!adminKeyHash) {
       throw new Error("Unable to extract student key hash from address");
     }
 
@@ -158,17 +196,13 @@ export default async function handler(req, res) {
       .newTx()
       .collectFrom([inputUtxo], redeemerDatum);
 
-    if (teacher && Object.keys(teacher).length > 0) {
-      tx = tx.pay.ToAddress(teacherAddress, teacher);
-    }
-    if (admin && Object.keys(admin).length > 0) {
-      const adminAddress = process.env.NEXT_PUBLIC_ADMIN_ADDRESS;
-        tx = tx.pay.ToAddress(adminAddress, admin);
+    for (const o of outputs) {
+      txb = txb.pay.ToAddress(o.address, o.assets);
     }
 
     tx = await tx
-      .attach.SpendingValidator(acceptedValidator)
-      .addSignerKey(teacherKeyHash)
+      .attach.SpendingValidator(complaintValidator)
+      .addSignerKey(adminKeyHash)
       .complete();
 
     return res.status(200).json({
