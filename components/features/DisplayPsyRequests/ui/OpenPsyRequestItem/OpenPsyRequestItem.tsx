@@ -151,7 +151,7 @@ const OpenPsyRequestItem = (props) => {
 
   return (
     <div className={s.wrapper}>
-      <RequestHeader {...{ userUid, clientUid, specUid, reqID, confirmedOnChain, t }} />
+      {/* <RequestHeader {...{ userUid, clientUid, specUid, reqID, confirmedOnChain, t }} /> */}
       <div className={`${s.reqField} ${s.reqSubject} ${s.col1}`}>
         {reqItem?.type === "direct"
           ? getLocalizedContent(reqItem?.selectedService?.title, currentLocale)

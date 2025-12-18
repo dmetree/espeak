@@ -271,8 +271,6 @@
 }
 
 :global(body.theme-dark) .mobileOverlay {
-  width: 375px;
-  max-width: 375px;
   left: 0;
   right: auto;
   background: var(--bgColor);

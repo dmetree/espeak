@@ -142,6 +142,7 @@ export const useOpenPsyRequestItemLogic = (props) => {
     setFreeTimestamps,
     t,
   });
+
   const { onNoviceDelete } = useNoviceDelete({
     reqID,
     singletonId,

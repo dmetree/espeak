@@ -147,18 +147,30 @@ export function buildDatumExact(
   return { datum, cborHex, json };
 }
 
-// Fetch ADA/USD exchange rate from CoinGecko
+// Fetch ADA/USD exchange rate (using internal API route for caching)
 async function fetchAdaToUsdRate() {
   try {
-    const response = await fetch(
-      "https://api.coingecko.com/api/v3/simple/price?ids=cardano&vs_currencies=usd"
-    );
+    // Use internal API route which has caching
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
+    const response = await fetch(`${baseUrl}/api/exchange-rate/ada-usd`);
     const data = await response.json();
-    if (data.cardano?.usd) {
-      return data.cardano.usd;
+    if (data.success && data.rate) {
+      return data.rate;
     }
   } catch (error) {
-    console.error("Failed to fetch ADA/USD rate:", error);
+    console.error("Failed to fetch ADA/USD rate from internal API:", error);
+    // Try direct CoinGecko API as fallback (server-side, no CORS issue)
+    try {
+      const response = await fetch(
+        "https://api.coingecko.com/api/v3/simple/price?ids=cardano&vs_currencies=usd"
+      );
+      const data = await response.json();
+      if (data.cardano?.usd) {
+        return data.cardano.usd;
+      }
+    } catch (fallbackError) {
+      console.error("Fallback CoinGecko API also failed:", fallbackError);
+    }
   }
   // Fallback rate if API fails
   return 0.5;
@@ -189,11 +201,9 @@ export default async function handler(req, res) {
       lessonPaymentUnit = "lovelace",
     } = req.body;
     if (!userAddress || !lessonData || !specialistData)
-      return res
-        .status(400)
-        .json({
-          error: "User address, lesson data, and specialist data are required.",
-        });
+      return res.status(400).json({
+        error: "User address, lesson data, and specialist data are required.",
+      });
     if (!specialistData.walletAddress)
       return res
         .status(400)

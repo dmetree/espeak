@@ -28,12 +28,12 @@ export function SessionConfirm() {
   useEffect(() => {
     const fetchAdaRate = async () => {
       try {
-        const response = await fetch(
-          "https://api.coingecko.com/api/v3/simple/price?ids=cardano&vs_currencies=usd"
-        );
+        const response = await fetch("/api/exchange-rate/ada-usd");
         const data = await response.json();
-        if (data.cardano?.usd) {
-          setAdaToUsdRate(data.cardano.usd);
+        if (data.success && data.rate) {
+          setAdaToUsdRate(data.rate);
+        } else {
+          setAdaToUsdRate(0.5); // Fallback rate
         }
       } catch (error) {
         console.error("Failed to fetch ADA/USD rate:", error);

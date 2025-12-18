@@ -245,24 +245,6 @@ body.theme-dark #__next {
   overflow-x: hidden;
 }
 
-/* Mobile-specific dark mode width */
-@media (max-width: 768px) {
-  body.theme-dark {
-    width: 375px;
-    max-width: 375px;
-  }
-
-  body.theme-dark #portal {
-    width: 375px;
-    max-width: 375px;
-  }
-
-  body.theme-dark #__next {
-    width: 375px;
-    max-width: 375px;
-  }
-}
-
 .react-datepicker-wrapper,
 .react-datepicker__input-container {
   width: auto !important;

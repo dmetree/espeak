@@ -112,7 +112,7 @@
 }
 
 .page {
-  width: 100vw;
+  width: 100%;
   min-height: 100vh;
   background: url("./../../shared/assets/img/bg.png");
   background-repeat: no-repeat;
@@ -120,6 +120,7 @@
   background-position: center;
   display: flex;
   flex-direction: column;
+  overflow-x: hidden;
 
   @media (min-width: 768px) {
     flex-direction: row;
@@ -165,6 +166,8 @@
 .mainContent {
   position: relative;
   z-index: 10;
+  width: 100%;
+  max-width: 100%;
 }
 
 .contentLayout {
@@ -183,30 +186,32 @@
 
 .rightSection {
   flex: 1;
+  margin-bottom: 2rem;
   @media (min-width: 1024px) {
     width: 408px;
   }
 }
 
 .welcomeCard {
-  // background-color: #fff;
-  // border-radius: 40px;
-  // box-shadow: 0 4px 8px 0 rgba(150, 160, 253, 0.3);
-  // padding: 1.5rem;
-  // margin-bottom: 4rem;
-  // position: relative;
-  // overflow: visible;
-  // min-height: 200px;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
 
   .content {
     display: flex;
     flex-direction: column;
-    align-items: flex-end;
-    gap: 2rem;
-    margin-top: 3rem;
+    align-items: stretch;
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
 
     @media (min-width: 768px) {
       flex-direction: row;
+      align-items: flex-end;
+      gap: 2rem;
+      margin-top: 3rem;
     }
 
     .textBlock {
@@ -281,9 +286,8 @@
   position: relative;
   display: flex;
   flex-direction: column;
-  gap: 24px;
-  padding: 24px 28px;
-  border-radius: 40px;
+  padding: 1.5rem;
+  border-radius: 24px;
   background: radial-gradient(
       circle at 0% 0%,
       rgba(198, 198, 255, 0.65),
@@ -291,28 +295,51 @@
     ),
     #fafafa;
   box-shadow: 0 10px 25px rgba(86, 102, 237, 0.22);
-  margin-bottom: 48px;
+  margin-bottom: 2rem;
   align-items: center;
+  justify-content: center;
   width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+
+  @media (min-width: 640px) {
+    padding: 1.75rem 2rem;
+    border-radius: 32px;
+    gap: 2rem;
+  }
 
   @media (min-width: 768px) {
     flex-direction: row;
     gap: 32px;
     align-items: flex-end;
+    justify-content: space-between;
+    padding: 24px 28px;
+    border-radius: 40px;
+    margin-bottom: 48px;
   }
 }
 
 .heroContent {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 0.5rem;
   flex: 1;
   text-align: center;
-  min-height: 150px;
-  justify-content: flex-end;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+
+  @media (min-width: 640px) {
+    gap: 8px;
+    min-height: 150px;
+    justify-content: center;
+    align-items: center;
+  }
 
   @media (min-width: 768px) {
     text-align: left;
+    justify-content: flex-end;
+    align-items: flex-start;
     max-width: 50%;
   }
 }
@@ -350,16 +377,23 @@
   justify-content: flex-end;
   align-items: center;
   flex: 1;
-  min-height: 160px;
-  position: absolute;
-  right: 50px;
+  width: 100%;
+  min-height: 120px;
+
+  @media (min-width: 640px) {
+    min-height: 160px;
+  }
 
   @media (min-width: 768px) {
+    position: absolute;
+    right: 50px;
+    width: auto;
     min-height: 137px;
   }
 
   img {
     z-index: 2;
+    max-width: 100%;
   }
 }
 
@@ -375,14 +409,14 @@
 
 .findTeacherButton {
   display: flex;
-  padding: 12px 40px;
+  padding: 10px 32px;
   justify-content: center;
   align-items: center;
-  border-radius: 24px;
+  border-radius: 20px;
   background: #5666ed;
   color: #fafafa;
   font-family: Helvetica, -apple-system, Roboto, sans-serif;
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 400;
   line-height: 150%;
   border: none;
@@ -390,8 +424,18 @@
   transition: all 0.2s ease-in-out;
   position: relative;
   z-index: 2;
+  width: 100%;
+  max-width: 100%;
 
   @media (min-width: 640px) {
+    padding: 12px 40px;
+    font-size: 18px;
+    width: auto;
+    max-width: none;
+    border-radius: 24px;
+  }
+
+  @media (min-width: 768px) {
     padding: 12px 56px;
     font-size: 21px;
   }

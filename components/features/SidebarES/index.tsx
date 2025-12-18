@@ -47,7 +47,7 @@ export default function SidebarES() {
       },
       {
         href: '/office',
-        label: "Teacher's Calendar",
+        label: "Teacher&apos;s Calendar",
         icon: <FaRegCalendarDays size={30} className={styles.navIcon} />,
         show: userData?.userRole === EUserRole.Specialist,
       },
@@ -91,22 +91,11 @@ export default function SidebarES() {
                   {isSidebarOpen && <span className={styles.navText}>{item.label}</span>}
                 </Link>
               ))}
-              {userData?.userRole === EUserRole.Specialist &&
-            <Link href="/office" className={styles.navItem}>
-              <FaRegCalendarDays size={30} color="#3b82f6" />
-              <span className={styles.navText}>Teacher's Calendar</span>
+
+            <Link href="/history" className={styles.navItem}>
+              <FaHistory size={34} color="#3b82f6" />
+              {isSidebarOpen && <span className={styles.navText}>Transaction History</span>}
             </Link>
-          }
-
-          <Link href="/user_info" className={styles.navItem}>
-            <RiProfileLine size={34} color="#3b82f6" />
-            <span className={styles.navText}>Profile</span>
-          </Link>
-
-          <Link href="/history" className={styles.navItem}>
-            <FaHistory size={34} color="#3b82f6" />
-            <span className={styles.navText}>Transaction History</span>
-          </Link>
           </nav>
 
           <div className={`${styles.socials} ${!isSidebarOpen ? styles.socialsCollapsed : ''}`}>
