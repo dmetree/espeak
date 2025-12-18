@@ -605,6 +605,7 @@
   "client_requests": "View Clients' Requests",
   "work_at_mindhealer": "Work as Expert",
   "collect_rewards": "Collect Payment",
+  "teacher_decline_request": "Decline Request",
   "become_partner": "Work as Partner",
   "create_event": "Create Event",
   "edit_event": "Edit Event",
@@ -965,5 +966,17 @@
 
   "share_qr_title": "Share your QR code",
   "share_ref_msg": "Check out this referral link from MindHealer!",
-  "whitepaper": "White Paper"
+  "whitepaper": "White Paper",
+
+  "transaction_history": "Transaction History",
+  "no_transactions": "No transactions found.",
+  "description": "Description",
+  "date": "Date",
+  "time": "Time",
+  "transaction_id": "Transaction ID",
+  "amount_ada": "Amount (ADA)",
+  "amount_usd": "Amount (USD)",
+  "accepted": "Accepted",
+  "withdrawn": "Withdrawn",
+  "general_lesson": "Lesson"
 }

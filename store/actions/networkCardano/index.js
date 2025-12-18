@@ -40,6 +40,15 @@ export const connectWallet = (wallet) => {
   };
 };
 
+export const signTx = async (wallet, tx) => {
+  try {
+    return await FluidLib.Cardano.Wallet.signTx(wallet, tx, false);
+  } catch (err) {
+    console.log(err);
+    toast.error(err);
+  }
+};
+
 export const disconnectWallet = () => {
   return {
     type: CARDANO_DISCONNECT_WALLET,

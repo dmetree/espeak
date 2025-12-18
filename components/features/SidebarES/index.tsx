@@ -10,7 +10,8 @@ import { EModalKind, EUserRole } from '@/components/shared/types/types';
 import { FaRegCalendarDays, FaUsersViewfinder, FaXTwitter } from 'react-icons/fa6';
 import { MdDashboard } from 'react-icons/md';
 import { RiProfileLine } from 'react-icons/ri';
-import { FaChalkboardTeacher, FaTelegramPlane, FaDiscord } from 'react-icons/fa';
+import { FaChalkboardTeacher, FaTelegramPlane, FaDiscord, FaHistory } from 'react-icons/fa';
+
 
 export default function SidebarES() {
   const dispatch: AppDispatch = useDispatch<AppDispatch>();
@@ -90,6 +91,22 @@ export default function SidebarES() {
                   {isSidebarOpen && <span className={styles.navText}>{item.label}</span>}
                 </Link>
               ))}
+              {userData?.userRole === EUserRole.Specialist &&
+            <Link href="/office" className={styles.navItem}>
+              <FaRegCalendarDays size={30} color="#3b82f6" />
+              <span className={styles.navText}>Teacher's Calendar</span>
+            </Link>
+          }
+
+          <Link href="/user_info" className={styles.navItem}>
+            <RiProfileLine size={34} color="#3b82f6" />
+            <span className={styles.navText}>Profile</span>
+          </Link>
+
+          <Link href="/history" className={styles.navItem}>
+            <FaHistory size={34} color="#3b82f6" />
+            <span className={styles.navText}>Transaction History</span>
+          </Link>
           </nav>
 
           <div className={`${styles.socials} ${!isSidebarOpen ? styles.socialsCollapsed : ''}`}>

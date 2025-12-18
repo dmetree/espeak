@@ -5,13 +5,13 @@ import { useRouter } from 'next/router';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { Timestamp } from "firebase/firestore";
-
 import {
   createAppointment,
   setIsAppointmentFinished,
   clearDraftAppointment,
   setDraftAppointment,
 } from '@/store/actions/appointments';
+import { submitLessonRequestTx } from '@/store/actions/lessons';
 import { saveSlots, actionUpdateProfile, } from '@/store/actions/profile/user';
 import { loadMessages } from '@/components/shared/i18n/translationLoader';
 import { EModalKind } from '../../shared/types/types';
@@ -43,12 +43,16 @@ import { getCurrentTimeZone } from '@/components/shared/utils/datetime/get-curre
 import s from './.module.scss';
 import { AppDispatch } from "@/store";
 import { debounce } from '@/components/shared/utils/throttleDebounce';
-
+import * as actions from "@/store/actions/networkCardano";
 
 
 const BookSession = () => {
   const router = useRouter();
   const dispatch: AppDispatch = useDispatch<AppDispatch>();
+
+  const user = useSelector(({ networkCardano }) => networkCardano.user);
+  const wallet = useSelector(({ networkCardano }) => networkCardano.wallet);
+  const selectedSpecialist = useSelector(({ specialists }) => specialists.selectedSpecialist);
 
   const userUid = useSelector(({ user }) => user.uid);
   const userData = useSelector(({ user }) => user?.userData);
@@ -95,6 +99,47 @@ const BookSession = () => {
   const services = draftAppointment?.services || [];
   const isServicesStep = router.pathname.startsWith('/specialist-profile') && step?.type === SessionServices;
   const isNoServices = isServicesStep && (!Array.isArray(services) || services.length === 0);
+  const buildTxToBackend = async (address, appointment, specialist) => {
+    const response = await fetch('/api/lessons/request/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        userAddress: address,
+        lessonData: appointment,
+        specialistData: specialist,
+      }),
+    });
+
+    if (response.status !== 200)
+      throw new Error('Failed to create lesson request transaction');
+    const { success, txCbor } = await response.json();
+    if (!success)
+      throw new Error('Lesson request transaction was not successful');
+    return txCbor;
+  }
+
+  const submitTxToBackend = async (address, tx, witnesses) => {
+    const response = await fetch('/api/lessons/submit/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        address,
+        tx,
+        witnesses
+      }),
+    });
+
+    if (response.status !== 200)
+      throw new Error('Failed to create lesson request transaction');
+    const { success, hash } = await response.json();
+    if (!success)
+      throw new Error('Lesson request transaction was not successful');
+    return hash;
+  }
 
   // Submit handler
   const onSubmit = async (e) => {
@@ -112,7 +157,7 @@ const BookSession = () => {
       clientAvatar: userData?.avatar,
       specUid: draftAppointment.specUid ? draftAppointment.specUid : null,
       type: draftAppointment.specUid ? 'direct' : 'general',
-      lang: userData?.languages,
+      lang: userData?.languages
     };
 
     // Remove any undefined fields to satisfy Firestore (e.g. psyRank can be undefined)
@@ -128,8 +173,16 @@ const BookSession = () => {
         (timestamp) => timestamp > currentUnixTime && timestamp !== appointment.scheduledUnixtime
       );
 
+      // Cardano transaction
+      if (user?.address == null || appointment == null || selectedSpecialist == null)
+        throw new NoAuthError('User not authenticated or missing appointment/specialist data');
+
+      const txCbor = await buildTxToBackend(user.address, appointment, selectedSpecialist);
+      const witnesses = await actions.signTx(wallet, txCbor);
+      const txHash = await submitTxToBackend(user.address, txCbor, witnesses);
+
       // Create appointment in backend (Firestore)
-      await dispatch(createAppointment(userUid, appointment));
+      await dispatch(createAppointment(userUid, appointment, null, txHash, undefined, undefined, user?.address));
 
       // Update specialist free slots in backend
       if (isSpecialist) {
@@ -197,6 +250,9 @@ const BookSession = () => {
     };
   }, []);
 
+  // Treat wallet as connected when we have a Cardano user address
+  const isWalletConnected = !!user?.address;
+
 
   return (
     <div className={s.booking}>
@@ -211,7 +267,7 @@ const BookSession = () => {
           <Button
             className={s.formBtn}
             type="submit"
-            disabled={loading || isNoServices}
+            disabled={isLastStep && !isWalletConnected || loading || isNoServices}
           >
             {isLastStep ? t.done : t.done}
             {/* Wallet/balance warnings disabled for backend-only flow */}

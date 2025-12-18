@@ -12,6 +12,7 @@ import { storage } from '@/components/shared/utils/firebase/init';
 import { AppDispatch } from '@/store';
 import { actionUpdateProfile } from '@/store/actions/profile/user';
 import { minifyAddress, copyTextToClipboard } from '@/components/shared/utils/helper';
+import { toggleWalletSelector } from '@/store/actions/networkCardano';
 
 import LanguageSelector from '@/components/pages/spec_info/ui/LanguageSelector';
 import AboutTextarea from '@/components/pages/spec_info/ui/AboutTextarea';
@@ -575,8 +576,20 @@ const UserInfo = ({ specialistData, t, isPublic, currentLocale }) => {
                 </button>
               </div>
             ) : (
-              <div>
-                <p>Connect wallet and save it to your profile.</p>
+              <div className={styles.walletBox}>
+                <p className={styles.walletText}>
+                  <button
+                    type="button"
+                    className={styles.walletLink}
+                    onClick={() => dispatch(toggleWalletSelector())}
+                  >
+                    Connect wallet
+                  </button>{" "}
+                  and save it to your profile.
+                </p>
+                <span className={styles.walletNote}>
+                  You can save your wallet address only once.
+                </span>
                 <button
                   type="button"
                   className={styles.saveWalletButton}

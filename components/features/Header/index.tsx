@@ -173,6 +173,8 @@ const Header = (props: IProps) => {
 
     try {
       await dispatch(logout());
+      // Also disconnect Cardano wallet on logout
+      dispatch(blockChainActions.disconnectWallet());
       router.replace('/');
     } catch (error) {
       console.error('Logout failed:', error);

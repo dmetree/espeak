@@ -41,9 +41,15 @@ const OpenPsyRequestItem = (props) => {
   const userUid = useSelector(({ user }) => user.uid);
   const userData = useSelector(({ user }) => user?.userData);
   const userRole = useSelector(({ user }) => user?.userData.userRole);
-  const draftAppointment = useSelector(({ appointments }) => appointments.draftAppointment);
-  const therapistWalletAddress = useSelector(({ networkErgo }) => networkErgo?.ergoWalletAddress[0]);
-  const ergoWalletConnected = useSelector(({ networkErgo }) => networkErgo.ergoWalletConnected);
+  const draftAppointment = useSelector(
+    ({ appointments }) => appointments.draftAppointment
+  );
+  const therapistWalletAddress = useSelector(
+    ({ networkErgo }) => networkErgo?.ergoWalletAddress[0]
+  );
+  const cardanoWallet = useSelector(
+    ({ networkCardano }) => networkCardano.wallet
+  );
   const currentLocale = useSelector(({ locale }) => locale.currentLocale);
   const t = loadMessages(currentLocale);
 
@@ -110,6 +116,7 @@ const OpenPsyRequestItem = (props) => {
 
   const { onSpecialistAccept } = useSpecialistAccept({
     reqID,
+    reqItem,
     singletonId,
     price,
     scheduledUnixtime,
@@ -119,13 +126,13 @@ const OpenPsyRequestItem = (props) => {
     t,
   });
 
-  const { onNoviceDelete } = useNoviceDelete({ reqID, singletonId, draftAppointment });
+  const { onNoviceDelete } = useNoviceDelete({ reqID, singletonId, draftAppointment, reqItem });
 
   const { onSpecialistClaimRewards } = useSpecialistClaimRewards({
     singletonId,
     therapistWalletAddress,
     userData,
-    reqID,
+    reqItem,
     clientUid,
     t,
   });
@@ -167,7 +174,7 @@ const OpenPsyRequestItem = (props) => {
           toggleDropdownRefund,
           showDropdownCancelAcceptClient,
           showDropdownRefund,
-          ergoWalletConnected,
+          walletConnected: !!cardanoWallet,
           showCancelModal,
           setShowCancelModal,
           cancelMeta,
