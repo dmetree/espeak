@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { loadMessages } from "@/components/shared/i18n/translationLoader";
 
@@ -21,6 +21,37 @@ export function SessionConfirm() {
   // Wallet connection state from Cardano network slice
   const wallet = useSelector(({ networkCardano }) => networkCardano.wallet);
   const isWalletConnected = !!wallet;
+
+  // Fetch ADA/USD exchange rate
+  const [adaToUsdRate, setAdaToUsdRate] = useState(null);
+
+  useEffect(() => {
+    const fetchAdaRate = async () => {
+      try {
+        const response = await fetch(
+          "https://api.coingecko.com/api/v3/simple/price?ids=cardano&vs_currencies=usd"
+        );
+        const data = await response.json();
+        if (data.cardano?.usd) {
+          setAdaToUsdRate(data.cardano.usd);
+        }
+      } catch (error) {
+        console.error("Failed to fetch ADA/USD rate:", error);
+        // Fallback to a default rate if API fails
+        setAdaToUsdRate(0.5);
+      }
+    };
+    fetchAdaRate();
+  }, []);
+
+  // Calculate price in USD and ADA
+  const priceInCents =
+    draftAppointment.price === null
+      ? ExpToPrice[draftAppointment.psyRank]
+      : draftAppointment.price;
+  const priceInUSD = priceInCents / 100;
+  const priceInADA =
+    adaToUsdRate && adaToUsdRate > 0 ? priceInUSD / adaToUsdRate : priceInUSD; // Fallback: assume 1 USD = 1 ADA if rate not available
 
   return (
     <FormWrapper title={t.check_and_confirm}>
@@ -61,10 +92,7 @@ export function SessionConfirm() {
         <div className={s.price_item}>
           {t.price}
           <div className={s.price}>
-            ${" "}
-            {draftAppointment.price === null
-              ? ExpToPrice[draftAppointment.psyRank] / 100
-              : draftAppointment.price / 100}
+            ${priceInUSD.toFixed(2)} ({priceInADA.toFixed(2)} ADA)
           </div>
         </div>
 
