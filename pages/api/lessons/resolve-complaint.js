@@ -159,7 +159,7 @@ export default async function handler(req, res) {
     const adminAddress = process.env.NEXT_PUBLIC_ADMIN_ADDRESS;
     const studentAddress = lessonData.studentWallet;
     const teacherAddress = lessonData.teacherWallet;
-    const lucid = await getTeacherLucid(adminAddress);
+    const lucid = await getLucid(adminAddress);
     const utxos = await lucid.utxosAt(complaintAddress);
     const inputUtxo = utxos.find((utxo) => utxo.txHash === lessonData.complaintTxId);
     if (!inputUtxo) {
