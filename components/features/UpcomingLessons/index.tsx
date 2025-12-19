@@ -108,9 +108,22 @@ const UpcomingLessons = () => {
 
         return workAppointments
             .filter(
-                (req) =>
-                    req.specUid === userUid &&
-                    FINISHED_STATUSES.includes(req.status),
+                (req) => {
+                    // Must be the teacher's lesson
+                    if (req.specUid !== userUid) return false;
+
+                    // Include lessons with Finished or Archived status
+                    if (FINISHED_STATUSES.includes(req.status)) return true;
+
+                    // Also include lessons that have passed their scheduled time
+                    // and were accepted (not just open requests)
+                    if (req.scheduledUnixtime < currentTime &&
+                        ACTIVE_UPCOMING_STATUSES.includes(req.status)) {
+                        return true;
+                    }
+
+                    return false;
+                }
             )
             .sort((a, b) => b.scheduledUnixtime - a.scheduledUnixtime);
     }, [workAppointments, userUid, currentTime]);
