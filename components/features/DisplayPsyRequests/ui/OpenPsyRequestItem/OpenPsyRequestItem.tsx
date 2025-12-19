@@ -155,11 +155,11 @@ const OpenPsyRequestItem = (props) => {
       <div className={`${s.reqField} ${s.reqSubject} ${s.col1}`}>
         {reqItem?.type === "direct"
           ? getLocalizedContent(reqItem?.selectedService?.title, currentLocale)
-          : t[subject]
+          : reqItem?.subject
         }
       </div>
       <RequestDateTime {...{ isTimeZoneLoaded, isDateTimeLoaded, reqDate, reqTime, t }} />
-      <RequestPrice {...{ psyRank, price, t }} />
+      <RequestPrice {...{ price }} />
       <RequestActions
         {...{
           t,

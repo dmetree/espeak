@@ -6,7 +6,9 @@ const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes in milliseconds
 export default async function handler(req, res) {
   // Only allow GET requests
   if (req.method !== "GET") {
-    return res.status(405).json({ error: "Method not allowed" });
+    return res
+      .status(405)
+      .json({ success: false, error: "Method not allowed" });
   }
 
   // Check if we have a valid cached rate
@@ -30,24 +32,24 @@ export default async function handler(req, res) {
     );
 
     if (!response.ok) {
-      throw new Error(`CoinGecko API error: ${response.status}`);
+      throw new Error(`CoinGecko API returned status ${response.status}`);
     }
 
     const data = await response.json();
+    const rate = data?.cardano?.usd;
 
-    if (data.cardano?.usd) {
-      // Cache the rate
-      cachedRate = data.cardano.usd;
-      cacheTimestamp = now;
-
-      return res.status(200).json({
-        success: true,
-        rate: data.cardano.usd,
-        cached: false,
-      });
-    } else {
-      throw new Error("Invalid response from CoinGecko API");
+    if (typeof rate !== "number" || rate <= 0) {
+      throw new Error("Invalid rate received from CoinGecko");
     }
+
+    // Cache the rate
+    cachedRate = rate;
+    cacheTimestamp = now;
+
+    return res.status(200).json({
+      success: true,
+      rate: rate,
+    });
   } catch (error) {
     console.error("Failed to fetch ADA/USD rate:", error);
 
@@ -57,16 +59,14 @@ export default async function handler(req, res) {
         success: true,
         rate: cachedRate,
         cached: true,
-        error: "Using cached rate due to API error",
+        warning: "Using cached rate due to API error",
       });
     }
 
     // Fallback rate if no cache available
-    return res.status(200).json({
-      success: true,
-      rate: 0.5, // Fallback rate
-      cached: false,
-      error: "Using fallback rate",
+    return res.status(500).json({
+      success: false,
+      error: "Failed to fetch exchange rate",
     });
   }
 }

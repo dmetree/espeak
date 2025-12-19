@@ -147,34 +147,8 @@ export function buildDatumExact(
   return { datum, cborHex, json };
 }
 
-// Fetch ADA/USD exchange rate (using internal API route for caching)
-async function fetchAdaToUsdRate() {
-  try {
-    // Use internal API route which has caching
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
-    const response = await fetch(`${baseUrl}/api/exchange-rate/ada-usd`);
-    const data = await response.json();
-    if (data.success && data.rate) {
-      return data.rate;
-    }
-  } catch (error) {
-    console.error("Failed to fetch ADA/USD rate from internal API:", error);
-    // Try direct CoinGecko API as fallback (server-side, no CORS issue)
-    try {
-      const response = await fetch(
-        "https://api.coingecko.com/api/v3/simple/price?ids=cardano&vs_currencies=usd"
-      );
-      const data = await response.json();
-      if (data.cardano?.usd) {
-        return data.cardano.usd;
-      }
-    } catch (fallbackError) {
-      console.error("Fallback CoinGecko API also failed:", fallbackError);
-    }
-  }
-  // Fallback rate if API fails
-  return 0.5;
-}
+// Import centralized price conversion utility
+const { convertPriceToLovelace } = require("../utils/price-converter");
 
 export default async function handler(req, res) {
   // Basic CORS headers so that http://localhost:3000 can call https://localhost:3000 in dev
@@ -228,15 +202,8 @@ export default async function handler(req, res) {
       throw new Error("Invalid lesson lock lovelace amount configured");
     }
 
-    // Fetch ADA/USD exchange rate and convert price from USD to ADA
-    const adaToUsdRate = await fetchAdaToUsdRate();
-    const priceInUSD = lessonData.price / 100; // Price in cents, convert to USD
-    const priceInADA = priceInUSD / adaToUsdRate; // Convert USD to ADA
-    const priceInLovelace = Math.round(priceInADA * 1_000_000); // Convert ADA to lovelace
-
-    console.log(
-      `Price conversion: ${priceInUSD} USD = ${priceInADA} ADA (rate: ${adaToUsdRate}) = ${priceInLovelace} lovelace`
-    );
+    // Convert price from USD cents to lovelace using centralized utility
+    const priceInLovelace = await convertPriceToLovelace(lessonData.price);
 
     // Build lesson request datum
     console.log(

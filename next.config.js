@@ -36,10 +36,11 @@ const securityHeaders = [
     key: "Content-Security-Policy",
     value: defaultCsp,
   },
-  {
-    key: "Strict-Transport-Security",
-    value: "max-age=31536000; includeSubDomains",
-  },
+  // HSTS disabled for localhost - only enable in production
+  // {
+  //   key: "Strict-Transport-Security",
+  //   value: "max-age=31536000; includeSubDomains",
+  // },
 ];
 
 const MS_PER_SECOND = 1000;
@@ -98,7 +99,7 @@ const nextConfig = {
     if (!isServer) {
       config.resolve.fallback = {
         ...config.resolve.fallback,
-        util: require.resolve('util/'),
+        util: require.resolve("util/"),
       };
     }
 

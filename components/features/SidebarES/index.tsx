@@ -47,7 +47,7 @@ export default function SidebarES() {
       },
       {
         href: '/office',
-        label: "Teacher&apos;s Calendar",
+        label: "Teacher`s Calendar",
         icon: <FaRegCalendarDays size={30} className={styles.navIcon} />,
         show: userData?.userRole === EUserRole.Specialist,
       },

@@ -41,6 +41,8 @@ export const useSpecialistAccept = ({
       }),
     });
 
+    console.log(response);
+
     if (response.status !== 200)
       throw new Error("Failed to create lesson accept transaction");
     const { success, txCbor } = await response.json();
