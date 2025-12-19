@@ -41,15 +41,17 @@ const OpenPsyRequestItem = (props) => {
   const userUid = useSelector(({ user }) => user.uid);
   const userData = useSelector(({ user }) => user?.userData);
   const userRole = useSelector(({ user }) => user?.userData.userRole);
+  const therapistWalletAddress = useSelector(({ user }) => user?.userData.walletAddress);
+
   const draftAppointment = useSelector(
     ({ appointments }) => appointments.draftAppointment
   );
-  const therapistWalletAddress = useSelector(
-    ({ networkErgo }) => networkErgo?.ergoWalletAddress[0]
-  );
-  const cardanoWallet = useSelector(
-    ({ networkCardano }) => networkCardano.wallet
-  );
+  // const therapistWalletAddress = useSelector(
+  //   ({ networkErgo }) => networkErgo?.ergoWalletAddress[0]
+  // ); 
+  // const cardanoWallet = useSelector(
+  //   ({ networkCardano }) => networkCardano.wallet
+  // );
   const currentLocale = useSelector(({ locale }) => locale.currentLocale);
   const t = loadMessages(currentLocale);
 
@@ -139,7 +141,7 @@ const OpenPsyRequestItem = (props) => {
 
   const handleCancelClick = async () => {
     const ready = await prepareCancel();
-    if (ready) 
+    if (ready)
       setShowCancelModal(true);
   };
 
@@ -175,7 +177,7 @@ const OpenPsyRequestItem = (props) => {
           toggleDropdownRefund,
           showDropdownCancelAcceptClient,
           showDropdownRefund,
-          walletConnected: !!cardanoWallet,
+          walletConnected: !!therapistWalletAddress,
           showCancelModal,
           setShowCancelModal,
           cancelMeta,
