@@ -2,7 +2,10 @@ import {
   Lucid,
   Blockfrost,
   validatorToAddress,
-  Data
+  Data,
+  getAddressDetails,
+  validatorToScriptHash,
+  applyParamsToScript,
 } from "@lucid-evolution/lucid";
 
 // This endpoint handles lesson withdrawal requests from teachers.
