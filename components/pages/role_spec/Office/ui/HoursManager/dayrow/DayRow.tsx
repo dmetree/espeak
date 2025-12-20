@@ -6,7 +6,9 @@ import {
   deleteAcceptedReqPsych,
   setRequestRoomId,
   fetchMyAppointments,
-  psychDeleteRequestClaimRewards
+  psychDeleteRequestClaimRewards,
+  incrementHrPsy,
+  incrementHrInPsy,
 } from "@/store/actions/appointments";
 import { AppDispatch } from "@/store";
 import {
@@ -19,13 +21,9 @@ import { ErgoToken } from "@/blockchain/ergo/offchain/models/transaction.types";
 
 import {
   nodeNetwork,
-  nanoErgSessionValue,
   nanoErgMinerFee,
-  p2pkInputAmount,
 } from '@/components/shared/utils/ergo-blockchain-utils';
-
-import { saveSlots } from '@/store/actions/profile/user';
-import { showModal, hideModal, toggleModal } from '@/store/actions/modal';
+import { showModal } from '@/store/actions/modal';
 import { toast } from "react-toastify";
 import { loadMessages } from '@/components/shared/i18n/translationLoader';
 
@@ -37,21 +35,20 @@ import { buildRefundClient } from "@/blockchain/ergo/offchain/app/transactions/r
 import { TransactionHelperRefund } from "@/blockchain/ergo/offchain/app/transactions/refundClientTx/refund-transaction-helper";
 import { buildCancelAcceptPsych } from '@/blockchain/ergo/offchain/app/transactions/cancelAcceptedSessionPsychTx/cancelAcceptPsych';
 import { TransactionHelperCancelAcceptPsych } from '@/blockchain/ergo/offchain/app/transactions/cancelAcceptedSessionPsychTx/cancel-accept-psych-transaction-helper';
-import { TransactionHelperAccept } from "@/blockchain/ergo/offchain/app/transactions/acceptRequestTx/accept-transaction-helper";
-import { buildAcceptRequest } from "@/blockchain/ergo/offchain/app/transactions/acceptRequestTx/acceptRequest";
 
-import { buildPsychEndNoProblem } from '@/blockchain/ergo/offchain/app/transactions/endSessionPsychTx/endSessionPsych';
-import { TransactionHelperEndSessionPsych } from '@/blockchain/ergo/offchain/app/transactions/endSessionPsychTx/end-session-psych-transaction-helper';
 import { TxConfirmationListener } from '@/hooks/blockchainListener';
 
 import s from './DayRow.module.scss';
 import { ConfirmCancelModal } from '@/components/shared/ui/ConfirmCancelModal/ConfirmCancelModal';
 import { useClickOutside } from '@/hooks/useClickOutside';
 import { getLocalizedContent } from '@/hooks/localize';
-
+import * as actions from "@/store/actions/networkCardano";
 
 const DayRow = ({ hour, handleClick, mark, bgColor, request, isPastHour }) => {
   const dispatch: AppDispatch = useDispatch<AppDispatch>();
+  const user = useSelector(({ networkCardano }) => networkCardano.user);
+  const wallet = useSelector(({ networkCardano }) => networkCardano.wallet);
+
   const userUid = useSelector(({ user }) => user.uid);
   const userData = useSelector(({ user }) => user?.userData);
   const therapistWalletAddress = useSelector(({ networkErgo }) => networkErgo?.ergoWalletAddress[0]);
@@ -98,15 +95,102 @@ const DayRow = ({ hour, handleClick, mark, bgColor, request, isPastHour }) => {
     return EReqStatus[status] || 'Unknown Status';
   };
 
-
   const joinChatRoom = () => {
     dispatch(showModal(EModalKind.VideoCall)); // TODO: add modal
     dispatch(setRequestRoomId(request.id)); // TODO: import method
   };
 
+  const buildWithdrawTxToBackend = async (address, appointment) => {
+    const response = await fetch('/api/lessons/withdraw/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        teacherAddress: address,
+        lessonData: appointment,
+      }),
+    });
+
+    if (response.status !== 200)
+      throw new Error('Failed to create lesson withdraw transaction');
+    const { success, txCbor } = await response.json();
+    if (!success)
+      throw new Error('Lesson withdraw transaction was not successful');
+    return txCbor;
+  }
+
+  const buildAcceptTxToBackend = async (address, appointment) => {
+    console.log('address', address, 'appointment', appointment)
+    const response = await fetch('/api/lessons/accept/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        teacherAddress: address,
+        lessonData: appointment,
+      }),
+    });
+
+    if (response.status !== 200)
+      throw new Error('Failed to create lesson accept transaction');
+    const { success, txCbor } = await response.json();
+    if (!success)
+      throw new Error('Lesson accept transaction was not successful');
+    return txCbor;
+  }
+
+  const buildCancelTxToBackend = async (address, studentAddress, appointment) => {
+    const response = await fetch('/api/lessons/cancel/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        teacherAddress: address,
+        studentAddress: studentAddress,
+        requestor: "teacher",
+        lessonData: appointment,
+      }),
+    });
+
+    if (response.status !== 200)
+      throw new Error('Failed to create lesson cancel transaction');
+    const { success, txCbor } = await response.json();
+    if (!success)
+      throw new Error('Lesson cancel transaction was not successful');
+    return txCbor;
+  }
+
+  const submitTxToBackend = async (address, tx, witnesses) => {
+    const response = await fetch('/api/lessons/submit/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        address,
+        tx,
+        witnesses
+      }),
+    });
+
+    if (response.status !== 200)
+      throw new Error('Failed to create lesson request transaction');
+    const { success, hash } = await response.json();
+    if (!success)
+      throw new Error('Lesson request transaction was not successful');
+    return hash;
+  }
+
   const onSpecialistAccept = async () => {
 
-    dispatch(acceptRequest(userUid, request.id, userData.nickname, userData.avatar, userData.psyRank));
+    const txCbor = await buildAcceptTxToBackend(user.address, request);
+    const witnesses = await actions.signTx(wallet, txCbor);
+    const txHash = await submitTxToBackend(user.address, txCbor, witnesses);
+
+    dispatch(acceptRequest(userUid, request.id, userData.nickname, userData.avatar, userData.psyRank, txHash));
     dispatch(fetchMyAppointments(userUid));
     setIsAccepting(false); // reset
 
@@ -223,6 +307,12 @@ const DayRow = ({ hour, handleClick, mark, bgColor, request, isPastHour }) => {
 
   const onSpecialistCancelAccept = async (singletonId) => {
 
+    const txCbor = await buildCancelTxToBackend(user.address, request.studentWallet, request);
+    const witnesses = await actions.signTx(wallet, txCbor);
+    const txHash = await submitTxToBackend(user.address, txCbor, witnesses);
+    console.log("txHash: ", txHash);
+    //TODO: save txhash in appointment in database
+
     const response = await fetch(`https://api.ergoplatform.com/api/v1/boxes/unspent/byTokenId/${singletonId}`);
     const data = await response.json();
 
@@ -293,10 +383,57 @@ const DayRow = ({ hour, handleClick, mark, bgColor, request, isPastHour }) => {
     return () => clearInterval(id);
   }, []);
 
-  const handleClaimRewards = () => {
-    // dispatch(psychDeleteRequestClaimRewards(userUid, request.id));
-    toast.success("You claimed rewards")
+  const handleClaimRewards = async () => {
+    try {
+      // 1. Build & submit Cardano withdraw transaction
+      const txCbor = await buildWithdrawTxToBackend(user.address, request);
+      const witnesses = await actions.signTx(wallet, txCbor);
+      const txHash = await submitTxToBackend(user.address, txCbor, witnesses);
+      console.log("txHash (withdraw): ", txHash);
+
+      // 2. Push notification to teacher profile
+      const payload = {
+        title: t.notification_spec_claim_rewards,
+        message: t.text_spec_claim_rewards,
+        linkTo: "",
+        created_at: new Date(),
+        isRead: false,
+      };
+
+      const currentNotifications = Array.isArray(userData?.notifications)
+        ? userData.notifications
+        : [];
+
+      const updatedNotifications = [...currentNotifications, payload];
+
+      await dispatch(
+        actionUpdateProfile(updatedNotifications, userUid, "notifications")
+      );
+
+      await dispatch(fetchUserData(userUid));
+
+      // 3. Update hours and remove request
+      await dispatch(incrementHrPsy(userUid));
+      if (request?.clientUid) {
+        await dispatch(incrementHrInPsy(request.clientUid));
+      }
+      await dispatch(psychDeleteRequestClaimRewards(userUid, request.id));
+      await dispatch(fetchMyAppointments(userUid));
+
+      toast.success(t.requests.claim_rewards);
+    } catch (error) {
+      console.error("Error claiming rewards:", error);
+      toast.error(t.requests.failed_claim_rewards);
+    } finally {
+      setShowDropdownCancelAcceptPsych(false);
+    }
   }
+
+  const handleTeacherDeclineRequest = () => {
+    toast.success("You declined a personal request for therapy.");
+  }
+
+
 
   return (
     <div
@@ -398,7 +535,9 @@ const DayRow = ({ hour, handleClick, mark, bgColor, request, isPastHour }) => {
               <Button
                 className={s.dayRowBtn}
                 onClick={joinChatRoom}
-              >&#128682;</Button>
+              >
+                &#128682;
+              </Button>
               <div
                 className={s.etc}
                 onClick={(e) => {
@@ -418,9 +557,11 @@ const DayRow = ({ hour, handleClick, mark, bgColor, request, isPastHour }) => {
                   <Button onClick={handleClaimRewards}>
                     {t.collect_rewards}
                   </Button>
+                  <Button onClick={handleTeacherDeclineRequest}>
+                    {t.teacher_decline_request}
+                  </Button>
                 </div>
               )}
-
               {showConfirmCancelModal && cancelMeta && (
                 <ConfirmCancelModal
                   meta={cancelMeta}

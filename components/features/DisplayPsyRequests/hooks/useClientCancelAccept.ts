@@ -11,6 +11,7 @@ import { nanoErgMinerFee } from "@/components/shared/utils/ergo-blockchain-utils
 import { deleteRequest } from "@/store/actions/appointments";
 import { AppDispatch } from "@/store";
 import { toast } from "react-toastify";
+import * as actions from "@/store/actions/networkCardano";
 
 const CLIENT_CANCEL_PERIOD = 720; // 24h
 const PSY_CANCEL_PERIOD = 60; // 2h
@@ -19,14 +20,18 @@ export const useClientCancelAccept = ({
   singletonId,
   reqID,
   t,
+  reqItem,
 }: {
   singletonId: string;
   reqID: string;
   t: any;
+  reqItem: any;
 }) => {
   const dispatch: AppDispatch = useDispatch<AppDispatch>();
   const userUid = useSelector(({ user }) => user.uid);
   const userData = useSelector(({ user }) => user?.userData);
+  const user = useSelector(({ networkCardano }) => networkCardano.user);
+  const wallet = useSelector(({ networkCardano }) => networkCardano.wallet);
   const ergoCustomerWalletAddress = useSelector(
     ({ networkErgo }) => networkErgo?.ergoWalletAddress[0]
   );
@@ -38,6 +43,49 @@ export const useClientCancelAccept = ({
     sessionStartBlock: number;
     currentBlock: number;
   }>(null);
+
+   const buildCancelTxToBackend = async (address, teacherAddress, appointment) => {
+    const response = await fetch('/api/lessons/cancel/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        teacherAddress: teacherAddress,
+        studentAddress: address,
+        requestor: "student",
+        lessonData: appointment,
+      }),
+    });
+
+    if (response.status !== 200)
+      throw new Error('Failed to create lesson cancel transaction');
+    const { success, txCbor } = await response.json();
+    if (!success)
+      throw new Error('Lesson cancel transaction was not successful');
+    return txCbor;
+  }
+
+  const submitTxToBackend = async (address, tx, witnesses) => {
+    const response = await fetch('/api/lessons/submit/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        address,
+        tx,
+        witnesses
+      }),
+    });
+
+    if (response.status !== 200)
+      throw new Error('Failed to create lesson request transaction');
+    const { success, hash } = await response.json();
+    if (!success)
+      throw new Error('Lesson request transaction was not successful');
+    return hash;
+  }
 
   const checkIfPenaltyApplies = async () => {
     const res = await fetch(
@@ -90,9 +138,14 @@ export const useClientCancelAccept = ({
     setIsLoading(true);
 
     try {
+      
+      const txCbor = await buildCancelTxToBackend(user.address, reqItem.teacherWallet, reqItem);
+      const witnesses = await actions.signTx(wallet, txCbor);
+      const txHash = await submitTxToBackend(user.address, txCbor, witnesses);
+      console.log("txHash: ", txHash);
+      
       const result = await checkIfPenaltyApplies();
       if (!result) return;
-
       const { sessionBox } = result;
 
       const ergo = await ergoConnector.nautilus.getContext();

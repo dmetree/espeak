@@ -297,13 +297,13 @@ export const createAppointment =
     singletonId?: string,
     txId?: any,
     partnerOne?: string,
-    partnerTwo?: string
+    partnerTwo?: string,
+    studentWallet?: string
   ) =>
   async (dispatch: Dispatch, getState: () => any) => {
     dispatch(createAppointmentStart());
 
-    const { user } = getState();
-    const studentWallet = user?.userData?.walletAddress;
+    console.log("Adding  studentWallet to appointment", studentWallet);
 
     if (!userUid) {
       const error = new Error("Cannot create appointment: no user ID.");
@@ -375,7 +375,8 @@ export const acceptRequest =
     reqID: string,
     nickname: string,
     specAvatar: string,
-    psyRank: string
+    psyRank: string,
+    txHash: string
   ) =>
   async (dispatch: Dispatch, getState: () => any) => {
     dispatch(acceptRequestStart());
@@ -389,6 +390,7 @@ export const acceptRequest =
         specUid: uID,
         specNickname: nickname,
         specAvatar: specAvatar,
+        acceptationTxId: txHash,
         teacherWallet,
       });
       dispatch(acceptRequestSuccess(reqID));

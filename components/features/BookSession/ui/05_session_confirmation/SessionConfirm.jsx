@@ -2,14 +2,10 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { loadMessages } from "@/components/shared/i18n/translationLoader";
 import { setDraftAppointment } from "@/store/actions/appointments";
-
 import { ExpToPrice } from "@/components/shared/assets/expToPriceDictionary/ExpToPriceDictionary";
-import { EGender } from "@/components/shared/types/types";
-
 import s from "./Session.module.css";
 
 import { FormWrapper } from "../../helpers/FormWrapper";
-
 import { toggleWalletSelector } from "@/store/actions/networkCardano";
 import { hideModal } from "@/store/actions/modal";
 import { EModalKind } from "@/components/shared/types/types";
@@ -21,6 +17,10 @@ export function SessionConfirm() {
   const draftAppointment = useSelector(
     ({ appointments }) => appointments.draftAppointment
   );
+
+  // Wallet connection state from Cardano network slice
+  const wallet = useSelector(({ networkCardano }) => networkCardano.wallet);
+  const isWalletConnected = !!wallet;
 
   return (
     <FormWrapper title={t.check_and_confirm}>
@@ -71,6 +71,7 @@ export function SessionConfirm() {
         </div>
 
         <hr className={s.hr} />
+        {/* <div className={s.confirmation}>{t.agree_with_terms}</div> */}
 
         {!isWalletConnected && (
           <div className={s.walletWarning}>
@@ -88,7 +89,6 @@ export function SessionConfirm() {
             </button>
           </div>
         )}
-        {/* <div className={s.confirmation}>{t.agree_with_terms}</div> */}
       </div>
     </FormWrapper>
   );
