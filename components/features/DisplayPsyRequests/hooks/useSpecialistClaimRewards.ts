@@ -39,7 +39,7 @@ export const useSpecialistClaimRewards = ({
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        userAddress: address,
+        teacherAddress: address,
         lessonData: appointment,
       }),
     });

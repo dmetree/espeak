@@ -107,7 +107,7 @@ const DayRow = ({ hour, handleClick, mark, bgColor, request, isPastHour }) => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        userAddress: address,
+        teacherAddress: address,
         lessonData: appointment,
       }),
     });

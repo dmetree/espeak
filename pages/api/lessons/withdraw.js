@@ -117,6 +117,7 @@ export default async function handler(req, res) {
     const { teacherAddress, lessonData, lessonPaymentUnit = 'lovelace' } = req.body;
     if (!lessonData.acceptationTxId)
       throw new Error("Accepted transaction hash is required in lesson data");
+    console.log("acceptantionTxId:", lessonData.acceptationTxId);
 
     // Derive validator address from compiled Plutus script
     const { acceptedAddress, acceptedValidator } = getValidatorsData();
@@ -128,6 +129,7 @@ export default async function handler(req, res) {
     if (lockAmount <= 0) {
       throw new Error("Invalid lesson lock lovelace amount configured");
     }
+    console.log("Lock amount and unit:", lockAmount, lockUnit);
 
     // Fetch teacher's UTXOs and build transaction
     const lucid = await getTeacherLucid(teacherAddress);
@@ -136,6 +138,7 @@ export default async function handler(req, res) {
     if (!inputUtxo) {
       throw new Error("Input UTXO not found in validator's address");
     }
+    console.log("Found input UTXO:", inputUtxo);
 
     // Build transaction amounts
     const lessonPrice = BigInt(Math.round((lessonData.price / 100) * 1_000_000));
