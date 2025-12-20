@@ -5,9 +5,7 @@ async function loadCSL() {
 }
 
 async function getStakeAddress(baseAddress) {
-    if (!CSL) {
-        await loadCSL();
-    }
+    
     return CSL.RewardAddress.new(
         CSL.NetworkInfo.mainnet().network_id(),
         CSL.BaseAddress.from_address(CSL.Address.from_bech32(baseAddress)).stake_cred()
@@ -27,7 +25,9 @@ async function connect(wallet) {
 async function signTx(wallet, tx, partial = false) {
     try {
         const walletInstance = await connect(wallet)
-        const witnesses = await walletInstance.signTx(tx, partial)
+        const witnesses = await walletInstance.signTx(tx, partial);
+        console.log("Transaction signed witnesses:", witnesses);
+
         return witnesses;
     }
     catch (err) {

@@ -27,7 +27,7 @@ const rootReducer = combineReducers({
   jobApplications: jobApplicationsReducer,
   posts: postsReducer,
   complaints: complaintsReducer,
-  events: eventsReducer,
+  events: eventsReducer
 });
 
 export const store = configureStore({

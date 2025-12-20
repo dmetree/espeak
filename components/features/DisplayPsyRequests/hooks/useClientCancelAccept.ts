@@ -11,6 +11,7 @@ import { nanoErgMinerFee } from "@/components/shared/utils/ergo-blockchain-utils
 import { deleteRequest } from "@/store/actions/appointments";
 import { AppDispatch } from "@/store";
 import { toast } from "react-toastify";
+import * as actions from "@/store/actions/networkCardano";
 
 const CLIENT_CANCEL_PERIOD = 720; // 24h
 const PSY_CANCEL_PERIOD = 60; // 2h
@@ -19,19 +20,24 @@ export const useClientCancelAccept = ({
   singletonId,
   reqID,
   t,
+  reqItem,
 }: {
   singletonId: string;
   reqID: string;
   t: any;
+  reqItem: any;
 }) => {
   const dispatch: AppDispatch = useDispatch<AppDispatch>();
   const userUid = useSelector(({ user }) => user.uid);
   const userData = useSelector(({ user }) => user?.userData);
+  const user = useSelector(({ networkCardano }) => networkCardano.user);
+  const wallet = useSelector(({ networkCardano }) => networkCardano.wallet);
   const ergoCustomerWalletAddress = useSelector(
     ({ networkErgo }) => networkErgo?.ergoWalletAddress[0]
   );
 
   const [isLoading, setIsLoading] = useState(false);
+  // TODO: that's fucking ergo
   const [cancelMeta, setCancelMeta] = useState<null | {
     isClientCancelPenalty: boolean;
     blocksBeforeStart: number;
@@ -39,44 +45,88 @@ export const useClientCancelAccept = ({
     currentBlock: number;
   }>(null);
 
-  const checkIfPenaltyApplies = async () => {
-    const res = await fetch(
-      `https://api.ergoplatform.com/api/v1/boxes/unspent/byTokenId/${singletonId}`
-    );
-    const data = await res.json();
-
-    if (!data.items || data.items.length === 0) return null;
-
-    const sessionBox = data.items[0];
-    const sessionStartHeight = Number(
-      sessionBox.additionalRegisters.R4?.renderedValue
-    );
-
-    const ergo = await ergoConnector.nautilus.getContext();
-    const currentHeight = await ergo.get_current_height();
-
-    const blocksBeforeStart = sessionStartHeight - currentHeight;
-
-    const isClientCancelPenalty =
-      blocksBeforeStart < CLIENT_CANCEL_PERIOD && blocksBeforeStart > 0;
-
-    return {
-      sessionBox,
-      penaltyInfo: {
-        isClientCancelPenalty,
-        blocksBeforeStart,
-        sessionStartBlock: sessionStartHeight,
-        currentBlock: currentHeight,
+   const buildCancelTxToBackend = async (address, teacherAddress, appointment) => {
+    const response = await fetch('/api/lessons/cancel/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
       },
-    };
-  };
+      body: JSON.stringify({
+        teacherAddress: teacherAddress,
+        studentAddress: address,
+        requestor: "student",
+        lessonData: appointment,
+      }),
+    });
 
+    if (response.status !== 200)
+      throw new Error('Failed to create lesson cancel transaction');
+    const { success, txCbor } = await response.json();
+    if (!success)
+      throw new Error('Lesson cancel transaction was not successful');
+    return txCbor;
+  }
+
+  const submitTxToBackend = async (address, tx, witnesses) => {
+    const response = await fetch('/api/lessons/submit/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        address,
+        tx,
+        witnesses
+      }),
+    });
+
+    if (response.status !== 200)
+      throw new Error('Failed to create lesson request transaction');
+    const { success, hash } = await response.json();
+    if (!success)
+      throw new Error('Lesson request transaction was not successful');
+    return hash;
+  }
+
+  // const checkIfPenaltyApplies = async () => {
+  //   const res = await fetch(
+  //     `https://api.ergoplatform.com/api/v1/boxes/unspent/byTokenId/${singletonId}`
+  //   );
+  //   const data = await res.json();
+
+  //   if (!data.items || data.items.length === 0) return null;
+
+  //   const sessionBox = data.items[0];
+  //   const sessionStartHeight = Number(
+  //     sessionBox.additionalRegisters.R4?.renderedValue
+  //   );
+
+  //   const ergo = await ergoConnector.nautilus.getContext();
+  //   const currentHeight = await ergo.get_current_height();
+
+  //   const blocksBeforeStart = sessionStartHeight - currentHeight;
+
+  //   const isClientCancelPenalty =
+  //     blocksBeforeStart < CLIENT_CANCEL_PERIOD && blocksBeforeStart > 0;
+
+  //   return {
+  //     sessionBox,
+  //     penaltyInfo: {
+  //       isClientCancelPenalty,
+  //       blocksBeforeStart,
+  //       sessionStartBlock: sessionStartHeight,
+  //       currentBlock: currentHeight,
+  //     },
+  //   };
+  // };
+
+  // TODO: investigate the problem
   const prepareCancel = async (): Promise<boolean> => {
     try {
-      const result = await checkIfPenaltyApplies();
-      if (!result) return false;
+      // const result = await checkIfPenaltyApplies();
+      // if (!result) return false;
 
-      setCancelMeta(result.penaltyInfo);
+      // setCancelMeta(result.penaltyInfo);
       return true;
     } catch (err) {
       console.error("Penalty check failed", err);
@@ -86,27 +136,33 @@ export const useClientCancelAccept = ({
   };
 
   const executeCancel = async () => {
-    if (!cancelMeta) return;
+    // TODO:
+    // if (!cancelMeta) return;
     setIsLoading(true);
 
     try {
-      const result = await checkIfPenaltyApplies();
-      if (!result) return;
 
-      const { sessionBox } = result;
+      const txCbor = await buildCancelTxToBackend(user.address, reqItem.teacherWallet, reqItem);
+      const witnesses = await actions.signTx(wallet, txCbor);
+      const txHash = await submitTxToBackend(user.address, txCbor, witnesses);
+      console.log("txHash: ", txHash);
 
-      const ergo = await ergoConnector.nautilus.getContext();
-      const nodeHeight = await ergo.get_current_height();
-      const transactionHelper = new TransactionHelperCancelAcceptClient(ergo);
-      const customerAddress = ErgoAddress.fromBase58(ergoCustomerWalletAddress);
+      // const result = await checkIfPenaltyApplies();
+      // if (!result) return;
+      // const { sessionBox } = result;
 
-      await buildCancelAcceptClient(
-        sessionBox,
-        customerAddress,
-        nanoErgMinerFee,
-        nodeHeight,
-        transactionHelper
-      );
+      // const ergo = await ergoConnector.nautilus.getContext();
+      // const nodeHeight = await ergo.get_current_height();
+      // const transactionHelper = new TransactionHelperCancelAcceptClient(ergo);
+      // const customerAddress = ErgoAddress.fromBase58(ergoCustomerWalletAddress);
+
+      // await buildCancelAcceptClient(
+      //   sessionBox,
+      //   customerAddress,
+      //   nanoErgMinerFee,
+      //   nodeHeight,
+      //   transactionHelper
+      // );
 
       await dispatch(deleteRequest(userUid, reqID));
 
