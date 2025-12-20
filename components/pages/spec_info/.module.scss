@@ -119,6 +119,31 @@
   justify-content: space-between;
   align-items: center;
   gap: 20px;
+  flex-direction: column;
+}
+
+.walletLink {
+  border: none;
+  padding: 0;
+  margin: 0px;
+  background: none;
+  color: #5666ed;
+  cursor: pointer;
+  text-decoration: underline;
+  font: inherit;
+}
+
+.walletLink:hover {
+  color: #3b5ae0;
+}
+
+.walletText {
+  margin: 0px;
+}
+
+.walletNote {
+  color: #b91c1c;
+  font-size: 13px;
 }
 
 .cancelButton {

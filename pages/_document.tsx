@@ -7,7 +7,8 @@ export default function Document() {
       <Head>
         <title>EasySpeak</title>
         <meta charSet="UTF-8" />
-        <meta httpEquiv="Content-Security-Policy" content="upgrade-insecure-requests" />
+        {/* Removed upgrade-insecure-requests to allow HTTP on localhost */}
+        {/* <meta httpEquiv="Content-Security-Policy" content="upgrade-insecure-requests" /> */}
 
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta name="description" content="" />

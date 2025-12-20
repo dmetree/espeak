@@ -20,6 +20,9 @@ body.theme-default {
   --oppositeBgColor: #3f3d56;
   --oppositeTextColor: #ffffff;
 
+  --textGrey: #374151;
+  --textGreyLighter: #4b5563;
+
   --light: #fae4b9;
   --highLight: #ab5601;
   --calendarHighLight: #7a373a;
@@ -134,6 +137,11 @@ body.theme-dark {
   --walletBg: #072b4c;
   --calendarHighLight: #d67e0a;
 
+  --oppositeTextColor: #324a6b;
+
+  --textGrey: #d6dfec;
+  --textGreyLighter: #d6dfec;
+
   --background: rgba(47, 46, 65, 1);
   --foreground: #d6dfec;
   --card: #08152c;
@@ -218,6 +226,20 @@ body.theme-dark {
   --second-accent-light-rotate: 90deg;
   --second-accent-light-blur: 75px;
   --second-accent-light-color: rgba(254, 246, 235, 1);
+}
+
+body.theme-dark #portal {
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  overflow-x: hidden;
+}
+
+body.theme-dark #__next {
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  overflow-x: hidden;
 }
 
 .react-datepicker-wrapper,

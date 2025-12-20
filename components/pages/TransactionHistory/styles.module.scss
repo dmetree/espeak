@@ -1,0 +1,138 @@
+.container {
+  display: flex;
+  min-height: 100vh;
+  background: url("../../shared/assets/img/bg.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  width: 100%;
+}
+
+.main {
+  flex: 1;
+  padding: 24px 20px;
+  overflow-y: auto;
+}
+
+.content {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.title {
+  font-size: 32px;
+  font-weight: 700;
+  color: #161616;
+  margin-bottom: 32px;
+  font-family: Helvetica, -apple-system, Roboto, sans-serif;
+}
+
+.loading,
+.empty {
+  text-align: center;
+  padding: 60px 20px;
+  color: #666;
+  font-size: 18px;
+}
+
+.tableWrapper {
+  background: #fafafa;
+  border-radius: 16px;
+  box-shadow: 0 4px 8px rgba(150, 160, 253, 0.3);
+  overflow: hidden;
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: Helvetica, -apple-system, Roboto, sans-serif;
+
+  thead {
+    background: #5666ed;
+    color: #fff;
+
+    th {
+      padding: 16px 20px;
+      text-align: left;
+      font-weight: 600;
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+  }
+
+  tbody {
+    tr {
+      border-bottom: 1px solid #e5e7eb;
+      transition: background-color 0.2s ease;
+
+      &:hover {
+        background-color: #f9fafb;
+      }
+
+      &:last-child {
+        border-bottom: none;
+      }
+    }
+
+    td {
+      padding: 16px 20px;
+      font-size: 14px;
+      color: #161616;
+      vertical-align: middle;
+    }
+  }
+}
+
+.description {
+  font-weight: 500;
+  color: #161616;
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.txLink {
+  color: #5666ed;
+  text-decoration: none;
+  font-family: "Courier New", monospace;
+  font-size: 13px;
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: #3b5ae0;
+    text-decoration: underline;
+  }
+}
+
+.amount {
+  font-weight: 500;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+@media (max-width: 768px) {
+  .tableWrapper {
+    border-radius: 12px;
+  }
+
+  .table {
+    font-size: 12px;
+
+    thead th {
+      padding: 12px 8px;
+      font-size: 11px;
+    }
+
+    tbody td {
+      padding: 12px 8px;
+      font-size: 12px;
+    }
+  }
+
+  .description {
+    max-width: 120px;
+  }
+}

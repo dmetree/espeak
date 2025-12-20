@@ -6,11 +6,15 @@
   background-color: var(--bgColor);
 }
 
+:global(body.theme-dark) .app {
+  overflow-x: hidden;
+}
+
 .content {
   flex: 1 0 auto;
   display: flex;
   flex-direction: column;
-  max-width: 1400px;
+  // max-width: 1400px;
   justify-content: flex-start;
   align-items: center;
   width: 100%;

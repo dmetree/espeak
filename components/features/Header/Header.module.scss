@@ -50,7 +50,7 @@
   margin-left: 8px;
   font-size: 22px;
   font-weight: 700;
-  color: #111;
+  color: var(--text-color);
   display: flex;
   align-items: baseline;
   gap: 2px;
@@ -175,12 +175,20 @@
   border: none;
   background: transparent;
   padding: 0;
+  color: var(--text-color);
+  cursor: pointer;
+
+  svg {
+    color: var(--text-color);
+    stroke: var(--text-color);
+    fill: var(--text-color);
+  }
 }
 .burger span {
   display: block;
   width: 24px;
   height: 3px;
-  background: #111;
+  background: var(--text-color);
   margin: 5px auto;
   border-radius: 2px;
 }
@@ -256,7 +264,7 @@
 .mobileOverlay {
   position: fixed;
   inset: 0;
-  background: #f7f7f7;
+  background: var(--bgColor);
   z-index: 60;
   display: flex;
   flex-direction: column;
@@ -279,7 +287,13 @@
   background: transparent;
   border: none;
   cursor: pointer;
+  color: var(--text-color);
 }
+
+:global(body.theme-dark) .close {
+  color: var(--text-color);
+}
+
 .mobileNavList {
   list-style: none;
   padding: 24px 16px;
@@ -296,11 +310,15 @@
   font-size: 20px;
 }
 .mobileButtons {
-  margin-top: auto;
+  // margin-top: auto;
   padding: 24px 16px 40px;
   display: flex;
   justify-content: center;
   gap: 16px;
+}
+
+:global(body.theme-dark) .mobileNavList a {
+  color: var(--text-color);
 }
 
 .settingsBurger {
@@ -329,6 +347,10 @@
   cursor: pointer;
 }
 
+:global(body.theme-dark) .settingsBurger span {
+  background: var(--text-color);
+}
+
 .mobileMenuItem {
   width: 100%;
   padding: 5px;
@@ -336,10 +358,33 @@
   display: flex;
   align-items: center;
   cursor: pointer;
+  color: #111;
+
+  svg {
+    transition: color 0.2s ease;
+  }
+
   &:hover {
     background-color: var(--dark);
     color: #fff;
     border-radius: 5px;
+
+    svg {
+      color: #fff !important;
+    }
+  }
+}
+
+:global(body.theme-dark) .mobileMenuItem {
+  color: var(--text-color);
+
+  &:hover {
+    background-color: rgba(86, 102, 237, 0.2);
+    color: var(--text);
+
+    svg {
+      color: var(--text) !important;
+    }
   }
 }
 

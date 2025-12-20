@@ -26,11 +26,11 @@
   border-radius: 999px;
   font-size: 0.875rem;
   cursor: pointer;
-  color: #555;
+  color: var(--textColor);
 }
 
 .tabActive {
-  background: #3b5cff;
+  background: #5667ee;
   color: #fff;
 }
 
