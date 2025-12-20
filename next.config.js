@@ -2,6 +2,7 @@
 const path = require("path");
 
 const defaultCsp = `default-src 'self' data: images.jpgstoreapis.com storage.googleapis.com www.snek.com media.cnftlab.party ipfs.io; script-src 'self' www.googletagmanager.com 'unsafe-eval'; style-src 'self' 'unsafe-inline' ; connect-src *.fluidtokens.com relay.walletconnect.com api.cnft.tools localhost:* raw.githubusercontent.com api.coingecko.com`;
+const isProd = process.env.NODE_ENV === "production";
 
 const securityHeaders = [
   {
@@ -36,11 +37,18 @@ const securityHeaders = [
     key: "Content-Security-Policy",
     value: defaultCsp,
   },
-  {
-    key: "Strict-Transport-Security",
-    value: "max-age=31536000; includeSubDomains",
-  },
+  // {
+  //   key: "Strict-Transport-Security",
+  //   value: "max-age=31536000; includeSubDomains",
+  // },
 ];
+
+if (isProd) {
+  securityHeaders.push({
+    key: "Strict-Transport-Security",
+    value: "max-age=31536000; includeSubDomains; preload",
+  });
+}
 
 const MS_PER_SECOND = 1000;
 const SECONDS_PER_DAY = 86400;

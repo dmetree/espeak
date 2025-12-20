@@ -27,6 +27,9 @@
 .brandCoral {
   color: #ff8b80;
 }
+.brandBlack {
+  color: #000;
+}
 
 /* ------------------------- */
 /* 🦸‍♀️  HERO-СЕКЦИЯ */
@@ -45,7 +48,7 @@
 .heroSub {
   max-width: 820px;
   margin: 12px auto 20px;
-  color: #374151;
+  color: var(--textGrey);
   font-size: 14px;
 }
 
@@ -78,20 +81,20 @@
 .cardPrimary h4 {
   margin: 0 0 8px;
   font-size: 16px;
-  color: var(--text-color);
+  color: var(--dark);
 }
 
 .card p,
 .cardPrimary p {
   margin: 0;
   font-size: 13px;
-  color: #4b5563;
+  color: var(--dark);
 }
 
 /* Главная карточка с цветным фоном */
 .cardPrimary {
   background: #5468ff;
-  color: #fff;
+  color: var(--dark);
   position: relative;
 }
 
@@ -106,7 +109,8 @@
   right: 12px;
   bottom: 12px;
   background: #fff;
-  color: var(--text-color);
+  color: var(--dark);
+
   border-radius: 12px;
   padding: 8px 10px;
   font-size: 12px;
@@ -132,7 +136,7 @@
 }
 
 .discoverText p {
-  color: #4b5563;
+  color: var(--textGreyLighter);
   font-size: 14px;
 }
 
@@ -217,7 +221,7 @@
 }
 
 .stepContent p {
-  color: #4b5563;
+  color: var(--textGreyLighter);
   font-size: 0.95rem;
   line-height: 1.5;
   max-width: 320px;
@@ -262,7 +266,7 @@
 }
 
 .contactSub {
-  color: #4b5563;
+  color: var(--textGreyLighter);
   font-size: 13px;
   margin-bottom: 16px;
 }
@@ -280,10 +284,24 @@
     grid-template-columns: 1fr 1fr;
     gap: 4px;
   }
+
+  .mobileFullName {
+    display: none;
+  }
+
+  .desktopFirstName,
+  .desktopLastName {
+    display: block;
+  }
 }
 
 .input {
   width: 100%;
+}
+
+.start {
+  color: var(--oppositeTextColor);
+  text-decoration: none;
 }
 
 .input,
@@ -296,9 +314,19 @@
   color: var(--text-color);
 }
 
+.textareaLabel {
+  display: block;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-color);
+  margin-bottom: 8px;
+}
+
 .textarea {
   min-height: 100px;
   grid-column: span 2;
+  width: 100%;
+  resize: vertical;
 }
 
 .spacer {
@@ -308,10 +336,18 @@
 .check {
   grid-column: span 2;
   font-size: 12px;
-  color: #4b5563;
+  color: var(--textGreyLighter);
   display: flex;
-  align-items: center;
-  gap: 8px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+}
+
+.errorText {
+  color: #ef4444;
+  font-size: 12px;
+  margin-top: 4px;
+  display: block;
 }
 
 .actions {
@@ -327,6 +363,12 @@
   background: radial-gradient(circle at 30% 30%, #6b7cff, #2f2f6b);
   border-radius: 50%;
   opacity: 0.2;
+}
+
+.contactImage {
+  @media (max-width: 768px) {
+    display: none;
+  }
 }
 
 /* ------------------------- */
@@ -359,7 +401,7 @@
   }
 
   .faqSub {
-    color: #4b5563;
+    color: var(--textGreyLighter);
     font-size: 15px;
     line-height: 1.5;
   }
@@ -384,7 +426,7 @@
   padding: 16px 0;
   font-size: 16px;
   font-weight: 600;
-  color: #111;
+  color: var(--text-color);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -398,8 +440,8 @@
 .chevron {
   width: 10px;
   height: 10px;
-  border-right: 2px solid #111;
-  border-bottom: 2px solid #111;
+  border-right: 2px solid var(--text-color);
+  border-bottom: 2px solid var(--text-color);
   transform: rotate(45deg);
   transition: transform 0.25s ease;
 
@@ -420,7 +462,7 @@
 }
 
 .answer {
-  color: #4b5563;
+  color: var(--textGreyLighter);
   font-size: 14px;
   line-height: 1.5;
   padding-bottom: 16px;
@@ -501,8 +543,417 @@
 }
 
 /* ------------------------- */
+/* 📱  МОБИЛЬНАЯ НАВИГАЦИЯ */
+/* ------------------------- */
+.mobileNav {
+  display: none;
+
+  @media (max-width: 768px) {
+    display: block;
+    background: #fff;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+}
+
+.mobileNavBar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+}
+
+.mobileLogo {
+  font-size: 20px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 0;
+}
+
+.mobileNavIcons {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.mobileNavIcon {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #000;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mobileMenu {
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  background: #fff;
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+
+  a {
+    padding: 12px 0;
+    color: #000;
+    text-decoration: none;
+    font-size: 16px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+}
+
+/* ------------------------- */
+/* 📱  FOOTER */
+/* ------------------------- */
+.footer {
+  display: none;
+
+  @media (max-width: 768px) {
+    display: flex;
+    flex-direction: column;
+    padding: 32px 16px 24px;
+    gap: 24px;
+    background: #fff;
+    border-top: 1px solid rgba(0, 0, 0, 0.08);
+  }
+}
+
+.footerSocial {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.footerLegal {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.footerLink {
+  color: #000;
+  text-decoration: none;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  span {
+    color: #666;
+  }
+}
+
+.footerCopyright {
+  font-size: 12px;
+  color: #666;
+  text-align: center;
+  padding-top: 16px;
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+/* ------------------------- */
 /* 📱  АДАПТИВНОСТЬ */
 /* ------------------------- */
+@media (max-width: 768px) {
+  .landing {
+    padding: 0;
+    max-width: 100%;
+  }
+
+  .hero {
+    padding: 24px 16px;
+    margin-top: 0;
+    text-align: center;
+  }
+
+  .heroTitle {
+    font-size: 24px;
+    line-height: 1.3;
+    text-align: center;
+  }
+
+  .heroSub {
+    font-size: 14px;
+    text-align: center;
+    margin: 12px auto 20px;
+    max-width: 100%;
+  }
+
+  .ctaRow {
+    justify-content: center;
+    margin-bottom: 32px;
+  }
+
+  .featureCards {
+    grid-template-columns: 1fr;
+    gap: 16px;
+    padding: 0 16px;
+    margin-top: 0;
+  }
+
+  .card {
+    background: #fff;
+    border-radius: 16px;
+    padding: 20px;
+    min-height: auto;
+  }
+
+  .cardPrimary {
+    background: #5468ff;
+    border-radius: 16px;
+    padding: 20px;
+    min-height: auto;
+  }
+
+  /* Purple card for "Listen languages anonymously" */
+  .cardPurple {
+    background: #353553;
+    border-radius: 16px;
+    padding: 20px;
+    min-height: auto;
+
+    h4,
+    p {
+      color: #fff;
+    }
+  }
+
+  .card h4,
+  .cardPrimary h4,
+  .cardPurple h4 {
+    font-size: 16px;
+    margin-bottom: 8px;
+  }
+
+  .card p,
+  .cardPrimary p,
+  .cardPurple p {
+    font-size: 14px;
+    line-height: 1.4;
+  }
+
+  .cardIconWrapper,
+  .cardIconWrapperBottom {
+    margin-bottom: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    img {
+      max-width: 100%;
+      height: auto;
+      max-height: 150px;
+    }
+  }
+
+  .badge {
+    position: relative;
+    right: auto;
+    bottom: auto;
+    margin-top: 12px;
+    width: auto;
+    display: inline-block;
+  }
+
+  .discover {
+    grid-template-columns: 1fr;
+    margin: 40px 0;
+    padding: 0 16px;
+  }
+
+  .discoverText {
+    text-align: left;
+
+    h2 {
+      font-size: 20px;
+      margin-bottom: 12px;
+      line-height: 1.3;
+      max-width: 100%;
+      word-wrap: break-word;
+      white-space: normal;
+    }
+
+    p {
+      font-size: 14px;
+    }
+  }
+
+  .discoverImage {
+    width: 100%;
+    max-width: 300px;
+    height: auto;
+    margin: 0 auto;
+  }
+
+  .steps {
+    padding: 40px 16px;
+    text-align: left;
+  }
+
+  .title {
+    font-size: 20px;
+    margin-bottom: 32px;
+    text-align: left;
+  }
+
+  .stepsGrid {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 24px;
+  }
+
+  .step {
+    width: 100%;
+    text-align: left;
+    padding: 0;
+    margin-bottom: 0;
+  }
+
+  .numberWrapper {
+    justify-content: flex-start;
+    margin-bottom: 12px;
+  }
+
+  .number {
+    background: #353553;
+    width: 36px;
+    height: 36px;
+    font-size: 16px;
+  }
+
+  .stepContent {
+    text-align: left;
+
+    h3 {
+      font-size: 16px;
+      margin-bottom: 8px;
+    }
+
+    p {
+      font-size: 14px;
+      max-width: 100%;
+      line-height: 1.5;
+    }
+  }
+
+  .contact {
+    flex-direction: column;
+    padding: 40px 16px;
+    gap: 24px;
+  }
+
+  .contact h2 {
+    font-size: 20px;
+    margin-bottom: 8px;
+  }
+
+  .contactSub {
+    font-size: 14px;
+    margin-bottom: 20px;
+  }
+
+  .form {
+    max-width: 100%;
+
+    &__names {
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+  }
+
+  .mobileFullName {
+    display: block;
+  }
+
+  .desktopFirstName,
+  .desktopLastName {
+    display: none;
+  }
+
+  .textarea {
+    min-height: 120px;
+  }
+
+  .planet {
+    display: none;
+  }
+
+  .contactImage {
+    display: none;
+  }
+
+  .faqSection {
+    grid-template-columns: 1fr;
+    margin: 40px 0;
+    padding: 0 16px;
+    gap: 24px;
+  }
+
+  .faqTextCol {
+    h2 {
+      font-size: 20px;
+      margin-bottom: 12px;
+    }
+
+    .faqSub {
+      font-size: 14px;
+    }
+  }
+
+  .bottomCta {
+    background: #353553;
+    border-radius: 16px;
+    padding: 32px 20px;
+    margin: 0 16px 40px;
+    flex-direction: column;
+    text-align: left;
+    gap: 24px;
+  }
+
+  .content {
+    align-items: center;
+    text-align: center;
+    width: 100%;
+
+    h3 {
+      font-size: 20px;
+      margin-bottom: 12px;
+    }
+
+    p {
+      font-size: 14px;
+      margin-bottom: 20px;
+      max-width: 100%;
+    }
+  }
+
+  .illustrationWrapper {
+    position: relative;
+    left: 0;
+    bottom: 0;
+    order: 2;
+    margin-top: 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+  }
+
+  .illustration {
+    max-width: 200px;
+    width: 100%;
+    height: auto;
+  }
+}
+
 @media (max-width: 900px) {
   .featureCards {
     grid-template-columns: 1fr;

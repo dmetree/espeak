@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import { X } from "lucide-react";
+import { X, Eye, EyeOff } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/router";
 
@@ -30,6 +30,7 @@ const Login = () => {
 
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   // ====== Redirect if user already logged in ======
   useEffect(() => {
@@ -150,25 +151,39 @@ const Login = () => {
         </button>
       </div>
 
-      <form className={s.form} onSubmit={handleSubmit}>
+      <form className={s.form} onSubmit={handleSubmit} autoComplete="on">
         <label>
           <input
             ref={emailRef}
             type="email"
+            name="email"
             placeholder="email@gmail.com"
+            autoComplete="email"
             required
             className={s.input}
           />
         </label>
 
-        <label>
-          <input
-            ref={passwordRef}
-            type="password"
-            placeholder="Password"
-            required
-            className={s.input}
-          />
+        <label className={s.passwordLabel}>
+          <div className={s.passwordField}>
+            <input
+              ref={passwordRef}
+              type={showPassword ? "text" : "password"}
+              name="password"
+              placeholder="Password"
+              autoComplete="current-password"
+              required
+              className={s.input}
+            />
+            <button
+              type="button"
+              className={s.passwordToggle}
+              onClick={() => setShowPassword(!showPassword)}
+              aria-label={showPassword ? "Hide password" : "Show password"}
+            >
+              {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+            </button>
+          </div>
         </label>
 
         {error && <p className={s.error}>{error}</p>}

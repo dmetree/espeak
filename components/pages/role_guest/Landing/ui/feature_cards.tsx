@@ -14,15 +14,21 @@ const FeatureCards = () => {
   const t = loadMessages(currentLocale);
 
   const features = [
-    { title: t.landing_features.crypto_title, text: t.landing_features.crypto_text, icon: peopleWithCardanoIcon, width: 300, height: 200 },
-    { title: t.landing_features.anon_title, text: t.landing_features.anon_text, icon: peopleWithChatIcon, width: 300, height: 200 },
-    { title: t.landing_features.app_title, text: t.landing_features.app_text, badge: t.landing_features.badge, icon: peopleWithSearchIcon, width: 240, height: 240 },
+    { title: t.landing_features.crypto_title, text: t.landing_features.crypto_text, icon: peopleWithCardanoIcon, width: 300, height: 200, cardType: 'default' },
+    { title: t.landing_features.anon_title, text: t.landing_features.anon_text, icon: peopleWithChatIcon, width: 300, height: 200, cardType: 'purple' },
+    { title: t.landing_features.app_title, text: t.landing_features.app_text, badge: t.landing_features.badge, icon: peopleWithSearchIcon, width: 240, height: 240, cardType: 'blue' },
   ];
 
+    const getCardClassName = (cardType: string, hasBadge: boolean) => {
+      if (hasBadge) return s.cardPrimary;
+      if (cardType === 'purple') return s.cardPurple;
+      return s.card;
+    };
+
   return (
-<div className={s.featureCards}>
+    <div className={s.featureCards}>
       {features.map((f) => (
-        <article key={f.title} className={f.badge ? s.cardPrimary : s.card}>
+        <article key={f.title} className={getCardClassName(f.cardType, !!f.badge)}>
           {!f.badge && (
             <div className={s.cardIconWrapper}>
               <Image

@@ -132,7 +132,7 @@ export default function SignUp() {
             autoComplete="new-password"
             {...register("username")}
             required
-            className={styles.input && errors.username && styles.error_input}
+            className={errors.username ? styles.error_input : ''}
           />
           {errors.username && <span className={styles.error}>{errors.username?.message}</span>}
         </label>
@@ -144,7 +144,7 @@ export default function SignUp() {
             autoComplete="new-password"
             {...register("email")}
             required
-            className={errors.email && styles.error_input}
+            className={errors.email ? styles.error_input : ''}
           />
           {errors.email && <span className={styles.error}>{errors.email?.message}</span>}
         </label>
@@ -156,7 +156,7 @@ export default function SignUp() {
             autoComplete="new-password"
             {...register("password")}
             required
-            className={errors.password && styles.error_input}
+            className={errors.password ? styles.error_input : ''}
           />
           {errors.password && <span className={styles.error}>{errors.password?.message}</span>}
         </label>
@@ -168,7 +168,7 @@ export default function SignUp() {
             autoComplete="new-password"
             {...register("confirmPassword")}
             required
-            className={errors.confirmPassword && styles.error_input}
+            className={errors.confirmPassword ? styles.error_input : ''}
           />
           {errors.confirmPassword && <span className={styles.error}>{errors.confirmPassword?.message}</span>}
         </label>

@@ -71,11 +71,6 @@ export default function ForgotPassword() {
         </form>
 
         <div className={s.nav}>
-          <div className={s.navItem}>
-            <Link className={s.link} href="/login">
-              {t.enter_account}
-            </Link>
-          </div>
 
           <div className={s.navItem}>
             <Link className={s.link} href="/sign_in">

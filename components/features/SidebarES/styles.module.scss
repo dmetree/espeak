@@ -10,8 +10,6 @@
 
   /* allow the outside toggle button to be visible */
   overflow: visible;
-
-  border-right: 1px solid rgba(0, 0, 0, 0.08);
   z-index: 40; /* below Header (z-index: 50) */
 
   transition: width 0.25s ease;
@@ -32,6 +30,7 @@
 
 .sidebarSpacerOpen {
   width: 300px;
+  background: var(--bgColor);
 }
 
 .sidebarSpacerCollapsed {

@@ -211,40 +211,10 @@ const BookSession = () => {
           <Button
             className={s.formBtn}
             type="submit"
-            disabled={loading || isNoServices}
+            disabled={isLastStep && !isWalletConnected || loading || isNoServices}
           >
             {isLastStep ? t.done : t.done}
-            {/* Wallet/balance warnings disabled for backend-only flow */}
-            {/*
-            {!ergoWalletConnected && isLastStep && (
-              <>
-                <span className={s.warningIndicator}>!</span>
-                <div className={s.tooltip}>
-                  {t.connect_your_wallet}
-                </div>
-              </>
-            )}
-            {ergoWalletConnected && isLastStep && sigUsdBalance < draftAppointment.price / 100 && (
-              <>
-                <span className={s.warningIndicator}>!</span>
-                <div className={s.tooltip}>
-                  {t.not_enough_sigusd}
-                </div>
-              </>
-            )}
-            {ergoWalletConnected && isLastStep && ergoBalance < 0.1 && (
-              <>
-                <span className={s.warningIndicator}>!</span>
-                <div className={s.tooltip}>
-                  {t.not_enough_ergo}
-                </div>
-              </>
-            )}
-            */}
           </Button>
-          {/* {!ergoWalletConnected && (
-            <div className={s.tooltip}>You need to connect your wallet!</div>
-          )} */}
         </div>
       </form>
     </div>

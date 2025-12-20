@@ -276,36 +276,6 @@ const DayRow = ({ hour, handleClick, mark, bgColor, request, isPastHour }) => {
     toast.success("You canceled an accepted request.");
   };
 
-
-  const onSpecialistClaimRewards = async (singletonId) => {
-    const response = await fetch(`https://api.ergoplatform.com/api/v1/boxes/unspent/byTokenId/${singletonId}`);
-    const data = await response.json();
-
-    console.log('data', data.items[0])
-
-    if (data.items && data.items.length > 0) {
-      // The first box in the result should be your session box
-      const sessionBox = data.items[0];
-
-      // --- Build accept transaction --- //
-
-      const ergo = await ergoConnector.nautilus.getContext();
-      const nodeHeight = await ergo.get_current_height();
-      const transactionHelper = new TransactionHelperEndSessionPsych(ergo);
-
-
-      const therapistAddress = ErgoAddress.fromBase58(therapistWalletAddress);
-
-      await buildPsychEndNoProblem(
-        sessionBox,
-        therapistAddress,
-        nanoErgMinerFee,
-        nodeHeight,
-        transactionHelper,
-      )
-    }
-  }
-
   const createdAtMs =
     request?.created_at?.seconds * 1000 +
     Math.floor(request?.created_at?.nanoseconds / 1e6);
@@ -445,48 +415,12 @@ const DayRow = ({ hour, handleClick, mark, bgColor, request, isPastHour }) => {
                   ref={dropdownRefCancelAcceptPsych}
                   onClick={(e) => e.stopPropagation()}
                 >
-                  {/* <Button
-
-                    type="button"
-                    // className={s.dropdownItem}
-                    onClick={async (e) => {
-                      e.stopPropagation();
-
-                      const response = await fetch(
-                        `https://api.ergoplatform.com/api/v1/boxes/unspent/byTokenId/${request.singletonId}`
-                      );
-                      const data = await response.json();
-                      if (!data.items?.length) return;
-
-                      const sessionBox = data.items[0];
-                      const startBlockHeight = Number(sessionBox.additionalRegisters?.R4?.renderedValue);
-                      const ergo = await ergoConnector.nautilus.getContext();
-                      const nodeHeight = await ergo.get_current_height();
-                      const blocksBeforeStart = startBlockHeight - nodeHeight;
-
-                      setCancelMeta({
-                        singletonId: request.singletonId,
-                        blocksBeforeStart,
-                      });
-
-                      // close dropdown, then open modal
-                      setShowDropdownCancelAcceptPsych(false);
-                      setShowConfirmCancelModal(true);
-                    }}
-                  >
-                    {t.cancel}
-                  </Button> */}
                   <Button onClick={handleClaimRewards}>
                     {t.collect_rewards}
                   </Button>
                 </div>
               )}
 
-              {/* <Button
-                dayRowBtn
-                className={s.dayRowBtn}
-                onClick={() => onSpecialistClaimRewards(psyRequest?.singletonId)}
-              >💰</Button> */}
               {showConfirmCancelModal && cancelMeta && (
                 <ConfirmCancelModal
                   meta={cancelMeta}

@@ -18,6 +18,11 @@
   }
 }
 
+:global(body.theme-dark) .walletDrawer {
+  color: var(--text-color);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
 .header {
   font-weight: bold;
   display: flex;
@@ -27,6 +32,11 @@
   font-size: 0.875rem;
   border-bottom: 1px solid #ddd;
   padding-bottom: 1rem;
+}
+
+:global(body.theme-dark) .header {
+  border-bottom-color: var(--border);
+  color: var(--text-color);
 }
 
 .titleWrapper {
@@ -89,6 +99,19 @@
   right: 1rem;
   font-size: 1.25rem;
   cursor: pointer;
+  color: var(--textColor);
+
+  svg {
+    color: inherit;
+  }
+}
+
+:global(body.theme-dark) .closeIcon {
+  color: var(--text-color);
+
+  svg {
+    color: var(--text-color);
+  }
 }
 
 .nautilusBtn {
@@ -117,6 +140,10 @@
   font-weight: bold;
   margin-left: 0.75rem;
   color: var(--textColor);
+}
+
+:global(body.theme-dark) .walletName {
+  color: var(--text-color);
 }
 
 .ergoButton {
