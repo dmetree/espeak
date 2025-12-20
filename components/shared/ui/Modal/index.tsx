@@ -5,7 +5,7 @@ import { hideModal } from '@/store/actions/modal/index'; // Assuming the actions
 
 const MODAL_STYLES: CSSProperties = {
     position: 'fixed',
-    top: '40%',
+    top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
     backgroundColor: 'var(--bgColor)',

@@ -183,7 +183,7 @@ export const RequestActions = ({
       )}
 
       {/* ───────── Shared: enter chat ───────── */}
-      {(isClient || isSpecialist) && !isOpen && !canClaimReward && (
+      {/* {(isClient || isSpecialist) && !isOpen && !canClaimReward && (
         <Button
           size="s"
           className={s.dayRowBtn}
@@ -191,7 +191,7 @@ export const RequestActions = ({
         >
           &#128682;
         </Button>
-      )}
+      )} */}
 
       {/* ───────── Specialist extra actions ───────── */}
       {isSpecialist && !isOpen && (
@@ -223,7 +223,7 @@ export const RequestActions = ({
       )}
 
       {/* ───────── Cancel modal ───────── */}
-      {showCancelModal && cancelMeta && (
+      {showCancelModal && (
         <ConfirmCancelModal
           meta={cancelMeta}
           status="client"

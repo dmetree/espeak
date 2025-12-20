@@ -412,8 +412,6 @@ const UserInfo = ({ specialistData, t, isPublic, currentLocale }) => {
     return option?.label || code;
   };
 
-  console.log('formState.services', formState.services, formState)
-
   const avatarSrc =
     avatarPreview ||
     specialistData.avatar ||
