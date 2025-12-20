@@ -78,6 +78,9 @@ function buildRedeemerDatum() {
       complaintOutputIndex: Data.Integer(),
       complaintType: Data.Integer(),
     });
+    const TeacherWithdrawFields = Data.Object({
+      currentAcceptedLessonInputIndex: Data.Integer(),
+    });
     const LessonAcceptedRedeemer = Data.Enum([
       Data.Object({ StudentCancel24Hours: CancelBase }),
       Data.Object({ StudentCancel12Hours: CancelBase }),
@@ -85,15 +88,21 @@ function buildRedeemerDatum() {
       Data.Object({ StudentCancelLessThan4Hours: CancelBase }),
       Data.Object({ TeacherCancel: TeacherCancelFields }),
       Data.Object({ Complaint: ComplaintFields }),
-      Data.Object({ TeacherWithdraw: Data.Object({
-        currentAcceptedLessonInputIndex: Data.Integer(),
-      }) }),
+      Data.Object({ TeacherWithdraw: TeacherWithdrawFields }),
     ]);
     
     return Data.to(
-      { TeacherWithdraw: { currentAcceptedLessonInputIndex: 0 }},
+      { TeacherWithdraw: { currentAcceptedLessonInputIndex: BigInt(0) }},
       LessonAcceptedRedeemer
     );
+}
+
+const getValidityRange = () => {
+  const now = Date.now();
+  return {
+    validFrom: now - 60_000,        // 1 min in the past (safer)
+    validTo:   now + 30 * 60_000,   // 30 min window
+  };
 }
 
 export default async function handler(req, res) {
@@ -143,9 +152,9 @@ export default async function handler(req, res) {
     // Build transaction amounts
     const lessonPrice = BigInt(Math.round((lessonData.price / 100) * 1_000_000));
     const admin = {};
-    admin[lockUnit] = (admin[lockUnit] || 0n) + lockAmount;
+    admin[lockUnit] = (admin[lockUnit] || BigInt(0)) + BigInt(lockAmount);
     const teacher = {};
-    teacher[lessonPaymentUnit] = (teacher[lessonPaymentUnit] || 0n) + lessonPrice;
+    teacher[lessonPaymentUnit] = (teacher[lessonPaymentUnit] || BigInt(0)) + lessonPrice;
     console.log("Computed confirmation outputs:", admin, teacher);
 
     // Build redeemer datum
@@ -160,20 +169,24 @@ export default async function handler(req, res) {
       throw new Error("Unable to extract student key hash from address");
     }
 
+    const { validFrom, validTo } = getValidityRange();
+
     let tx = lucid
       .newTx()
       .collectFrom([inputUtxo], redeemerDatum);
 
-    if (teacher && Object.keys(teacher).length > 0) {
-      tx = tx.pay.ToAddress(teacherAddress, teacher);
-    }
-    if (admin && Object.keys(admin).length > 0) {
-      const adminAddress = process.env.NEXT_PUBLIC_ADMIN_ADDRESS;
+      if (admin && Object.keys(admin).length > 0) {
+        const adminAddress = process.env.NEXT_PUBLIC_ADMIN_ADDRESS;
         tx = tx.pay.ToAddress(adminAddress, admin);
-    }
+      }
+      if (teacher && Object.keys(teacher).length > 0) {
+        tx = tx.pay.ToAddress(teacherAddress, teacher);
+      }
 
     tx = await tx
       .attach.SpendingValidator(acceptedValidator)
+      .validFrom(validFrom)
+      .validTo(validTo)
       .addSignerKey(teacherKeyHash)
       .complete();
 
