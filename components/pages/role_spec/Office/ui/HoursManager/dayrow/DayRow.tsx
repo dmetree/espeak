@@ -218,81 +218,6 @@ const DayRow = ({ hour, handleClick, mark, bgColor, request, isPastHour }) => {
     toast.success("You accepted a personal request.");
   };
 
-  const onPsychNoviceDelete = async () => {
-    try {
-      const response = await fetch(
-        `https://api.ergoplatform.com/api/v1/boxes/unspent/byTokenId/${request.singletonId}`
-      );
-      const data = await response.json();
-
-      if (data.items && data.items.length > 0) {
-        const sessionBox = data.items[0];
-        const ergo = await ergoConnector.nautilus.getContext();
-        const nodeHeight = await ergo.get_current_height();
-        const transactionHelper = new TransactionHelperRefund(ergo);
-
-        const address = ergoCustomerWalletAddress.toString(nodeNetwork);
-
-        const paymentToken: ErgoToken = {
-          tokenId:
-            "03faf2cb329f2e90d6d23b58d91bbb6c046aa143261cc21f52fbe2824bfcbf04",
-          amount: BigInt(request.price),
-        };
-
-        const customerAddress = ErgoAddress.fromBase58(
-          ergoCustomerWalletAddress
-        );
-
-        const userInputs = await ergo.get_utxos();
-        const singletonId = request?.singletonId;
-
-        await buildRefundClient(
-          userInputs,
-          sessionBox,
-          singletonId,
-          paymentToken,
-          customerAddress,
-          customerAddress,
-          nanoErgMinerFee,
-          nodeHeight,
-          transactionHelper
-        );
-
-        dispatch(deleteRequest(userUid, request.id));
-
-        //// pushing notifications and getting it back====
-        const payload = {
-          title: t.notification_novice_delete,
-          message: t.text_novice_delete,
-          linkTo: "",
-          created_at: new Date(),
-          isRead: false,
-        };
-
-        // Safely append to existing notifications array
-        const currentNotifications = Array.isArray(userData?.notifications)
-          ? userData.notifications
-          : [];
-
-        const updatedNotifications = [...currentNotifications, payload];
-
-        await dispatch(
-          actionUpdateProfile(updatedNotifications, userUid, "notifications")
-        );
-
-        await dispatch(fetchUserData(userUid));
-        ////==========
-
-        toast.success(t.tx_refunded);
-      } else {
-        console.log("No session box found with this singleton ID");
-      }
-    } catch (error) {
-      toast.success(t.requests.failed_delete);
-      console.error("Failed to delete novice request:", error);
-    }
-  };
-
   const onSpecialistCancelAccept = async () => {
 
     const txCbor = await buildCancelTxToBackend(user.address, request.studentWallet, request);
@@ -445,27 +370,6 @@ const DayRow = ({ hour, handleClick, mark, bgColor, request, isPastHour }) => {
               className={s.dayRowBtn}
               onClick={joinChatRoom}
             >&#128682;</Button>
-          )}
-
-          {userUid === request.clientUid && request.status === EReqStatus.Open && (
-            <>
-              <div
-                className={s.etc}
-                onClick={toggleDropdownCancelNovicePsych}
-                role="button"
-                tabIndex={0}>
-                &#8942;
-              </div>
-
-              {showDropdownCancelNovicePsych && (
-                <div className={s.dropdown} ref={dropdownRefCancelNovicePsych}>
-                  <Button
-
-                    onClick={onPsychNoviceDelete}
-                  >{t.cancel}</Button>
-                </div>
-              )}
-            </>
           )}
 
           {userUid === request.specUid && request.status === EReqStatus.Open && (
