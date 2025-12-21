@@ -24,56 +24,47 @@ const OnboardingLayout: React.FC<OnboardingLayoutProps> = ({
     currentStep,
 }) => (
     <div className={styles.container}>
-      <svg className={styles.background} viewBox="0 0 720 950" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
-        <g clipPath="url(#clip0)">
-          <circle cx="55" cy="861" r="268" fill="#BBC2FA" />
-          <circle cx="192.5" cy="75.5" r="266.5" fill="#BBC2FA" />
-          <circle cx="393.5" cy="724.5" r="232.5" fill="#FEF6EB" />
-          <circle cx="165" cy="408" r="227" fill="#FEF6EB" />
-          <circle cx="459" cy="819" r="229" fill="#BBC2FA" />
-          <circle cx="623" cy="696" r="229" fill="#BBC2FA" />
-          <circle cx="661" cy="121" r="229" fill="#BBC2FA" />
-          <circle cx="230" cy="194" r="147" fill="#FEF6EB" />
-          <circle cx="470.5" cy="406.5" r="190.5" fill="#FEF6EB" />
-        </g>
-        <defs>
-          <clipPath id="clip0">
-            <rect width="720" height="950" rx="40" fill="white" />
-          </clipPath>
-        </defs>
-      </svg>
-
-      <div className={styles.blurOverlay} />
-
-      <div className={styles.content}>
-        <header className={styles.header}>
+      <div className={styles.card}>
+        <aside className={styles.sidebar}>
           <div className={styles.logo}>
             <span className={styles.logoE}>E</span>
             <span className={styles.logoText}>asy </span>
             <span className={styles.logoS}>S</span>
             <span className={styles.logoText}>peak</span>
           </div>
-        </header>
 
-        <div className={styles.mainContent}>
-          <aside className={styles.sidebar}>
+          <div className={styles.stepsContainer}>
             <StepIndicator currentStep={currentStep} />
-            <OnboardingFooter />
-          </aside>
+          </div>
 
-          <main className={styles.formArea}>
-            <div className={styles.formScroll}>{children}</div>
+          <OnboardingFooter />
+        </aside>
 
-            <div className={styles.buttonGroup}>
-                <Button onClick={onBack} className={styles.returnBtn}>
-                    Return
-                </Button>
-                <Button onClick={onNext} className={styles.nextBtn}>
-                    Next
-                </Button>
+        <main className={styles.formArea}>
+          {/* {title && (
+            <div className={styles.titleSection}>
+              <h1 className={styles.title}>{title}</h1>
+              {subtitle && <p className={styles.subtitle}>{subtitle}</p>}
             </div>
-          </main>
-        </div>
+          )} */}
+
+          <div className={styles.formScroll}>{children}</div>
+
+          <div className={styles.buttonGroup}>
+            {onBack && (
+              <Button onClick={onBack} className={styles.returnBtn}>
+                Return
+              </Button>
+            )}
+            <Button
+              onClick={onNext}
+              className={styles.nextBtn}
+              disabled={nextDisabled}
+            >
+              Next
+            </Button>
+          </div>
+        </main>
       </div>
     </div>
 );

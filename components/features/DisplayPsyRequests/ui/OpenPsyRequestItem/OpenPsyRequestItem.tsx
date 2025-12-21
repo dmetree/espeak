@@ -9,10 +9,16 @@ import { useSpecialistAccept } from '@/components/features/DisplayPsyRequests/ho
 import { useNoviceDelete } from '@/components/features/DisplayPsyRequests/hooks/useNoviceDelete';
 import { useClientCancelAccept } from '@/components/features/DisplayPsyRequests/hooks/useClientCancelAccept';
 import { useSpecialistClaimRewards } from '@/components/features/DisplayPsyRequests/hooks/useSpecialistClaimRewards';
+import { deleteAcceptedReqPsych, fetchMyAppointments } from "@/store/actions/appointments";
+import {
+  actionUpdateProfile,
+  fetchUserData,
+} from "@/store/actions/profile/user";
 import spacetime from 'spacetime';
 import { EModalKind } from '@/components/shared/types/types';
+import { toast } from "react-toastify";
+import * as actions from "@/store/actions/networkCardano";
 
-import { RequestHeader } from './components/RequestHeader';
 import { RequestDateTime } from './components/RequestDateTime';
 import { RequestPrice } from './components/RequestPrice';
 import { RequestActions } from './components/RequestActions';
@@ -26,15 +32,10 @@ const OpenPsyRequestItem = (props) => {
     reqID,
     clientUid,
     specUid,
-    subject,
     scheduledUnixtime,
-    psyRank,
     price,
     status,
     singletonId,
-    confirmedOnChain,
-    partnerOne,
-    partnerTwo,
   } = props;
 
   const dispatch: AppDispatch = useDispatch();
@@ -42,16 +43,8 @@ const OpenPsyRequestItem = (props) => {
   const userData = useSelector(({ user }) => user?.userData);
   const userRole = useSelector(({ user }) => user?.userData.userRole);
   const therapistWalletAddress = useSelector(({ user }) => user?.userData.walletAddress);
-
-  const draftAppointment = useSelector(
-    ({ appointments }) => appointments.draftAppointment
-  );
-  // const therapistWalletAddress = useSelector(
-  //   ({ networkErgo }) => networkErgo?.ergoWalletAddress[0]
-  // ); 
-  // const cardanoWallet = useSelector(
-  //   ({ networkCardano }) => networkCardano.wallet
-  // );
+  const cardanoUser = useSelector(({ networkCardano }) => networkCardano.user);
+  const cardanoWallet = useSelector(({ networkCardano }) => networkCardano.wallet);
   const currentLocale = useSelector(({ locale }) => locale.currentLocale);
   const t = loadMessages(currentLocale);
 
@@ -119,20 +112,15 @@ const OpenPsyRequestItem = (props) => {
   const { onSpecialistAccept } = useSpecialistAccept({
     reqID,
     reqItem,
-    singletonId,
-    price,
     scheduledUnixtime,
-    therapistWalletAddress,
     freeTimestamps,
     setFreeTimestamps,
     t,
   });
 
-  const { onNoviceDelete } = useNoviceDelete({ reqID, singletonId, draftAppointment, reqItem });
+  const { onNoviceDelete } = useNoviceDelete({ reqID, reqItem });
 
   const { onSpecialistClaimRewards } = useSpecialistClaimRewards({
-    singletonId,
-    therapistWalletAddress,
     userData,
     reqItem,
     clientUid,
@@ -148,13 +136,11 @@ const OpenPsyRequestItem = (props) => {
   const {
     prepareCancel,
     executeCancel,
-    isLoading: cancelLoading,
     cancelMeta,
   } = useClientCancelAccept({ singletonId, reqID, t, reqItem });
 
   return (
     <div className={s.wrapper}>
-      {/* <RequestHeader {...{ userUid, clientUid, specUid, reqID, confirmedOnChain, t }} /> */}
       <div className={`${s.reqField} ${s.reqSubject} ${s.col1}`}>
         {reqItem?.type === "direct"
           ? getLocalizedContent(reqItem?.selectedService?.title, currentLocale)
@@ -171,13 +157,15 @@ const OpenPsyRequestItem = (props) => {
           specUid,
           status,
           userRole,
+          reqID,
+          reqItem,
           dropdownRef,
           dropdownRefundRef,
           toggleDropdownCancelAccept,
           toggleDropdownRefund,
           showDropdownCancelAcceptClient,
           showDropdownRefund,
-          walletConnected: !!therapistWalletAddress,
+          walletConnected: !!(cardanoUser?.address || cardanoWallet),
           showCancelModal,
           setShowCancelModal,
           cancelMeta,

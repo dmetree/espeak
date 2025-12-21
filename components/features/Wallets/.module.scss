@@ -12,18 +12,24 @@
   gap: 0.5rem;
   cursor: pointer;
   color: var(--darker);
+}
 
-  img {
-    filter: brightness(1);
-    transition: filter 0.2s ease;
+.cardanoIcon {
+  width: 36px;
+  height: 36px;
+  fill: #161616;
+  transition: fill 0.2s ease;
+
+  path {
+    fill: inherit;
   }
 }
 
-:global(body.theme-dark) .connectButton {
-  color: var(--text-color);
+:global(body.theme-dark) .cardanoIcon {
+  fill: #ffffff;
 
-  img {
-    filter: brightness(1.2) contrast(1.1);
+  path {
+    fill: inherit;
   }
 }
 

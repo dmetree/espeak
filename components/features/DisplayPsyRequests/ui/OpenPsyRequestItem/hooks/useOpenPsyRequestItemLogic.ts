@@ -135,24 +135,17 @@ export const useOpenPsyRequestItemLogic = (props) => {
   const { onSpecialistAccept } = useSpecialistAccept({
     reqID: reqID,
     reqItem,
-    singletonId,
-    price,
     scheduledUnixtime,
-    therapistWalletAddress,
     freeTimestamps,
     setFreeTimestamps,
     t,
   });
   const { onNoviceDelete } = useNoviceDelete({
     reqID,
-    singletonId,
-    draftAppointment,
     reqItem
   });
 
   const { onSpecialistClaimRewards } = useSpecialistClaimRewards({
-    singletonId,
-    therapistWalletAddress,
     userData,
     reqItem,
     clientUid,

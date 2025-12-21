@@ -13,10 +13,7 @@ import * as actions from "@/store/actions/networkCardano";
 export const useSpecialistAccept = ({
   reqID,
   reqItem,
-  singletonId,
-  price,
   scheduledUnixtime,
-  therapistWalletAddress,
   freeTimestamps,
   setFreeTimestamps,
   t,
@@ -26,8 +23,6 @@ export const useSpecialistAccept = ({
   const userData = useSelector(({ user }) => user?.userData);
   const user = useSelector(({ networkCardano }) => networkCardano.user);
   const wallet = useSelector(({ networkCardano }) => networkCardano.wallet);
-
-  const [sessionBox, setSessionBox] = useState();
 
   const buildAcceptTxToBackend = async (address, appointment) => {
     const response = await fetch("/api/lessons/accept/", {
@@ -132,5 +127,5 @@ export const useSpecialistAccept = ({
     }
   };
 
-  return { onSpecialistAccept, sessionBox };
+  return { onSpecialistAccept };
 };
