@@ -24,20 +24,14 @@ export const RequestList = ({ requests }) => {
             reqItem={reqItem}
             key={reqItem.id}
             reqID={reqItem.id}
-            subject={reqItem.subject}
             scheduledUnixtime={reqItem.scheduledUnixtime}
-            psyRank={reqItem.psyRank}
             price={reqItem.price}
-            // gender={reqItem.gender}
             clientUid={reqItem.clientUid}
             specUid={reqItem.specUid}
             status={reqItem.status}
             singletonId={reqItem.singletonId}
             txId={reqItem.txId}
             complaintFromClient={reqItem.complaintFromClient}
-            confirmedOnChain={reqItem.confirmedOnChain}
-            partnerOne={reqItem.partnerOne}
-            partnerTwo={reqItem.partnerTwo}
           />
         ))
       )}

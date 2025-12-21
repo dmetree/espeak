@@ -170,21 +170,28 @@
 }
 
 .dropdown {
-  position: absolute;
-  top: 13px;
-  right: 37px;
-  margin: 15px 5px;
+  position: fixed;
   background-color: var(--bgColor);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
   padding: 0.5rem;
   border-radius: 0.5rem;
-  z-index: 100;
+  z-index: 9999;
+  min-width: 120px;
+}
+
+.dropdownBottom {
+  /* Position will be calculated dynamically */
+}
+
+.dropdownTop {
+  /* Position will be calculated dynamically */
 }
 
 .reqActions {
   display: flex;
   justify-content: flex-end;
   align-items: center;
+  position: relative;
 }
 
 .callButton {

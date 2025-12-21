@@ -99,6 +99,7 @@ const BookSession = () => {
   const services = draftAppointment?.services || [];
   const isServicesStep = router.pathname.startsWith('/specialist-profile') && step?.type === SessionServices;
   const isNoServices = isServicesStep && (!Array.isArray(services) || services.length === 0);
+
   const buildTxToBackend = async (address, appointment, specialist) => {
     const response = await fetch('/api/lessons/request/', {
       method: 'POST',
@@ -210,7 +211,7 @@ const BookSession = () => {
       dispatch(setIsAppointmentFinished(true));
       dispatch(clearDraftAppointment());
       dispatch(hideModal(EModalKind.BookSession));
-      toast.success(t.request_confirmed_onchain || t.notificaiton_request_created);
+      toast.success(t.notificaiton_request_created);
     } catch (error) {
       console.error(error);
       setError(error.message || "Unknown error occurred");

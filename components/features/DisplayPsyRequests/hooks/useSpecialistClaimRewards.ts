@@ -1,10 +1,5 @@
 import { useCallback } from "react";
-import { ErgoAddress } from "@fleet-sdk/core";
 import { toast } from "react-toastify";
-
-import { TransactionHelperEndSessionPsych } from "@/blockchain/ergo/offchain/app/transactions/endSessionPsychTx/end-session-psych-transaction-helper";
-import { buildPsychEndNoProblem } from "@/blockchain/ergo/offchain/app/transactions/endSessionPsychTx/endSessionPsych";
-import { nanoErgMinerFee } from "@/components/shared/utils/ergo-blockchain-utils";
 import * as actions from "@/store/actions/networkCardano";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -20,8 +15,6 @@ import {
 import { AppDispatch } from "@/store";
 
 export const useSpecialistClaimRewards = ({
-  singletonId,
-  therapistWalletAddress,
   userData,
   reqItem,
   clientUid,
@@ -75,40 +68,11 @@ export const useSpecialistClaimRewards = ({
 
   const onSpecialistClaimRewards = useCallback(async () => {
     try {
-
       const txCbor = await buildTxToBackend(user.address, reqItem);
       const witnesses = await actions.signTx(wallet, txCbor);
       const txHash = await submitTxToBackend(user.address, txCbor, witnesses);
       console.log("txHash: ", txHash);
       //TODO: save txhash in appointment in database
-
-      const response = await fetch(
-        `https://api.ergoplatform.com/api/v1/boxes/unspent/byTokenId/${singletonId}`
-      );
-      const data = await response.json();
-
-      console.log("data: ", data);
-
-      if (!data.items || data.items.length === 0) {
-        toast.error(t.requests.not_found_box);
-        return;
-      }
-
-      const sessionBox = data.items[0];
-      const ergo = await ergoConnector.nautilus.getContext();
-      const nodeHeight = await ergo.get_current_height();
-      const transactionHelper = new TransactionHelperEndSessionPsych(ergo);
-
-      const therapistAddress = ErgoAddress.fromBase58(therapistWalletAddress);
-
-      await buildPsychEndNoProblem(
-        sessionBox,
-        therapistAddress,
-        nanoErgMinerFee,
-        nodeHeight,
-        transactionHelper,
-
-      );
 
       //// pushing notifications and getting it back====
       const payload = {
@@ -142,7 +106,7 @@ export const useSpecialistClaimRewards = ({
       console.error("Error claiming rewards:", error);
       toast.error(t.requests.failed_claim_rewards);
     }
-  }, [singletonId, therapistWalletAddress, userData]);
+  }, [user.address, wallet, reqItem, userData, userUid, clientUid, t, dispatch]);
 
   return { onSpecialistClaimRewards };
 };
