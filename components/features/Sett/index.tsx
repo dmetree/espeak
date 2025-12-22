@@ -22,14 +22,22 @@ export default function SettingsModal({ onClose }: SettingsModalProps) {
 
     const handleSetTheme = (value: string) => {
         setTheme(value);
+        // onClose();
     };
 
     return (
-        <div className={styles.overlay}>
-            <div className={styles.modal}>
+        <div className={styles.overlay} onClick={onClose}>
+            <div
+                className={styles.modal}
+                onClick={(e) => e.stopPropagation()}
+            >
                 <div className={styles.header}>
                     <h2>Settings</h2>
-                    <X className={styles.closeIcon} size={20} onClick={onClose} />
+                    <X
+                        className={styles.closeIcon}
+                        size={20}
+                        onClick={onClose}
+                    />
                 </div>
 
                 {/* Theme Section */}
@@ -54,17 +62,17 @@ export default function SettingsModal({ onClose }: SettingsModalProps) {
                     </div>
                 </section>
 
-                {/* Language Section */}
                 <LocaleSwitcher />
 
-                {/* Timezone */}
                 <section className={styles.section}>
                     <h4>Timezone</h4>
                     <div className={styles.toggleGroup}>
                         <button className={`${styles.toggle} ${styles.active}`}>
                             Local timezone
                         </button>
-                        <button className={styles.toggle}>UTC Timezone</button>
+                        <button className={styles.toggle}>
+                            UTC Timezone
+                        </button>
                     </div>
                 </section>
             </div>

@@ -249,8 +249,9 @@ const ContactSection = () => {
           </div>
         </form>
       </div>
-
-      <Image src={girlWithEarthIcon} alt="mobile" width={600} height={600} className={s.contactImage} />
+      <div className={s.imageBg}>
+        <Image src={girlWithEarthIcon} alt="mobile" width={600} height={600} className={s.contactImage} />
+      </div>
     </section>
   );
 };

@@ -58,6 +58,7 @@ body.theme-default {
   --ring: oklch(65% 0.2 270);
 
   --text-color: rgba(22, 22, 22, 1);
+  --img-bg-color: rgb(229, 121, 121, 0.01);
 
   --option-accent-bg-color: rgba(86, 102, 237, 0.2);
   --option-primary-bg-color: rgba(250, 250, 250, 1);
@@ -88,7 +89,7 @@ body.theme-default {
   --first-accent-light-lg-color: rgba(254, 246, 235, 1);
   --first-accent-light-w: 50%;
   --first-accent-light-h: 120%;
-  --first-accent-light-left: 45%;
+  --first-accent-light-left: 35%;
   --first-accent-light-top: 5%;
   --first-accent-light-rotate: 75deg;
   --first-accent-light-blur: 25px;
@@ -161,6 +162,7 @@ body.theme-dark {
   --ring: oklch(30% 0.05 260);
 
   --text-color: rgba(250, 250, 250, 1);
+  --img-bg-color: rgb(179 144 144);
 
   --option-accent-bg-color: rgba(86, 102, 237, 0.2);
   --option-primary-bg-color: rgba(63, 61, 86, 1);
@@ -230,14 +232,12 @@ body.theme-dark {
 
 body.theme-dark #portal {
   width: 100%;
-  max-width: 1440px;
   margin: 0 auto;
   overflow-x: hidden;
 }
 
 body.theme-dark #__next {
   width: 100%;
-  max-width: 1440px;
   margin: 0 auto;
   overflow-x: hidden;
 }

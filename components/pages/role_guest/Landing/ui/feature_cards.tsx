@@ -19,11 +19,16 @@ const FeatureCards = () => {
     { title: t.landing_features.app_title, text: t.landing_features.app_text, badge: t.landing_features.badge, icon: peopleWithSearchIcon, width: 240, height: 240, cardType: 'blue' },
   ];
 
-    const getCardClassName = (cardType: string, hasBadge: boolean) => {
-      if (hasBadge) return s.cardPrimary;
-      if (cardType === 'purple') return s.cardPurple;
-      return s.card;
-    };
+  const getCardClassName = (cardType: string, hasBadge: boolean) => {
+    return [
+      s.card,
+      cardType === 'purple' && s.cardPurple,
+      cardType === 'blue' && s.cardPrimary,
+      hasBadge && s.hasBadge,
+    ]
+      .filter(Boolean)
+      .join(' ');
+  };
 
   return (
     <div className={s.featureCards}>

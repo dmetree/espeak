@@ -9,6 +9,10 @@
   font-family: "Inter", sans-serif;
   color: #1a1a1a;
   position: relative;
+
+  @media (max-width: 768px) {
+    width: 80vw;
+  }
 }
 
 :global(body.theme-dark) .modalWrapper {

@@ -14,13 +14,15 @@ const DiscoverSection = () => {
         <h2>{t.landing_discover.title}</h2>
         <p>{t.landing_discover.text}</p>
       </div>
-      <Image
-        src={girlWithMobileIcon}
-        alt={'mobile'}
-        width={600}
-        height={600}
-        className={s.discoverImage}
-      />
+      <div className={s.imageBg}>
+        <Image
+          src={girlWithMobileIcon}
+          alt={'mobile'}
+          width={600}
+          height={600}
+          className={s.discoverImage}
+        />
+      </div>
     </section>
   );
 };
