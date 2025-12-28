@@ -91,9 +91,6 @@
   }
 }
 
-@media (max-width: 750px) {
-}
-
 @media (max-width: 700px) {
   .userboardPage {
     align-items: flex-end;
@@ -101,5 +98,11 @@
 
   .userboard {
     padding: 20px;
+  }
+
+  .leftColumn,
+  .rightColumn {
+    max-width: 100%;
+    width: 100%;
   }
 }
