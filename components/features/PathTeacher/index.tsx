@@ -102,7 +102,7 @@ const BecomeTeacherPath = () => {
                     title="What is your name/nickname?"
                     onNext={handleNext}
                     onBack={handleQuit}
-                    nextDisabled={!nativeLang}
+                    // nextDisabled={!nativeLang}
                     currentStep={0}
                 >
                     <NameInput />
@@ -114,7 +114,8 @@ const BecomeTeacherPath = () => {
                     title="What is your native language?"
                     onNext={handleNext}
                     onBack={handleBack}
-                    nextDisabled={!nativeLang}
+                    currentStep={1}
+                // nextDisabled={!nativeLang}
                 >
                     <NativeLanguage
                         nativeLang={nativeLang}
@@ -130,6 +131,7 @@ const BecomeTeacherPath = () => {
                     onNext={handleNext}
                     onBack={handleBack}
                     nextDisabled={!targetLang}
+                    currentStep={2}
                 >
                     <LanguageToLaernAndTeach
                         nativeLang={nativeLang}
@@ -147,6 +149,7 @@ const BecomeTeacherPath = () => {
                     onNext={handleNext}
                     onBack={handleBack}
                     nextDisabled={!teacherType}
+                    currentStep={3}
                 >
                     <TeacherTypeSelector
                         selected={teacherType}
@@ -161,6 +164,7 @@ const BecomeTeacherPath = () => {
                     subtitle="Upload your certificate or proof of qualification"
                     onNext={handleNext}
                     onBack={handleBack}
+                    currentStep={4}
                 // nextDisabled={!diplomaFile}
                 >
                     <VerificationStep
@@ -179,8 +183,10 @@ const BecomeTeacherPath = () => {
                     subtitle="Add your background, teaching experience, and hourly rate"
                     onNext={handleNext}
                     onBack={handleBack}
+                    currentStep={5}
                 >
                     <TeacherInfoForm />
+
                 </OnboardingLayout>
             )}
 

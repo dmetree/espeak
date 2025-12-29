@@ -5,7 +5,7 @@ import { AppDispatch } from "@/store";
 import { logout, loadUserFromLocalStorage, fetchUserData } from '@/store/actions/profile/user';
 import { showModal } from '@/store/actions/modal';
 import { setEditPost } from "@/store/actions/posts";
-import { EModalKind } from '@/components/shared/types/types';
+import { EModalKind, EUserRole } from '@/components/shared/types/types';
 import { Modal } from "@/components/shared/ui/Modal";
 import VideoCall from '@/components/features/chat/features/VideoCall/VideoCall';
 import EventRoom from "@/components/features/EventRoom";
@@ -444,7 +444,7 @@ const Header = (props: IProps) => {
                 <>
                   <li className={s.mobileMenuItem} onClick={goToDashboard}><MdDashboard size={34} color="#3b82f6" />&nbsp; Dashboard</li>
                   <li className={s.mobileMenuItem} onClick={goToViewExperts}><FaUsersViewfinder size={34} color="#3b82f6" />&nbsp; Find Teacher</li>
-                  <li className={s.mobileMenuItem} onClick={goToOffice}><FaRegCalendarDays size={30} color="#3b82f6" />&nbsp; Teacher's Calendar</li>
+                  {userData?.userRole === EUserRole.Specialist && <li className={s.mobileMenuItem} onClick={goToOffice}><FaRegCalendarDays size={30} color="#3b82f6" />&nbsp; Teacher's Calendar</li>}
                   <li className={s.mobileMenuItem} onClick={goToProfile}><RiProfileLine size={34} color="#3b82f6" />&nbsp; Profile</li>
                 </>
               )}
