@@ -1,0 +1,29 @@
+.container {
+  display: flex;
+  gap: 8px;
+  padding: 16px;
+
+  @media (min-width: 768px) {
+    display: none;
+  }
+}
+
+.segment {
+  flex: 1;
+  height: 6px;
+  border-radius: 999px;
+  background-color: #e5e5e5;
+  transition: background-color 0.3s ease;
+}
+
+.active {
+  background-color: #4b5563; // dark gray like in the image
+}
+
+.segment {
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.active {
+  transform: scaleY(1.1);
+}
