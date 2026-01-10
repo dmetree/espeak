@@ -86,6 +86,7 @@ const BecomeStudentPath = () => {
                     subtitle="Please, choose your native language from the list below."
                     onNext={handleNext}
                     onBack={handleQuit}
+                    currentStep={0}
                 >
                     <NameInput />
                 </OnboardingLayout>
@@ -98,6 +99,7 @@ const BecomeStudentPath = () => {
                     onNext={handleNext}
                     onBack={handleQuit}
                     nextDisabled={!nativeLang}
+                    currentStep={1}
                 >
                     <NativeLanguage
                         nativeLang={nativeLang}
@@ -113,6 +115,7 @@ const BecomeStudentPath = () => {
                     onNext={handleNext}
                     onBack={handleBack}
                     nextDisabled={!targetLang}
+                    currentStep={2}
                 >
                     <LanguageToLaernAndTeach
                         nativeLang={nativeLang}
@@ -131,6 +134,7 @@ const BecomeStudentPath = () => {
                     onNext={handleNext}
                     onBack={handleBack}
                     nextDisabled={!level}
+                    currentStep={3}
                 >
                     <LevelSelector selected={level} onSelect={setLevel} />
                 </OnboardingLayout>
@@ -143,6 +147,7 @@ const BecomeStudentPath = () => {
                     onNext={handleNext}
                     onBack={handleBack}
                     nextDisabled={!purpose}
+                    currentStep={4}
                 >
                     <PurposeSelector selected={purpose} onSelect={setPurpose} />
                 </OnboardingLayout>
