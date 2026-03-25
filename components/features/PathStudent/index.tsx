@@ -42,6 +42,7 @@ const BecomeStudentPath = () => {
         { code: 'ja', name: 'Japanese', flag: '🇯🇵' },
         { code: 'ko', name: 'Korean', flag: '🇰🇷' },
         { code: 'pl', name: 'Polish', flag: '🇵🇱' },
+        { code: 'ru', name: 'Russian', flag: '🇷🇺' },
     ];
 
     const handleNext = () => {
