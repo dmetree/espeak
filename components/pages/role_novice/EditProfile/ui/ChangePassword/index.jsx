@@ -10,9 +10,9 @@ import { Input } from "@/components/shared/ui/Input/Input";
 import s from './.module.css';
 
 const ChangePassword = () => {
-  const emailRef = useRef();
-  const passwordRef = useRef();
-  const passwordConfirmRef = useRef();
+  const emailRef = useRef(null);
+  const passwordRef = useRef(null);
+  const passwordConfirmRef = useRef(null);
   const {
     userStore: { FBUser, updatePassword, updateEmail },
   } = useStores();

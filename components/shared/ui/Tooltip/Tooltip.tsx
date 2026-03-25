@@ -6,12 +6,12 @@ export const Tooltip = (props) => {
   const { className, title, ...other } = props;
 
   const [isVisible, setIsVisible] = useState(false);
-  const tooltipRef = useRef();
+  const tooltipRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    const closeTooltipOnOutsideClick = (e) => {
-      // @ts-ignore
-      if (tooltipRef.current && !tooltipRef.current.contains(e.target)) {
+    const closeTooltipOnOutsideClick = (e: MouseEvent) => {
+      const target = e.target as Node | null;
+      if (tooltipRef.current && target && !tooltipRef.current.contains(target)) {
         setIsVisible(false);
       }
     };
