@@ -13,7 +13,6 @@ import {
   TrackToggle,
 } from "@livekit/components-react";
 import { Track } from "livekit-client";
-import { AccessToken } from "livekit-server-sdk";
 import { toast } from "react-toastify";
 import '@livekit/components-styles';
 
@@ -135,26 +134,31 @@ export default function Page() {
 
   const initiateVideoCall = async () => {
     try {
-      const apiKey = process.env.NEXT_PUBLIC_LK_API_KEY;
-      const apiSecret = process.env.NEXT_PUBLIC_LK_API_SECRET;
-
-      if (!apiKey || !apiSecret) {
-        throw new Error('Missing API Key or Secret');
+      const response = await fetch("/api/livekit/token", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          room: requestRoomId,
+          identity: userData?.nickname,
+        }),
+      });
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok) {
+        throw new Error(
+          typeof data?.error === "string" ? data.error : "Failed to get LiveKit token"
+        );
       }
-
-      const at = new AccessToken(apiKey, apiSecret, { identity: userData.nickname });
-      at.addGrant({ room: requestRoomId, roomJoin: true, canPublish: true, canSubscribe: true });
-
-      const token = await at.toJwt();
-      console.log('token', token)
-      setToken(token);
+      if (!data?.token) {
+        throw new Error("Invalid token response");
+      }
+      setToken(data.token);
       dispatch(showVideoCall());
 
       if (isMobile) {
         setShowChat(false);
       }
     } catch (e) {
-      console.error('Error generating token:', e);
+      console.error("Error generating token:", e);
     }
   };
 
