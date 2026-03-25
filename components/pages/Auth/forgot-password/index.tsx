@@ -13,7 +13,7 @@ export default function ForgotPassword() {
   const currentLocale = useSelector(({ locale }) => locale.currentLocale);
   const t = loadMessages(currentLocale);
 
-  const emailRef = useRef();
+  const emailRef = useRef<HTMLInputElement | null>(null);
   const [error, setError] = useState('');
   const [message, setMessage] = useState('');
   const [loading, setLoading] = useState(false);
